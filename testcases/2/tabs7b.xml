@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
+	<Application.Commands>
+		<Command>
+			<Command.Comment>Comment</Command.Comment>
+			<Command.Id>10008</Command.Id>
+			<Command.Name>cmdSave1</Command.Name>
+			<Command.Keytip>
+				<String>
+					<String.Content>Str1</String.Content>
+					<String.Id>10002</String.Id>
+					<String.Symbol>symbol1</String.Symbol>
+				</String>
+			</Command.Keytip>
+		</Command>
+		<Command>
+			<Command.Comment>Comment22222222222</Command.Comment>
+			<Command.Id>10009</Command.Id>
+			<Command.Name>cmdSave2</Command.Name>
+		</Command>
+		<Command>
+			<Command.Comment>Comment2222222222</Command.Comment>
+			<Command.Id>10010</Command.Id>
+			<Command.Name>cmdSave3</Command.Name>
+			<Command.Keytip>
+				<String>
+					<String.Content>Str1</String.Content>
+					<String.Id>10999</String.Id>
+					<String.Symbol>symbol1</String.Symbol>
+				</String>
+			</Command.Keytip>
+		</Command>
+	</Application.Commands>
+	<Application.Views>
+		<Ribbon Name="ribbon name 1">
+			<Ribbon.ContextualTabs>
+			    <TabGroup CommandName = "5555">
+					<Tab CommandName="6666"></Tab>
+					<Tab CommandName="6667"></Tab>
+					<Tab CommandName="4242"></Tab>
+					<Tab CommandName="4243"></Tab>
+					<Tab CommandName="4244"></Tab>
+					<Tab CommandName="4245"></Tab>
+					<Tab CommandName="4246"></Tab>
+				</TabGroup>
+			</Ribbon.ContextualTabs>
+			<Ribbon.Tabs>
+				<Tab CommandName="cmdSave1">
+				</Tab>
+				<Tab CommandName="cmdSave2">
+				</Tab>
+				<Tab CommandName="cmdSave3">
+				</Tab>
+				<Tab CommandName="1338">
+				</Tab>
+				<Tab CommandName="1337">
+				</Tab>
+				<Tab CommandName="1338">
+				</Tab>
+				<Tab CommandName="1337">
+				</Tab>
+			</Ribbon.Tabs>
+			<Ribbon.ApplicationMenu>
+				<ApplicationMenu
+					CommandName = "4444"
+					>
+					<ApplicationMenu.RecentItems>
+						<RecentItems
+							CommandName = "6001"
+							MaxCount = "1" />
+					</ApplicationMenu.RecentItems>
+					<MenuGroup
+						Class = "MajorItems"
+						CommandName = "6002">
+					</MenuGroup>
+				</ApplicationMenu>
+			</Ribbon.ApplicationMenu>
+		</Ribbon>
+	</Application.Views>
+</Application>
