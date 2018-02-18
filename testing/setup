@@ -1,0 +1,22 @@
+#!/bin/sh
+
+if [ -d ~/.wine/drive_c/windows/syswow64 ]; then
+	echo "Please run in a 32bit prefix."
+	exit 0
+fi
+
+WINEARCH=win32 wine wineboot
+
+cat > ~/.wine/drive_c/ribbon.reg <<- EOM
+Windows Registry Editor Version 5.00
+[HKEY_CURRENT_USER\Software\Wine\DllOverrides]
+"propsys"="native,builtin"
+"uiribbon"="native,builtin"
+"uxtheme"="native,builtin"
+EOM
+wine regedit ~/.wine/drive_c/ribbon.reg
+rm ~/.wine/drive_c/ribbon.reg
+
+cp ./native/*.dll ~/.wine/drive_c/windows/system32
+
+winetricks -q msxml3 msxml6
