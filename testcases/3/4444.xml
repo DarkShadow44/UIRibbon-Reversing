@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
+	<Application.Commands>
+		<Command>
+			<Command.Comment>test1 comment</Command.Comment>
+			<Command.Id>4444</Command.Id>
+			<Command.Name>test1</Command.Name>
+		</Command>
+	</Application.Commands>
+	<Application.Views>
+		<Ribbon>
+			<Ribbon.Tabs>
+				<Tab CommandName="4444">
+				</Tab>
+			</Ribbon.Tabs>
+		</Ribbon>
+	</Application.Views>
+</Application>

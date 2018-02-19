@@ -48,6 +48,8 @@ seq:
     size: 5
   - id: unknown8b
     type: xml_element_nosub
+  - id: unknown8c
+    type: xml_element_nosub
 
   # - id: unknown11
   #   contents: [0x18, 0x01, 0x00, 0x01, 0x00, 0x16, 0x00, 0x13, 0x00, 0x10, 0x2A, 0x00, 0x06, 0x01, 0x01, 0x00, 0x03, 0x5C]
@@ -248,8 +250,14 @@ types:
         type: u1
       - id: unknown4
         type: u1
+      - id: resource_id_label
+        type: u4
+      - id: unknown5
+        type: u1
+        if: (unknown3 & 2) != 0
       - id: resource_id_keytip
         type: u4
+        if: (unknown3 & 2) != 0
   unk_substream1:
     doc: 'Related to <Application.Views> <Ribbon> <Ribbon.ApplicationMenu> <ApplicationMenu> <ApplicationMenu.RecentItems> <RecentItems MaxCount = X />'
     seq:
