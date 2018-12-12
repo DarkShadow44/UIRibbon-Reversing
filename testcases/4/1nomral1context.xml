@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
+	<Application.Views>
+		<Ribbon Name="ribbon name 1">
+			<Ribbon.ContextualTabs>
+			    <TabGroup CommandName = "5555">
+					<Tab CommandName="6666"></Tab>
+				</TabGroup>
+			</Ribbon.ContextualTabs>
+			<Ribbon.Tabs>
+				<Tab CommandName="6666"></Tab>
+			</Ribbon.Tabs>
+		</Ribbon>
+	</Application.Views>
+</Application>
+
+

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
+	<Application.Commands>
+		<Command>
+			<Command.Comment>Comment</Command.Comment>
+			<Command.Id>6666</Command.Id>
+			<Command.Name>cmdSave1</Command.Name>
+			<Command.Keytip>
+				<String>
+					<String.Content>Str1</String.Content>
+					<String.Id>10002</String.Id>
+					<String.Symbol>symbol1</String.Symbol>
+				</String>
+			</Command.Keytip>
+		</Command>
+	</Application.Commands>
+	<Application.Views>
+		<Ribbon Name="ribbon name 1">
+			<Ribbon.Tabs>
+				<Tab CommandName="6666"></Tab>
+				<Tab CommandName="6667"></Tab>
+				<Tab CommandName="6668"></Tab>
+				<Tab CommandName="6669"></Tab>
+			</Ribbon.Tabs>
+		</Ribbon>
+	</Application.Views>
+</Application>
+
+
