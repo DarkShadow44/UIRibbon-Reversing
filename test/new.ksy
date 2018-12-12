@@ -31,39 +31,279 @@ seq:
     type: u2
   - id: unk6
     type: application_views
-    size: unk5 #!! breaks stuff
+    size: unk5
+    
+enums:
+  enum_block_type:
+    0x18: ribbon_tabs
+    0x16: ribbon_quickaccesstoolbar
 
 types:
-
-  type_unk4:
+  type_tab:
     seq:
-    - id: unk21
-      contents: [6, 1, 1, 0x0b]
-    - id: unk22
-      contents: [9, 0, 0x16, 0, 0x25, 0, 0x10]
+    - id: unk1
+      type: u2
+    - id: unk2
+      type: u2
+    - id: unk3
+      type: u2
+    - id: unk4
+      type: u2
+    - id: unk5
+      type: u2
+    - id: flags
+      type: u2
+    - id: id_u1
+      type: u1
+      if: (flags & 0x400) != 0
+    - id: id_u2
+      type: u2
+      if: (flags & 0x300) != 0
+    - id: unk7
+      type: u2
+    - id: unk8
+      type: u2
+    - id: unk9
+      type: u1
+      
+  type_block_tabs:
+    seq:
+    - id: unk1
+      type: u2
+    - id: count_tabs
+      type: u2
+    - id: tabs
+      type: type_tab
+      repeat: expr
+      repeat-expr: count_tabs
+  
+  type_block_quickaccess:
+    seq:
+    - id: unk1
+      type: u2
+    - id: unk2
+      type: u2
     - id: len4 # 22 bigger for each <Button> in <QuickAccessToolbar.ApplicationDefaults>
       type: u2
     - id: quick_ribbon_info
       type: quick_ribbon
-      size: len4
-    - id: check
-      contents: [0x1a, 0, 0x10, 0x12, 0, 2, 1, 1, 0, 4]
+      size: len4 - 7
+
+      
+  type_block_generic:
+    seq:
+    - id: block_type
+      type: u1
+      enum: enum_block_type
+    - id: tabs
+      type: type_block_tabs
+      if: block_type == enum_block_type::ribbon_tabs
+    - id: quickaccess
+      type: type_block_quickaccess
+      if: block_type == enum_block_type::ribbon_quickaccesstoolbar
+  
+  type_unk_application_menu:
+    seq:
+    - id: unk1
+      type: u2
+    - id: unk2
+      type: u2
+    - id: unk3
+      type: u2
+    - id: unk4
+      type: u2
+    - id: unk5
+      type: u2
+    - id: unk6
+      type: u2
+    - id: unk7
+      type: u1
+    - id: unk8
+      type: u2
+    - id: flags
+      type: u2
+    - id: id_u1
+      type: u1
+      if: (flags & 0x400) != 0
+    - id: id_u2
+      type: u2
+      if: (flags & 0x300) != 0
+    - id: unk11
+      type: u2
+    - id: unk12
+      type: u2
+    - id: unk13
+      type: u2
+    - id: unk14
+      type: u2
+    - id: unk15
+      type: u1
+    - id: rest
+      size-eos: true
+
+  type_ribbon:
+    seq:
+    - id: unk1
+      contents: [6, 1, 1, 0x0b, 9, 0] # first numbre might be related to number of subelements of ribbon
+    - id: block1
+      type: type_block_generic
+    - id: block2
+      type: type_block_generic
+    - id: block3
+      type: type_block_generic
+    - id: application_menu
+      type: type_unk_application_menu
+    
+  block_unk1:
+    seq:
+    - id: rest
+      size: 10
+
+  type_tab_extended:
+    seq:
+    - id: unk_id1
+      type: u2
+    - id: unk1
+      type: u2
+    - id: unk2
+      type: u2
+    - id: unk3
+      type: u1
+  
+  type_unk1_extended:
+    seq:
+    - id: unk_id1
+      type: u2
+    - id: unk1
+      type: u2
+    - id: unk2
+      type: u2
+    - id: unk3
+      type: u2
+    - id: unk4
+      type: u2
+    - id: unk5
+      type: u2
+    - id: unk6
+      type: u2
+    - id: unk7
+      type: u2
+    - id: unk8
+      type: u2
+      
+  type_menu_item_ext:
+    seq:
+    - id: unk1
+      type: u2
+    - id: unk2
+      type: u2
+    - id: unk3
+      type: u2
+    - id: unk4
+      type: u2
+    - id: unk5
+      type: u2
+    - id: flags
+      type: u2
+    - id: id_u1
+      type: u1
+      if: (flags & 0x400) != 0
+    - id: id_u2
+      type: u2
+      if: (flags & 0x300) != 0
+      
+  type_menugroup_extended:
+    seq:
+    - id: unk_id1
+      type: u2
+    - id: menu_items_len
+      type: u2
+    - id: items
+      type: type_menu_item_ext
+      repeat: expr
+      repeat-expr: menu_items_len
+    - id: unk1
+      type: u4
+    - id: unk2
+      type: u4
+    - id: unk3
+      type: u4
+    - id: unk4
+      type: u2
+  
+  type_recent2:
+    seq:
+    - id: unk1
+      type: u4
+    - id: unk2
+      type: u4
+    - id: unk3
+      type: u4
+    - id: own_index
+      type: u1
+    - id: unk4b
+      type: u1
+    - id: unk4c
+      type: u2
+    - id: unk5
+      type: u4
+    - id: unk6
+      type: u4
+    - id: unk7
+      type: u4
+    - id: unk8
+      type: u4
+    - id: unk9
+      type: u4
+    - id: unk10
+      type: u1
+
+  type_recent1:
+    seq:
+    - id: unk_id1
+      type: u2
+    - id: recent_len # <RecentItems MaxCount="XXX" />
+      type: u2
+    - id: elements
+      type: type_recent2
+      repeat: expr
+      repeat-expr: recent_len
     
   application_views:
     seq:
     - id: unk20
       contents: [0x00, 0x00, 0x16, 0x00, 0x24, 0x00, 0x10]
-    - id: unk_len1
+    - id: ribbon_len
       type: u2
-    - id: unk4
-      type: type_unk4
-      size: unk_len1
+    - id: ribbon
+      type: type_ribbon
+      size: ribbon_len
+    - id: ribbon_tab_info
+      type: type_tab_extended
+      repeat: expr
+      repeat-expr: 21  #ribbon.tabs count
+    - id: ribbon_tab_contextual_info
+      type: type_tab_extended
+      repeat: expr
+      repeat-expr: 18  #ribbon.contextualtabs count
+    - id: unk_ext1
+      type: type_unk1_extended
+    - id: applicationmenu_menugroups_ext
+      type: type_menugroup_extended
+      repeat: expr
+      repeat-expr: 3 #number of menugroups in application menu
+    - id: check10
+      contents: [4, 1, 1, 0x0b, 4, 0, 1, 1, 0x41, 0x2b]
+    - id: check11
+      contents: [1, 1, 1, 0, 3, 0x14, 0x27, 0x18]
+    - id: recent
+      type: type_recent1
   
 
   quick_ribbon_button:
     seq:
     - id: unk1
-      contents: [22, 0]
+      type: u2
     - id: unk2
       contents: [15, 0]
     - id: unk3

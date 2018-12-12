@@ -1,104 +1,169 @@
 <Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
 	<Application.Commands>
-		<Command Name="Test1" Id="44">
-		</Command>
-		<Command Name="Test22" Id="45">
-		</Command>
-		<Command Name="Test23" Id="1234">
-		</Command>
-		<Command Name="Test24" Id="47">
-		</Command>
-		<Command Name="Test25" Id="55">
-		</Command>
-		<Command Name="Test26" Id="5677">
-		</Command>
-		<Command Name="Test27" Id="5678"></Command>
-		<Command Name="Test28" Id="5678"></Command>
-		<Command Name="Test29" Id="5679"></Command>
-		<Command Name="Test30" Id="5680"></Command>
-		<Command Name="Test31" Id="5681"></Command>
+		<Command Name="Test1" Id="10001"></Command>
+		<Command Name="Test22" Id="10002"></Command>
+		<Command Name="Test23" Id="10003"></Command>
+		<Command Name="Test24" Id="10004"></Command>
+		<Command Name="Test25" Id="10005"></Command>
+		<Command Name="Test26" Id="10006"></Command>
+		<Command Name="Test27" Id="10007"></Command>
+		<Command Name="Test28" Id="10008"></Command>
+		<Command Name="Test29" Id="10009"></Command>
+		<Command Name="Test30" Id="10010"></Command>
+		<Command Name="Test31" Id="10011"></Command>
+		<Command Name="Test32" Id="10012"></Command>
+		<Command Name="Test33" Id="10013"></Command>
+		<Command Name="Test34" Id="10014"></Command>
+		<Command Name="Test35" Id="10015"></Command>
+		<Command Name="Test36" Id="10016"></Command>
+		<Command Name="Test37" Id="10017"></Command>
+		<Command Name="Test38" Id="10018"></Command>
 	</Application.Commands>
 	<Application.Views>
 		<Ribbon>
-			<Ribbon.QuickAccessToolbar>
-				<QuickAccessToolbar CommandName="Test26" CustomizeCommandName="Test27">
-					<QuickAccessToolbar.ApplicationDefaults>
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test31" />
-					</QuickAccessToolbar.ApplicationDefaults>
-				</QuickAccessToolbar>
-			</Ribbon.QuickAccessToolbar>
-			<Ribbon.Tabs>
-				<Tab CommandName="Test1">
-				</Tab>
-				<Tab CommandName="Test1">
-				</Tab>
-				<Tab CommandName="Test1">
-				</Tab>
-				<Tab CommandName="Test1">
-				</Tab>
-				<Tab CommandName="Test1">
-				</Tab>
-			</Ribbon.Tabs>
-			<Ribbon.ApplicationMenu>
-				<ApplicationMenu CommandName="Test22">
-					<ApplicationMenu.RecentItems>
-						<RecentItems CommandName="Test24"/>
-					</ApplicationMenu.RecentItems>
-					<MenuGroup>
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-					</MenuGroup>
-					<MenuGroup>
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-						<Button CommandName="Test23" />
-					</MenuGroup>
-				</ApplicationMenu>
-			</Ribbon.ApplicationMenu>
-				
+			<Ribbon.ContextualTabs>
+				<TabGroup CommandName='Test37'>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
+				</TabGroup>
+			</Ribbon.ContextualTabs> 
+			<!--
+			<Ribbon.SizeDefinitions>
+				<SizeDefinition Name="44555">
+					<GroupSizeDefinition Size="Large" >
+						<ControlSizeDefinition ImageSize="Large" IsLabelVisible="true" />
+					</GroupSizeDefinition>
+					<GroupSizeDefinition Size="Medium">
+						<ControlSizeDefinition ImageSize="Small" IsLabelVisible="false" />
+					</GroupSizeDefinition>
+					<GroupSizeDefinition Size="Small">
+						<ControlSizeDefinition ImageSize="Small" IsLabelVisible="false" />
+					</GroupSizeDefinition>
+				</SizeDefinition>
+			</Ribbon.SizeDefinitions>
+			-->
 			<Ribbon.HelpButton>
 				<HelpButton CommandName="Test28"/>
 			</Ribbon.HelpButton>
+
+			<Ribbon.Tabs>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+			</Ribbon.Tabs>
 			
-			<Ribbon.ContextualTabs>
-				 <TabGroup CommandName='Test29'>
-					<Tab CommandName='Test30'></Tab>
-					<Tab CommandName='Test30'></Tab>
-					<Tab CommandName='Test30'></Tab>
-					<Tab CommandName='Test30'></Tab>
-					<Tab CommandName='Test30'></Tab>
-					<Tab CommandName='Test30'></Tab>
-					<Tab CommandName='Test30'></Tab>
-					<Tab CommandName='Test30'></Tab>
-					<Tab CommandName='Test30'></Tab>
-					<Tab CommandName='Test30'></Tab>
-					<Tab CommandName='Test30'></Tab>
-					<Tab CommandName='Test30'></Tab>
-				 </TabGroup>
-			</Ribbon.ContextualTabs>
+			<Ribbon.QuickAccessToolbar>
+				<QuickAccessToolbar CommandName="Test26" CustomizeCommandName="Test27">
+					<QuickAccessToolbar.ApplicationDefaults>
+						<Button CommandName="Test34" />
+						<Button CommandName="Test35" />
+						<Button CommandName="Test36" />
+						<Button CommandName="Test34" />
+						<Button CommandName="Test35" />
+						<Button CommandName="Test36" />
+						<Button CommandName="Test34" />
+						<Button CommandName="Test35" />
+						<Button CommandName="Test36" />
+						<Button CommandName="Test34" />
+						<Button CommandName="Test35" />
+						<Button CommandName="Test36" />
+						<Button CommandName="Test34" />
+						<Button CommandName="Test35" />
+						<Button CommandName="Test36" />
+					</QuickAccessToolbar.ApplicationDefaults>
+				</QuickAccessToolbar>
+			</Ribbon.QuickAccessToolbar>
+			
+			<Ribbon.ApplicationMenu>
+				<ApplicationMenu CommandName="Test22">
+					<ApplicationMenu.RecentItems>
+						<RecentItems CommandName="Test24" MaxCount="11" />
+					</ApplicationMenu.RecentItems>
+					<MenuGroup>
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+					</MenuGroup>
+					<MenuGroup>
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+					</MenuGroup>
+					<MenuGroup>
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+						<Button CommandName="Test33" />
+					</MenuGroup>
+				</ApplicationMenu>
+			</Ribbon.ApplicationMenu>
+			
+			
+			
+			
 		</Ribbon>
 	</Application.Views>
 </Application>
