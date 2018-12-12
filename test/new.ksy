@@ -1,3 +1,5 @@
+doc-ref: https://docs.microsoft.com/en-us/windows/desktop/windowsribbon/windowsribbon-element-ribbon
+
 meta:
   id: ribbon
   file-extension: bml
@@ -13,32 +15,77 @@ seq:
     type: u4
   - id: unknown2
     contents: [2]
-  - id: str_list_len
+  - id: size_strings
     type: u2
-  - id: strs
-    type: str_list
-    size: str_list_len - 2
+  - id: strings
+    type: type_strings
+    size: size_strings - 2
+  - id: count_resources_maybe
+    type: u2
   - id: unknown3
-    contents: [0, 0, 0, 0, 0x10]
-  - id: command_container_len
+    contents: [0, 0]
+  - id: unk_resources
+    type: type_resource
+    repeat: expr
+    repeat-expr: count_resources_maybe
+  - id: unk44
+    contents: [0x10]
+  - id: size_command_container
     type: u4
   - id: command_container
     type: type_command_container
-    size: command_container_len - 4
+    size: size_command_container - 4
   - id: len_unk6
     type: u2
   - id: unk5
     type: u2
   - id: unk6
     type: application_views
-    size: unk5
-    
+    size: unk5 - count_resources_maybe * 10 # 10 = sizeof(type_resource)
+
 enums:
+
   enum_block_type:
     0x18: ribbon_tabs
     0x16: ribbon_quickaccesstoolbar
 
+
 types:
+
+  type_string:
+    seq:
+      - id: unk1
+        contents: [1]
+      - id: size_str
+        type: u2
+      - id: str
+        type: str
+        size: size_str
+
+  type_strings:
+    seq:
+      - id: unk1
+        contents: [0, 0, 1]
+      - id: count_strings
+        type: u1
+      - id: strings
+        type: type_string
+        repeat: expr
+        repeat-expr: count_strings
+      - id: rest
+        size-eos: true
+        
+  type_resource:
+    seq:
+    - id: command_id 
+      type: u4
+    - id: unk1
+      contents: [1, 7]
+    - id: resource_id
+      type: u2
+    - id: unk2
+      contents: [0, 0]
+
   type_tab:
     seq:
     - id: unk1
@@ -65,7 +112,7 @@ types:
       type: u2
     - id: unk9
       type: u1
-      
+
   type_block_tabs:
     seq:
     - id: unk1
@@ -76,7 +123,7 @@ types:
       type: type_tab
       repeat: expr
       repeat-expr: count_tabs
-  
+
   type_block_quickaccess:
     seq:
     - id: unk1
@@ -89,7 +136,7 @@ types:
       type: quick_ribbon
       size: len4 - 7
 
-      
+
   type_block_generic:
     seq:
     - id: block_type
@@ -101,7 +148,7 @@ types:
     - id: quickaccess
       type: type_block_quickaccess
       if: block_type == enum_block_type::ribbon_quickaccesstoolbar
-  
+
   type_unk_application_menu:
     seq:
     - id: unk1
@@ -144,7 +191,7 @@ types:
   type_ribbon:
     seq:
     - id: unk1
-      contents: [6, 1, 1, 0x0b, 9, 0] # first numbre might be related to number of subelements of ribbon
+      contents: [6, 1, 1, 0x0b, 9, 0] # first number might be related to number of subelements of ribbon
     - id: block1
       type: type_block_generic
     - id: block2
@@ -153,7 +200,7 @@ types:
       type: type_block_generic
     - id: application_menu
       type: type_unk_application_menu
-    
+
   block_unk1:
     seq:
     - id: rest
@@ -169,7 +216,7 @@ types:
       type: u2
     - id: unk3
       type: u1
-  
+
   type_unk1_extended:
     seq:
     - id: unk_id1
@@ -190,7 +237,7 @@ types:
       type: u2
     - id: unk8
       type: u2
-      
+
   type_menu_item_ext:
     seq:
     - id: unk1
@@ -211,7 +258,7 @@ types:
     - id: id_u2
       type: u2
       if: (flags & 0x300) != 0
-      
+
   type_menugroup_extended:
     seq:
     - id: unk_id1
@@ -230,7 +277,7 @@ types:
       type: u4
     - id: unk4
       type: u2
-  
+
   type_recent2:
     seq:
     - id: unk1
@@ -268,7 +315,22 @@ types:
       type: type_recent2
       repeat: expr
       repeat-expr: recent_len
-    
+
+  type_command_ext:
+    seq:
+    - id: own_index_maybe
+      type: u2
+    - id: unk0
+      type: u2
+    - id: unk1a
+      type: u1
+    - id: unk1b
+      type: u1
+    - id: unk2
+      type: u2
+    - id: command_id
+      type: u2
+
   application_views:
     seq:
     - id: unk20
@@ -298,7 +360,12 @@ types:
       contents: [1, 1, 1, 0, 3, 0x14, 0x27, 0x18]
     - id: recent
       type: type_recent1
-  
+    - id: check12
+      contents: [7, 0, 0x18]
+    - id: command_ext
+      type: type_command_ext
+      repeat: expr
+      repeat-expr: 46 # number or commands that are actually used + recent + unknown
 
   quick_ribbon_button:
     seq:
@@ -328,6 +395,7 @@ types:
       contents: [0xc0, 0x40]
     - id: unk9
       contents: [5, 1]
+
   quick_ribbon:
     seq:
     - id: unk1
@@ -354,36 +422,24 @@ types:
       repeat-expr: unk5_len
     - id: rest
       size-eos: true
-  type_unk1:
-    seq:
-    - id: offset1 #13 bigger for every <Button> in <MenuGroup> in <ApplicationMenu>
-      type: u2
-    - id: unk1
-      size: 7
-    instances:
-      unk44:
-        pos: offset1
-        type: u4
+
   type_command:
     seq:
       - id: command_id
         type: u2
-      - id: unk2
-        type: u2
-      - id: unk3
-        type: u2
+      - id: unk1
+        contents: [0, 0, 0]
+      - id: unk3b
+        type: u1
       - id: unk4
-        type: u2
-      - id: str_len
+        contents: [0, 0x10]
+      - id: size_str
         type: u2
       - id: str
         type: str
         encoding: utf-16
-        size: str_len
-  type_unknown_container:
-    seq:
-    - id: unk1
-      type: u2
+        size: size_str
+
   type_command_container:
     seq:
     - id: commands_len
@@ -392,26 +448,3 @@ types:
       type: type_command
       repeat: expr
       repeat-expr: commands_len
-  type_string:
-    seq:
-      - id: unknown1
-        type: u1
-      - id: length
-        type: u2
-      - id: contents
-        type: str
-        size: length
-  str_list:
-    seq:
-      - id: unknown1
-        type: u2
-      - id: unknown2
-        type: u1
-      - id: count
-        type: u1
-      - id: strings
-        type: type_string
-        repeat: expr
-        repeat-expr: count
-      - id: rest
-        size-eos: true

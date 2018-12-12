@@ -1,17 +1,17 @@
 <Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
 	<Application.Commands>
-		<Command Name="Test1" Id="10001"></Command>
-		<Command Name="Test22" Id="10002"></Command>
-		<Command Name="Test23" Id="10003"></Command>
-		<Command Name="Test24" Id="10004"></Command>
-		<Command Name="Test25" Id="10005"></Command>
-		<Command Name="Test26" Id="10006"></Command>
+		<Command Name="Test1" Id="10001" Keytip="Keytip1"></Command>
+		<Command Name="Test22" Id="10002" Keytip="Keytip2"></Command>
+		<!--<Command Name="Test23" Id="10003"></Command>-->
+		<Command Name="Test24" Id="10004" Keytip="Keytip3"></Command>
+		<!--<Command Name="Test25" Id="10005"></Command>-->
+		<Command Name="Test26" Id="10006" Keytip="Keytip4"></Command>
 		<Command Name="Test27" Id="10007"></Command>
 		<Command Name="Test28" Id="10008"></Command>
-		<Command Name="Test29" Id="10009"></Command>
-		<Command Name="Test30" Id="10010"></Command>
-		<Command Name="Test31" Id="10011"></Command>
-		<Command Name="Test32" Id="10012"></Command>
+		<!--<Command Name="Test29" Id="10009"></Command>-->
+		<!--<Command Name="Test30" Id="10010"></Command>-->
+		<!--<Command Name="Test31" Id="10011"></Command>-->
+		<!--<Command Name="Test32" Id="10012"></Command>-->
 		<Command Name="Test33" Id="10013"></Command>
 		<Command Name="Test34" Id="10014"></Command>
 		<Command Name="Test35" Id="10015"></Command>
