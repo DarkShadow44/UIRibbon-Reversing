@@ -207,11 +207,12 @@ types:
       type: u1
       enum: enum_tab_type
     - id: tabs
-      type: type_ribbon_tabs_normal
-      if: tab_type == enum_tab_type::normal or tab_type == enum_tab_type::help
-    - id: tabs_context
-      type: type_ribbon_tabs_context
-      if: tab_type == enum_tab_type::context
+      type:
+        switch-on: tab_type
+        cases:
+          enum_tab_type::help:   type_ribbon_tabs_normal
+          enum_tab_type::normal: type_ribbon_tabs_normal
+          enum_tab_type::context: type_ribbon_tabs_context
 
   type_block_quickaccess:
     seq:
@@ -232,11 +233,11 @@ types:
       type: u1
       enum: enum_block_type
     - id: tabs
-      type: type_block_tabs
-      if: block_type == enum_block_type::ribbon_tabs
-    - id: quickaccess
-      type: type_block_quickaccess
-      if: block_type == enum_block_type::ribbon_quickaccesstoolbar
+      type:
+        switch-on: block_type
+        cases:
+          enum_block_type::ribbon_tabs: type_block_tabs
+          enum_block_type::ribbon_quickaccesstoolbar: type_block_quickaccess
 
   type_unk_application_menu:
     seq:
