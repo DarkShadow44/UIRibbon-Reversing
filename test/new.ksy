@@ -20,14 +20,14 @@ seq:
   - id: strings
     type: type_strings
     size: size_strings - 2
-  - id: count_resources_maybe
+  - id: count_command_resources
     type: u2
   - id: unknown3
     contents: [0, 0]
-  - id: unk_resources
+  - id: command_resources
     type: type_resource
     repeat: expr
-    repeat-expr: count_resources_maybe
+    repeat-expr: count_command_resources
   - id: unk44
     contents: [0x10]
   - id: size_command_container
@@ -41,13 +41,29 @@ seq:
     type: u2
   - id: unk6
     type: application_views
-    size: unk5 - count_resources_maybe * 10 # 10 = sizeof(type_resource)
+    size: unk5 - count_command_resources * 10 - 200 # 10 = size for resources - not properly calculated yet
 
 enums:
 
   enum_block_type:
     0x18: ribbon_tabs
     0x16: ribbon_quickaccesstoolbar
+
+  enum_resource_type:
+    1: labeltitle
+    2: labeldescription
+    3: smallhighcontrastimage
+    4: largehighcontrastimage
+    5: smallimage
+    6: largeimage
+    7: keytip
+    8: tooltiptitle
+    9: tooltipdescription
+
+  enum_tab_type:
+    2: normal
+    3: context
+    5: help
 
 
 types:
@@ -74,17 +90,30 @@ types:
         repeat-expr: count_strings
       - id: rest
         size-eos: true
-        
+
+  type_resource_generic:
+    seq:
+    - id: resource_type
+      type: u1
+      enum: enum_resource_type
+    - id: resource_id
+      type: u4
+    - id: mindpi
+      type: u2
+      if: resource_type == enum_resource_type::largeimage or resource_type == enum_resource_type::smallimage
+          or resource_type == enum_resource_type::largehighcontrastimage
+          or resource_type == enum_resource_type::smallhighcontrastimage
+
   type_resource:
     seq:
     - id: command_id 
       type: u4
-    - id: unk1
-      contents: [1, 7]
-    - id: resource_id
-      type: u2
-    - id: unk2
-      contents: [0, 0]
+    - id: count_resources
+      type: u1
+    - id: resources
+      type: type_resource_generic
+      repeat: expr
+      repeat-expr: count_resources
 
   type_tab:
     seq:
@@ -92,8 +121,41 @@ types:
       type: u2
     - id: unk2
       type: u2
-    - id: unk3
+    - id: unk3a
+      type: u1
+    - id: unk3b
+      type: u1
+    - id: unk4
       type: u2
+    - id: unk5
+      type: u2
+    - id: flags
+      type: u2
+    - id: id_u1
+      type: u1
+      if: (flags & 0x400) != 0
+    - id: id_u2
+      type: u2
+      if: (flags & 0x300) != 0
+    - id: unk7a
+      type: u1
+    - id: unk7b
+      type: u1
+    - id: unk8
+      type: u2
+    - id: unk9
+      type: u1
+
+  type_tab_context:
+    seq:
+    - id: unk1
+      type: u2
+    - id: unk2
+      type: u2
+    - id: unk3a
+      type: u1
+    - id: unk3b
+      type: u1
     - id: unk4
       type: u2
     - id: unk5
@@ -107,22 +169,47 @@ types:
       type: u2
       if: (flags & 0x300) != 0
     - id: unk7
-      type: u2
+      type: u1
     - id: unk8
       type: u2
-    - id: unk9
-      type: u1
-
-  type_block_tabs:
-    seq:
-    - id: unk1
+    - id: len_tabs
       type: u2
+    - id: tabs
+      type: type_tab
+      repeat: expr
+      repeat-expr: len_tabs
+
+  type_ribbon_tabs_normal:
+    seq:
     - id: count_tabs
       type: u2
     - id: tabs
       type: type_tab
       repeat: expr
       repeat-expr: count_tabs
+
+  type_ribbon_tabs_context:
+    seq:
+    - id: count_tabs
+      type: u2
+    - id: tabs
+      type: type_tab_context
+      repeat: expr
+      repeat-expr: count_tabs
+
+  type_block_tabs:
+    seq:
+    - id: unk1a
+      type: u1
+    - id: tab_type
+      type: u1
+      enum: enum_tab_type
+    - id: tabs
+      type: type_ribbon_tabs_normal
+      if: tab_type == enum_tab_type::normal or tab_type == enum_tab_type::help
+    - id: tabs_context
+      type: type_ribbon_tabs_context
+      if: tab_type == enum_tab_type::context
 
   type_block_quickaccess:
     seq:
@@ -198,6 +285,8 @@ types:
       type: type_block_generic
     - id: block3
       type: type_block_generic
+    - id: block4
+      type: type_block_generic
     - id: application_menu
       type: type_unk_application_menu
 
@@ -205,6 +294,64 @@ types:
     seq:
     - id: rest
       size: 10
+
+  type_subcontent:
+    seq:
+    - id: unk102
+      type: u2
+    - id: unk11
+      type: u1
+    - id: unk1
+      type: u1
+    - id: unk10
+      type: u2
+    - id: unk8
+      type: u2
+    - id: flags
+      type: u2
+    - id: id_u1
+      type: u2
+      if: (flags & 0x400) != 0
+    - id: id_u2
+      type: u2
+      if: (flags & 0x300) != 0
+    - id: unk7a
+      type: u1
+    - id: unk7b
+      type: u1
+
+  type_group_info:
+    seq:
+    - id: unk1
+      type: u2
+    - id: unk2
+      type: u2
+    - id: unk3
+      type: u2
+    - id: unk4
+      type: u1
+    - id: flags
+      type: u2
+    - id: id_u1
+      type: u1
+      if: (flags & 0x400) != 0
+    - id: id_u2
+      type: u2
+      if: (flags & 0x300) != 0
+    - id: check1
+      contents: [24, 1, 62, 1, 0, 22]
+    - id: check2
+      contents: [0, 0x26, 0, 0x10, 0x60, 0, 3, 1, 1, 0x41, 4, 9, 1, 4, 0x42, 0, 0x40, 0x44]
+    - id: sub_count
+      type: u2
+    - id: check3
+      contents: [24, 1, 62, 5, 0, 22, 0]
+    - id: subcontents
+      type: type_subcontent
+      repeat: expr
+      repeat-expr: sub_count
+    - id: check4
+      contents: [24]
 
   type_tab_extended:
     seq:
@@ -216,6 +363,9 @@ types:
       type: u2
     - id: unk3
       type: u1
+    - id: groupinfo
+      type: type_group_info
+      if: unk3 == 7
 
   type_unk1_extended:
     seq:
@@ -343,11 +493,11 @@ types:
     - id: ribbon_tab_info
       type: type_tab_extended
       repeat: expr
-      repeat-expr: 21  #ribbon.tabs count
+      repeat-expr: 5  #ribbon.tabs count
     - id: ribbon_tab_contextual_info
       type: type_tab_extended
       repeat: expr
-      repeat-expr: 18  #ribbon.contextualtabs count
+      repeat-expr: 19  #ribbon.contextualtabs count
     - id: unk_ext1
       type: type_unk1_extended
     - id: applicationmenu_menugroups_ext

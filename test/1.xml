@@ -1,9 +1,37 @@
 <Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
 	<Application.Commands>
-		<Command Name="Test1" Id="10001" Keytip="Keytip1"></Command>
-		<Command Name="Test22" Id="10002" Keytip="Keytip2"></Command>
+		<Command
+			Name="Test1"
+			Id="10001"
+			Keytip="Keytip1"
+			LabelDescription="Description1"
+			LabelTitle="Title1"
+			Symbol="Symbol1"
+			TooltipDescription="TooltipDescr1"
+			TooltipTitle="TooltipTitle1"
+		>
+		</Command>
+		<Command
+			Name="Test22"
+			Id="10002"
+			Keytip="Keytip2"
+			LabelDescription="Description2"
+			LabelTitle="Title2"
+			Symbol="Symbol2"
+			TooltipDescription="TooltipDescr2"
+			TooltipTitle="TooltipTitle2"
+		></Command>
 		<!--<Command Name="Test23" Id="10003"></Command>-->
-		<Command Name="Test24" Id="10004" Keytip="Keytip3"></Command>
+		<Command
+			Name="Test24"
+			Id="10004"
+			Keytip="Keytip3"
+			LabelDescription="Description3"
+			LabelTitle="Title3"
+			Symbol="Symbol3"
+			TooltipDescription="TooltipDescr3"
+			TooltipTitle="TooltipTitle3"
+		></Command>
 		<!--<Command Name="Test25" Id="10005"></Command>-->
 		<Command Name="Test26" Id="10006" Keytip="Keytip4"></Command>
 		<Command Name="Test27" Id="10007"></Command>
@@ -18,9 +46,34 @@
 		<Command Name="Test36" Id="10016"></Command>
 		<Command Name="Test37" Id="10017"></Command>
 		<Command Name="Test38" Id="10018"></Command>
+		<Command Name="Test39" Id="10019"></Command>
+		<Command Name="Test40" Id="10020"></Command>
+		<Command Name="Test41" Id="10021"></Command>
+		<Command Name="Test42" Id="10022"></Command>
+		<Command Name="Test43" Id="10023"></Command>
 	</Application.Commands>
 	<Application.Views>
 		<Ribbon>
+			<Ribbon.Tabs>
+				<Tab CommandName="Test1">
+					<Group
+						CommandName = "1001"
+					>
+						<Button CommandName="Test39" />
+						<Button CommandName="Test40" />
+						<Button CommandName="Test41" />
+						<Button CommandName="Test42" />
+						<Button CommandName="Test43" />
+					</Group>
+				</Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+				<Tab CommandName="Test1"></Tab>
+			</Ribbon.Tabs>
+			<Ribbon.HelpButton>
+				<HelpButton CommandName="Test28"/>
+			</Ribbon.HelpButton>
 			<Ribbon.ContextualTabs>
 				<TabGroup CommandName='Test37'>
 					<Tab CommandName='Test38'></Tab>
@@ -41,8 +94,9 @@
 					<Tab CommandName='Test38'></Tab>
 					<Tab CommandName='Test38'></Tab>
 					<Tab CommandName='Test38'></Tab>
+					<Tab CommandName='Test38'></Tab>
 				</TabGroup>
-			</Ribbon.ContextualTabs> 
+			</Ribbon.ContextualTabs>
 			<!--
 			<Ribbon.SizeDefinitions>
 				<SizeDefinition Name="44555">
@@ -58,34 +112,6 @@
 				</SizeDefinition>
 			</Ribbon.SizeDefinitions>
 			-->
-			<Ribbon.HelpButton>
-				<HelpButton CommandName="Test28"/>
-			</Ribbon.HelpButton>
-
-			<Ribbon.Tabs>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-				<Tab CommandName="Test1"></Tab>
-			</Ribbon.Tabs>
-			
 			<Ribbon.QuickAccessToolbar>
 				<QuickAccessToolbar CommandName="Test26" CustomizeCommandName="Test27">
 					<QuickAccessToolbar.ApplicationDefaults>
