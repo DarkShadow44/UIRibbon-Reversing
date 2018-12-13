@@ -77,6 +77,7 @@ types:
       - id: str
         type: str
         size: size_str
+    -webide-representation: '{str}'
 
   type_strings:
     seq:
@@ -90,6 +91,7 @@ types:
         repeat-expr: count_strings
       - id: rest
         size-eos: true
+    -webide-representation: '{strings}'
 
   type_resource_generic:
     seq:
