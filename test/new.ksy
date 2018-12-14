@@ -142,10 +142,10 @@ types:
       if: (flags & 0x300) != 0
     - id: unk7a
       type: u1
-    - id: unk7b #offset?
-      type: u1
-    - id: unk8
+    - id: unk7b #offset? changes with sizedefinition
       type: u2
+    - id: unk8
+      type: u1
     - id: unk9
       type: u1
 
@@ -276,8 +276,24 @@ types:
       type: u2
     - id: unk15
       type: u1
-    - id: rest
-      size-eos: true
+    - id: unk16
+      size: 5
+    - id: unk17 #offset? changes with sizedefinition
+      type: u4
+    - id: unk18
+      size: 1
+    - id: unk19 #offset? changes with sizedefinition
+      type: u4
+    - id: unk20
+      size: 1
+    - id: unk21 #offset? changes with sizedefinition
+      type: u4
+    - id: unk23 #offset? changes with sizedefinition
+      type: u4
+    - id: unk25 #offset? changes with sizedefinition
+      type: u2
+    - id: unk26
+      type: u2
 
   type_ribbon:
     seq:
@@ -309,8 +325,12 @@ types:
       type: u2
     - id: unk0b
       type: u2
-    - id: check2
-      contents: [4, 3, 1]
+    - id: unk2a
+      type: u1
+    - id: unk2b
+      type: u1
+    - id: unk2c
+      type: u1
     - id: unk1   #ofsset maybe? 3 bigger when _parent-len_unk1 3 bigger
       type: u1
     - id: unk1e1
@@ -326,14 +346,14 @@ types:
       type: u1
     - id: unk6
       type: u1
-    - id: unk7
+    - id: flags
+      type: u2
+    - id: id_u1
       type: u1
-    - id: unk8
-      type: u1
-    - id: unk9
-      type: u1
-    - id: unk10
-      type: u1
+      if: (flags & 0x400) != 0
+    - id: id_u2
+      type: u2
+      if: (flags & 0x300) != 0
     - id: unk11
       type: u1
 
@@ -348,7 +368,7 @@ types:
     - id: sizeinfo_maybe
       type: type_sizeinfo_maybe
       size: len_unk1 - 14
-      if: _parent.unk10 == 2
+      if: _parent.unk10 == 2 or _parent.unk10 == 5
     - id: unk11
       type: u1
     - id: unk8
@@ -365,13 +385,47 @@ types:
       type: u1
     - id: unk7b
       type: u1
+  
+  type_sizedefinitions_command:
+    seq:
+    - id: flags_maybe
+      type: u2
+    - id: command_id
+      type: u2
+
+  type_sizedefinitions:
+    seq:
+    - id: unk1
+      type: u2
+    - id: unk2
+      type: u1
+    - id: commands
+      type: type_sizedefinitions_command
+      repeat: expr
+      repeat-expr: 2
+    - id: unk3
+      type: u2
+    - id: unk4
+      type: u1
+    - id: commands2
+      type: type_sizedefinitions_command
+      repeat: expr
+      repeat-expr: 3
+    - id: unk5a
+      type: u2
+    - id: unk5b
+      type: u2
+    - id: unk5c
+      type: u1
 
   type_group_elements_info:
     seq:
     - id: unk10
       type: u1
     - id: check2b
-      contents: [1, 1, 0x41, 4, 9]
+      contents: [1, 1, 65, 4]
+    - id: unk2
+      type: u1
     - id: check2c
       contents: [1, 4, 66, 0, 0x40, 0x44, 5, 0]
       if: unk10 == 3
@@ -384,9 +438,13 @@ types:
     - id: subcontents
       type: type_subcontent
       repeat: expr
-      repeat-expr: sub_count
-    - id: unk5
-      type: u1
+      repeat-expr: sub_count - 0 # contains number of subelements of <Group>, currently got SizeDefinition we need to subtract
+    - id: subcontents2 # sometimes, size definition
+      type: type_sizedefinitions
+      repeat: expr
+      repeat-expr: 3
+    # - id: unk5
+    #   type: u1
     
 
   type_group_info:
@@ -537,10 +595,8 @@ types:
       type: u2
     - id: unk0
       type: u2
-    - id: unk1a
-      type: u1
-    - id: unk1b
-      type: u1
+    - id: unk1a  #offset? changes with sizedefinition
+      type: u2
     - id: unk2
       type: u2
     - id: command_id
@@ -571,8 +627,10 @@ types:
       repeat-expr: 3 #number of menugroups in application menu
     - id: check10
       contents: [4, 1, 1, 0x0b, 4, 0, 1, 1, 0x41, 0x2b]
+    - id: unk10
+      type: u1
     - id: check11
-      contents: [1, 1, 1, 0, 3, 0x14, 0x27, 0x18]
+      contents: [1, 1, 0, 3, 0x14, 0x27, 0x18]
     - id: recent
       type: type_recent1
     - id: check12
