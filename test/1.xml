@@ -65,6 +65,16 @@
 						<Button CommandName="Test42" />
 						<Button CommandName="Test43" />
 					</Group>
+					
+					<Group
+						CommandName = "1002"
+					>
+						<Button CommandName="Test39" />
+						<Button CommandName="Test40" />
+						<Button CommandName="Test41" />
+						<Button CommandName="Test42" />
+						<Button CommandName="Test43" />
+					</Group>
 				</Tab>
 				<Tab CommandName="Test1"></Tab>
 				<Tab CommandName="Test1"></Tab>

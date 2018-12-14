@@ -1,4 +1,5 @@
 doc-ref: https://docs.microsoft.com/en-us/windows/desktop/windowsribbon/windowsribbon-element-ribbon
+doc-ref: https://www.codeproject.com/Articles/62534/%2FArticles%2F62534%2FWindows-Ribbon-for-WinForms-Part-21-SizeDefinition
 
 meta:
   id: ribbon
@@ -323,6 +324,26 @@ types:
     - id: unk7b
       type: u1
 
+  type_group_elements_info:
+    seq:
+    - id: check2b
+      contents: [3, 1, 1, 0x41, 4, 9, 1, 4, 66]
+    - id: check2c
+      contents: [0, 0x40, 0x44, 5, 0]
+    - id: check3
+      contents: [24, 1, 62]
+    - id: sub_count
+      type: u2
+    - id: check4
+      contents: [22, 0]
+    - id: subcontents
+      type: type_subcontent
+      repeat: expr
+      repeat-expr: sub_count
+    - id: unk5
+      type: u1
+    
+
   type_group_info:
     seq:
     - id: unk1
@@ -343,24 +364,19 @@ types:
       if: (flags & 0x300) != 0
     - id: check1
       contents: [24, 1, 62, 1, 0, 22]
-    - id: check2
-      contents: [0, 0x26, 0, 0x10, 0x60, 0, 3, 1, 1, 0x41, 4, 9, 1, 4, 0x42, 0, 0x40, 0x44]
-    - id: sub_count
+    - id: check2a
+      contents: [0, 38, 0, 16]
+    - id: size_group_elements_info
       type: u2
-    - id: check3
-      contents: [24, 1, 62, 5, 0, 22, 0]
-    - id: subcontents
-      type: type_subcontent
-      repeat: expr
-      repeat-expr: sub_count
-    - id: check4
-      contents: [24]
+    - id: group_elements_info
+      type: type_group_elements_info
+      size: size_group_elements_info - 4
 
   type_tab_extended:
     seq:
     - id: unk_id1
       type: u2
-    - id: unk1
+    - id: group_info_len_maybe
       type: u2
     - id: unk2
       type: u2
@@ -368,7 +384,8 @@ types:
       type: u1
     - id: groupinfo
       type: type_group_info
-      if: unk3 == 7
+      repeat: expr
+      repeat-expr: group_info_len_maybe
 
   type_unk1_extended:
     seq:
