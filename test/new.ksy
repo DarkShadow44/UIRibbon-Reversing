@@ -1,5 +1,5 @@
 doc-ref: https://docs.microsoft.com/en-us/windows/desktop/windowsribbon/windowsribbon-element-ribbon
-doc-ref: https://www.codeproject.com/Articles/62534/%2FArticles%2F62534%2FWindows-Ribbon-for-WinForms-Part-21-SizeDefinition
+doc-ref: https://www.codeproject.com/Articles/62534/Article
 
 meta:
   id: ribbon
@@ -142,7 +142,7 @@ types:
       if: (flags & 0x300) != 0
     - id: unk7a
       type: u1
-    - id: unk7b
+    - id: unk7b #offset?
       type: u1
     - id: unk8
       type: u2
@@ -301,17 +301,40 @@ types:
       
   type_sizeinfo_maybe:
     seq:
-    - id: check1
-      contents: [5, 1, 4, 37, 0, 128, 65, 5]
-    - id: check2
-      contents: [1, 1, 1, 8, 4, 3, 1]
     - id: unk0
+      type: u1
+    - id: check1
+      contents: [1, 4, 37, 0, 128, 65, 5]
+    - id: unk0c
       type: u2
-    - id: unk1
+    - id: unk0b
       type: u2
+    - id: check2
+      contents: [4, 3, 1]
+    - id: unk1   #ofsset maybe? 3 bigger when _parent-len_unk1 3 bigger
+      type: u1
+    - id: unk1e1
+      size: 3
+      if: unk1 == 4
     - id: unk2
       type: u1
     - id: unk3
+      type: u1
+    - id: unk4
+      type: u1
+    - id: unk5
+      type: u1
+    - id: unk6
+      type: u1
+    - id: unk7
+      type: u1
+    - id: unk8
+      type: u1
+    - id: unk9
+      type: u1
+    - id: unk10
+      type: u1
+    - id: unk11
       type: u1
 
   type_subcontent:
