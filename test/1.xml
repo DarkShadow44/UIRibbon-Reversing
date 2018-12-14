@@ -59,6 +59,29 @@
 					<Group
 						CommandName = "1001"
 					>
+						<SizeDefinition>
+							<GroupSizeDefinition Size="Large">
+								<ControlSizeDefinition ImageSize="Large" IsLabelVisible="true" />
+								<ControlSizeDefinition ImageSize="Large" IsLabelVisible="true" />
+								<ControlSizeDefinition ImageSize="Large" IsLabelVisible="true" />
+								<ControlSizeDefinition ImageSize="Large" IsLabelVisible="true" />
+								<ControlSizeDefinition ImageSize="Large" IsLabelVisible="true" />
+							</GroupSizeDefinition>
+							<GroupSizeDefinition Size="Medium">
+								<ControlSizeDefinition ImageSize="Small" IsLabelVisible="true" />
+								<ControlSizeDefinition ImageSize="Small" IsLabelVisible="false" />
+								<ControlSizeDefinition ImageSize="Small" IsLabelVisible="false" />
+								<ControlSizeDefinition ImageSize="Small" IsLabelVisible="false" />
+								<ControlSizeDefinition ImageSize="Small" IsLabelVisible="false" />
+							</GroupSizeDefinition>
+							<GroupSizeDefinition Size="Small">
+								<ControlSizeDefinition ImageSize="Small" IsLabelVisible="true" />
+								<ControlSizeDefinition ImageSize="Small" IsLabelVisible="false" />
+								<ControlSizeDefinition ImageSize="Small" IsLabelVisible="false" />
+								<ControlSizeDefinition ImageSize="Small" IsLabelVisible="false" />
+								<ControlSizeDefinition ImageSize="Small" IsLabelVisible="false" />
+							</GroupSizeDefinition>
+						</SizeDefinition>
 						<Button CommandName="Test39" />
 						<Button CommandName="Test40" />
 						<Button CommandName="Test41" />
@@ -68,6 +91,15 @@
 					
 					<Group
 						CommandName = "1002"
+					>
+						<Button CommandName="Test39" />
+						<Button CommandName="Test40" />
+						<Button CommandName="Test41" />
+						<Button CommandName="Test42" />
+						<Button CommandName="Test43" />
+					</Group>
+					<Group
+						CommandName = "1003"
 					>
 						<Button CommandName="Test39" />
 						<Button CommandName="Test40" />

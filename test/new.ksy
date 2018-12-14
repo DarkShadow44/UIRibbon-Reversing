@@ -298,17 +298,36 @@ types:
     seq:
     - id: rest
       size: 10
+      
+  type_sizeinfo_maybe:
+    seq:
+    - id: check1
+      contents: [5, 1, 4, 37, 0, 128, 65, 5]
+    - id: check2
+      contents: [1, 1, 1, 8, 4, 3, 1]
+    - id: unk0
+      type: u2
+    - id: unk1
+      type: u2
+    - id: unk2
+      type: u1
+    - id: unk3
+      type: u1
 
   type_subcontent:
     seq:
-    - id: unk102
+    - id: unk21
       type: u2
+    - id: unk22
+      type: u1
+    - id: len_unk1
+      type: u2
+    - id: sizeinfo_maybe
+      type: type_sizeinfo_maybe
+      size: len_unk1 - 14
+      if: _parent.unk10 == 2
     - id: unk11
       type: u1
-    - id: unk1
-      type: u1
-    - id: unk10
-      type: u2
     - id: unk8
       type: u2
     - id: flags
@@ -326,15 +345,18 @@ types:
 
   type_group_elements_info:
     seq:
+    - id: unk10
+      type: u1
     - id: check2b
-      contents: [3, 1, 1, 0x41, 4, 9, 1, 4, 66]
+      contents: [1, 1, 0x41, 4, 9]
     - id: check2c
-      contents: [0, 0x40, 0x44, 5, 0]
+      contents: [1, 4, 66, 0, 0x40, 0x44, 5, 0]
+      if: unk10 == 3
     - id: check3
       contents: [24, 1, 62]
     - id: sub_count
       type: u2
-    - id: check4
+    - id: unk1
       contents: [22, 0]
     - id: subcontents
       type: type_subcontent
@@ -348,7 +370,7 @@ types:
     seq:
     - id: unk1
       type: u2
-    - id: unk2
+    - id: len_unk1 # same as size_group_elements_info, just a bit bigger
       type: u2
     - id: unk3
       type: u2
