@@ -70,6 +70,11 @@ enums:
     3: command
     9: newline
 
+  enum_sizedefinitions_command_newline:
+    1: rowbreak
+    2: columbreak_with_separator
+    3: columbreak_without_separator
+
 
 types:
 
@@ -360,11 +365,18 @@ types:
       if: (flags & 0x300) != 0
     - id: unk11
       type: u1
-
-  type_subcontent:
+  
+  type_subcontent_otherinfo:
     seq:
-    - id: unk21
+    - id: unk1
       type: u2
+    - id: unk2
+      type: u2
+    - id: unk3
+      type: u2
+
+  type_subcontent_commandinfo:
+    seq:
     - id: unk22
       type: u1
     - id: len_unk1
@@ -372,7 +384,7 @@ types:
     - id: sizeinfo_maybe
       type: type_sizeinfo_maybe
       size: len_unk1 - 14
-      if: _parent.unk10 == 2 or _parent.unk10 == 5
+      if: _parent._parent.unk10 == 2 or _parent._parent.unk10 == 5
     - id: unk11
       type: u1
     - id: unk8
@@ -389,6 +401,17 @@ types:
       type: u1
     - id: unk7b
       type: u1
+
+  type_subcontent_generic:
+    seq:
+    - id: block_type
+      type: u2
+    - id: block
+      type:
+        switch-on: block_type
+        cases:
+          15: type_subcontent_commandinfo
+          25: type_subcontent_otherinfo
   
   type_sizedefinitions_command:
     seq:
@@ -399,12 +422,13 @@ types:
       enum: enum_sizedefinitions_command
     - id: unk2
       type: u1
+      enum: enum_sizedefinitions_command_newline
       if: flags_command == enum_sizedefinitions_command::newline
     - id: command_id
       type: u2
       if: flags_command == enum_sizedefinitions_command::command
 
-  type_sizedefinitions:
+  type_sizedefinition:
     seq:
     - id: unk1
       type: u2
@@ -433,14 +457,18 @@ types:
     - id: unk1
       contents: [22, 0]
     - id: subcontents
-      type: type_subcontent
+      type: type_subcontent_generic
       repeat: expr
-      repeat-expr: sub_count - 0 # contains number of subelements of <Group>, currently got SizeDefinition we need to subtract
-    - id: subcontents2 # sometimes, size definition
-      type: type_sizedefinitions
-      repeat: expr
-      repeat-expr: 3   # order doesn't change when Large/Medium/Small are reordered in xml - large, medium, small
-      if: unk10 != 3
+      repeat-expr: sub_count
+    - id: sizedefinition_large
+      type: type_sizedefinition
+      if: unk10 == 5
+    - id: sizedefinition_medium
+      type: type_sizedefinition
+      if: unk10 == 5
+    - id: sizedefinition_small
+      type: type_sizedefinition
+      if: unk10 == 5
     - id: unk5
       type: u1
     

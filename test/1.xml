@@ -96,8 +96,6 @@
 									<ControlSizeDefinition ControlName="20003"
 										ImageSize="Small"
 										IsLabelVisible="true" />
-								</Row>
-								<Row>
 									<ControlSizeDefinition ControlName="20002"
 										ImageSize="Small"
 										IsLabelVisible="true" />
@@ -110,32 +108,24 @@
 								</Row>
 							</GroupSizeDefinition>
 							<GroupSizeDefinition Size="Large">
-								<Row>
-									<ControlSizeDefinition ControlName="20001"
-										ImageSize="Small"
-										IsLabelVisible="true" />
-								</Row>
-								<Row>
-									<ControlSizeDefinition ControlName="20003"
-										ImageSize="Small"
-										IsLabelVisible="true" />
-								</Row>
-								<Row>
-									<ControlSizeDefinition ControlName="20002"
-										ImageSize="Small"
-										IsLabelVisible="true" />
-								</Row>
-								<Row>
-									<ControlSizeDefinition ControlName="20004"
-										ImageSize="Small"
-										IsLabelVisible="true" />
-								</Row>
-								<Row>
-									
-									<ControlSizeDefinition ControlName="20005"
-										ImageSize="Small"
-										IsLabelVisible="true" />
-								</Row>
+								<ControlSizeDefinition ControlName="20001"
+									ImageSize="Small"
+									IsLabelVisible="true" />
+								<ControlSizeDefinition ControlName="20003"
+									ImageSize="Small"
+									IsLabelVisible="true" />
+								<ColumnBreak ShowSeparator="true"/>
+									<ColumnBreak ShowSeparator="false"/>
+									<ColumnBreak ShowSeparator="true"/>
+								<ControlSizeDefinition ControlName="20002"
+									ImageSize="Small"
+									IsLabelVisible="true" />
+								<ControlSizeDefinition ControlName="20004"
+									ImageSize="Small"
+									IsLabelVisible="true" />									
+								<ControlSizeDefinition ControlName="20005"
+									ImageSize="Small"
+									IsLabelVisible="true" />
 								<!--<ControlGroup>
 									<ControlSizeDefinition ControlName="20002"
 										ImageSize="Large"
