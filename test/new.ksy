@@ -1,6 +1,9 @@
 doc-ref: https://docs.microsoft.com/en-us/windows/desktop/windowsribbon/windowsribbon-element-ribbon
 doc-ref: https://www.codeproject.com/Articles/62534/Article
 
+#consolidate tab and menu
+#maybe reuse block structure blocks
+
 meta:
   id: ribbon
   file-extension: bml
@@ -74,6 +77,10 @@ enums:
     1: rowbreak
     2: columbreak_with_separator
     3: columbreak_without_separator
+
+  enum_type_menu_item_ext:
+    15: button
+    20: dropdownbutton
 
 
 types:
@@ -505,7 +512,7 @@ types:
     seq:
     - id: unk_id1
       type: u2
-    - id: group_info_len_maybe
+    - id: count_groupinfo
       type: u2
     - id: unk2
       type: u2
@@ -514,7 +521,7 @@ types:
     - id: groupinfo
       type: type_group_info
       repeat: expr
-      repeat-expr: group_info_len_maybe
+      repeat-expr: count_groupinfo
 
   type_unk1_extended:
     seq:
@@ -537,12 +544,8 @@ types:
     - id: unk8
       type: u2
 
-  type_menu_item_ext:
+  type_menu_item_ext_button:
     seq:
-    - id: unk1
-      type: u2
-    - id: unk2
-      type: u2
     - id: unk3
       type: u2
     - id: unk4
@@ -557,6 +560,65 @@ types:
     - id: id_u2
       type: u2
       if: (flags & 0x300) != 0
+  
+  type_menu_item_ext_dropdownbutton:
+    seq:
+    - id: unk3
+      type: u2
+    - id: unk4
+      type: u2
+    - id: unk5
+      type: u2
+    - id: flags
+      type: u2
+    - id: id_u1
+      type: u1
+      if: (flags & 0x400) != 0
+    - id: id_u2
+      type: u2
+      if: (flags & 0x300) != 0
+    - id: unk10
+      type: u2
+    - id: unk11
+      type: u2
+    - id: unk12
+      type: u2
+    - id: unk13
+      type: u2
+    - id: unk14
+      type: u2
+    - id: unk15
+      type: u2
+    - id: unk16
+      type: u2
+    - id: unk17
+      type: u2
+    - id: unk18
+      type: u2
+    - id: unk19
+      type: u2
+    - id: unk20
+      type: u1
+    - id: sub_count_maybe
+      type: u2
+    - id: subelements
+      type: type_menu_item_ext_generic
+      repeat: expr
+      repeat-expr: sub_count_maybe
+
+  type_menu_item_ext_generic:
+    seq:
+    - id: unk1
+      type: u2
+    - id: maybe_type_element
+      type: u2
+      enum: enum_type_menu_item_ext
+    - id: block
+      type:
+        switch-on: maybe_type_element
+        cases:
+          enum_type_menu_item_ext::button: type_menu_item_ext_button
+          enum_type_menu_item_ext::dropdownbutton: type_menu_item_ext_dropdownbutton
 
   type_menugroup_extended:
     seq:
@@ -565,7 +627,7 @@ types:
     - id: menu_items_len
       type: u2
     - id: items
-      type: type_menu_item_ext
+      type: type_menu_item_ext_generic
       repeat: expr
       repeat-expr: menu_items_len
     - id: unk1
@@ -650,16 +712,20 @@ types:
     - id: applicationmenu_menugroups_ext
       type: type_menugroup_extended
       repeat: expr
-      repeat-expr: 3 #number of menugroups in application menu
+      repeat-expr: 4 #number of menugroups in application menu
     - id: check10
       contents: [4, 1, 1, 0x0b, 4, 0, 1, 1, 0x41, 0x2b]
     - id: unk10
       type: u1
     - id: check11
-      contents: [1, 1, 0, 3, 0x14, 0x27, 0x18]
+      contents: [1, 1, 0, 3]
+    - id: unk12
+      type: u1
+    - id: check12
+      contents: [0x27, 0x18]
     - id: recent
       type: type_recent1
-    - id: check12
+    - id: check13
       contents: [7, 0, 0x18]
     - id: command_ext
       type: type_command_ext
