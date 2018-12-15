@@ -66,6 +66,10 @@ enums:
     3: context
     5: help
 
+  enum_sizedefinitions_command:
+    3: command
+    9: newline
+
 
 types:
 
@@ -388,10 +392,17 @@ types:
   
   type_sizedefinitions_command:
     seq:
-    - id: flags_maybe
-      type: u2
+    - id: unk1
+      type: u1
+    - id: flags_command
+      type: u1
+      enum: enum_sizedefinitions_command
+    - id: unk2
+      type: u1
+      if: flags_command == enum_sizedefinitions_command::newline
     - id: command_id
       type: u2
+      if: flags_command == enum_sizedefinitions_command::command
 
   type_sizedefinitions:
     seq:
@@ -401,22 +412,8 @@ types:
       type: u1
     - id: commands
       type: type_sizedefinitions_command
-      repeat: expr
-      repeat-expr: 2
-    - id: unk3
-      type: u2
-    - id: unk4
-      type: u1
-    - id: commands2
-      type: type_sizedefinitions_command
-      repeat: expr
-      repeat-expr: 3
-    - id: unk5a
-      type: u2
-    - id: unk5b
-      type: u2
-    - id: unk5c
-      type: u1
+      repeat: until
+      repeat-until: _.unk1 == 24 or _.unk1 == 22
 
   type_group_elements_info:
     seq:
@@ -442,9 +439,10 @@ types:
     - id: subcontents2 # sometimes, size definition
       type: type_sizedefinitions
       repeat: expr
-      repeat-expr: 3
-    # - id: unk5
-    #   type: u1
+      repeat-expr: 3   # order doesn't change when Large/Medium/Small are reordered in xml - large, medium, small
+      if: unk10 != 3
+    - id: unk5
+      type: u1
     
 
   type_group_info:
