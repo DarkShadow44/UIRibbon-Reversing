@@ -3,6 +3,8 @@ doc-ref: https://www.codeproject.com/Articles/62534/Article
 
 #consolidate tab and menu
 #maybe reuse block structure blocks
+#move up application menu without breaking
+#write tests?! - C++ mit xml und binary embedded in source file, 1 source file
 
 meta:
   id: ribbon
@@ -65,6 +67,7 @@ enums:
     9: tooltipdescription
 
   enum_tab_type:
+    0: applicationmenu
     2: normal
     3: context
     5: help
@@ -230,6 +233,7 @@ types:
           enum_tab_type::help:   type_ribbon_tabs_normal
           enum_tab_type::normal: type_ribbon_tabs_normal
           enum_tab_type::context: type_ribbon_tabs_context
+          enum_tab_type::applicationmenu: type_block_applicationmenu
 
   type_block_quickaccess:
     seq:
@@ -256,12 +260,10 @@ types:
           enum_block_type::ribbon_tabs: type_block_tabs
           enum_block_type::ribbon_quickaccesstoolbar: type_block_quickaccess
 
-  type_unk_application_menu:
+  type_block_applicationmenu:
     seq:
-    - id: unk1
-      type: u2
     - id: unk2
-      type: u2
+      type: u1
     - id: unk3
       type: u2
     - id: unk4
@@ -304,12 +306,6 @@ types:
       size: 1
     - id: unk21 #offset? changes with sizedefinition
       type: u4
-    - id: unk23 #offset? changes with sizedefinition
-      type: u4
-    - id: unk25 #offset? changes with sizedefinition
-      type: u2
-    - id: unk26
-      type: u2
 
   type_ribbon:
     seq:
@@ -323,8 +319,8 @@ types:
       type: type_block_generic
     - id: block4
       type: type_block_generic
-    - id: application_menu
-      type: type_unk_application_menu
+    - id: block5
+      type: type_block_generic
 
   block_unk1:
     seq:
@@ -451,14 +447,18 @@ types:
     - id: unk10
       type: u1
     - id: check2b
-      contents: [1, 1, 65, 4]
+      contents: [1, 1]
+    - id: unk1b
+      type: u2
     - id: unk2
       type: u1
     - id: check2c
       contents: [1, 4, 66, 0, 0x40, 0x44, 5, 0]
       if: unk10 == 3
-    - id: check3
-      contents: [24, 1, 62]
+    - id: unk1c
+      type: u2
+    - id: unk1d
+      type: u1
     - id: sub_count
       type: u2
     - id: unk1
@@ -498,10 +498,16 @@ types:
     - id: id_u2
       type: u2
       if: (flags & 0x300) != 0
-    - id: check1
-      contents: [24, 1, 62, 1, 0, 22]
-    - id: check2a
-      contents: [0, 38, 0, 16]
+    - id: unk20
+      type: u2
+    - id: unk12
+      type: u2
+    - id: unk21
+      type: u2
+    - id: unk10
+      type: u2
+    - id: unk11
+      type: u2
     - id: size_group_elements_info
       type: u2
     - id: group_elements_info
@@ -743,7 +749,7 @@ types:
     - id: unk4
       contents: [0, 2]
     - id: unk5
-      contents: [1, 1]
+      type: u2
     - id: flags
       type: u2
     - id: id_u1

@@ -138,6 +138,7 @@
 					</GroupSizeDefinition>
 				</SizeDefinition>
 			</Ribbon.SizeDefinitions>
+
 			<Ribbon.Tabs>
 				<Tab CommandName="Test1">
 					<Group
@@ -204,28 +205,6 @@
 				</TabGroup>
 			</Ribbon.ContextualTabs>
 
-			<Ribbon.QuickAccessToolbar>
-				<QuickAccessToolbar CommandName="Test26" CustomizeCommandName="Test27">
-					<QuickAccessToolbar.ApplicationDefaults>
-						<Button CommandName="Test34" />
-						<Button CommandName="Test35" />
-						<Button CommandName="Test36" />
-						<Button CommandName="Test34" />
-						<Button CommandName="Test35" />
-						<Button CommandName="Test36" />
-						<Button CommandName="Test34" />
-						<Button CommandName="Test35" />
-						<Button CommandName="Test36" />
-						<Button CommandName="Test34" />
-						<Button CommandName="Test35" />
-						<Button CommandName="Test36" />
-						<Button CommandName="Test34" />
-						<Button CommandName="Test35" />
-						<Button CommandName="Test36" />
-					</QuickAccessToolbar.ApplicationDefaults>
-				</QuickAccessToolbar>
-			</Ribbon.QuickAccessToolbar>
-			
 			<Ribbon.ApplicationMenu>
 				<ApplicationMenu CommandName="Test22">
 					<ApplicationMenu.RecentItems>
@@ -257,9 +236,28 @@
 				</ApplicationMenu>
 			</Ribbon.ApplicationMenu>
 			
-			
-			
-			
+			<Ribbon.QuickAccessToolbar>
+				<QuickAccessToolbar CommandName="Test26" CustomizeCommandName="Test27">
+					<QuickAccessToolbar.ApplicationDefaults>
+						<Button CommandName="Test34" />
+						<Button CommandName="Test35" />
+						<Button CommandName="Test36" />
+						<Button CommandName="Test34" />
+						<Button CommandName="Test35" />
+						<Button CommandName="Test36" />
+						<Button CommandName="Test34" />
+						<Button CommandName="Test35" />
+						<Button CommandName="Test36" />
+						<Button CommandName="Test34" />
+						<Button CommandName="Test35" />
+						<Button CommandName="Test36" />
+						<Button CommandName="Test34" />
+						<Button CommandName="Test35" />
+						<Button CommandName="Test36" />
+					</QuickAccessToolbar.ApplicationDefaults>
+				</QuickAccessToolbar>
+			</Ribbon.QuickAccessToolbar>
+
 		</Ribbon>
 	</Application.Views>
 </Application>
