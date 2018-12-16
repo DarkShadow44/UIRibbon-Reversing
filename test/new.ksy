@@ -6,6 +6,10 @@ doc-ref: https://www.codeproject.com/Articles/62534/Article
 #move up application menu without breaking
 #write tests?! - C++ mit xml und binary embedded in source file, 1 source file
 
+#find out how sizedefinitions come into command_blocks
+#find out how placement changes maybesize in command_blocks
+
+
 meta:
   id: ribbon
   file-extension: bml
@@ -415,7 +419,7 @@ types:
     - id: sub_count
       type: u2
     - id: subcontents
-      type: type_control_generic
+      type: type_control
       repeat: expr
       repeat-expr: sub_count
     - id: sizedefinition_large
@@ -500,137 +504,71 @@ types:
       type: u2
     - id: unk8
       type: u2
-
-  type_control_button:
+  
+  type_control_block_subcomponents:
     seq:
-    - id: unk22
-      type: u1
-    - id: len_unk1
+    # - id: unk1
+    #   size: 20
+    - id: count_elements
       type: u2
-    - id: sizeinfo_maybe
-      type: type_sizeinfo_maybe
-      size: len_unk1 - 14
-      if: len_unk1 > 14
-    - id: unk11
-      type: u1
-    - id: unk8
-      type: u2
+    # - id: elements
+    #   type: type_control
+    #   repeat: expr
+    #   repeat-expr: count_elements
+  
+  type_control_block_id:
+    seq:
     - id: flags
       type: u2
     - id: id_u1
       type: u2
-      if: (flags & 0x400) != 0
-    - id: id_u2
-      type: u2
-      if: (flags & 0x300) != 0
-
-  type_control_dropdownbutton:
-    seq:
-    - id: unk3
-      type: u1
-    - id: unk_len1
-      type: u2
-    - id: unk4b
-      type: u1
-    - id: unk5
-      type: u2
-    - id: unk5b
-      size: unk_len1 - 0x6b
-    - id: flags
-      type: u2
-    - id: id_u1
-      type: u1
-      if: (flags & 0x400) != 0
-    - id: id_u2
-      type: u2
-      if: (flags & 0x300) != 0
-    - id: unk10
-      type: u2
-    - id: unk11
-      type: u2
-    - id: unk12
-      type: u2
-    - id: unk13
-      type: u2
-    - id: unk14
-      type: u2
-    - id: unk15
-      type: u2
-    - id: unk16
-      type: u2
-    - id: unk17
-      type: u2
-    - id: unk18
-      type: u2
-    - id: unk19
-      type: u2
-    - id: unk20
-      type: u1
-    - id: sub_count_maybe
-      type: u2
-    - id: subelements
-      type: type_control_generic
-      repeat: expr
-      repeat-expr: sub_count_maybe
-
-  type_control_checkbox:
-    seq:
-    - id: unk1a
-      type: u1
-    - id: unk_len1
-      type: u2
-    - id: controlinfo
-      size: unk_len1 - 11
-    - id: flags
-      type: u2
-    - id: id_u1
-      type: u1
       if: (flags & 0x400) != 0
     - id: id_u2
       type: u2
       if: (flags & 0x300) != 0
   
-  type_control_combobox:
+  type_control_block_4:
     seq:
     - id: unk1
-      type: u1
-    - id: unk_len1
-      type: u2
-    - id: controlinfo
-      size: unk_len1 - 16
-    - id: flags
-      type: u2
-    - id: id_u1
-      type: u1
-      if: (flags & 0x400) != 0
-    - id: id_u2
-      type: u2
-      if: (flags & 0x300) != 0
-      type: u2
-    - id: unk2
-      type: u1
-    - id: unk3
-      type: u2
-    - id: check1
-      contents: [0, 0]
-
-  type_control_generic:
+      size: 7
+  
+  type_control_block_generic:
     seq:
-    - id: unk1
-      type: u2
-    - id: maybe_type_element
-      type: u2
-      enum: enum_type_control
+    - id: block_type
+      type: u1
     - id: block
       type:
-        switch-on: maybe_type_element
+        switch-on: block_type
         cases:
-          enum_type_control::button: type_control_button
-          enum_type_control::dropdownbutton: type_control_dropdownbutton
-          enum_type_control::otherinfo: type_control_otherinfo
-          enum_type_control::checkbox: type_control_checkbox
-          enum_type_control::combobox: type_control_combobox
-          enum_type_control::splitbutton: type_control_dropdownbutton
+          1: type_control_block_id
+          4: type_control_block_4
+          24: type_control_block_subcomponents
+  
+  type_control_blocks:
+    seq:
+    - id: count_blocks
+      type: u1
+    - id: unk1
+      type: u1
+    - id: blocks
+      type: type_control_block_generic
+      repeat: expr
+      repeat-expr: count_blocks
+
+  type_control:
+    seq:
+    - id: unk1
+      type: u2
+    - id: block_type
+      type: u2
+      enum: enum_type_control
+    - id: unk2
+      type: u1
+    - id: size_block
+      type: u2
+    - id: block
+      size: size_block - 7
+      type: type_control_blocks
 
   type_control_otherinfo:
     seq:
@@ -648,7 +586,7 @@ types:
     - id: menu_items_len
       type: u2
     - id: items
-      type: type_control_generic
+      type: type_control
       repeat: expr
       repeat-expr: menu_items_len
     - id: unk1
@@ -723,35 +661,35 @@ types:
     - id: ribbon_tab_info
       type: type_tab_extended
       repeat: expr
-      repeat-expr: 5  #ribbon.tabs count
-    - id: ribbon_tab_contextual_info
-      type: type_tab_extended
-      repeat: expr
-      repeat-expr: 20  #ribbon.contextualtabs count
-    - id: unk_ext1
-      type: type_unk1_extended
-    - id: applicationmenu_menugroups_ext
-      type: type_menugroup_extended
-      repeat: expr
-      repeat-expr: 4 #number of menugroups in application menu
-    - id: check10
-      contents: [4, 1, 1, 0x0b, 4, 0, 1, 1, 0x41, 0x2b]
-    - id: unk10
-      type: u1
-    - id: check11
-      contents: [1, 1, 0, 3]
-    - id: unk12
-      type: u1
-    - id: check12
-      contents: [0x27, 0x18]
-    - id: recent
-      type: type_recent1
-    - id: check13
-      contents: [7, 0, 0x18]
-    - id: command_ext
-      type: type_command_ext
-      repeat: expr
-      repeat-expr: 46 # number or commands that are actually used + recent + unknown
+      repeat-expr: 1  #ribbon.tabs count
+    # - id: ribbon_tab_contextual_info
+    #   type: type_tab_extended
+    #   repeat: expr
+    #   repeat-expr: 20  #ribbon.contextualtabs count
+    # - id: unk_ext1
+    #   type: type_unk1_extended
+    # - id: applicationmenu_menugroups_ext
+    #   type: type_menugroup_extended
+    #   repeat: expr
+    #   repeat-expr: 4 #number of menugroups in application menu
+    # - id: check10
+    #   contents: [4, 1, 1, 0x0b, 4, 0, 1, 1, 0x41, 0x2b]
+    # - id: unk10
+    #   type: u1
+    # - id: check11
+    #   contents: [1, 1, 0, 3]
+    # - id: unk12
+    #   type: u1
+    # - id: check12
+    #   contents: [0x27, 0x18]
+    # - id: recent
+    #   type: type_recent1
+    # - id: check13
+    #   contents: [7, 0, 0x18]
+    # - id: command_ext
+    #   type: type_command_ext
+    #   repeat: expr
+    #   repeat-expr: 46 # number or commands that are actually used + recent + unknown
 
   quick_ribbon_button:
     seq:

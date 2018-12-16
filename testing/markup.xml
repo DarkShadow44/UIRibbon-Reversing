@@ -46,9 +46,7 @@
 			<Ribbon.Tabs>
 				<Tab CommandName="Test1">
 					<Group CommandName = "Test2">
-						<CheckBox CommandName="Test3" />
-						<CheckBox CommandName="Test4" />
-						<Button CommandName="Test5" />
+						<ComboBox CommandName="Test3" />
 					</Group>
 				</Tab>
 			</Ribbon.Tabs>

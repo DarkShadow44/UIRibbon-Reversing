@@ -113,10 +113,10 @@
 						<Row>
 							<ControlSizeDefinition ControlName="20001"
 								ImageSize="Small"
-								IsLabelVisible="true" />
+								IsLabelVisible="false" />
 							<ControlSizeDefinition ControlName="20003"
 								ImageSize="Small"
-								IsLabelVisible="true" />
+								IsLabelVisible="false" />
 						</Row>
 						<Row>
 							<ControlSizeDefinition ControlName="20002"
@@ -177,13 +177,12 @@
 					<Group
 						CommandName = "1001"
 					>
-						<SplitButton CommandName="Test47">
-							<Button CommandName="Test24" />
-							<Button CommandName="Test24" />
-							<Button CommandName="Test24" />
-							<Button CommandName="Test24" />
-							<Button CommandName="Test24" />
-						</SplitButton>
+						<CheckBox CommandName="Test47" />
+						<DropDownButton CommandName="Test48">
+							<Button CommandName="Test41" />
+							<Button CommandName="Test42" />
+						</DropDownButton>
+						<Button CommandName="Test41" />
 						<Button CommandName="Test42" />
 						<Button CommandName="Test43" />
 					</Group>
