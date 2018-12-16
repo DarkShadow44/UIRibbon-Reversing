@@ -145,7 +145,13 @@
 						CommandName = "1001"
 						SizeDefinition="MySize1"
 					>
-						<Button CommandName="Test39" />
+						<DropDownButton CommandName="Test45">
+							<Button CommandName="Test24" />
+							<Button CommandName="Test24" />
+							<Button CommandName="Test24" />
+							<Button CommandName="Test24" />
+							<Button CommandName="Test24" />
+						</DropDownButton>
 						<Button CommandName="Test40" />
 						<Button CommandName="Test41" />
 						<Button CommandName="Test42" />
@@ -154,7 +160,6 @@
 					
 					<Group
 						CommandName = "1002"
-					   SizeDefinition="MySize1"
 					>
 						<Button CommandName="Test39" />
 						<Button CommandName="Test40" />
@@ -164,7 +169,6 @@
 					</Group>
 					<Group
 						CommandName = "1003"
-						SizeDefinition="MySize1"
 					>
 						<Button CommandName="Test39" />
 						<Button CommandName="Test40" />

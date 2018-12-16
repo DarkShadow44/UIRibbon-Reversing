@@ -84,6 +84,7 @@ enums:
   enum_type_menu_item_ext:
     15: button
     20: dropdownbutton
+    25: otherinfo
 
 
 types:
@@ -368,54 +369,7 @@ types:
       if: (flags & 0x300) != 0
     - id: unk11
       type: u1
-  
-  type_subcontent_otherinfo:
-    seq:
-    - id: unk1
-      type: u2
-    - id: unk2
-      type: u2
-    - id: unk3
-      type: u2
 
-  type_subcontent_commandinfo:
-    seq:
-    - id: unk22
-      type: u1
-    - id: len_unk1
-      type: u2
-    - id: sizeinfo_maybe
-      type: type_sizeinfo_maybe
-      size: len_unk1 - 14
-      if: _parent._parent.unk10 == 2 or _parent._parent.unk10 == 5
-    - id: unk11
-      type: u1
-    - id: unk8
-      type: u2
-    - id: flags
-      type: u2
-    - id: id_u1
-      type: u2
-      if: (flags & 0x400) != 0
-    - id: id_u2
-      type: u2
-      if: (flags & 0x300) != 0
-    - id: unk7a
-      type: u1
-    - id: unk7b
-      type: u1
-
-  type_subcontent_generic:
-    seq:
-    - id: block_type
-      type: u2
-    - id: block
-      type:
-        switch-on: block_type
-        cases:
-          15: type_subcontent_commandinfo
-          25: type_subcontent_otherinfo
-  
   type_sizedefinitions_command:
     seq:
     - id: unk1
@@ -461,10 +415,8 @@ types:
       type: u1
     - id: sub_count
       type: u2
-    - id: unk1
-      contents: [22, 0]
     - id: subcontents
-      type: type_subcontent_generic
+      type: type_control_generic
       repeat: expr
       repeat-expr: sub_count
     - id: sizedefinition_large
@@ -550,31 +502,41 @@ types:
     - id: unk8
       type: u2
 
-  type_menu_item_ext_button:
+  type_control_button:
     seq:
-    - id: unk3
+    - id: unk22
+      type: u1
+    - id: len_unk1
       type: u2
-    - id: unk4
-      type: u2
-    - id: unk5
+    - id: sizeinfo_maybe
+      type: type_sizeinfo_maybe
+      size: len_unk1 - 14
+      if: len_unk1 > 14
+    - id: unk11
+      type: u1
+    - id: unk8
       type: u2
     - id: flags
       type: u2
     - id: id_u1
-      type: u1
+      type: u2
       if: (flags & 0x400) != 0
     - id: id_u2
       type: u2
       if: (flags & 0x300) != 0
-  
-  type_menu_item_ext_dropdownbutton:
+
+  type_control_dropdownbutton:
     seq:
     - id: unk3
+      type: u1
+    - id: unk_len1
       type: u2
-    - id: unk4
-      type: u2
+    - id: unk4b
+      type: u1
     - id: unk5
       type: u2
+    - id: unk5b
+      size: unk_len1 - 0x6b
     - id: flags
       type: u2
     - id: id_u1
@@ -608,11 +570,11 @@ types:
     - id: sub_count_maybe
       type: u2
     - id: subelements
-      type: type_menu_item_ext_generic
+      type: type_control_generic
       repeat: expr
       repeat-expr: sub_count_maybe
 
-  type_menu_item_ext_generic:
+  type_control_generic:
     seq:
     - id: unk1
       type: u2
@@ -623,8 +585,18 @@ types:
       type:
         switch-on: maybe_type_element
         cases:
-          enum_type_menu_item_ext::button: type_menu_item_ext_button
-          enum_type_menu_item_ext::dropdownbutton: type_menu_item_ext_dropdownbutton
+          enum_type_menu_item_ext::button: type_control_button
+          enum_type_menu_item_ext::dropdownbutton: type_control_dropdownbutton
+          enum_type_menu_item_ext::otherinfo: type_control_otherinfo
+
+  type_control_otherinfo:
+    seq:
+    - id: unk1
+      type: u2
+    - id: unk2
+      type: u2
+    - id: unk3
+      type: u2
 
   type_menugroup_extended:
     seq:
@@ -633,7 +605,7 @@ types:
     - id: menu_items_len
       type: u2
     - id: items
-      type: type_menu_item_ext_generic
+      type: type_control_generic
       repeat: expr
       repeat-expr: menu_items_len
     - id: unk1
