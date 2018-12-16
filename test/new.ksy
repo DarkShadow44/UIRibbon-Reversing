@@ -87,6 +87,7 @@ enums:
     6: checkbox
     25: otherinfo
     21: combobox
+    18: splitbutton
 
 
 types:
@@ -612,6 +613,7 @@ types:
       type: u2
     - id: check1
       contents: [0, 0]
+
   type_control_generic:
     seq:
     - id: unk1
@@ -628,6 +630,7 @@ types:
           enum_type_control::otherinfo: type_control_otherinfo
           enum_type_control::checkbox: type_control_checkbox
           enum_type_control::combobox: type_control_combobox
+          enum_type_control::splitbutton: type_control_dropdownbutton
 
   type_control_otherinfo:
     seq:

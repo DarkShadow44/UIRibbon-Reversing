@@ -176,18 +176,14 @@
 				<Tab CommandName="Test1">
 					<Group
 						CommandName = "1001"
-						SizeDefinition="MySize1"
 					>
-						<ComboBox CommandName="Test47" />
-						<ComboBox CommandName="Test48" />
-						<ComboBox CommandName="Test49" />
-						<!--<DropDownButton CommandName="Test45">
+						<SplitButton CommandName="Test47">
 							<Button CommandName="Test24" />
 							<Button CommandName="Test24" />
 							<Button CommandName="Test24" />
 							<Button CommandName="Test24" />
 							<Button CommandName="Test24" />
-						</DropDownButton> -->
+						</SplitButton>
 						<Button CommandName="Test42" />
 						<Button CommandName="Test43" />
 					</Group>
