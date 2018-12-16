@@ -64,6 +64,39 @@
 		>
 		</Command>
 		<Command Name="Test46" Id="10046"></Command>
+		<Command
+			Name="Test47"
+			Id="10047"
+			Keytip="Keytip1"
+			LabelDescription="Description1"
+			LabelTitle="Title1"
+			Symbol="Symbol1"
+			TooltipDescription="TooltipDescr1"
+			TooltipTitle="TooltipTitle1"
+		>
+		</Command>
+		<Command
+			Name="Test48"
+			Id="10048"
+			Keytip="Keytip1"
+			LabelDescription="Description1"
+			LabelTitle="Title1"
+			Symbol="Symbol1"
+			TooltipDescription="TooltipDescr1"
+			TooltipTitle="TooltipTitle1"
+		>
+		</Command>
+		<Command
+			Name="Test49"
+			Id="10049"
+			Keytip="Keytip1"
+			LabelDescription="Description1"
+			LabelTitle="Title1"
+			Symbol="Symbol1"
+			TooltipDescription="TooltipDescr1"
+			TooltipTitle="TooltipTitle1"
+		>
+		</Command>
 	</Application.Commands>
 	<Application.Views>
 		<Ribbon>
@@ -145,15 +178,16 @@
 						CommandName = "1001"
 						SizeDefinition="MySize1"
 					>
-						<DropDownButton CommandName="Test45">
+						<CheckBox CommandName="Test47" />
+						<CheckBox CommandName="Test48" />
+						<CheckBox CommandName="Test49" />
+						<!--<DropDownButton CommandName="Test45">
 							<Button CommandName="Test24" />
 							<Button CommandName="Test24" />
 							<Button CommandName="Test24" />
 							<Button CommandName="Test24" />
 							<Button CommandName="Test24" />
-						</DropDownButton>
-						<Button CommandName="Test40" />
-						<Button CommandName="Test41" />
+						</DropDownButton> -->
 						<Button CommandName="Test42" />
 						<Button CommandName="Test43" />
 					</Group>
@@ -186,6 +220,9 @@
 				<HelpButton CommandName="Test28"/>
 			</Ribbon.HelpButton>
 			<Ribbon.ContextualTabs>
+				<TabGroup CommandName='Test37'>
+					<Tab CommandName='Test38'></Tab>
+				</TabGroup>
 				<TabGroup CommandName='Test37'>
 					<Tab CommandName='Test38'></Tab>
 					<Tab CommandName='Test38'></Tab>

@@ -81,9 +81,10 @@ enums:
     2: columbreak_with_separator
     3: columbreak_without_separator
 
-  enum_type_menu_item_ext:
+  enum_type_control:
     15: button
     20: dropdownbutton
+    6: checkbox
     25: otherinfo
 
 
@@ -310,18 +311,14 @@ types:
 
   type_ribbon:
     seq:
+    - id: unk0
+      type: u1 # number might be related to number of subelements of ribbon
     - id: unk1
-      contents: [6, 1, 1, 0x0b, 9, 0] # first number might be related to number of subelements of ribbon
+      contents: [1, 1, 0x0b, 9, 0]
     - id: block1
       type: type_block_generic
-    - id: block2
-      type: type_block_generic
-    - id: block3
-      type: type_block_generic
-    - id: block4
-      type: type_block_generic
-    - id: block5
-      type: type_block_generic
+      repeat: expr
+      repeat-expr: unk0
 
   block_unk1:
     seq:
@@ -574,20 +571,38 @@ types:
       repeat: expr
       repeat-expr: sub_count_maybe
 
+  type_control_checkbox:
+    seq:
+    - id: unk1a
+      type: u1
+    - id: unk_len1
+      type: u2
+    - id: controlinfo
+      size: unk_len1 - 11
+    - id: flags
+      type: u2
+    - id: id_u1
+      type: u1
+      if: (flags & 0x400) != 0
+    - id: id_u2
+      type: u2
+      if: (flags & 0x300) != 0
+
   type_control_generic:
     seq:
     - id: unk1
       type: u2
     - id: maybe_type_element
       type: u2
-      enum: enum_type_menu_item_ext
+      enum: enum_type_control
     - id: block
       type:
         switch-on: maybe_type_element
         cases:
-          enum_type_menu_item_ext::button: type_control_button
-          enum_type_menu_item_ext::dropdownbutton: type_control_dropdownbutton
-          enum_type_menu_item_ext::otherinfo: type_control_otherinfo
+          enum_type_control::button: type_control_button
+          enum_type_control::dropdownbutton: type_control_dropdownbutton
+          enum_type_control::otherinfo: type_control_otherinfo
+          enum_type_control::checkbox: type_control_checkbox
 
   type_control_otherinfo:
     seq:
@@ -684,7 +699,7 @@ types:
     - id: ribbon_tab_contextual_info
       type: type_tab_extended
       repeat: expr
-      repeat-expr: 19  #ribbon.contextualtabs count
+      repeat-expr: 20  #ribbon.contextualtabs count
     - id: unk_ext1
       type: type_unk1_extended
     - id: applicationmenu_menugroups_ext
