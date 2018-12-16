@@ -86,6 +86,7 @@ enums:
     20: dropdownbutton
     6: checkbox
     25: otherinfo
+    21: combobox
 
 
 types:
@@ -587,7 +588,30 @@ types:
     - id: id_u2
       type: u2
       if: (flags & 0x300) != 0
-
+  
+  type_control_combobox:
+    seq:
+    - id: unk1
+      type: u1
+    - id: unk_len1
+      type: u2
+    - id: controlinfo
+      size: unk_len1 - 16
+    - id: flags
+      type: u2
+    - id: id_u1
+      type: u1
+      if: (flags & 0x400) != 0
+    - id: id_u2
+      type: u2
+      if: (flags & 0x300) != 0
+      type: u2
+    - id: unk2
+      type: u1
+    - id: unk3
+      type: u2
+    - id: check1
+      contents: [0, 0]
   type_control_generic:
     seq:
     - id: unk1
@@ -603,6 +627,7 @@ types:
           enum_type_control::dropdownbutton: type_control_dropdownbutton
           enum_type_control::otherinfo: type_control_otherinfo
           enum_type_control::checkbox: type_control_checkbox
+          enum_type_control::combobox: type_control_combobox
 
   type_control_otherinfo:
     seq:

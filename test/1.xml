@@ -178,9 +178,9 @@
 						CommandName = "1001"
 						SizeDefinition="MySize1"
 					>
-						<CheckBox CommandName="Test47" />
-						<CheckBox CommandName="Test48" />
-						<CheckBox CommandName="Test49" />
+						<ComboBox CommandName="Test47" />
+						<ComboBox CommandName="Test48" />
+						<ComboBox CommandName="Test49" />
 						<!--<DropDownButton CommandName="Test45">
 							<Button CommandName="Test24" />
 							<Button CommandName="Test24" />
