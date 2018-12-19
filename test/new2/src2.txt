@@ -1,0 +1,149 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Diagnostics;
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+
+        class Stru
+        {
+            public string strLarge;
+            public string strMedium;
+            public string strSmall;
+
+            public string infoLarge;
+            public string infoMedium;
+            public string infoSmall;
+
+            public Stru(string strLarge, string strMedium, string strSmall, string infoLarge, string infoMedium, string infoSmall)
+            {
+                this.strLarge = strLarge;
+                this.strSmall = strSmall;
+                this.strMedium = strMedium;
+                this.infoLarge = infoLarge;
+                this.infoSmall = infoSmall;
+                this.infoMedium = infoMedium;
+            }
+
+        }
+
+        static Stru GetSize(int i)
+        {
+            switch (i)
+            {
+                case 0:
+                    return new Stru("Large", "Large", "Large", "large", "large", "large");
+                case 1:
+                    return new Stru("Large", "Large", "Small", "large", "large", "small");
+                case 2:
+                     return new Stru("Large", "Small", "Large", "large", "small", "large");
+                case 3:
+                    return new Stru("Large", "Small", "Small", "large", "small", "small");
+                case 4:
+                    return new Stru("Small", "Large", "Large", "small", "large", "large");
+                case 5:
+                    return new Stru("Small", "Large", "Small", "small", "large", "small");
+                case 6:
+                     return new Stru("Small", "Small", "Large", "small", "small", "large");
+                case 7:
+                    return new Stru("Small", "Small", "Small", "small", "small", "small");
+            }
+            return null;
+        }
+
+       static Stru GetLabel(int i)
+        {
+            switch (i)
+            {
+                case 0:
+                    return new Stru("true", "true", "true", "labelvisible", "labelvisible", "labelvisible");
+                case 1:
+                    return new Stru("true", "true", "false", "labelvisible", "labelvisible", "labelhidden");
+                case 2:
+                     return new Stru("true", "false", "true", "labelvisible", "labelhidden", "labelvisible");
+                case 3:
+                    return new Stru("true", "false", "false", "labelvisible", "labelhidden", "labelhidden");
+                case 4:
+                    return new Stru("false", "true", "true", "labelhidden", "labelvisible", "labelvisible");
+                case 5:
+                    return new Stru("false", "true", "false", "labelhidden", "labelvisible", "labelhidden");
+                case 6:
+                     return new Stru("false", "false", "true", "labelhidden", "labelhidden", "labelvisible");
+                case 7:
+                    return new Stru("false", "false", "false", "labelhidden", "labelhidden", "labelhidden");
+            }
+            return null;
+        }
+
+        
+       static Stru GetImage(int i)
+        {
+            switch (i)
+            {
+                case 0:
+                    return new Stru("true", "true", "true", "imagevisible", "imagevisible", "imagevisible");
+                case 1:
+                    return new Stru("true", "true", "false", "imagevisible", "imagevisible", "imagehidden");
+                case 2:
+                     return new Stru("true", "false", "true", "imagevisible", "imagehidden", "imagevisible");
+                case 3:
+                    return new Stru("true", "false", "false", "imagevisible", "imagehidden", "imagehidden");
+                case 4:
+                    return new Stru("false", "true", "true", "imagehidden", "imagevisible", "imagevisible");
+                case 5:
+                    return new Stru("false", "true", "false", "imagehidden", "imagevisible", "imagehidden");
+                case 6:
+                     return new Stru("false", "false", "true", "imagehidden", "imagehidden", "imagevisible");
+                case 7:
+                    return new Stru("false", "false", "false", "imagehidden", "imagehidden", "imagehidden");
+            }
+            return null;
+        }
+
+        static void doWork(int i, int j, int k, string prefix, Stru stru)
+        {
+            string str = File.ReadAllText(@"E:\_Ramdisk\2.txt");
+
+            var size = GetSize(i);
+            var label = GetLabel(j);
+            var image = GetImage(k);
+            string format = string.Format(str, size.strLarge, size.strMedium, size.strSmall, label.strLarge, label.strMedium, label.strSmall, image.strLarge, image.strMedium, image.strSmall);
+            string filename = string.Format(@"E:\_Ramdisk\{0}_largetosmall__{1}_{2}_{3}.xml", prefix, stru.infoLarge, stru.infoMedium, stru.infoSmall);
+            File.WriteAllText(filename, format);
+
+            var filenamedest = Path.ChangeExtension(filename, "bml");
+
+            var info = new ProcessStartInfo();
+            info.Arguments = string.Format("{0} {1}", filename, filenamedest);
+            info.FileName = @"C:\UICC.exe";
+            Process.Start(info).WaitForExit();
+
+            if (!File.Exists(filenamedest))
+                File.Delete(filename);
+        }
+
+        static void Main(string[] args)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                doWork(i, 0, 0, "size", GetSize(i));
+            }
+
+            for (int i = 0; i < 8; i++)
+            {
+                doWork(0, i, 0, "label", GetLabel(i));
+            }
+
+            for (int i = 0; i < 8; i++)
+            {
+                doWork(0, 0, i, "image", GetImage(i));
+            }
+
+        }
+    }
+}

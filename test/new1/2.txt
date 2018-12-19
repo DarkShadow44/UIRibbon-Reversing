@@ -28,13 +28,13 @@
 						<ControlNameDefinition Name="20001"/>
 					</ControlNameMap>
 					<GroupSizeDefinition Size="Small">
-						<ControlSizeDefinition ControlName="20001" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20001" ImageSize="{1}" IsLabelVisible="{3}" IsImageVisible="{5}" />
 					</GroupSizeDefinition>
 					<GroupSizeDefinition Size="Medium">
-						<ControlSizeDefinition ControlName="20001" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20001" ImageSize="{1}" IsLabelVisible="{3}" IsImageVisible="{5}" />
 					</GroupSizeDefinition>
 					<GroupSizeDefinition Size="Large">
-						<ControlSizeDefinition ControlName="20001" ImageSize="Large" IsLabelVisible="true" IsImageVisible="false" />
+						<ControlSizeDefinition ControlName="20001" ImageSize="{0}" IsLabelVisible="{2}" IsImageVisible="{4}" />
 					</GroupSizeDefinition>
 				</SizeDefinition>
 			</Ribbon.SizeDefinitions>

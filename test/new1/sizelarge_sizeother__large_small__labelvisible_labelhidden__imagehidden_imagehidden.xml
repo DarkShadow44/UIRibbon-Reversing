@@ -28,10 +28,10 @@
 						<ControlNameDefinition Name="20001"/>
 					</ControlNameMap>
 					<GroupSizeDefinition Size="Small">
-						<ControlSizeDefinition ControlName="20001" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20001" ImageSize="Small" IsLabelVisible="false" IsImageVisible="false" />
 					</GroupSizeDefinition>
 					<GroupSizeDefinition Size="Medium">
-						<ControlSizeDefinition ControlName="20001" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20001" ImageSize="Small" IsLabelVisible="false" IsImageVisible="false" />
 					</GroupSizeDefinition>
 					<GroupSizeDefinition Size="Large">
 						<ControlSizeDefinition ControlName="20001" ImageSize="Large" IsLabelVisible="true" IsImageVisible="false" />
