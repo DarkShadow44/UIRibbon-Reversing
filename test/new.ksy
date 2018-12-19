@@ -10,6 +10,9 @@ doc-ref: https://www.codeproject.com/Articles/62534/Article
 #find out how placement changes maybesize in command_blocks
 
 
+#add doc to everything known
+
+
 meta:
   id: ribbon
   file-extension: bml
@@ -92,6 +95,14 @@ enums:
     25: otherinfo
     21: combobox
     18: splitbutton
+
+  enum_sizedefinition_imagesize:
+    0: small
+    1: large
+
+  enum_sizedefinition_imagesize_override:
+    2: smallissmall
+    3: smallandmediumaresmall
 
 
 types:
@@ -518,19 +529,60 @@ types:
   
   type_control_block_id:
     seq:
-    - id: flags
-      type: u2
-    - id: id_u1
-      type: u2
-      if: (flags & 0x400) != 0
-    - id: id_u2
-      type: u2
-      if: (flags & 0x300) != 0
+    - id: flag
+      type: u1
+    - id: id
+      type:
+        switch-on: flag
+        cases:
+          3: u2
+          4: u1
   
-  type_control_block_4:
+  type_control_block_6:
     seq:
     - id: unk1
-      size: 7
+      type: u1
+    - id: unk2
+      type: u1
+    - id: unk3
+      type: u1
+    - id: unk4
+      type: u1
+
+  type_control_block_maybe_sizedefinition_override_imagesize:
+    seq:
+    - id: unk1
+      type: u1
+    - id: sizedefinition_imagesize_override # 3 means medium/small, 2 means small
+      type: u1
+      enum: enum_sizedefinition_imagesize_override
+    - id: unk3
+      type: u1
+    - id: unk4
+      type: u1
+
+  type_control_block_36:
+    seq:
+    - id: unk1
+      size: 4
+    - id: unk2
+      type: u1
+    - id: unk3
+      type: u1
+    - id: unk4
+      type: u1
+
+  type_control_block_37:
+    seq:
+    - id: unk1
+      size: 4
+    - id: sizedefinition_imagesize
+      type: u1
+      enum: enum_sizedefinition_imagesize
+    - id: unk3
+      type: u1
+    - id: unk4
+      type: u1
   
   type_control_block_generic:
     seq:
@@ -540,16 +592,21 @@ types:
       type:
         switch-on: block_type
         cases:
-          1: type_control_block_id
-          4: type_control_block_4
+          0: type_control_block_id
+          6: type_control_block_6
+          8: type_control_block_maybe_sizedefinition_override_imagesize
+          9: type_control_block_36
+     #     4: type_control_block_4
           24: type_control_block_subcomponents
+          36: type_control_block_36
+          37: type_control_block_37
   
   type_control_blocks:
     seq:
     - id: count_blocks
       type: u1
     - id: unk1
-      type: u1
+      type: u2
     - id: blocks
       type: type_control_block_generic
       repeat: expr
@@ -761,7 +818,7 @@ types:
         type: u2
       - id: str
         type: str
-        encoding: utf-16
+        #encoding: utf-16 - disabled, doesn't play nice with ksdump
         size: size_str
 
   type_command_container:
