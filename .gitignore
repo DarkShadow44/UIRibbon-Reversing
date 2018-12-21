@@ -1,0 +1,13 @@
+.directory
+
+*.exe
+*.dll
+*.xsd
+
+TODO
+*.zip
+
+bin/
+obj/
+
+*.layout
