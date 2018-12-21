@@ -17,7 +17,7 @@ typedef struct _stream
 int stream_read_bytes(stream *s, char* ret, int len)
 {
     CHECK (s->pos + len >= s->max, "End of stream");
-    memcpy(ret, s->data + s->pos, len);
+    memcpy(ret, s->data + s->start + s->pos, len);
     s->pos += len;
     return 0;
 }
