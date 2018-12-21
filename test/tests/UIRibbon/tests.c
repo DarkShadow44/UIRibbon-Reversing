@@ -1,5 +1,14 @@
 #include "shared.h"
 
+void _ok(int expr, const char *message, const char *file, int line)
+{
+    if (!expr)
+        printf(message);
+}
+
+#define ok(expr, message) \
+    _ok(expr, message, __FILE__, __LINE__)
+
 int stream_from_testdata(char *name, stream *s)
 {
     const test_data *test = get_test_data(name);
@@ -17,8 +26,7 @@ int main()
     stream s;
 
     CHECK(stream_from_testdata("size_largetosmall__small_small_small", &s), "Failed to get test data")
-
     CHECK(read_type_main(&s, &ribbon), "Failed to parse file");
 
-   return 0;
+    return 0;
 }

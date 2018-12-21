@@ -1,33 +1,43 @@
 #include "shared.h"
 
-
-
-int stream_read_bytes(stream *s, char* ret, int len)
+int read_type_string(stream *s, type_string *ret)
 {
-    CHECK (s->pos + len >= s->max, "End of stream");
-    memcpy(ret, s->data + s->start + s->pos, len);
-    s->pos += len;
+    CHECK(stream_skip_bytes(s, 1), "");
+    CHECK(stream_read_uint16(s, &ret->size_str), "");
+    ret->str = malloc(ret->size_str);
+    CHECK(stream_read_bytes(s, ret->str, ret->size_str), "");
     return 0;
 }
 
-
-int _stream_expect_bytes(stream *s, char *data, int len)
+int read_type_strings(stream *s, type_strings *ret)
 {
-    char *tmp = malloc(len);
-    CHECK(stream_read_bytes(s, tmp, len), "Failed to read bytes");
-    CHECK(memcmp(data, tmp, len), "Byte arrays don't match");
+    int i;
 
-    free(tmp);
+    CHECK(stream_skip_bytes(s, 3), "");
+    CHECK(stream_read_uint8(s, &ret->count_strings), "");
+    ret->strings = malloc(sizeof(type_string) * ret->count_strings);
+    for (i = 0; i < ret->count_strings; i++)
+    {
+         CHECK(read_type_string(s, &ret->strings[i]), "");
+    }
     return 0;
 }
-
-#define stream_expect_bytes(s, data) \
-    _stream_expect_bytes(s, data, sizeof(data))
 
 int read_type_main(stream *s, type_main *ret)
 {
     char unk1[] = {0, 18, 0, 0, 0, 0, 0, 1, 0};
-    CHECK(stream_expect_bytes(s, unk1), "Byte arrays don't match");
+    char magic[] = {0x53, 0x43, 0x42, 0x69, 0x6E}; /* SCBin */
+    uint16_t size_strings;
+    stream stream_strings;
+
+
+    CHECK(stream_expect_bytes(s, unk1), "");
+    CHECK(stream_expect_bytes(s, magic), "Signature wrong");
+    CHECK(stream_read_uint32(s, &ret->length_this_file), "");
+    CHECK(stream_skip_bytes(s, 1), "");
+    CHECK(stream_read_uint16(s, &size_strings), "");
+    CHECK(stream_make_substream(s, &stream_strings, size_strings), "");
+    CHECK(read_type_strings(&stream_strings, &ret->strings), "");
 
     return 0;
 }

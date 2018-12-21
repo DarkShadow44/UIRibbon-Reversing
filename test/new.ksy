@@ -128,8 +128,6 @@ types:
         type: type_string
         repeat: expr
         repeat-expr: count_strings
-      - id: rest
-        size-eos: true
     -webide-representation: '{strings}'
 
   type_resource_generic:
