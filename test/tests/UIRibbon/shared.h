@@ -3,8 +3,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#define CHECK(expr, err) \
+#define CHECK2(expr, err) \
    if (expr) { printf("%s:%d - %s\n", __FILE__, __LINE__, err); return 1; }
+
+#define CHECK(expr) \
+   CHECK2(expr, "")
 
 typedef struct _test_data
 {
@@ -55,10 +58,106 @@ typedef struct
     type_string *strings;
 } type_strings;
 
+typedef enum
+{
+    RIBBON_RESOURCE_LABELTITLE = 1,
+    RIBBON_RESOURCE_LABELDESCRIPTION = 2,
+    RIBBON_RESOURCE_SMALLHIGHCONTRASTIMAGE = 3,
+    RIBBON_RESOURCE_LARGEHIGHCONTRASTIMAGE = 4,
+    RIBBON_RESOURCE_SMALLIMAGE = 5,
+    RIBBON_RESOURCE_LARGEIMAGE = 6,
+    RIBBON_RESOURCE_KEYTIP = 7,
+    RIBBON_RESOURCE_TOOLTIPTITLE = 8,
+    RIBBON_RESOURCE_TOOLTIPDESCRIPTION = 9,
+} enum_resource_type;
+
+typedef struct
+{
+    enum_resource_type type;
+    uint32_t resource_id;
+    uint16_t mindpi;
+} type_command_resource_single;
+
+typedef struct
+{
+    uint32_t command_id;
+    uint8_t count_resources;
+    type_command_resource_single *resources;
+} type_command_resources;
+
+typedef enum
+{
+    RIBBON_BLOCK_TABS = 0x18,
+    RIBBON_BLOCK_QUICKACCESSTOOLBAR = 0x16,
+} enum_block_type;
+
+typedef enum
+{
+    RIBBON_TAB_APPLICATIONMENU = 0,
+    RIBBON_TAB_NORMAL = 2,
+    RIBBON_TAB_CONTEXT = 3,
+    RIBBON_TAB_HELP = 5,
+} enum_tab_type;
+
+typedef struct
+{
+
+} type_tab;
+
+typedef struct
+{
+    uint16_t count_tabs;
+    type_tab *tabs;
+} type_ribbon_tabs_normal;
+
+typedef struct
+{
+
+} type_ribbon_tabs_context;
+
+typedef struct
+{
+
+} type_ribbon_tabs_applicationmenu;
+
+typedef struct
+{
+    enum_tab_type tab_type;
+    union
+    {
+        type_ribbon_tabs_normal normal;
+        type_ribbon_tabs_context context;
+        type_ribbon_tabs_applicationmenu applicationmenu;
+    };
+} type_block_tabs;
+
+typedef struct
+{
+
+} type_block_quickaccess;
+
+typedef struct
+{
+    enum_block_type block_type;
+    union
+    {
+        type_block_tabs tabs;
+        type_block_quickaccess quickaccess;
+    };
+} type_block_generic;
+
+typedef struct
+{
+    type_block_generic block1;
+} type_ribbon;
+
 typedef struct
 {
     uint32_t length_this_file;
     type_strings strings;
+    uint16_t count_command_resource;
+    type_command_resources *command_resources;
+    type_ribbon ribbon;
 } type_main;
 
 int read_type_main(stream *s, type_main *ret);

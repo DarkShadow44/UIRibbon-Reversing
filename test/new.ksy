@@ -250,7 +250,7 @@ types:
           enum_tab_type::help:   type_ribbon_tabs_normal
           enum_tab_type::normal: type_ribbon_tabs_normal
           enum_tab_type::context: type_ribbon_tabs_context
-          enum_tab_type::applicationmenu: type_block_applicationmenu
+          enum_tab_type::applicationmenu: type_ribbon_tabs_applicationmenu
 
   type_block_quickaccess:
     seq:
@@ -277,7 +277,7 @@ types:
           enum_block_type::ribbon_tabs: type_block_tabs
           enum_block_type::ribbon_quickaccesstoolbar: type_block_quickaccess
 
-  type_block_applicationmenu:
+  type_ribbon_tabs_applicationmenu:
     seq:
     - id: unk2
       type: u1
