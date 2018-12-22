@@ -276,7 +276,7 @@ int read_type_sizeinfo_maybe(stream *s, type_sizeinfo_maybe *ret)
 int read_type_sizedefinitions_command(stream *s, type_sizedefinitions_command *ret)
 {
 	uint8_t flags_command;
-		uint8_t unk2;
+	uint8_t unk2;
 
 	CHECK(stream_read_uint8_t(s, &ret->unk1));
 	CHECK(stream_read_uint8_t(s, &flags_command));
@@ -451,7 +451,7 @@ int read_type_control(stream *s, type_control *ret)
 int read_type_group_elements_info(stream *s, type_group_elements_info *ret)
 {
 	const char check2b[] = {1, 1};
-		const char check2c[] = {1, 4, 66, 0, 64, 68, 5, 0};
+	const char check2c[] = {1, 4, 66, 0, 64, 68, 5, 0};
 	int i;
 
 	CHECK(stream_read_uint8_t(s, &ret->unk10));

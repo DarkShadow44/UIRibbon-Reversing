@@ -42,8 +42,7 @@ namespace KaitaiCCompiler
 
             public void AddVar(string format, params object[] par)
             {
-                var tabs = new string('\t', indentCode);
-                linesVar.Add(tabs + string.Format(format, par));
+                linesVar.Add("\t" + string.Format(format, par));
             }
 
             public void AddStruct(string format, params object[] par)
