@@ -104,6 +104,15 @@ enums:
     2: smallissmall
     3: smallandmediumaresmall
 
+  enum_control_block_type:
+    0: id
+    6: unk6
+    8: maybe_sizedefinition_override_imagesize
+    9: unk9
+    4: unk4
+    24: subcomponents
+    36: unk36
+    37: unk37
 
 types:
 
@@ -586,18 +595,19 @@ types:
     seq:
     - id: block_type
       type: u1
+      enum: enum_control_block_type
     - id: block
       type:
         switch-on: block_type
         cases:
-          0: type_control_block_id
-          6: type_control_block_6
-          8: type_control_block_maybe_sizedefinition_override_imagesize
-          9: type_control_block_36
+          enum_control_block_type::id: type_control_block_id
+          enum_control_block_type::unk6: type_control_block_6
+          enum_control_block_type::maybe_sizedefinition_override_imagesize: type_control_block_maybe_sizedefinition_override_imagesize
+          enum_control_block_type::unk9: type_control_block_36
      #     4: type_control_block_4
-          24: type_control_block_subcomponents
-          36: type_control_block_36
-          37: type_control_block_37
+          enum_control_block_type::subcomponents: type_control_block_subcomponents
+          enum_control_block_type::unk36: type_control_block_36
+          enum_control_block_type::unk37: type_control_block_37
   
   type_control_blocks:
     seq:

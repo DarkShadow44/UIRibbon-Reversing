@@ -348,28 +348,31 @@ int read_type_control_block_37(stream *s, type_control_block_37 *ret)
 
 int read_type_control_block_generic(stream *s, type_control_block_generic *ret)
 {
-	CHECK(stream_read_uint8_t(s, &ret->block_type));
+	uint8_t block_type;
+
+	CHECK(stream_read_uint8_t(s, &block_type));
+	ret->block_type = block_type;
 	switch(ret->block_type)
 	{
-	case 0:
+	case UIRIBBON_CONTROL_BLOCK_TYPE_ID:
 		CHECK(read_type_control_block_id(s, &ret->block_id));
 		break;
-	case 6:
+	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK6:
 		CHECK(read_type_control_block_6(s, &ret->block_6));
 		break;
-	case 8:
+	case UIRIBBON_CONTROL_BLOCK_TYPE_MAYBE_SIZEDEFINITION_OVERRIDE_IMAGESIZE:
 		CHECK(read_type_control_block_maybe_sizedefinition_override_imagesize(s, &ret->block_imagesize));
 		break;
-	case 9:
+	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK9:
 		CHECK(read_type_control_block_36(s, &ret->block_36));
 		break;
-	case 24:
+	case UIRIBBON_CONTROL_BLOCK_TYPE_SUBCOMPONENTS:
 		CHECK(read_type_control_block_subcomponents(s, &ret->block_subcomponents));
 		break;
-	case 36:
+	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK36:
 		CHECK(read_type_control_block_36(s, &ret->block_36));
 		break;
-	case 37:
+	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK37:
 		CHECK(read_type_control_block_37(s, &ret->block_37));
 		break;
 	}
