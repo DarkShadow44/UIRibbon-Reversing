@@ -448,7 +448,6 @@ namespace KaitaiCCompiler
                         info.seqInfo = buildSeq((YamlSequenceNode)map.Value);
                     }
                 }
-
             }
             return ret;
         }
@@ -478,7 +477,6 @@ namespace KaitaiCCompiler
                     var val = ((YamlScalarNode)map.Value).Value;
 
                     string name = makeEnumName(info.Name, val);
-
                     info.Add("{0} = {1},", name, parseInt(key));
                 }
             }
@@ -560,7 +558,7 @@ namespace KaitaiCCompiler
 
         static void Main(string[] args)
         {
-            var data = File.ReadAllText("../../new.ksy");
+            var data = File.ReadAllText(@"E:\_Ramdisk\new.ksy");
             var reader = new StringReader(data);
 
             string main_type = "type_uiribbon";
@@ -603,7 +601,6 @@ namespace KaitaiCCompiler
             header.AppendLine();
             header.AppendLine("#include \"parser_generic.h\"");
             header.AppendLine();
-
             foreach (var currentEnum in enums)
             {
                 header.AppendFormat("typedef enum\n");
@@ -614,7 +611,6 @@ namespace KaitaiCCompiler
                 }
                 header.AppendFormat("}} {0};\n\n", currentEnum.Name);
             }
-
             foreach (var type in types)
             {
                 writeStruct(header, type.Name, type.seqInfo);
@@ -627,7 +623,6 @@ namespace KaitaiCCompiler
             source.AppendLine();
             source.AppendLine("#include \"parser_uiribbon.h\"");
             source.AppendLine();
-
             foreach (var type in types)
             {
                 writeMethod(source, type.Name, type.seqInfo);

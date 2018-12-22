@@ -1,5 +1,5 @@
 doc-ref: https://docs.microsoft.com/en-us/windows/desktop/windowsribbon/windowsribbon-element-ribbon
-doc-ref: https://www.codeproject.com/Articles/62534/Article
+#doc-ref: https://www.codeproject.com/Articles/62534/Article
 
 #consolidate tab and menu
 #maybe reuse block structure blocks
@@ -799,8 +799,6 @@ types:
       type: quick_ribbon_button
       repeat: expr
       repeat-expr: unk5_len
-    - id: rest
-      size-eos: true
 
   type_command:
     seq:
