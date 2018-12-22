@@ -501,7 +501,8 @@ namespace KaitaiCCompiler
             }
             if (seq.hasI)
                 sb.AppendLine("\tint i;");
-            sb.AppendLine();
+            if( seq.linesVar.Count > 0 || seq.hasI)
+                sb.AppendLine();
             foreach (var line in seq.linesCode)
             {
                 sb.AppendLine(line);

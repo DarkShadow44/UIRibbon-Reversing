@@ -98,7 +98,6 @@ int read_type_resource(stream *s, type_resource *ret)
 
 int read_type_tab(stream *s, type_tab *ret)
 {
-
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint16_t(s, &ret->unk2));
 	CHECK(stream_read_uint8_t(s, &ret->unk3a));
@@ -179,7 +178,6 @@ int read_type_ribbon_tabs_context(stream *s, type_ribbon_tabs_context *ret)
 
 int read_type_ribbon_tabs_applicationmenu(stream *s, type_ribbon_tabs_applicationmenu *ret)
 {
-
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
 	CHECK(stream_read_uint16_t(s, &ret->unk3));
 	CHECK(stream_read_uint16_t(s, &ret->unk4));
@@ -237,7 +235,6 @@ int read_type_block_tabs(stream *s, type_block_tabs *ret)
 
 int read_block_unk1(stream *s, block_unk1 *ret)
 {
-
 	CHECK(stream_read_bytes(s, &ret->rest, 10));
 	return 0;
 }
@@ -317,7 +314,6 @@ int read_type_sizedefinition(stream *s, type_sizedefinition *ret)
 
 int read_type_unk1_extended(stream *s, type_unk1_extended *ret)
 {
-
 	CHECK(stream_read_uint16_t(s, &ret->unk_id1));
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint16_t(s, &ret->unk2));
@@ -332,14 +328,12 @@ int read_type_unk1_extended(stream *s, type_unk1_extended *ret)
 
 int read_type_control_block_subcomponents(stream *s, type_control_block_subcomponents *ret)
 {
-
 	CHECK(stream_read_uint16_t(s, &ret->count_elements));
 	return 0;
 }
 
 int read_type_control_block_id(stream *s, type_control_block_id *ret)
 {
-
 	CHECK(stream_read_uint8_t(s, &ret->flag));
 	switch(ret->flag)
 	{
@@ -355,7 +349,6 @@ int read_type_control_block_id(stream *s, type_control_block_id *ret)
 
 int read_type_control_block_6(stream *s, type_control_block_6 *ret)
 {
-
 	CHECK(stream_read_uint8_t(s, &ret->unk1));
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
 	CHECK(stream_read_uint8_t(s, &ret->unk3));
@@ -377,7 +370,6 @@ int read_type_control_block_maybe_sizedefinition_override_imagesize(stream *s, t
 
 int read_type_control_block_36(stream *s, type_control_block_36 *ret)
 {
-
 	CHECK(stream_read_bytes(s, &ret->unk1, 4));
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
 	CHECK(stream_read_uint8_t(s, &ret->unk3));
@@ -399,7 +391,6 @@ int read_type_control_block_37(stream *s, type_control_block_37 *ret)
 
 int read_type_control_block_generic(stream *s, type_control_block_generic *ret)
 {
-
 	CHECK(stream_read_uint8_t(s, &ret->block_type));
 	switch(ret->block_type)
 	{
@@ -541,7 +532,6 @@ int read_type_tab_extended(stream *s, type_tab_extended *ret)
 
 int read_type_control_otherinfo(stream *s, type_control_otherinfo *ret)
 {
-
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint16_t(s, &ret->unk2));
 	CHECK(stream_read_uint16_t(s, &ret->unk3));
@@ -568,7 +558,6 @@ int read_type_menugroup_extended(stream *s, type_menugroup_extended *ret)
 
 int read_type_recent2(stream *s, type_recent2 *ret)
 {
-
 	CHECK(stream_read_uint32_t(s, &ret->unk1));
 	CHECK(stream_read_uint32_t(s, &ret->unk2));
 	CHECK(stream_read_uint32_t(s, &ret->unk3));
@@ -600,7 +589,6 @@ int read_type_recent1(stream *s, type_recent1 *ret)
 
 int read_type_command_ext(stream *s, type_command_ext *ret)
 {
-
 	CHECK(stream_read_uint16_t(s, &ret->own_index_maybe));
 	CHECK(stream_read_uint16_t(s, &ret->unk0));
 	CHECK(stream_read_uint16_t(s, &ret->unk1a));
