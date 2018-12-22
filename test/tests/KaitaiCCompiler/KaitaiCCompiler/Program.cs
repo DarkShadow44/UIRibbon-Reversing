@@ -110,12 +110,62 @@ namespace KaitaiCCompiler
             return null;
         }
 
+        static bool isSpecialChar(char c)
+        {
+            switch (c)
+            {
+                case ' ':
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                case '&':
+                case '|':
+                case '(':
+                case ')':
+                    return true;
+            }
+            return false;
+        }
+
+        static string[] splitExpression(string expr)
+        {
+            List<int> posSplit = new List<int>();
+            List<string> ret = new List<string>();
+            for (int i = 1; i < expr.Length; i++)
+            {
+                char current = expr[i];
+                char last = expr[i - 1];
+
+                if (isSpecialChar(current) && !isSpecialChar(last) || !isSpecialChar(current) && isSpecialChar(last))
+                {
+                    posSplit.Add(i);
+                }
+            }
+            posSplit.Add(expr.Length);
+
+            for (int i = 0; i < posSplit.Count; i++)
+            {
+                int start;
+                if (i == 0)
+                    start = 0;
+                else
+                    start = posSplit[i - 1];
+                int end = posSplit[i];
+
+                string str = expr.Substring(start, end - start).Trim();
+                if (str.Length > 0)
+                    ret.Add(str);
+            }
+
+            return ret.ToArray();
+        }
+
         static string prefixExpression(string expr)
         {
             expr = expr.Replace(" or ", " || ");
             expr = expr.Replace(" and ", " && ");
-            string[] parts = Regex.Split(expr, @"(?<=[\+\-\*\/\|\&\(\=])");
-
+            string[] parts = splitExpression(expr);
 
             for (int i = 0; i < parts.Length; i++)
             {
@@ -125,16 +175,17 @@ namespace KaitaiCCompiler
                     parts[i] = makeEnumName(split[0], split[1]);
                 }
 
-                parts[i] = parts[i].Trim();
                 if (char.IsLetter(parts[i][0]) && char.IsLower(parts[i][0]))
                 {
                     parts[i] = "ret->" + parts[i];
                 }
 
-    
+
             }
-            expr = string.Join("", parts);
-            expr = expr.Replace("_.", "CURRENT->");
+            expr = string.Join(" ", parts);
+            expr = expr.Replace("_.", "##current##->");
+            expr = expr.Replace("( ", "(");
+            expr = expr.Replace(" )", ")");
             return expr;
         }
 
@@ -304,9 +355,9 @@ namespace KaitaiCCompiler
                         ret.AddCode("ret->{0} = realloc(ret->{0}, sizeof({1}) * i);", id, type);
                         ret.AddCode("CHECK(read_{0}(s, &ret->{1}[i]));", type, id);
                         ret.IndentCodeMinus();
-                        var repat_cond =  repeat_until.Replace("CURRENT->", "ret->{0}[i].");
-                        repat_cond = string.Format(repat_cond, id);
-                        ret.AddCode("}} while(!({0}));", repat_cond);
+                        var repeat_cond = repeat_until.Replace("##current##->", "ret->{0}[i].");
+                        repeat_cond = string.Format(repeat_cond, id);
+                        ret.AddCode("}} while(!({0}));", repeat_cond);
                     }
                     else if (size != null)
                     {
@@ -500,7 +551,7 @@ namespace KaitaiCCompiler
             }
             if (seq.hasI)
                 sb.AppendLine("\tint i;");
-            if( seq.linesVar.Count > 0 || seq.hasI)
+            if (seq.linesVar.Count > 0 || seq.hasI)
                 sb.AppendLine();
             foreach (var line in seq.linesCode)
             {

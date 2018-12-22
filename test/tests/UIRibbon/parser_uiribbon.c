@@ -75,7 +75,7 @@ int read_type_resource_generic(stream *s, type_resource_generic *ret)
 	CHECK(stream_read_uint8_t(s, &resource_type));
 	ret->resource_type = resource_type;
 	CHECK(stream_read_uint32_t(s, &ret->resource_id));
-	if (ret->resource_type ==UIRIBBON_RESOURCE_TYPE_LARGEIMAGE ||ret->resource_type ==UIRIBBON_RESOURCE_TYPE_SMALLIMAGE ||ret->resource_type ==UIRIBBON_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE ||ret->resource_type ==UIRIBBON_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
+	if (ret->resource_type == UIRIBBON_RESOURCE_TYPE_LARGEIMAGE || ret->resource_type == UIRIBBON_RESOURCE_TYPE_SMALLIMAGE || ret->resource_type == UIRIBBON_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE || ret->resource_type == UIRIBBON_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
 	{
 		CHECK(stream_read_uint16_t(s, &ret->mindpi));
 	}
@@ -105,11 +105,11 @@ int read_type_tab(stream *s, type_tab *ret)
 	CHECK(stream_read_uint16_t(s, &ret->unk4));
 	CHECK(stream_read_uint16_t(s, &ret->unk5));
 	CHECK(stream_read_uint16_t(s, &ret->flags));
-	if ((ret->flags &0x400) !=0)
+	if ((ret->flags & 0x400) != 0)
 	{
 		CHECK(stream_read_uint8_t(s, &ret->id_u1));
 	}
-	if ((ret->flags &0x300) !=0)
+	if ((ret->flags & 0x300) != 0)
 	{
 		CHECK(stream_read_uint16_t(s, &ret->id_u2));
 	}
@@ -131,11 +131,11 @@ int read_type_tab_context(stream *s, type_tab_context *ret)
 	CHECK(stream_read_uint16_t(s, &ret->unk4));
 	CHECK(stream_read_uint16_t(s, &ret->unk5));
 	CHECK(stream_read_uint16_t(s, &ret->flags));
-	if ((ret->flags &0x400) !=0)
+	if ((ret->flags & 0x400) != 0)
 	{
 		CHECK(stream_read_uint8_t(s, &ret->id_u1));
 	}
-	if ((ret->flags &0x300) !=0)
+	if ((ret->flags & 0x300) != 0)
 	{
 		CHECK(stream_read_uint16_t(s, &ret->id_u2));
 	}
@@ -186,11 +186,11 @@ int read_type_ribbon_tabs_applicationmenu(stream *s, type_ribbon_tabs_applicatio
 	CHECK(stream_read_uint8_t(s, &ret->unk7));
 	CHECK(stream_read_uint16_t(s, &ret->unk8));
 	CHECK(stream_read_uint16_t(s, &ret->flags));
-	if ((ret->flags &0x400) !=0)
+	if ((ret->flags & 0x400) != 0)
 	{
 		CHECK(stream_read_uint8_t(s, &ret->id_u1));
 	}
-	if ((ret->flags &0x300) !=0)
+	if ((ret->flags & 0x300) != 0)
 	{
 		CHECK(stream_read_uint16_t(s, &ret->id_u2));
 	}
@@ -251,7 +251,7 @@ int read_type_sizeinfo_maybe(stream *s, type_sizeinfo_maybe *ret)
 	CHECK(stream_read_uint8_t(s, &ret->unk2b));
 	CHECK(stream_read_uint8_t(s, &ret->unk2c));
 	CHECK(stream_read_uint8_t(s, &ret->unk1));
-	if (ret->unk1 ==4)
+	if (ret->unk1 == 4)
 	{
 		CHECK(stream_read_bytes(s, &ret->unk1e1, 3));
 	}
@@ -261,11 +261,11 @@ int read_type_sizeinfo_maybe(stream *s, type_sizeinfo_maybe *ret)
 	CHECK(stream_read_uint8_t(s, &ret->unk5));
 	CHECK(stream_read_uint8_t(s, &ret->unk6));
 	CHECK(stream_read_uint16_t(s, &ret->flags));
-	if ((ret->flags &0x400) !=0)
+	if ((ret->flags & 0x400) != 0)
 	{
 		CHECK(stream_read_uint8_t(s, &ret->id_u1));
 	}
-	if ((ret->flags &0x300) !=0)
+	if ((ret->flags & 0x300) != 0)
 	{
 		CHECK(stream_read_uint16_t(s, &ret->id_u2));
 	}
@@ -281,12 +281,12 @@ int read_type_sizedefinitions_command(stream *s, type_sizedefinitions_command *r
 	CHECK(stream_read_uint8_t(s, &ret->unk1));
 	CHECK(stream_read_uint8_t(s, &flags_command));
 	ret->flags_command = flags_command;
-	if (ret->flags_command ==UIRIBBON_SIZEDEFINITIONS_COMMAND_NEWLINE)
+	if (ret->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_NEWLINE)
 	{
 		CHECK(stream_read_uint8_t(s, &unk2));
 		ret->unk2 = unk2;
 	}
-	if (ret->flags_command ==UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND)
+	if (ret->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND)
 	{
 		CHECK(stream_read_uint16_t(s, &ret->command_id));
 	}
@@ -306,7 +306,7 @@ int read_type_sizedefinition(stream *s, type_sizedefinition *ret)
 		i++;
 		ret->commands = realloc(ret->commands, sizeof(type_sizedefinitions_command) * i);
 		CHECK(read_type_sizedefinitions_command(s, &ret->commands[i]));
-	} while(!(ret->commands[i].unk1 ==24 ||ret->commands[i].unk1 ==22));
+	} while(!(ret->commands[i].unk1 == 24 || ret->commands[i].unk1 == 22));
 	return 0;
 }
 
@@ -441,7 +441,7 @@ int read_type_control(stream *s, type_control *ret)
 	ret->block_type = block_type;
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
 	CHECK(stream_read_uint16_t(s, &ret->size_block));
-	CHECK(stream_make_substream(s, &substream5, ret->size_block -7));
+	CHECK(stream_make_substream(s, &substream5, ret->size_block - 7));
 	CHECK(read_type_control_blocks(&substream5, &ret->block));
 	return 0;
 }
@@ -456,7 +456,7 @@ int read_type_group_elements_info(stream *s, type_group_elements_info *ret)
 	CHECK(stream_expect_bytes(s, check2b));
 	CHECK(stream_read_uint16_t(s, &ret->unk1b));
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
-	if (ret->unk10 ==3)
+	if (ret->unk10 == 3)
 	{
 		CHECK(stream_expect_bytes(s, check2c));
 	}
@@ -468,15 +468,15 @@ int read_type_group_elements_info(stream *s, type_group_elements_info *ret)
 	{
 		CHECK(read_type_control(s, &ret->subcontents[i]));
 	}
-	if (ret->unk10 ==5)
+	if (ret->unk10 == 5)
 	{
 		CHECK(read_type_sizedefinition(s, &ret->sizedefinition_large));
 	}
-	if (ret->unk10 ==5)
+	if (ret->unk10 == 5)
 	{
 		CHECK(read_type_sizedefinition(s, &ret->sizedefinition_medium));
 	}
-	if (ret->unk10 ==5)
+	if (ret->unk10 == 5)
 	{
 		CHECK(read_type_sizedefinition(s, &ret->sizedefinition_small));
 	}
@@ -493,11 +493,11 @@ int read_type_group_info(stream *s, type_group_info *ret)
 	CHECK(stream_read_uint16_t(s, &ret->unk3));
 	CHECK(stream_read_uint8_t(s, &ret->unk4));
 	CHECK(stream_read_uint16_t(s, &ret->flags));
-	if ((ret->flags &0x400) !=0)
+	if ((ret->flags & 0x400) != 0)
 	{
 		CHECK(stream_read_uint8_t(s, &ret->id_u1));
 	}
-	if ((ret->flags &0x300) !=0)
+	if ((ret->flags & 0x300) != 0)
 	{
 		CHECK(stream_read_uint16_t(s, &ret->id_u2));
 	}
@@ -507,7 +507,7 @@ int read_type_group_info(stream *s, type_group_info *ret)
 	CHECK(stream_read_uint16_t(s, &ret->unk10));
 	CHECK(stream_read_uint16_t(s, &ret->unk11));
 	CHECK(stream_read_uint16_t(s, &ret->size_group_elements_info));
-	CHECK(stream_make_substream(s, &substream14, ret->size_group_elements_info -4));
+	CHECK(stream_make_substream(s, &substream14, ret->size_group_elements_info - 4));
 	CHECK(read_type_group_elements_info(&substream14, &ret->group_elements_info));
 	return 0;
 }
@@ -611,11 +611,11 @@ int read_quick_ribbon_button(stream *s, quick_ribbon_button *ret)
 	CHECK(stream_expect_bytes(s, unk4));
 	CHECK(stream_read_uint16_t(s, &ret->unk5));
 	CHECK(stream_read_uint16_t(s, &ret->flags));
-	if ((ret->flags &0x400) !=0)
+	if ((ret->flags & 0x400) != 0)
 	{
 		CHECK(stream_read_uint8_t(s, &ret->id_u1));
 	}
-	if ((ret->flags &0x300) !=0)
+	if ((ret->flags & 0x300) != 0)
 	{
 		CHECK(stream_read_uint16_t(s, &ret->id_u2));
 	}
@@ -633,11 +633,11 @@ int read_quick_ribbon(stream *s, quick_ribbon *ret)
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
 	CHECK(stream_read_uint16_t(s, &ret->flags));
-	if ((ret->flags &0x400) !=0)
+	if ((ret->flags & 0x400) != 0)
 	{
 		CHECK(stream_read_uint8_t(s, &ret->id_u1));
 	}
-	if ((ret->flags &0x300) !=0)
+	if ((ret->flags & 0x300) != 0)
 	{
 		CHECK(stream_read_uint16_t(s, &ret->id_u2));
 	}
@@ -659,7 +659,7 @@ int read_type_block_quickaccess(stream *s, type_block_quickaccess *ret)
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint16_t(s, &ret->unk2));
 	CHECK(stream_read_uint16_t(s, &ret->len4));
-	CHECK(stream_make_substream(s, &substream4, ret->len4 -7));
+	CHECK(stream_make_substream(s, &substream4, ret->len4 - 7));
 	CHECK(read_quick_ribbon(&substream4, &ret->quick_ribbon_info));
 	return 0;
 }
@@ -759,7 +759,7 @@ int read_type_uiribbon(stream *s, type_uiribbon *ret)
 	CHECK(stream_read_uint32_t(s, &ret->length_this_file));
 	CHECK(stream_expect_bytes(s, unknown2));
 	CHECK(stream_read_uint16_t(s, &ret->size_strings));
-	CHECK(stream_make_substream(s, &substream6, ret->size_strings -2));
+	CHECK(stream_make_substream(s, &substream6, ret->size_strings - 2));
 	CHECK(read_type_strings(&substream6, &ret->strings));
 	CHECK(stream_read_uint16_t(s, &ret->count_command_resources));
 	CHECK(stream_expect_bytes(s, unknown3));
@@ -770,11 +770,11 @@ int read_type_uiribbon(stream *s, type_uiribbon *ret)
 	}
 	CHECK(stream_expect_bytes(s, unk44));
 	CHECK(stream_read_uint32_t(s, &ret->size_command_container));
-	CHECK(stream_make_substream(s, &substream12, ret->size_command_container -4));
+	CHECK(stream_make_substream(s, &substream12, ret->size_command_container - 4));
 	CHECK(read_type_command_container(&substream12, &ret->command_container));
 	CHECK(stream_read_uint16_t(s, &ret->len_unk6));
 	CHECK(stream_read_uint16_t(s, &ret->unk5));
-	CHECK(stream_make_substream(s, &substream15, ret->unk5 -ret->count_command_resources *10 -200));
+	CHECK(stream_make_substream(s, &substream15, ret->unk5 - ret->count_command_resources * 10 - 200));
 	CHECK(read_application_views(&substream15, &ret->unk6));
 	return 0;
 }
