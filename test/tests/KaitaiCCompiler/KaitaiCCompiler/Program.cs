@@ -273,8 +273,8 @@ namespace KaitaiCCompiler
                 if (contents != null)
                 {
                     var bytes = string.Join(",", contents.ToArray());
-                    ret.AddVar("const char check{0}[] = {{{1}}};", number, bytes);
-                    ret.AddCode("CHECK(stream_expect_bytes(s, check{0}));", number);
+                    ret.AddVar("const char {0}[] = {{{1}}};", id, bytes);
+                    ret.AddCode("CHECK(stream_expect_bytes(s, {0}));", id);
                 }
                 else
                 {

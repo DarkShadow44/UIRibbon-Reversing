@@ -45,9 +45,9 @@ int read_type_command_container(stream *s, type_command_container *ret);
 
 int read_type_string(stream *s, type_string *ret)
 {
-	const char check1[] = {1};
+	const char unk1[] = {1};
 
-	CHECK(stream_expect_bytes(s, check1));
+	CHECK(stream_expect_bytes(s, unk1));
 	CHECK(stream_read_uint16_t(s, &ret->size_str));
 	CHECK(stream_read_bytes(s, &ret->str, ret->size_str));
 	return 0;
@@ -55,10 +55,10 @@ int read_type_string(stream *s, type_string *ret)
 
 int read_type_strings(stream *s, type_strings *ret)
 {
-	const char check1[] = {0,0,1};
+	const char unk1[] = {0,0,1};
 	int i;
 
-	CHECK(stream_expect_bytes(s, check1));
+	CHECK(stream_expect_bytes(s, unk1));
 	CHECK(stream_read_uint8_t(s, &ret->count_strings));
 	ret->strings = malloc(sizeof(type_string) * ret->count_strings);
 	for (i = 0; i < ret->count_strings; i++)
@@ -244,10 +244,10 @@ int read_block_unk1(stream *s, block_unk1 *ret)
 
 int read_type_sizeinfo_maybe(stream *s, type_sizeinfo_maybe *ret)
 {
-	const char check2[] = {1,4,37,0,128,65,5};
+	const char check1[] = {1,4,37,0,128,65,5};
 
 	CHECK(stream_read_uint8_t(s, &ret->unk0));
-	CHECK(stream_expect_bytes(s, check2));
+	CHECK(stream_expect_bytes(s, check1));
 	CHECK(stream_read_uint16_t(s, &ret->unk0c));
 	CHECK(stream_read_uint16_t(s, &ret->unk0b));
 	CHECK(stream_read_uint8_t(s, &ret->unk2a));
@@ -459,17 +459,17 @@ int read_type_control(stream *s, type_control *ret)
 
 int read_type_group_elements_info(stream *s, type_group_elements_info *ret)
 {
-	const char check2[] = {1,1};
-		const char check5[] = {1,4,66,0,64,68,5,0};
+	const char check2b[] = {1,1};
+		const char check2c[] = {1,4,66,0,64,68,5,0};
 	int i;
 
 	CHECK(stream_read_uint8_t(s, &ret->unk10));
-	CHECK(stream_expect_bytes(s, check2));
+	CHECK(stream_expect_bytes(s, check2b));
 	CHECK(stream_read_uint16_t(s, &ret->unk1b));
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
 	if (ret->unk10 ==3)
 	{
-		CHECK(stream_expect_bytes(s, check5));
+		CHECK(stream_expect_bytes(s, check2c));
 	}
 	CHECK(stream_read_uint16_t(s, &ret->unk1c));
 	CHECK(stream_read_uint8_t(s, &ret->unk1d));
@@ -611,18 +611,18 @@ int read_type_command_ext(stream *s, type_command_ext *ret)
 
 int read_quick_ribbon_button(stream *s, quick_ribbon_button *ret)
 {
-	const char check2[] = {15,0};
-	const char check3[] = {16,22};
-	const char check4[] = {0,2};
-	const char check9[] = {1,4};
-	const char check10[] = {10,0};
-	const char check11[] = {192,64};
-	const char check12[] = {5,1};
+	const char unk2[] = {15,0};
+	const char unk3[] = {16,22};
+	const char unk4[] = {0,2};
+	const char unk6[] = {1,4};
+	const char unk7[] = {10,0};
+	const char unk8[] = {192,64};
+	const char unk9[] = {5,1};
 
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_expect_bytes(s, check2));
-	CHECK(stream_expect_bytes(s, check3));
-	CHECK(stream_expect_bytes(s, check4));
+	CHECK(stream_expect_bytes(s, unk2));
+	CHECK(stream_expect_bytes(s, unk3));
+	CHECK(stream_expect_bytes(s, unk4));
 	CHECK(stream_read_uint16_t(s, &ret->unk5));
 	CHECK(stream_read_uint16_t(s, &ret->flags));
 	if ((ret->flags &0x400) !=0)
@@ -633,10 +633,10 @@ int read_quick_ribbon_button(stream *s, quick_ribbon_button *ret)
 	{
 		CHECK(stream_read_uint16_t(s, &ret->id_u2));
 	}
-	CHECK(stream_expect_bytes(s, check9));
-	CHECK(stream_expect_bytes(s, check10));
-	CHECK(stream_expect_bytes(s, check11));
-	CHECK(stream_expect_bytes(s, check12));
+	CHECK(stream_expect_bytes(s, unk6));
+	CHECK(stream_expect_bytes(s, unk7));
+	CHECK(stream_expect_bytes(s, unk8));
+	CHECK(stream_expect_bytes(s, unk9));
 	return 0;
 }
 
@@ -698,11 +698,11 @@ int read_type_block_generic(stream *s, type_block_generic *ret)
 
 int read_type_ribbon(stream *s, type_ribbon *ret)
 {
-	const char check2[] = {1,1,11,9,0};
+	const char unk1[] = {1,1,11,9,0};
 	int i;
 
 	CHECK(stream_read_uint8_t(s, &ret->unk0));
-	CHECK(stream_expect_bytes(s, check2));
+	CHECK(stream_expect_bytes(s, unk1));
 	ret->block1 = malloc(sizeof(type_block_generic) * ret->unk0);
 	for (i = 0; i < ret->unk0; i++)
 	{
@@ -713,11 +713,11 @@ int read_type_ribbon(stream *s, type_ribbon *ret)
 
 int read_application_views(stream *s, application_views *ret)
 {
-	const char check1[] = {0,0,22,0,36,0,16};
+	const char unk20[] = {0,0,22,0,36,0,16};
 	stream substream3;
 	int i;
 
-	CHECK(stream_expect_bytes(s, check1));
+	CHECK(stream_expect_bytes(s, unk20));
 	CHECK(stream_read_uint16_t(s, &ret->ribbon_len));
 	CHECK(stream_make_substream(s, &substream3, ret->ribbon_len));
 	CHECK(read_type_ribbon(&substream3, &ret->ribbon));
@@ -731,13 +731,13 @@ int read_application_views(stream *s, application_views *ret)
 
 int read_type_command(stream *s, type_command *ret)
 {
-	const char check2[] = {0,0,0};
-	const char check4[] = {0,16};
+	const char unk1[] = {0,0,0};
+	const char unk4[] = {0,16};
 
 	CHECK(stream_read_uint16_t(s, &ret->command_id));
-	CHECK(stream_expect_bytes(s, check2));
+	CHECK(stream_expect_bytes(s, unk1));
 	CHECK(stream_read_uint8_t(s, &ret->unk3b));
-	CHECK(stream_expect_bytes(s, check4));
+	CHECK(stream_expect_bytes(s, unk4));
 	CHECK(stream_read_uint16_t(s, &ret->size_str));
 	CHECK(stream_read_bytes(s, &ret->str, ret->size_str));
 	return 0;
@@ -758,31 +758,31 @@ int read_type_command_container(stream *s, type_command_container *ret)
 
 int read_type_uiribbon(stream *s, type_uiribbon *ret)
 {
-	const char check1[] = {0,18,0,0,0,0,0,1,0};
-	const char check2[] = {83,67,66,105,110};
-	const char check4[] = {2};
+	const char unknown1[] = {0,18,0,0,0,0,0,1,0};
+	const char magic[] = {83,67,66,105,110};
+	const char unknown2[] = {2};
 	stream substream6;
-	const char check8[] = {0,0};
-	const char check10[] = {16};
+	const char unknown3[] = {0,0};
+	const char unk44[] = {16};
 	stream substream12;
 	stream substream15;
 	int i;
 
-	CHECK(stream_expect_bytes(s, check1));
-	CHECK(stream_expect_bytes(s, check2));
+	CHECK(stream_expect_bytes(s, unknown1));
+	CHECK(stream_expect_bytes(s, magic));
 	CHECK(stream_read_uint32_t(s, &ret->length_this_file));
-	CHECK(stream_expect_bytes(s, check4));
+	CHECK(stream_expect_bytes(s, unknown2));
 	CHECK(stream_read_uint16_t(s, &ret->size_strings));
 	CHECK(stream_make_substream(s, &substream6, ret->size_strings -2));
 	CHECK(read_type_strings(&substream6, &ret->strings));
 	CHECK(stream_read_uint16_t(s, &ret->count_command_resources));
-	CHECK(stream_expect_bytes(s, check8));
+	CHECK(stream_expect_bytes(s, unknown3));
 	ret->command_resources = malloc(sizeof(type_resource) * ret->count_command_resources);
 	for (i = 0; i < ret->count_command_resources; i++)
 	{
 		CHECK(read_type_resource(s, &ret->command_resources[i]));
 	}
-	CHECK(stream_expect_bytes(s, check10));
+	CHECK(stream_expect_bytes(s, unk44));
 	CHECK(stream_read_uint32_t(s, &ret->size_command_container));
 	CHECK(stream_make_substream(s, &substream12, ret->size_command_container -4));
 	CHECK(read_type_command_container(&substream12, &ret->command_container));
