@@ -1,3 +1,5 @@
+/* This file is generated - Do not edit manually */
+
 #include "parser_generic.h"
 
 typedef enum

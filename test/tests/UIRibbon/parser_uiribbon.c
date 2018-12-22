@@ -1,3 +1,5 @@
+/* This file is generated - Do not edit manually */
+
 #include "parser_uiribbon.h"
 
 int read_type_string(stream *s, type_string *ret);

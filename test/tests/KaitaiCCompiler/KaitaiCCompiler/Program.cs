@@ -551,6 +551,8 @@ namespace KaitaiCCompiler
             StringBuilder header = new StringBuilder();
             StringBuilder source = new StringBuilder();
 
+            header.AppendLine("/* This file is generated - Do not edit manually */");
+            header.AppendLine();
             header.AppendLine("#include \"parser_generic.h\"");
             header.AppendLine();
 
@@ -573,6 +575,8 @@ namespace KaitaiCCompiler
             header.AppendFormat("int read_{0}(stream *s, {0} *ret);\n", main_type);
 
 
+            source.AppendLine("/* This file is generated - Do not edit manually */");
+            source.AppendLine();
             source.AppendLine("#include \"parser_uiribbon.h\"");
             source.AppendLine();
 
