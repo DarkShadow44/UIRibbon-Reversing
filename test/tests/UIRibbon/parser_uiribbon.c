@@ -434,15 +434,15 @@ int read_type_control_blocks(stream *s, type_control_blocks *ret)
 int read_type_control(stream *s, type_control *ret)
 {
 	uint16_t block_type;
-	stream substream5;
+	stream substream_block;
 
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint16_t(s, &block_type));
 	ret->block_type = block_type;
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
 	CHECK(stream_read_uint16_t(s, &ret->size_block));
-	CHECK(stream_make_substream(s, &substream5, ret->size_block - 7));
-	CHECK(read_type_control_blocks(&substream5, &ret->block));
+	CHECK(stream_make_substream(s, &substream_block, ret->size_block - 7));
+	CHECK(read_type_control_blocks(&substream_block, &ret->block));
 	return 0;
 }
 
@@ -486,7 +486,7 @@ int read_type_group_elements_info(stream *s, type_group_elements_info *ret)
 
 int read_type_group_info(stream *s, type_group_info *ret)
 {
-	stream substream14;
+	stream substream_group_elements_info;
 
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint16_t(s, &ret->len_unk1));
@@ -507,8 +507,8 @@ int read_type_group_info(stream *s, type_group_info *ret)
 	CHECK(stream_read_uint16_t(s, &ret->unk10));
 	CHECK(stream_read_uint16_t(s, &ret->unk11));
 	CHECK(stream_read_uint16_t(s, &ret->size_group_elements_info));
-	CHECK(stream_make_substream(s, &substream14, ret->size_group_elements_info - 4));
-	CHECK(read_type_group_elements_info(&substream14, &ret->group_elements_info));
+	CHECK(stream_make_substream(s, &substream_group_elements_info, ret->size_group_elements_info - 4));
+	CHECK(read_type_group_elements_info(&substream_group_elements_info, &ret->group_elements_info));
 	return 0;
 }
 
@@ -654,13 +654,13 @@ int read_quick_ribbon(stream *s, quick_ribbon *ret)
 
 int read_type_block_quickaccess(stream *s, type_block_quickaccess *ret)
 {
-	stream substream4;
+	stream substream_quick_ribbon_info;
 
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint16_t(s, &ret->unk2));
 	CHECK(stream_read_uint16_t(s, &ret->len4));
-	CHECK(stream_make_substream(s, &substream4, ret->len4 - 7));
-	CHECK(read_quick_ribbon(&substream4, &ret->quick_ribbon_info));
+	CHECK(stream_make_substream(s, &substream_quick_ribbon_info, ret->len4 - 7));
+	CHECK(read_quick_ribbon(&substream_quick_ribbon_info, &ret->quick_ribbon_info));
 	return 0;
 }
 
@@ -700,13 +700,13 @@ int read_type_ribbon(stream *s, type_ribbon *ret)
 int read_application_views(stream *s, application_views *ret)
 {
 	const char unk20[] = {0, 0, 22, 0, 36, 0, 16};
-	stream substream3;
+	stream substream_ribbon;
 	int i;
 
 	CHECK(stream_expect_bytes(s, unk20));
 	CHECK(stream_read_uint16_t(s, &ret->ribbon_len));
-	CHECK(stream_make_substream(s, &substream3, ret->ribbon_len));
-	CHECK(read_type_ribbon(&substream3, &ret->ribbon));
+	CHECK(stream_make_substream(s, &substream_ribbon, ret->ribbon_len));
+	CHECK(read_type_ribbon(&substream_ribbon, &ret->ribbon));
 	ret->ribbon_tab_info = malloc(sizeof(type_tab_extended) * 1);
 	for (i = 0; i < 1; i++)
 	{
@@ -747,11 +747,11 @@ int read_type_uiribbon(stream *s, type_uiribbon *ret)
 	const char unknown1[] = {0, 18, 0, 0, 0, 0, 0, 1, 0};
 	const char magic[] = {83, 67, 66, 105, 110};
 	const char unknown2[] = {2};
-	stream substream6;
+	stream substream_strings;
 	const char unknown3[] = {0, 0};
 	const char unk44[] = {16};
-	stream substream12;
-	stream substream15;
+	stream substream_command_container;
+	stream substream_unk6;
 	int i;
 
 	CHECK(stream_expect_bytes(s, unknown1));
@@ -759,8 +759,8 @@ int read_type_uiribbon(stream *s, type_uiribbon *ret)
 	CHECK(stream_read_uint32_t(s, &ret->length_this_file));
 	CHECK(stream_expect_bytes(s, unknown2));
 	CHECK(stream_read_uint16_t(s, &ret->size_strings));
-	CHECK(stream_make_substream(s, &substream6, ret->size_strings - 2));
-	CHECK(read_type_strings(&substream6, &ret->strings));
+	CHECK(stream_make_substream(s, &substream_strings, ret->size_strings - 2));
+	CHECK(read_type_strings(&substream_strings, &ret->strings));
 	CHECK(stream_read_uint16_t(s, &ret->count_command_resources));
 	CHECK(stream_expect_bytes(s, unknown3));
 	ret->command_resources = malloc(sizeof(type_resource) * ret->count_command_resources);
@@ -770,12 +770,12 @@ int read_type_uiribbon(stream *s, type_uiribbon *ret)
 	}
 	CHECK(stream_expect_bytes(s, unk44));
 	CHECK(stream_read_uint32_t(s, &ret->size_command_container));
-	CHECK(stream_make_substream(s, &substream12, ret->size_command_container - 4));
-	CHECK(read_type_command_container(&substream12, &ret->command_container));
+	CHECK(stream_make_substream(s, &substream_command_container, ret->size_command_container - 4));
+	CHECK(read_type_command_container(&substream_command_container, &ret->command_container));
 	CHECK(stream_read_uint16_t(s, &ret->len_unk6));
 	CHECK(stream_read_uint16_t(s, &ret->unk5));
-	CHECK(stream_make_substream(s, &substream15, ret->unk5 - ret->count_command_resources * 10 - 200));
-	CHECK(read_application_views(&substream15, &ret->unk6));
+	CHECK(stream_make_substream(s, &substream_unk6, ret->unk5 - ret->count_command_resources * 10 - 200));
+	CHECK(read_application_views(&substream_unk6, &ret->unk6));
 	return 0;
 }
 

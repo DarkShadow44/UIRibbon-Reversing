@@ -179,8 +179,6 @@ namespace KaitaiCCompiler
                 {
                     parts[i] = "ret->" + parts[i];
                 }
-
-
             }
             expr = string.Join(" ", parts);
             expr = expr.Replace("_.", "##current##->");
@@ -200,10 +198,8 @@ namespace KaitaiCCompiler
         static SeqInfo buildSeq(YamlSequenceNode node)
         {
             var ret = new SeqInfo();
-            int number = 0;
             foreach (var child in node.Children)
             {
-                number++;
                 string id = null;
                 List<byte> contents = null;
                 string type = null;
@@ -370,9 +366,9 @@ namespace KaitaiCCompiler
                         {
                             ret.AddStruct("{0} {1};", type, id);
                             ret.AddDependency(type);
-                            ret.AddVar("stream substream{0};", number);
-                            ret.AddCode("CHECK(stream_make_substream(s, &substream{0}, {1}));", number, size);
-                            ret.AddCode("CHECK(read_{0}(&substream{1}, &ret->{2}));", type, number, id);
+                            ret.AddVar("stream substream_{0};", id);
+                            ret.AddCode("CHECK(stream_make_substream(s, &substream_{0}, {1}));", id, size);
+                            ret.AddCode("CHECK(read_{0}(&substream_{1}, &ret->{1}));", type, id);
                         }
                     }
                     else if (type_switch_on != null)
