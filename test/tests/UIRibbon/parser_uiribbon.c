@@ -75,7 +75,7 @@ int read_type_resource_generic(stream *s, type_resource_generic *ret)
 	CHECK(stream_read_uint8_t(s, &resource_type));
 	ret->resource_type = resource_type;
 	CHECK(stream_read_uint32_t(s, &ret->resource_id));
-	if (ret->resource_type ==RESOURCE_TYPE_LARGEIMAGE ||ret->resource_type ==RESOURCE_TYPE_SMALLIMAGE ||ret->resource_type ==RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE ||ret->resource_type ==RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
+	if (ret->resource_type ==UIRIBBON_RESOURCE_TYPE_LARGEIMAGE ||ret->resource_type ==UIRIBBON_RESOURCE_TYPE_SMALLIMAGE ||ret->resource_type ==UIRIBBON_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE ||ret->resource_type ==UIRIBBON_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
 	{
 		CHECK(stream_read_uint16_t(s, &ret->mindpi));
 	}
@@ -219,16 +219,16 @@ int read_type_block_tabs(stream *s, type_block_tabs *ret)
 	ret->tab_type = tab_type;
 	switch(ret->tab_type)
 	{
-	case TAB_TYPE_HELP:
+	case UIRIBBON_TAB_TYPE_HELP:
 		CHECK(read_type_ribbon_tabs_normal(s, &ret->block_normal));
 		break;
-	case TAB_TYPE_NORMAL:
+	case UIRIBBON_TAB_TYPE_NORMAL:
 		CHECK(read_type_ribbon_tabs_normal(s, &ret->block_normal));
 		break;
-	case TAB_TYPE_CONTEXT:
+	case UIRIBBON_TAB_TYPE_CONTEXT:
 		CHECK(read_type_ribbon_tabs_context(s, &ret->block_context));
 		break;
-	case TAB_TYPE_APPLICATIONMENU:
+	case UIRIBBON_TAB_TYPE_APPLICATIONMENU:
 		CHECK(read_type_ribbon_tabs_applicationmenu(s, &ret->block_applicationmenu));
 		break;
 	}
@@ -284,12 +284,12 @@ int read_type_sizedefinitions_command(stream *s, type_sizedefinitions_command *r
 	CHECK(stream_read_uint8_t(s, &ret->unk1));
 	CHECK(stream_read_uint8_t(s, &flags_command));
 	ret->flags_command = flags_command;
-	if (ret->flags_command ==SIZEDEFINITIONS_COMMAND_NEWLINE)
+	if (ret->flags_command ==UIRIBBON_SIZEDEFINITIONS_COMMAND_NEWLINE)
 	{
 		CHECK(stream_read_uint8_t(s, &unk2));
 		ret->unk2 = unk2;
 	}
-	if (ret->flags_command ==SIZEDEFINITIONS_COMMAND_COMMAND)
+	if (ret->flags_command ==UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND)
 	{
 		CHECK(stream_read_uint16_t(s, &ret->command_id));
 	}
@@ -686,10 +686,10 @@ int read_type_block_generic(stream *s, type_block_generic *ret)
 	ret->block_type = block_type;
 	switch(ret->block_type)
 	{
-	case BLOCK_TYPE_RIBBON_TABS:
+	case UIRIBBON_BLOCK_TYPE_RIBBON_TABS:
 		CHECK(read_type_block_tabs(s, &ret->block_tabs));
 		break;
-	case BLOCK_TYPE_RIBBON_QUICKACCESSTOOLBAR:
+	case UIRIBBON_BLOCK_TYPE_RIBBON_QUICKACCESSTOOLBAR:
 		CHECK(read_type_block_quickaccess(s, &ret->block_quickaccess));
 		break;
 	}

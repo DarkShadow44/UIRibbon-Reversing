@@ -413,6 +413,7 @@ namespace KaitaiCCompiler
             string ret = type + "_" + name;
             if (ret.StartsWith("enum_"))
                 ret = ret.Substring(5);
+            ret = "uiribbon_" + ret;
             return ret.ToUpper();
         }
 
