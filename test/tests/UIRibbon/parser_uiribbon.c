@@ -313,7 +313,7 @@ int read_type_control_block_6(stream *s, type_control_block_6 *ret)
 	return 0;
 }
 
-int read_type_control_block_maybe_sizedefinition_override_imagesize(stream *s, type_control_block_maybe_sizedefinition_override_imagesize *ret)
+int read_type_control_block_sizedefinition_override_imagesize(stream *s, type_control_block_sizedefinition_override_imagesize *ret)
 {
 	uint8_t sizedefinition_imagesize_override;
 
@@ -360,8 +360,8 @@ int read_type_control_block_generic(stream *s, type_control_block_generic *ret)
 	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK6:
 		CHECK(read_type_control_block_6(s, &ret->block_6));
 		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_MAYBE_SIZEDEFINITION_OVERRIDE_IMAGESIZE:
-		CHECK(read_type_control_block_maybe_sizedefinition_override_imagesize(s, &ret->block_imagesize));
+	case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_OVERRIDE_IMAGESIZE:
+		CHECK(read_type_control_block_sizedefinition_override_imagesize(s, &ret->block_imagesize));
 		break;
 	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK9:
 		CHECK(read_type_control_block_36(s, &ret->block_36));

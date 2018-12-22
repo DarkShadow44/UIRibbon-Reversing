@@ -68,7 +68,7 @@ typedef enum
 {
 	UIRIBBON_CONTROL_BLOCK_TYPE_ID = 0,
 	UIRIBBON_CONTROL_BLOCK_TYPE_UNK6 = 6,
-	UIRIBBON_CONTROL_BLOCK_TYPE_MAYBE_SIZEDEFINITION_OVERRIDE_IMAGESIZE = 8,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_OVERRIDE_IMAGESIZE = 8,
 	UIRIBBON_CONTROL_BLOCK_TYPE_UNK9 = 9,
 	UIRIBBON_CONTROL_BLOCK_TYPE_UNK4 = 4,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SUBCOMPONENTS = 24,
@@ -268,7 +268,7 @@ typedef struct
 	enum_sizedefinition_imagesize_override sizedefinition_imagesize_override;
 	uint8_t unk3;
 	uint8_t unk4;
-} type_control_block_maybe_sizedefinition_override_imagesize;
+} type_control_block_sizedefinition_override_imagesize;
 
 typedef struct
 {
@@ -293,7 +293,7 @@ typedef struct
 	{
 		type_control_block_id block_id;
 		type_control_block_6 block_6;
-		type_control_block_maybe_sizedefinition_override_imagesize block_imagesize;
+		type_control_block_sizedefinition_override_imagesize block_imagesize;
 		type_control_block_36 block_36;
 		type_control_block_subcomponents block_subcomponents;
 		type_control_block_37 block_37;

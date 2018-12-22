@@ -76,7 +76,7 @@ static int test_sizeinfo(void)
     blocks = group_elements_info->subcontents[0].block.blocks;
     ASSERT(blocks[0].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK37);
     ASSERT(blocks[0].block_37.sizedefinition_imagesize == UIRIBBON_SIZEDEFINITION_IMAGESIZE_LARGE);
-    ASSERT(blocks[1].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_MAYBE_SIZEDEFINITION_OVERRIDE_IMAGESIZE);
+    ASSERT(blocks[1].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_OVERRIDE_IMAGESIZE);
     ASSERT(blocks[1].block_imagesize.sizedefinition_imagesize_override == UIRIBBON_SIZEDEFINITION_IMAGESIZE_OVERRIDE_SMALLANDMEDIUMARESMALL);
     ASSERT(blocks[2].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK9);
     ASSERT(blocks[3].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK36);
@@ -92,7 +92,7 @@ static int test_sizeinfo(void)
     blocks = group_elements_info->subcontents[0].block.blocks;
     ASSERT(blocks[0].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK37);
     ASSERT(blocks[0].block_37.sizedefinition_imagesize == UIRIBBON_SIZEDEFINITION_IMAGESIZE_LARGE);
-    ASSERT(blocks[1].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_MAYBE_SIZEDEFINITION_OVERRIDE_IMAGESIZE);
+    ASSERT(blocks[1].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_OVERRIDE_IMAGESIZE);
     ASSERT(blocks[1].block_imagesize.sizedefinition_imagesize_override == UIRIBBON_SIZEDEFINITION_IMAGESIZE_OVERRIDE_SMALLISSMALL);
     ASSERT(blocks[2].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK9);
     ASSERT(blocks[3].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK36);
