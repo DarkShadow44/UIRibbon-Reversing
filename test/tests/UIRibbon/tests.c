@@ -34,7 +34,7 @@ int main()
 {
     type_uiribbon uiribbon;
 
-    CHECK(parse_from_testdata("size_largetosmall__large_small_small", &uiribbon));
+    CHECK(parse_from_testdata("count_tabs", &uiribbon));
     ok(uiribbon.unk6.ribbon.block1[0].block_type == BLOCK_TYPE_RIBBON_TABS, "Wrong blocktype");
     ok(uiribbon.unk6.ribbon.block1[0].block_tabs.tab_type == TAB_TYPE_NORMAL, "Wrong blocktype");
     ok(uiribbon.unk6.ribbon.block1[0].block_tabs.block_normal.count_tabs == 6, "Wrong count");

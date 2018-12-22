@@ -2,9 +2,9 @@
 
 int stream_make_substream(stream *s, stream *ret, int len)
 {
-    CHECK2(s->start + s->pos + len >= s->max, "End of stream");
+    CHECK2(s->start + s->pos + len > s->max, "End of stream");
 
-    ret->start = s->pos;
+    ret->start = s->start + s->pos;
     ret->pos = 0;
     ret->max = ret->start + len;
     ret->data = s->data;
@@ -15,7 +15,7 @@ int stream_make_substream(stream *s, stream *ret, int len)
 
 int stream_read_bytes(stream *s, void* ret, int len)
 {
-    CHECK2(s->start + s->pos + len >= s->max, "End of stream");
+    CHECK2(s->start + s->pos + len > s->max, "End of stream");
     memcpy(ret, s->data + s->start + s->pos, len);
     s->pos += len;
     return 0;
