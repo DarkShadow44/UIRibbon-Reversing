@@ -60,9 +60,21 @@ typedef enum
 
 typedef enum
 {
+	UIRIBBON_SIZEDEFINITION_LABELVISIBLE_HIDDEN = 0,
+	UIRIBBON_SIZEDEFINITION_LABELVISIBLE_VISIBLE = 1,
+} enum_sizedefinition_labelvisible;
+
+typedef enum
+{
 	UIRIBBON_SIZEDEFINITION_IMAGESIZE_OVERRIDE_SMALLISSMALL = 2,
 	UIRIBBON_SIZEDEFINITION_IMAGESIZE_OVERRIDE_SMALLANDMEDIUMARESMALL = 3,
 } enum_sizedefinition_imagesize_override;
+
+typedef enum
+{
+	UIRIBBON_SIZEDEFINITION_LABELVISIBLE_OVERRIDE_OVERRIDESMALL = 2,
+	UIRIBBON_SIZEDEFINITION_LABELVISIBLE_OVERRIDE_OVERRIDESMALLANDMEDIUM = 3,
+} enum_sizedefinition_labelvisible_override;
 
 typedef enum
 {
@@ -257,7 +269,7 @@ typedef struct
 typedef struct
 {
 	uint8_t unk1;
-	uint8_t unk2;
+	enum_sizedefinition_labelvisible_override sizedefinition_labelvisible_override;
 	uint8_t unk3;
 	uint8_t unk4;
 } type_control_block_6;
@@ -281,6 +293,14 @@ typedef struct
 typedef struct
 {
 	char *unk1;
+	enum_sizedefinition_labelvisible sizedefinition_labelvisible;
+	uint8_t unk3;
+	uint8_t unk4;
+} type_control_block_9;
+
+typedef struct
+{
+	char *unk1;
 	enum_sizedefinition_imagesize sizedefinition_imagesize;
 	uint8_t unk3;
 	uint8_t unk4;
@@ -294,8 +314,9 @@ typedef struct
 		type_control_block_id block_id;
 		type_control_block_6 block_6;
 		type_control_block_sizedefinition_override_imagesize block_imagesize;
-		type_control_block_36 block_36;
+		type_control_block_9 block_9;
 		type_control_block_subcomponents block_subcomponents;
+		type_control_block_36 block_36;
 		type_control_block_37 block_37;
 	};
 } type_control_block_generic;

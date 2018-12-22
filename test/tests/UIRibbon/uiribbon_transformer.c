@@ -46,6 +46,29 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
                 ret_control->size_definitions->small.sizeLarge = 0;
             }
             break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_UNK9:
+            if (!ret_control->size_definitions)
+                ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions));
+            ret_control->size_definitions->large.labelvisible = src_block->block_9.sizedefinition_labelvisible == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_VISIBLE;
+            ret_control->size_definitions->medium.labelvisible = ret_control->size_definitions->large.labelvisible;
+            ret_control->size_definitions->small.labelvisible = ret_control->size_definitions->large.labelvisible;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_UNK6:
+            if (!ret_control->size_definitions)
+                ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions));
+            ret_control->size_definitions->large.labelvisible = 1;
+            if (src_block->block_6.sizedefinition_labelvisible_override == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_OVERRIDE_OVERRIDESMALL)
+            {
+                ret_control->size_definitions->medium.labelvisible = 1;
+                ret_control->size_definitions->small.labelvisible = 0;
+            }
+            else if (src_block->block_6.sizedefinition_labelvisible_override == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_OVERRIDE_OVERRIDESMALLANDMEDIUM)
+            {
+                ret_control->size_definitions->medium.labelvisible = 0;
+                ret_control->size_definitions->small.labelvisible = 0;
+            }
+
+            break;
         }
     }
 }

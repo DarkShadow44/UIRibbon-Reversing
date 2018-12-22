@@ -18,7 +18,7 @@ typedef struct _test_data
     int bml_len;
 } test_data;
 
-const test_data *get_test_data(char *name);
+const test_data *get_test_data(const char *name);
 void write_test_data(const char *name);
 
 /* Stream generic */

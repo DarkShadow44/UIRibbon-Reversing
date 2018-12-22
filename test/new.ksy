@@ -100,9 +100,17 @@ enums:
     0: small
     1: large
 
+  enum_sizedefinition_labelvisible:
+    0: hidden
+    1: visible
+
   enum_sizedefinition_imagesize_override:
     2: smallissmall
     3: smallandmediumaresmall
+  
+  enum_sizedefinition_labelvisible_override:
+    2: overridesmall
+    3: overridesmallandmedium
 
   enum_control_block_type:
     0: id
@@ -549,8 +557,9 @@ types:
     seq:
     - id: unk1
       type: u1
-    - id: unk2
+    - id: sizedefinition_labelvisible_override
       type: u1
+      enum: enum_sizedefinition_labelvisible_override
     - id: unk3
       type: u1
     - id: unk4
@@ -574,6 +583,18 @@ types:
       size: 4
     - id: unk2
       type: u1
+    - id: unk3
+      type: u1
+    - id: unk4
+      type: u1
+  
+  type_control_block_9:
+    seq:
+    - id: unk1
+      size: 4
+    - id: sizedefinition_labelvisible
+      type: u1
+      enum: enum_sizedefinition_labelvisible
     - id: unk3
       type: u1
     - id: unk4
@@ -603,7 +624,7 @@ types:
           enum_control_block_type::id: type_control_block_id
           enum_control_block_type::unk6: type_control_block_6
           enum_control_block_type::sizedefinition_override_imagesize: type_control_block_sizedefinition_override_imagesize
-          enum_control_block_type::unk9: type_control_block_36
+          enum_control_block_type::unk9: type_control_block_9
      #     4: type_control_block_4
           enum_control_block_type::subcomponents: type_control_block_subcomponents
           enum_control_block_type::unk36: type_control_block_36

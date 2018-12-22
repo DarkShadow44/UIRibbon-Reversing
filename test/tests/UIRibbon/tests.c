@@ -3,7 +3,7 @@
 void _ok(int expr, const char *message, const char *file, int line)
 {
     if (!expr)
-        printf("%s:%d - %s", file, line, message);
+        printf("%s:%d - %s\n", file, line, message);
 }
 
 #define ok(expr, message) \
@@ -52,6 +52,8 @@ static int test_sizeinfo(void)
     uiribbon_main uiribbon;
     uiribbon_control *control;
 
+    /* Size */
+
     CHECK(parse_from_testdata("sizeinfo_size_largetosmall__small_small_small", &uiribbon));
     ASSERT(uiribbon.count_tabs == 1);
     ASSERT(uiribbon.tabs[0].count_groups == 1);
@@ -99,6 +101,56 @@ static int test_sizeinfo(void)
     ASSERT(control->size_definitions->large.sizeLarge == 1);
     ASSERT(control->size_definitions->medium.sizeLarge == 1);
     ASSERT(control->size_definitions->small.sizeLarge == 1);
+
+    /* LabelVisible */
+
+    CHECK(parse_from_testdata("sizeinfo_label_largetosmall__labelhidden_labelhidden_labelhidden", &uiribbon));
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
+    control = &uiribbon.tabs[0].groups[0].controls[0];
+    ASSERT(control->id == 10003);
+    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->size_definitions != NULL);
+    ASSERT(control->size_definitions->large.labelvisible == 0);
+    ASSERT(control->size_definitions->medium.labelvisible == 0);
+    ASSERT(control->size_definitions->small.labelvisible == 0);
+
+    CHECK(parse_from_testdata("sizeinfo_label_largetosmall__labelvisible_labelhidden_labelhidden", &uiribbon));
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
+    control = &uiribbon.tabs[0].groups[0].controls[0];
+    ASSERT(control->id == 10003);
+    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->size_definitions != NULL);
+    ASSERT(control->size_definitions->large.labelvisible == 1);
+    ASSERT(control->size_definitions->medium.labelvisible == 0);
+    ASSERT(control->size_definitions->small.labelvisible == 0);
+
+    CHECK(parse_from_testdata("sizeinfo_label_largetosmall__labelvisible_labelvisible_labelhidden", &uiribbon));
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
+    control = &uiribbon.tabs[0].groups[0].controls[0];
+    ASSERT(control->id == 10003);
+    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->size_definitions != NULL);
+    ASSERT(control->size_definitions->large.labelvisible == 1);
+    ASSERT(control->size_definitions->medium.labelvisible == 1);
+    ASSERT(control->size_definitions->small.labelvisible == 0);
+
+    CHECK(parse_from_testdata("sizeinfo_label_largetosmall__labelvisible_labelvisible_labelvisible", &uiribbon));
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
+    control = &uiribbon.tabs[0].groups[0].controls[0];
+    ASSERT(control->id == 10003);
+    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->size_definitions != NULL);
+    ASSERT(control->size_definitions->large.labelvisible == 1);
+    ASSERT(control->size_definitions->medium.labelvisible == 1);
+    ASSERT(control->size_definitions->small.labelvisible == 1);
 
     return 0;
 }

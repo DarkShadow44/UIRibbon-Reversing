@@ -306,8 +306,11 @@ int read_type_control_block_id(stream *s, type_control_block_id *ret)
 
 int read_type_control_block_6(stream *s, type_control_block_6 *ret)
 {
+	uint8_t sizedefinition_labelvisible_override;
+
 	CHECK(stream_read_uint8_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
+	CHECK(stream_read_uint8_t(s, &sizedefinition_labelvisible_override));
+	ret->sizedefinition_labelvisible_override = sizedefinition_labelvisible_override;
 	CHECK(stream_read_uint8_t(s, &ret->unk3));
 	CHECK(stream_read_uint8_t(s, &ret->unk4));
 	return 0;
@@ -329,6 +332,18 @@ int read_type_control_block_36(stream *s, type_control_block_36 *ret)
 {
 	CHECK(stream_read_bytes(s, &ret->unk1, 4));
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
+	CHECK(stream_read_uint8_t(s, &ret->unk3));
+	CHECK(stream_read_uint8_t(s, &ret->unk4));
+	return 0;
+}
+
+int read_type_control_block_9(stream *s, type_control_block_9 *ret)
+{
+	uint8_t sizedefinition_labelvisible;
+
+	CHECK(stream_read_bytes(s, &ret->unk1, 4));
+	CHECK(stream_read_uint8_t(s, &sizedefinition_labelvisible));
+	ret->sizedefinition_labelvisible = sizedefinition_labelvisible;
 	CHECK(stream_read_uint8_t(s, &ret->unk3));
 	CHECK(stream_read_uint8_t(s, &ret->unk4));
 	return 0;
@@ -364,7 +379,7 @@ int read_type_control_block_generic(stream *s, type_control_block_generic *ret)
 		CHECK(read_type_control_block_sizedefinition_override_imagesize(s, &ret->block_imagesize));
 		break;
 	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK9:
-		CHECK(read_type_control_block_36(s, &ret->block_36));
+		CHECK(read_type_control_block_9(s, &ret->block_9));
 		break;
 	case UIRIBBON_CONTROL_BLOCK_TYPE_SUBCOMPONENTS:
 		CHECK(read_type_control_block_subcomponents(s, &ret->block_subcomponents));
