@@ -630,11 +630,6 @@ namespace KaitaiCCompiler
 
             foreach (var type in types)
             {
-                source.AppendFormat("int read_{0}(stream *s, {0} *ret);\n", type.Name);
-            }
-            source.AppendLine();
-            foreach (var type in types)
-            {
                 writeMethod(source, type.Name, type.seqInfo);
             }
             writeMethod(source, main_type, mainSeq);

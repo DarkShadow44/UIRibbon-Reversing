@@ -2,47 +2,6 @@
 
 #include "parser_uiribbon.h"
 
-int read_type_string(stream *s, type_string *ret);
-int read_type_strings(stream *s, type_strings *ret);
-int read_type_resource_generic(stream *s, type_resource_generic *ret);
-int read_type_resource(stream *s, type_resource *ret);
-int read_type_tab(stream *s, type_tab *ret);
-int read_type_tab_context(stream *s, type_tab_context *ret);
-int read_type_ribbon_tabs_normal(stream *s, type_ribbon_tabs_normal *ret);
-int read_type_ribbon_tabs_context(stream *s, type_ribbon_tabs_context *ret);
-int read_type_ribbon_tabs_applicationmenu(stream *s, type_ribbon_tabs_applicationmenu *ret);
-int read_type_block_tabs(stream *s, type_block_tabs *ret);
-int read_block_unk1(stream *s, block_unk1 *ret);
-int read_type_sizeinfo_maybe(stream *s, type_sizeinfo_maybe *ret);
-int read_type_sizedefinitions_command(stream *s, type_sizedefinitions_command *ret);
-int read_type_sizedefinition(stream *s, type_sizedefinition *ret);
-int read_type_unk1_extended(stream *s, type_unk1_extended *ret);
-int read_type_control_block_subcomponents(stream *s, type_control_block_subcomponents *ret);
-int read_type_control_block_id(stream *s, type_control_block_id *ret);
-int read_type_control_block_6(stream *s, type_control_block_6 *ret);
-int read_type_control_block_maybe_sizedefinition_override_imagesize(stream *s, type_control_block_maybe_sizedefinition_override_imagesize *ret);
-int read_type_control_block_36(stream *s, type_control_block_36 *ret);
-int read_type_control_block_37(stream *s, type_control_block_37 *ret);
-int read_type_control_block_generic(stream *s, type_control_block_generic *ret);
-int read_type_control_blocks(stream *s, type_control_blocks *ret);
-int read_type_control(stream *s, type_control *ret);
-int read_type_group_elements_info(stream *s, type_group_elements_info *ret);
-int read_type_group_info(stream *s, type_group_info *ret);
-int read_type_tab_extended(stream *s, type_tab_extended *ret);
-int read_type_control_otherinfo(stream *s, type_control_otherinfo *ret);
-int read_type_menugroup_extended(stream *s, type_menugroup_extended *ret);
-int read_type_recent2(stream *s, type_recent2 *ret);
-int read_type_recent1(stream *s, type_recent1 *ret);
-int read_type_command_ext(stream *s, type_command_ext *ret);
-int read_quick_ribbon_button(stream *s, quick_ribbon_button *ret);
-int read_quick_ribbon(stream *s, quick_ribbon *ret);
-int read_type_block_quickaccess(stream *s, type_block_quickaccess *ret);
-int read_type_block_generic(stream *s, type_block_generic *ret);
-int read_type_ribbon(stream *s, type_ribbon *ret);
-int read_application_views(stream *s, application_views *ret);
-int read_type_command(stream *s, type_command *ret);
-int read_type_command_container(stream *s, type_command_container *ret);
-
 int read_type_string(stream *s, type_string *ret)
 {
 	const char unk1[] = {1};
