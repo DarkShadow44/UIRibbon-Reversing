@@ -1,4 +1,4 @@
-#include "parser_uiribbon.h"
+#include "uiribbon_transformer.h"
 
 void _ok(int expr, const char *message, const char *file, int line)
 {
@@ -12,11 +12,13 @@ void _ok(int expr, const char *message, const char *file, int line)
 #define ASSERT(expr) \
     ok(expr, "Assert failed")
 
-int _parse_from_testdata(char *name, type_uiribbon *ret, const char *file, int line)
+int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file, int line)
 {
     stream s;
     int error;
+    type_uiribbon uiribbon;
     const test_data *test = get_test_data(name);
+
     _ok(test != NULL, "Failed to get test data", file, line);
     if (!test)
         return 1;
@@ -25,8 +27,10 @@ int _parse_from_testdata(char *name, type_uiribbon *ret, const char *file, int l
     s.max = test->bml_len;
     s.data = test->bml_data;
 
-    error = read_type_uiribbon(&s, ret);
+    error = read_type_uiribbon(&s, &uiribbon);
     _ok(error == 0, "Failed to parse file", file, line);
+
+    transform_uiribbon(&uiribbon, ret);
     return error;
 }
 
@@ -35,86 +39,71 @@ int _parse_from_testdata(char *name, type_uiribbon *ret, const char *file, int l
 
 static int test_tabs(void)
 {
-    type_uiribbon uiribbon;
+    /* uiribbon_main uiribbon;
 
-    CHECK(parse_from_testdata("count_tabs", &uiribbon));
-    ASSERT(uiribbon.unk6.ribbon.block1[0].block_type == UIRIBBON_BLOCK_TYPE_RIBBON_TABS);
-    ASSERT(uiribbon.unk6.ribbon.block1[0].block_tabs.tab_type == UIRIBBON_TAB_TYPE_NORMAL);
-    ASSERT(uiribbon.unk6.ribbon.block1[0].block_tabs.block_normal.count_tabs == 6);
+    CHECK(parse_from_testdata("count_tabs", &uiribbon)); needs dynamic tab ext solved first
+    ASSERT(uiribbon.count_tabs == 6); */
 
     return 0;
 }
 
 static int test_sizeinfo(void)
 {
-    type_uiribbon uiribbon;
-    type_group_elements_info *group_elements_info;
-    type_control_block_generic *blocks;
-
-    /* Size */
+    uiribbon_main uiribbon;
+    uiribbon_control *control;
 
     CHECK(parse_from_testdata("sizeinfo_size_largetosmall__small_small_small", &uiribbon));
-    ASSERT(uiribbon.unk6.ribbon_tab_info[0].count_groupinfo == 1);
-    group_elements_info = &uiribbon.unk6.ribbon_tab_info[0].groupinfo[0].group_elements_info;
-    ASSERT(group_elements_info->sub_count == 1);
-    ASSERT(group_elements_info->subcontents[0].block_type == UIRIBBON_TYPE_CONTROL_BUTTON);
-    ASSERT(group_elements_info->subcontents[0].block.count_blocks == 4);
-    blocks = group_elements_info->subcontents[0].block.blocks;
-    ASSERT(blocks[0].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK37);
-    ASSERT(blocks[0].block_37.sizedefinition_imagesize == UIRIBBON_SIZEDEFINITION_IMAGESIZE_SMALL);
-    ASSERT(blocks[1].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK9);
-    ASSERT(blocks[2].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK36);
-    ASSERT(blocks[3].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_ID);
-    ASSERT(blocks[3].block_id.uint16_t == 10003);
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
+    control = &uiribbon.tabs[0].groups[0].controls[0];
+    ASSERT(control->id == 10003);
+    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->size_definitions != NULL);
+    ASSERT(control->size_definitions->large.sizeLarge == 0);
+    ASSERT(control->size_definitions->medium.sizeLarge == 0);
+    ASSERT(control->size_definitions->small.sizeLarge == 0);
 
     CHECK(parse_from_testdata("sizeinfo_size_largetosmall__large_small_small", &uiribbon));
-    ASSERT(uiribbon.unk6.ribbon_tab_info[0].count_groupinfo == 1);
-    group_elements_info = &uiribbon.unk6.ribbon_tab_info[0].groupinfo[0].group_elements_info;
-    ASSERT(group_elements_info->sub_count == 1);
-    ASSERT(group_elements_info->subcontents[0].block_type == UIRIBBON_TYPE_CONTROL_BUTTON);
-    ASSERT(group_elements_info->subcontents[0].block.count_blocks == 5);
-    blocks = group_elements_info->subcontents[0].block.blocks;
-    ASSERT(blocks[0].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK37);
-    ASSERT(blocks[0].block_37.sizedefinition_imagesize == UIRIBBON_SIZEDEFINITION_IMAGESIZE_LARGE);
-    ASSERT(blocks[1].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_OVERRIDE_IMAGESIZE);
-    ASSERT(blocks[1].block_imagesize.sizedefinition_imagesize_override == UIRIBBON_SIZEDEFINITION_IMAGESIZE_OVERRIDE_SMALLANDMEDIUMARESMALL);
-    ASSERT(blocks[2].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK9);
-    ASSERT(blocks[3].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK36);
-    ASSERT(blocks[4].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_ID);
-    ASSERT(blocks[4].block_id.uint16_t == 10003);
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
+    control = &uiribbon.tabs[0].groups[0].controls[0];
+    ASSERT(control->id == 10003);
+    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->size_definitions != NULL);
+    ASSERT(control->size_definitions->large.sizeLarge == 1);
+    ASSERT(control->size_definitions->medium.sizeLarge == 0);
+    ASSERT(control->size_definitions->small.sizeLarge == 0);
 
     CHECK(parse_from_testdata("sizeinfo_size_largetosmall__large_large_small", &uiribbon));
-    ASSERT(uiribbon.unk6.ribbon_tab_info[0].count_groupinfo == 1);
-    group_elements_info = &uiribbon.unk6.ribbon_tab_info[0].groupinfo[0].group_elements_info;
-    ASSERT(group_elements_info->sub_count == 1);
-    ASSERT(group_elements_info->subcontents[0].block_type == UIRIBBON_TYPE_CONTROL_BUTTON);
-    ASSERT(group_elements_info->subcontents[0].block.count_blocks == 5);
-    blocks = group_elements_info->subcontents[0].block.blocks;
-    ASSERT(blocks[0].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK37);
-    ASSERT(blocks[0].block_37.sizedefinition_imagesize == UIRIBBON_SIZEDEFINITION_IMAGESIZE_LARGE);
-    ASSERT(blocks[1].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_OVERRIDE_IMAGESIZE);
-    ASSERT(blocks[1].block_imagesize.sizedefinition_imagesize_override == UIRIBBON_SIZEDEFINITION_IMAGESIZE_OVERRIDE_SMALLISSMALL);
-    ASSERT(blocks[2].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK9);
-    ASSERT(blocks[3].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK36);
-    ASSERT(blocks[4].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_ID);
-    ASSERT(blocks[4].block_id.uint16_t == 10003);
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
+    control = &uiribbon.tabs[0].groups[0].controls[0];
+    ASSERT(control->id == 10003);
+    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->size_definitions != NULL);
+    ASSERT(control->size_definitions->large.sizeLarge == 1);
+    ASSERT(control->size_definitions->medium.sizeLarge == 1);
+    ASSERT(control->size_definitions->small.sizeLarge == 0);
 
     CHECK(parse_from_testdata("sizeinfo_size_largetosmall__large_large_large", &uiribbon));
-    ASSERT(uiribbon.unk6.ribbon_tab_info[0].count_groupinfo == 1);
-    group_elements_info = &uiribbon.unk6.ribbon_tab_info[0].groupinfo[0].group_elements_info;
-    ASSERT(group_elements_info->sub_count == 1);
-    ASSERT(group_elements_info->subcontents[0].block_type == UIRIBBON_TYPE_CONTROL_BUTTON);
-    ASSERT(group_elements_info->subcontents[0].block.count_blocks == 4);
-    blocks = group_elements_info->subcontents[0].block.blocks;
-    ASSERT(blocks[0].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK37);
-    ASSERT(blocks[0].block_37.sizedefinition_imagesize == UIRIBBON_SIZEDEFINITION_IMAGESIZE_LARGE);
-    ASSERT(blocks[1].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK9);
-    ASSERT(blocks[2].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_UNK36);
-    ASSERT(blocks[3].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_ID);
-    ASSERT(blocks[3].block_id.uint16_t == 10003);
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
+    control = &uiribbon.tabs[0].groups[0].controls[0];
+    ASSERT(control->id == 10003);
+    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->size_definitions != NULL);
+    ASSERT(control->size_definitions->large.sizeLarge == 1);
+    ASSERT(control->size_definitions->medium.sizeLarge == 1);
+    ASSERT(control->size_definitions->small.sizeLarge == 1);
 
     return 0;
 }
+
+
 
 int main()
 {

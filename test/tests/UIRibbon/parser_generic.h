@@ -19,6 +19,7 @@ typedef struct _test_data
 } test_data;
 
 const test_data *get_test_data(char *name);
+void write_test_data(const char *name);
 
 /* Stream generic */
 

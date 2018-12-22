@@ -40,3 +40,19 @@ const test_data *get_test_data(char *name)
     }
     return NULL;
 }
+
+static void write(const char *path, void *data, int len)
+{
+    FILE *f = fopen(path, "wb");
+    fwrite(data, len, 1, f);
+    fclose(f);
+}
+
+void write_test_data(const char *name)
+{
+    const test_data *data = get_test_data(name);
+    if (!data)
+        return;
+    write("dump.xml", data->xml_data, data->xml_len);
+    write("dump.bml", data->bml_data, data->bml_len);
+}
