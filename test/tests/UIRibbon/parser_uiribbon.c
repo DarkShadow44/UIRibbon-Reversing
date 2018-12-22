@@ -55,7 +55,7 @@ int read_type_string(stream *s, type_string *ret)
 
 int read_type_strings(stream *s, type_strings *ret)
 {
-	const char unk1[] = {0,0,1};
+	const char unk1[] = {0, 0, 1};
 	int i;
 
 	CHECK(stream_expect_bytes(s, unk1));
@@ -241,7 +241,7 @@ int read_block_unk1(stream *s, block_unk1 *ret)
 
 int read_type_sizeinfo_maybe(stream *s, type_sizeinfo_maybe *ret)
 {
-	const char check1[] = {1,4,37,0,128,65,5};
+	const char check1[] = {1, 4, 37, 0, 128, 65, 5};
 
 	CHECK(stream_read_uint8_t(s, &ret->unk0));
 	CHECK(stream_expect_bytes(s, check1));
@@ -450,8 +450,8 @@ int read_type_control(stream *s, type_control *ret)
 
 int read_type_group_elements_info(stream *s, type_group_elements_info *ret)
 {
-	const char check2b[] = {1,1};
-		const char check2c[] = {1,4,66,0,64,68,5,0};
+	const char check2b[] = {1, 1};
+		const char check2c[] = {1, 4, 66, 0, 64, 68, 5, 0};
 	int i;
 
 	CHECK(stream_read_uint8_t(s, &ret->unk10));
@@ -599,13 +599,13 @@ int read_type_command_ext(stream *s, type_command_ext *ret)
 
 int read_quick_ribbon_button(stream *s, quick_ribbon_button *ret)
 {
-	const char unk2[] = {15,0};
-	const char unk3[] = {16,22};
-	const char unk4[] = {0,2};
-	const char unk6[] = {1,4};
-	const char unk7[] = {10,0};
-	const char unk8[] = {192,64};
-	const char unk9[] = {5,1};
+	const char unk2[] = {15, 0};
+	const char unk3[] = {16, 22};
+	const char unk4[] = {0, 2};
+	const char unk6[] = {1, 4};
+	const char unk7[] = {10, 0};
+	const char unk8[] = {192, 64};
+	const char unk9[] = {5, 1};
 
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_expect_bytes(s, unk2));
@@ -686,7 +686,7 @@ int read_type_block_generic(stream *s, type_block_generic *ret)
 
 int read_type_ribbon(stream *s, type_ribbon *ret)
 {
-	const char unk1[] = {1,1,11,9,0};
+	const char unk1[] = {1, 1, 11, 9, 0};
 	int i;
 
 	CHECK(stream_read_uint8_t(s, &ret->unk0));
@@ -701,7 +701,7 @@ int read_type_ribbon(stream *s, type_ribbon *ret)
 
 int read_application_views(stream *s, application_views *ret)
 {
-	const char unk20[] = {0,0,22,0,36,0,16};
+	const char unk20[] = {0, 0, 22, 0, 36, 0, 16};
 	stream substream3;
 	int i;
 
@@ -719,8 +719,8 @@ int read_application_views(stream *s, application_views *ret)
 
 int read_type_command(stream *s, type_command *ret)
 {
-	const char unk1[] = {0,0,0};
-	const char unk4[] = {0,16};
+	const char unk1[] = {0, 0, 0};
+	const char unk4[] = {0, 16};
 
 	CHECK(stream_read_uint16_t(s, &ret->command_id));
 	CHECK(stream_expect_bytes(s, unk1));
@@ -746,11 +746,11 @@ int read_type_command_container(stream *s, type_command_container *ret)
 
 int read_type_uiribbon(stream *s, type_uiribbon *ret)
 {
-	const char unknown1[] = {0,18,0,0,0,0,0,1,0};
-	const char magic[] = {83,67,66,105,110};
+	const char unknown1[] = {0, 18, 0, 0, 0, 0, 0, 1, 0};
+	const char magic[] = {83, 67, 66, 105, 110};
 	const char unknown2[] = {2};
 	stream substream6;
-	const char unknown3[] = {0,0};
+	const char unknown3[] = {0, 0};
 	const char unk44[] = {16};
 	stream substream12;
 	stream substream15;
