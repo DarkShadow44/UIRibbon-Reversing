@@ -177,7 +177,7 @@ int read_type_block_tabs(stream *s, type_block_tabs *ret)
 	switch(ret->tab_type)
 	{
 	case UIRIBBON_TAB_TYPE_HELP:
-		CHECK(read_type_ribbon_tabs_normal(s, &ret->block_normal));
+		CHECK(read_type_ribbon_tabs_normal(s, &ret->block_help));
 		break;
 	case UIRIBBON_TAB_TYPE_NORMAL:
 		CHECK(read_type_ribbon_tabs_normal(s, &ret->block_normal));
@@ -295,40 +295,40 @@ int read_type_control_block_id(stream *s, type_control_block_id *ret)
 	switch(ret->flag)
 	{
 	case 3:
-		CHECK(stream_read_uint16_t(s, &ret->uint16_t));
+		CHECK(stream_read_uint16_t(s, &ret->block_3));
 		break;
 	case 4:
-		CHECK(stream_read_uint8_t(s, &ret->uint8_t));
+		CHECK(stream_read_uint8_t(s, &ret->block_4));
 		break;
 	}
 	return 0;
 }
 
-int read_type_control_block_6(stream *s, type_control_block_6 *ret)
+int read_type_control_block_sizedefinition_labelvisible_mixed(stream *s, type_control_block_sizedefinition_labelvisible_mixed *ret)
 {
-	uint8_t sizedefinition_labelvisible_override;
+	uint8_t sizedefinition_labelvisible_mixed;
 
 	CHECK(stream_read_uint8_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &sizedefinition_labelvisible_override));
-	ret->sizedefinition_labelvisible_override = sizedefinition_labelvisible_override;
+	CHECK(stream_read_uint8_t(s, &sizedefinition_labelvisible_mixed));
+	ret->sizedefinition_labelvisible_mixed = sizedefinition_labelvisible_mixed;
 	CHECK(stream_read_uint8_t(s, &ret->unk3));
 	CHECK(stream_read_uint8_t(s, &ret->unk4));
 	return 0;
 }
 
-int read_type_control_block_sizedefinition_override_imagesize(stream *s, type_control_block_sizedefinition_override_imagesize *ret)
+int read_type_control_block_sizedefinition_imagesize_mixed(stream *s, type_control_block_sizedefinition_imagesize_mixed *ret)
 {
-	uint8_t sizedefinition_imagesize_override;
+	uint8_t sizedefinition_imagesize_mixed;
 
 	CHECK(stream_read_uint8_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &sizedefinition_imagesize_override));
-	ret->sizedefinition_imagesize_override = sizedefinition_imagesize_override;
+	CHECK(stream_read_uint8_t(s, &sizedefinition_imagesize_mixed));
+	ret->sizedefinition_imagesize_mixed = sizedefinition_imagesize_mixed;
 	CHECK(stream_read_uint8_t(s, &ret->unk3));
 	CHECK(stream_read_uint8_t(s, &ret->unk4));
 	return 0;
 }
 
-int read_type_control_block_36(stream *s, type_control_block_36 *ret)
+int read_type_control_block_sizedefinition_imagevisible(stream *s, type_control_block_sizedefinition_imagevisible *ret)
 {
 	uint8_t sizedefinition_imagevisible;
 
@@ -340,7 +340,7 @@ int read_type_control_block_36(stream *s, type_control_block_36 *ret)
 	return 0;
 }
 
-int read_type_control_block_9(stream *s, type_control_block_9 *ret)
+int read_type_control_block_sizedefinition_labelvisible(stream *s, type_control_block_sizedefinition_labelvisible *ret)
 {
 	uint8_t sizedefinition_labelvisible;
 
@@ -352,7 +352,7 @@ int read_type_control_block_9(stream *s, type_control_block_9 *ret)
 	return 0;
 }
 
-int read_type_control_block_37(stream *s, type_control_block_37 *ret)
+int read_type_control_block_sizedefinition_imagesize(stream *s, type_control_block_sizedefinition_imagesize *ret)
 {
 	uint8_t sizedefinition_imagesize;
 
@@ -375,23 +375,23 @@ int read_type_control_block_generic(stream *s, type_control_block_generic *ret)
 	case UIRIBBON_CONTROL_BLOCK_TYPE_ID:
 		CHECK(read_type_control_block_id(s, &ret->block_id));
 		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK6:
-		CHECK(read_type_control_block_6(s, &ret->block_6));
+	case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE_MIXED:
+		CHECK(read_type_control_block_sizedefinition_labelvisible_mixed(s, &ret->block_sizedefinition_labelvisible_mixed));
 		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_OVERRIDE_IMAGESIZE:
-		CHECK(read_type_control_block_sizedefinition_override_imagesize(s, &ret->block_imagesize));
+	case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE_MIXED:
+		CHECK(read_type_control_block_sizedefinition_imagesize_mixed(s, &ret->block_sizedefinition_imagesize_mixed));
 		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK9:
-		CHECK(read_type_control_block_9(s, &ret->block_9));
+	case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE:
+		CHECK(read_type_control_block_sizedefinition_labelvisible(s, &ret->block_sizedefinition_labelvisible));
 		break;
 	case UIRIBBON_CONTROL_BLOCK_TYPE_SUBCOMPONENTS:
 		CHECK(read_type_control_block_subcomponents(s, &ret->block_subcomponents));
 		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK36:
-		CHECK(read_type_control_block_36(s, &ret->block_36));
+	case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGEVISIBLE:
+		CHECK(read_type_control_block_sizedefinition_imagevisible(s, &ret->block_sizedefinition_imagevisible));
 		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK37:
-		CHECK(read_type_control_block_37(s, &ret->block_37));
+	case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE:
+		CHECK(read_type_control_block_sizedefinition_imagesize(s, &ret->block_sizedefinition_imagesize));
 		break;
 	}
 	return 0;
@@ -653,10 +653,10 @@ int read_type_block_generic(stream *s, type_block_generic *ret)
 	switch(ret->block_type)
 	{
 	case UIRIBBON_BLOCK_TYPE_RIBBON_TABS:
-		CHECK(read_type_block_tabs(s, &ret->block_tabs));
+		CHECK(read_type_block_tabs(s, &ret->block_ribbon_tabs));
 		break;
 	case UIRIBBON_BLOCK_TYPE_RIBBON_QUICKACCESSTOOLBAR:
-		CHECK(read_type_block_quickaccess(s, &ret->block_quickaccess));
+		CHECK(read_type_block_quickaccess(s, &ret->block_ribbon_quickaccesstoolbar));
 		break;
 	}
 	return 0;

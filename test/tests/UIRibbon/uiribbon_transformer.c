@@ -21,59 +21,59 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
             switch (src_block->block_id.flag)
             {
             case 4:
-                ret_control->id = src_block->block_id.uint8_t;
+                ret_control->id = src_block->block_id.block_4;
                 break;
             case 3:
-                ret_control->id = src_block->block_id.uint16_t;
+                ret_control->id = src_block->block_id.block_3;
                 break;
             }
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_UNK37:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE:
             if (!ret_control->size_definitions)
                 ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions));
-            ret_control->size_definitions->large.sizeLarge = src_block->block_37.sizedefinition_imagesize == UIRIBBON_SIZEDEFINITION_IMAGESIZE_LARGE;
+            ret_control->size_definitions->large.sizeLarge = src_block->block_sizedefinition_imagesize.sizedefinition_imagesize == UIRIBBON_SIZEDEFINITION_IMAGESIZE_LARGE;
             ret_control->size_definitions->medium.sizeLarge = ret_control->size_definitions->large.sizeLarge;
             ret_control->size_definitions->small.sizeLarge = ret_control->size_definitions->large.sizeLarge;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_OVERRIDE_IMAGESIZE:
-            if (src_block->block_imagesize.sizedefinition_imagesize_override == UIRIBBON_SIZEDEFINITION_IMAGESIZE_OVERRIDE_SMALLISSMALL)
+        case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE_MIXED:
+            if (src_block->block_sizedefinition_imagesize_mixed.sizedefinition_imagesize_mixed == UIRIBBON_SIZEDEFINITION_IMAGESIZE_MIXED_SMALLISSMALL)
             {
                 ret_control->size_definitions->small.sizeLarge = 0;
             }
-            else if(src_block->block_imagesize.sizedefinition_imagesize_override == UIRIBBON_SIZEDEFINITION_IMAGESIZE_OVERRIDE_SMALLANDMEDIUMARESMALL)
+            else if(src_block->block_sizedefinition_imagesize_mixed.sizedefinition_imagesize_mixed == UIRIBBON_SIZEDEFINITION_IMAGESIZE_MIXED_SMALLANDMEDIUMARESMALL)
             {
                 ret_control->size_definitions->medium.sizeLarge = 0;
                 ret_control->size_definitions->small.sizeLarge = 0;
             }
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_UNK9:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE:
             if (!ret_control->size_definitions)
                 ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions));
-            ret_control->size_definitions->large.labelvisible = src_block->block_9.sizedefinition_labelvisible == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_VISIBLE;
+            ret_control->size_definitions->large.labelvisible = src_block->block_sizedefinition_labelvisible.sizedefinition_labelvisible == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_VISIBLE;
             ret_control->size_definitions->medium.labelvisible = ret_control->size_definitions->large.labelvisible;
             ret_control->size_definitions->small.labelvisible = ret_control->size_definitions->large.labelvisible;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_UNK6:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE_MIXED:
             if (!ret_control->size_definitions)
                 ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions));
             ret_control->size_definitions->large.labelvisible = 1;
-            if (src_block->block_6.sizedefinition_labelvisible_override == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_OVERRIDE_OVERRIDESMALL)
+            if (src_block->block_sizedefinition_labelvisible_mixed.sizedefinition_labelvisible_mixed == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_MIXED_OVERRIDESMALL)
             {
                 ret_control->size_definitions->medium.labelvisible = 1;
                 ret_control->size_definitions->small.labelvisible = 0;
             }
-            else if (src_block->block_6.sizedefinition_labelvisible_override == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_OVERRIDE_OVERRIDESMALLANDMEDIUM)
+            else if (src_block->block_sizedefinition_labelvisible_mixed.sizedefinition_labelvisible_mixed == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_MIXED_OVERRIDESMALLANDMEDIUM)
             {
                 ret_control->size_definitions->medium.labelvisible = 0;
                 ret_control->size_definitions->small.labelvisible = 0;
             }
 
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_UNK36:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGEVISIBLE:
             if (!ret_control->size_definitions)
                 ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions));
 
-            ret_control->size_definitions->large.imagevisible = src_block->block_36.sizedefinition_imagevisible == UIRIBBON_SIZEDEFINITION_IMAGEVISIBLE_VISIBLE;
+            ret_control->size_definitions->large.imagevisible = src_block->block_sizedefinition_imagevisible.sizedefinition_imagevisible == UIRIBBON_SIZEDEFINITION_IMAGEVISIBLE_VISIBLE;
             ret_control->size_definitions->medium.imagevisible = ret_control->size_definitions->large.imagevisible;
             ret_control->size_definitions->small.imagevisible = ret_control->size_definitions->large.imagevisible;
             break;
@@ -121,9 +121,9 @@ void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
         {
             if(src_block->block_type == UIRIBBON_BLOCK_TYPE_RIBBON_TABS)
             {
-                if (src_block->block_tabs.tab_type == UIRIBBON_TAB_TYPE_NORMAL)
+                if (src_block->block_ribbon_tabs.tab_type == UIRIBBON_TAB_TYPE_NORMAL)
                 {
-                    transform_tabs(&src_block->block_tabs.block_normal, ret);
+                    transform_tabs(&src_block->block_ribbon_tabs.block_normal, ret);
                 }
             }
         }

@@ -108,23 +108,23 @@ enums:
     0: hidden
     1: visible
 
-  enum_sizedefinition_imagesize_override:
+  enum_sizedefinition_imagesize_mixed:
     2: smallissmall
     3: smallandmediumaresmall
   
-  enum_sizedefinition_labelvisible_override:
+  enum_sizedefinition_labelvisible_mixed:
     2: overridesmall
     3: overridesmallandmedium
 
   enum_control_block_type:
     0: id
-    6: unk6
-    8: sizedefinition_override_imagesize
-    9: unk9
+    6: sizedefinition_labelvisible_mixed
+    8: sizedefinition_imagesize_mixed
+    9: sizedefinition_labelvisible
     4: unk4
     24: subcomponents
-    36: unk36
-    37: unk37
+    36: sizedefinition_imagevisible
+    37: sizedefinition_imagesize
 
 types:
 
@@ -557,31 +557,31 @@ types:
           3: u2
           4: u1
   
-  type_control_block_6:
+  type_control_block_sizedefinition_labelvisible_mixed:
     seq:
     - id: unk1
       type: u1
-    - id: sizedefinition_labelvisible_override
+    - id: sizedefinition_labelvisible_mixed
       type: u1
-      enum: enum_sizedefinition_labelvisible_override
+      enum: enum_sizedefinition_labelvisible_mixed
     - id: unk3
       type: u1
     - id: unk4
       type: u1
 
-  type_control_block_sizedefinition_override_imagesize:
+  type_control_block_sizedefinition_imagesize_mixed:
     seq:
     - id: unk1
       type: u1
-    - id: sizedefinition_imagesize_override
+    - id: sizedefinition_imagesize_mixed
       type: u1
-      enum: enum_sizedefinition_imagesize_override
+      enum: enum_sizedefinition_imagesize_mixed
     - id: unk3
       type: u1
     - id: unk4
       type: u1
 
-  type_control_block_36:
+  type_control_block_sizedefinition_imagevisible:
     seq:
     - id: unk1
       size: 4
@@ -593,7 +593,7 @@ types:
     - id: unk4
       type: u1
   
-  type_control_block_9:
+  type_control_block_sizedefinition_labelvisible:
     seq:
     - id: unk1
       size: 4
@@ -605,7 +605,7 @@ types:
     - id: unk4
       type: u1
 
-  type_control_block_37:
+  type_control_block_sizedefinition_imagesize:
     seq:
     - id: unk1
       size: 4
@@ -627,13 +627,13 @@ types:
         switch-on: block_type
         cases:
           enum_control_block_type::id: type_control_block_id
-          enum_control_block_type::unk6: type_control_block_6
-          enum_control_block_type::sizedefinition_override_imagesize: type_control_block_sizedefinition_override_imagesize
-          enum_control_block_type::unk9: type_control_block_9
+          enum_control_block_type::sizedefinition_labelvisible_mixed: type_control_block_sizedefinition_labelvisible_mixed
+          enum_control_block_type::sizedefinition_imagesize_mixed: type_control_block_sizedefinition_imagesize_mixed
+          enum_control_block_type::sizedefinition_labelvisible: type_control_block_sizedefinition_labelvisible
      #     4: type_control_block_4
           enum_control_block_type::subcomponents: type_control_block_subcomponents
-          enum_control_block_type::unk36: type_control_block_36
-          enum_control_block_type::unk37: type_control_block_37
+          enum_control_block_type::sizedefinition_imagevisible: type_control_block_sizedefinition_imagevisible
+          enum_control_block_type::sizedefinition_imagesize: type_control_block_sizedefinition_imagesize
   
   type_control_blocks:
     seq:

@@ -20,8 +20,9 @@ namespace KaitaiCCompiler
 
         class TypeSwitchInfo
         {
-            public string value;
+            public string enumname;
             public string type;
+            public string unionname;
         }
 
         class SeqInfo
@@ -264,8 +265,18 @@ namespace KaitaiCCompiler
 
                                         TypeSwitchInfo info = new TypeSwitchInfo();
                                         type_switch_info.Add(info);
-                                        info.value = prefixExpression(key3);
+                                        info.enumname = prefixExpression(key3);
                                         info.type = val3;
+
+                                        if (key3.Contains("::"))
+                                        {
+                                            var split = key3.Split(new string[] { "::" }, StringSplitOptions.None);
+                                            info.unionname = "block_" + split[1];
+                                        }
+                                        else
+                                        {
+                                            info.unionname = "block_" + key3;
+                                        }
 
                                         var typeind2 = getTypeIdentifier(info.type);
                                         if (typeind2 != null)
@@ -380,18 +391,14 @@ namespace KaitaiCCompiler
                         ret.IndentStructPlus();
                         foreach (var info in type_switch_info)
                         {
-                            var unionname = "block_" + info.type.Substring(info.type.LastIndexOf('_') + 1);
-                            if (info.type.StartsWith("uint"))
-                                unionname = info.type;
-
-                            ret.AddStruct("{0} {1};", info.type, unionname);
+                            ret.AddStruct("{0} {1};", info.type, info.unionname);
                             ret.AddDependency(info.type);
-                            ret.AddCode("case {0}:", info.value);
+                            ret.AddCode("case {0}:", info.enumname);
                             ret.IndentCodePlus();
                             if (info.type.StartsWith("uint"))
-                                ret.AddCode("CHECK(stream_read_{0}(s, &ret->{1}));", info.type, unionname);
+                                ret.AddCode("CHECK(stream_read_{0}(s, &ret->{1}));", info.type, info.unionname);
                             else
-                                ret.AddCode("CHECK(read_{0}(s, &ret->{1}));", info.type, unionname);
+                                ret.AddCode("CHECK(read_{0}(s, &ret->{1}));", info.type, info.unionname);
                             ret.AddCode("break;");
                             ret.IndentCodeMinus();
                         }

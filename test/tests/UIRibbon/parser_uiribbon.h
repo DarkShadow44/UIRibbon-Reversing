@@ -72,26 +72,26 @@ typedef enum
 
 typedef enum
 {
-	UIRIBBON_SIZEDEFINITION_IMAGESIZE_OVERRIDE_SMALLISSMALL = 2,
-	UIRIBBON_SIZEDEFINITION_IMAGESIZE_OVERRIDE_SMALLANDMEDIUMARESMALL = 3,
-} enum_sizedefinition_imagesize_override;
+	UIRIBBON_SIZEDEFINITION_IMAGESIZE_MIXED_SMALLISSMALL = 2,
+	UIRIBBON_SIZEDEFINITION_IMAGESIZE_MIXED_SMALLANDMEDIUMARESMALL = 3,
+} enum_sizedefinition_imagesize_mixed;
 
 typedef enum
 {
-	UIRIBBON_SIZEDEFINITION_LABELVISIBLE_OVERRIDE_OVERRIDESMALL = 2,
-	UIRIBBON_SIZEDEFINITION_LABELVISIBLE_OVERRIDE_OVERRIDESMALLANDMEDIUM = 3,
-} enum_sizedefinition_labelvisible_override;
+	UIRIBBON_SIZEDEFINITION_LABELVISIBLE_MIXED_OVERRIDESMALL = 2,
+	UIRIBBON_SIZEDEFINITION_LABELVISIBLE_MIXED_OVERRIDESMALLANDMEDIUM = 3,
+} enum_sizedefinition_labelvisible_mixed;
 
 typedef enum
 {
 	UIRIBBON_CONTROL_BLOCK_TYPE_ID = 0,
-	UIRIBBON_CONTROL_BLOCK_TYPE_UNK6 = 6,
-	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_OVERRIDE_IMAGESIZE = 8,
-	UIRIBBON_CONTROL_BLOCK_TYPE_UNK9 = 9,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE_MIXED = 6,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE_MIXED = 8,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE = 9,
 	UIRIBBON_CONTROL_BLOCK_TYPE_UNK4 = 4,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SUBCOMPONENTS = 24,
-	UIRIBBON_CONTROL_BLOCK_TYPE_UNK36 = 36,
-	UIRIBBON_CONTROL_BLOCK_TYPE_UNK37 = 37,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGEVISIBLE = 36,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE = 37,
 } enum_control_block_type;
 
 typedef struct
@@ -197,6 +197,7 @@ typedef struct
 	enum_tab_type tab_type;
 	union
 	{
+		type_ribbon_tabs_normal block_help;
 		type_ribbon_tabs_normal block_normal;
 		type_ribbon_tabs_context block_context;
 		type_ribbon_tabs_applicationmenu block_applicationmenu;
@@ -267,26 +268,26 @@ typedef struct
 	uint8_t flag;
 	union
 	{
-		uint16_t uint16_t;
-		uint8_t uint8_t;
+		uint16_t block_3;
+		uint8_t block_4;
 	};
 } type_control_block_id;
 
 typedef struct
 {
 	uint8_t unk1;
-	enum_sizedefinition_labelvisible_override sizedefinition_labelvisible_override;
+	enum_sizedefinition_labelvisible_mixed sizedefinition_labelvisible_mixed;
 	uint8_t unk3;
 	uint8_t unk4;
-} type_control_block_6;
+} type_control_block_sizedefinition_labelvisible_mixed;
 
 typedef struct
 {
 	uint8_t unk1;
-	enum_sizedefinition_imagesize_override sizedefinition_imagesize_override;
+	enum_sizedefinition_imagesize_mixed sizedefinition_imagesize_mixed;
 	uint8_t unk3;
 	uint8_t unk4;
-} type_control_block_sizedefinition_override_imagesize;
+} type_control_block_sizedefinition_imagesize_mixed;
 
 typedef struct
 {
@@ -294,7 +295,7 @@ typedef struct
 	enum_sizedefinition_imagevisible sizedefinition_imagevisible;
 	uint8_t unk3;
 	uint8_t unk4;
-} type_control_block_36;
+} type_control_block_sizedefinition_imagevisible;
 
 typedef struct
 {
@@ -302,7 +303,7 @@ typedef struct
 	enum_sizedefinition_labelvisible sizedefinition_labelvisible;
 	uint8_t unk3;
 	uint8_t unk4;
-} type_control_block_9;
+} type_control_block_sizedefinition_labelvisible;
 
 typedef struct
 {
@@ -310,7 +311,7 @@ typedef struct
 	enum_sizedefinition_imagesize sizedefinition_imagesize;
 	uint8_t unk3;
 	uint8_t unk4;
-} type_control_block_37;
+} type_control_block_sizedefinition_imagesize;
 
 typedef struct
 {
@@ -318,12 +319,12 @@ typedef struct
 	union
 	{
 		type_control_block_id block_id;
-		type_control_block_6 block_6;
-		type_control_block_sizedefinition_override_imagesize block_imagesize;
-		type_control_block_9 block_9;
+		type_control_block_sizedefinition_labelvisible_mixed block_sizedefinition_labelvisible_mixed;
+		type_control_block_sizedefinition_imagesize_mixed block_sizedefinition_imagesize_mixed;
+		type_control_block_sizedefinition_labelvisible block_sizedefinition_labelvisible;
 		type_control_block_subcomponents block_subcomponents;
-		type_control_block_36 block_36;
-		type_control_block_37 block_37;
+		type_control_block_sizedefinition_imagevisible block_sizedefinition_imagevisible;
+		type_control_block_sizedefinition_imagesize block_sizedefinition_imagesize;
 	};
 } type_control_block_generic;
 
@@ -470,8 +471,8 @@ typedef struct
 	enum_block_type block_type;
 	union
 	{
-		type_block_tabs block_tabs;
-		type_block_quickaccess block_quickaccess;
+		type_block_tabs block_ribbon_tabs;
+		type_block_quickaccess block_ribbon_quickaccesstoolbar;
 	};
 } type_block_generic;
 
