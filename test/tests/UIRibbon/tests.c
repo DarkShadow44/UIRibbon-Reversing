@@ -51,6 +51,8 @@ static int test_sizeinfo(void)
 {
     uiribbon_main uiribbon;
     uiribbon_control *control;
+    uiribbon_group *group;
+    uiribbon_sizedefinition_group_order *orders;
 
     /* Size */
 
@@ -176,6 +178,61 @@ static int test_sizeinfo(void)
     ASSERT(control->size_definitions->large.imagevisible == 1);
     ASSERT(control->size_definitions->medium.imagevisible == 1);
     ASSERT(control->size_definitions->small.imagevisible == 1);
+
+    /* Order */
+
+    CHECK(parse_from_testdata("sizedefinition_order", &uiribbon));
+    group = &uiribbon.tabs[0].groups[0];
+    ASSERT(group->sizedefinition_orders != NULL);
+
+    ASSERT(group->sizedefinition_orders->large.count_orders == 13);
+    orders = group->sizedefinition_orders->large.orders;
+    ASSERT(orders[0].is_special && orders[0].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_OPEN_GROUP);
+    ASSERT(!orders[1].is_special && orders[1].command_id == 10003);
+    ASSERT(orders[2].is_special && orders[2].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_CLOSE_GROUP);
+    ASSERT(orders[3].is_special && orders[3].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_VISIBLE_SEPARATOR);
+    ASSERT(orders[4].is_special && orders[4].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_OPEN_GROUP);
+    ASSERT(!orders[5].is_special && orders[5].command_id == 10002);
+    ASSERT(!orders[6].is_special && orders[6].command_id == 10001);
+    ASSERT(orders[7].is_special && orders[7].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_CLOSE_GROUP);
+    ASSERT(!orders[8].is_special && orders[8].special_command == 10004);
+    ASSERT(orders[9].is_special && orders[9].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(!orders[10].is_special && orders[10].command_id == 10005);
+    ASSERT(!orders[11].is_special && orders[11].command_id == 10006);
+    ASSERT(orders[12].is_special && orders[12].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+
+    ASSERT(group->sizedefinition_orders->medium.count_orders == 15);
+    orders = group->sizedefinition_orders->medium.orders;
+    ASSERT(!orders[0].is_special && orders[0].command_id == 10001);
+    ASSERT(!orders[1].is_special && orders[1].command_id == 10002);
+    ASSERT(orders[2].is_special && orders[2].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(!orders[3].is_special && orders[3].command_id == 10005);
+    ASSERT(orders[4].is_special && orders[4].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[5].is_special && orders[5].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_INVISIBLE_SEPARATOR);
+    ASSERT(!orders[6].is_special && orders[6].command_id == 10004);
+    ASSERT(orders[7].is_special && orders[7].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[8].is_special && orders[8].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_VISIBLE_SEPARATOR);
+    ASSERT(orders[9].is_special && orders[9].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_VISIBLE_SEPARATOR);
+    ASSERT(!orders[10].is_special && orders[10].command_id == 10003);
+    ASSERT(orders[11].is_special && orders[11].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[12].is_special && orders[12].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_INVISIBLE_SEPARATOR);
+    ASSERT(!orders[13].is_special && orders[13].command_id == 10006);
+    ASSERT(orders[14].is_special && orders[14].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+
+    ASSERT(group->sizedefinition_orders->small.count_orders == 12);
+    orders = group->sizedefinition_orders->small.orders;
+    ASSERT(!orders[0].is_special && orders[0].command_id == 10001);
+    ASSERT(orders[1].is_special && orders[1].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(!orders[2].is_special && orders[2].command_id == 10006);
+    ASSERT(orders[3].is_special && orders[3].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(!orders[4].is_special && orders[4].command_id == 10003);
+    ASSERT(orders[5].is_special && orders[5].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(!orders[6].is_special && orders[6].command_id == 10004);
+    ASSERT(orders[7].is_special && orders[7].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(!orders[8].is_special && orders[8].command_id == 10005);
+    ASSERT(orders[9].is_special && orders[9].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(!orders[10].is_special && orders[10].command_id == 10002);
+    ASSERT(orders[11].is_special && orders[11].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
 
     return 0;
 }

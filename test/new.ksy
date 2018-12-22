@@ -11,6 +11,7 @@ doc-ref: https://docs.microsoft.com/en-us/windows/desktop/windowsribbon/windowsr
 
 
 #add doc to everything known
+#missing groups in sizedefinition
 
 
 meta:
@@ -81,12 +82,7 @@ enums:
 
   enum_sizedefinitions_command:
     3: command
-    9: newline
-
-  enum_sizedefinitions_command_newline:
-    1: rowbreak
-    2: columbreak_with_separator
-    3: columbreak_without_separator
+    9: special
 
   enum_type_control:
     15: button
@@ -410,13 +406,15 @@ types:
     - id: flags_command
       type: u1
       enum: enum_sizedefinitions_command
-    - id: unk2
+    - id: string_id
       type: u1
-      enum: enum_sizedefinitions_command_newline
-      if: flags_command == enum_sizedefinitions_command::newline
+      if: flags_command == enum_sizedefinitions_command::special
     - id: command_id
       type: u2
       if: flags_command == enum_sizedefinitions_command::command
+    instances:
+      command_str:
+        value: _root.strings.strings[string_id]
 
   type_sizedefinition:
     seq:
@@ -424,10 +422,12 @@ types:
       type: u2
     - id: unk2
       type: u1
+    - id: count_commands
+      type: u2
     - id: commands
       type: type_sizedefinitions_command
-      repeat: until
-      repeat-until: _.unk1 == 24 or _.unk1 == 22
+      repeat: expr
+      repeat-expr: count_commands
 
   type_group_elements_info:
     seq:
@@ -474,15 +474,16 @@ types:
     - id: unk3
       type: u2
     - id: unk4
-      type: u1
-    - id: flags
       type: u2
-    - id: id_u1
+    - id: flag
       type: u1
-      if: (flags & 0x400) != 0
-    - id: id_u2
-      type: u2
-      if: (flags & 0x300) != 0
+    - id: id
+      type:
+        switch-on: flag
+        cases:
+          2: u4
+          3: u2
+          4: u1
     - id: unk20
       type: u2
     - id: unk12
@@ -554,6 +555,7 @@ types:
       type:
         switch-on: flag
         cases:
+          2: u4
           3: u2
           4: u1
   
@@ -641,6 +643,7 @@ types:
       type: u1
     - id: unk1
       type: u2
+      if: count_blocks > 0
     - id: blocks
       type: type_control_block_generic
       repeat: expr
@@ -660,15 +663,6 @@ types:
     - id: block
       size: size_block - 7
       type: type_control_blocks
-
-  type_control_otherinfo:
-    seq:
-    - id: unk1
-      type: u2
-    - id: unk2
-      type: u2
-    - id: unk3
-      type: u2
 
   type_menugroup_extended:
     seq:
@@ -752,17 +746,17 @@ types:
     - id: ribbon_tab_info
       type: type_tab_extended
       repeat: expr
-      repeat-expr: 1  #ribbon.tabs count
-    # - id: ribbon_tab_contextual_info
-    #   type: type_tab_extended
-    #   repeat: expr
-    #   repeat-expr: 20  #ribbon.contextualtabs count
-    # - id: unk_ext1
-    #   type: type_unk1_extended
-    # - id: applicationmenu_menugroups_ext
-    #   type: type_menugroup_extended
-    #   repeat: expr
-    #   repeat-expr: 4 #number of menugroups in application menu
+      repeat-expr: 1  #ribbon.tabs count   #ask kaitai
+    - id: ribbon_tab_contextual_info
+      type: type_tab_extended
+      repeat: expr
+      repeat-expr: 0  #ribbon.contextualtabs count
+    - id: unk_ext1
+      type: type_unk1_extended
+    - id: applicationmenu_menugroups_ext
+      type: type_menugroup_extended
+      repeat: expr
+      repeat-expr: 0 #number of menugroups in application menu
     # - id: check10
     #   contents: [4, 1, 1, 0x0b, 4, 0, 1, 1, 0x41, 0x2b]
     # - id: unk10

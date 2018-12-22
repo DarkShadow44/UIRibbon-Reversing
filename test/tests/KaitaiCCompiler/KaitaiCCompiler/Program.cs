@@ -371,7 +371,8 @@ namespace KaitaiCCompiler
                         if (type == null || type == "str")
                         {
                             ret.AddStruct("char *{0};", id);
-                            ret.AddCode("CHECK(stream_read_bytes(s, &ret->{0}, {1}));", id, size);
+                            ret.AddCode("ret->{0} = malloc({1});", id, size);
+                            ret.AddCode("CHECK(stream_read_bytes(s, ret->{0}, {1}));", id, size);
                         }
                         else
                         {

@@ -8,7 +8,8 @@ int read_type_string(stream *s, type_string *ret)
 
 	CHECK(stream_expect_bytes(s, unk1));
 	CHECK(stream_read_uint16_t(s, &ret->size_str));
-	CHECK(stream_read_bytes(s, &ret->str, ret->size_str));
+	ret->str = malloc(ret->size_str);
+	CHECK(stream_read_bytes(s, ret->str, ret->size_str));
 	return 0;
 }
 
@@ -158,11 +159,14 @@ int read_type_ribbon_tabs_applicationmenu(stream *s, type_ribbon_tabs_applicatio
 	CHECK(stream_read_uint16_t(s, &ret->unk13));
 	CHECK(stream_read_uint16_t(s, &ret->unk14));
 	CHECK(stream_read_uint8_t(s, &ret->unk15));
-	CHECK(stream_read_bytes(s, &ret->unk16, 5));
+	ret->unk16 = malloc(5);
+	CHECK(stream_read_bytes(s, ret->unk16, 5));
 	CHECK(stream_read_uint32_t(s, &ret->unk17));
-	CHECK(stream_read_bytes(s, &ret->unk18, 1));
+	ret->unk18 = malloc(1);
+	CHECK(stream_read_bytes(s, ret->unk18, 1));
 	CHECK(stream_read_uint32_t(s, &ret->unk19));
-	CHECK(stream_read_bytes(s, &ret->unk20, 1));
+	ret->unk20 = malloc(1);
+	CHECK(stream_read_bytes(s, ret->unk20, 1));
 	CHECK(stream_read_uint32_t(s, &ret->unk21));
 	return 0;
 }
@@ -194,7 +198,8 @@ int read_type_block_tabs(stream *s, type_block_tabs *ret)
 
 int read_block_unk1(stream *s, block_unk1 *ret)
 {
-	CHECK(stream_read_bytes(s, &ret->rest, 10));
+	ret->rest = malloc(10);
+	CHECK(stream_read_bytes(s, ret->rest, 10));
 	return 0;
 }
 
@@ -212,7 +217,8 @@ int read_type_sizeinfo_maybe(stream *s, type_sizeinfo_maybe *ret)
 	CHECK(stream_read_uint8_t(s, &ret->unk1));
 	if (ret->unk1 == 4)
 	{
-		CHECK(stream_read_bytes(s, &ret->unk1e1, 3));
+		ret->unk1e1 = malloc(3);
+		CHECK(stream_read_bytes(s, ret->unk1e1, 3));
 	}
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
 	CHECK(stream_read_uint8_t(s, &ret->unk3));
@@ -235,15 +241,13 @@ int read_type_sizeinfo_maybe(stream *s, type_sizeinfo_maybe *ret)
 int read_type_sizedefinitions_command(stream *s, type_sizedefinitions_command *ret)
 {
 	uint8_t flags_command;
-	uint8_t unk2;
 
 	CHECK(stream_read_uint8_t(s, &ret->unk1));
 	CHECK(stream_read_uint8_t(s, &flags_command));
 	ret->flags_command = flags_command;
-	if (ret->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_NEWLINE)
+	if (ret->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_SPECIAL)
 	{
-		CHECK(stream_read_uint8_t(s, &unk2));
-		ret->unk2 = unk2;
+		CHECK(stream_read_uint8_t(s, &ret->string_id));
 	}
 	if (ret->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND)
 	{
@@ -258,14 +262,12 @@ int read_type_sizedefinition(stream *s, type_sizedefinition *ret)
 
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
-	ret->commands = NULL;
-	i = -1;
-	do
+	CHECK(stream_read_uint16_t(s, &ret->count_commands));
+	ret->commands = malloc(sizeof(type_sizedefinitions_command) * ret->count_commands);
+	for (i = 0; i < ret->count_commands; i++)
 	{
-		i++;
-		ret->commands = realloc(ret->commands, sizeof(type_sizedefinitions_command) * i);
 		CHECK(read_type_sizedefinitions_command(s, &ret->commands[i]));
-	} while(!(ret->commands[i].unk1 == 24 || ret->commands[i].unk1 == 22));
+	}
 	return 0;
 }
 
@@ -294,6 +296,9 @@ int read_type_control_block_id(stream *s, type_control_block_id *ret)
 	CHECK(stream_read_uint8_t(s, &ret->flag));
 	switch(ret->flag)
 	{
+	case 2:
+		CHECK(stream_read_uint32_t(s, &ret->block_2));
+		break;
 	case 3:
 		CHECK(stream_read_uint16_t(s, &ret->block_3));
 		break;
@@ -332,7 +337,8 @@ int read_type_control_block_sizedefinition_imagevisible(stream *s, type_control_
 {
 	uint8_t sizedefinition_imagevisible;
 
-	CHECK(stream_read_bytes(s, &ret->unk1, 4));
+	ret->unk1 = malloc(4);
+	CHECK(stream_read_bytes(s, ret->unk1, 4));
 	CHECK(stream_read_uint8_t(s, &sizedefinition_imagevisible));
 	ret->sizedefinition_imagevisible = sizedefinition_imagevisible;
 	CHECK(stream_read_uint8_t(s, &ret->unk3));
@@ -344,7 +350,8 @@ int read_type_control_block_sizedefinition_labelvisible(stream *s, type_control_
 {
 	uint8_t sizedefinition_labelvisible;
 
-	CHECK(stream_read_bytes(s, &ret->unk1, 4));
+	ret->unk1 = malloc(4);
+	CHECK(stream_read_bytes(s, ret->unk1, 4));
 	CHECK(stream_read_uint8_t(s, &sizedefinition_labelvisible));
 	ret->sizedefinition_labelvisible = sizedefinition_labelvisible;
 	CHECK(stream_read_uint8_t(s, &ret->unk3));
@@ -356,7 +363,8 @@ int read_type_control_block_sizedefinition_imagesize(stream *s, type_control_blo
 {
 	uint8_t sizedefinition_imagesize;
 
-	CHECK(stream_read_bytes(s, &ret->unk1, 4));
+	ret->unk1 = malloc(4);
+	CHECK(stream_read_bytes(s, ret->unk1, 4));
 	CHECK(stream_read_uint8_t(s, &sizedefinition_imagesize));
 	ret->sizedefinition_imagesize = sizedefinition_imagesize;
 	CHECK(stream_read_uint8_t(s, &ret->unk3));
@@ -402,7 +410,10 @@ int read_type_control_blocks(stream *s, type_control_blocks *ret)
 	int i;
 
 	CHECK(stream_read_uint8_t(s, &ret->count_blocks));
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
+	if (ret->count_blocks > 0)
+	{
+		CHECK(stream_read_uint16_t(s, &ret->unk1));
+	}
 	ret->blocks = malloc(sizeof(type_control_block_generic) * ret->count_blocks);
 	for (i = 0; i < ret->count_blocks; i++)
 	{
@@ -471,15 +482,19 @@ int read_type_group_info(stream *s, type_group_info *ret)
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint16_t(s, &ret->len_unk1));
 	CHECK(stream_read_uint16_t(s, &ret->unk3));
-	CHECK(stream_read_uint8_t(s, &ret->unk4));
-	CHECK(stream_read_uint16_t(s, &ret->flags));
-	if ((ret->flags & 0x400) != 0)
+	CHECK(stream_read_uint16_t(s, &ret->unk4));
+	CHECK(stream_read_uint8_t(s, &ret->flag));
+	switch(ret->flag)
 	{
-		CHECK(stream_read_uint8_t(s, &ret->id_u1));
-	}
-	if ((ret->flags & 0x300) != 0)
-	{
-		CHECK(stream_read_uint16_t(s, &ret->id_u2));
+	case 2:
+		CHECK(stream_read_uint32_t(s, &ret->block_2));
+		break;
+	case 3:
+		CHECK(stream_read_uint16_t(s, &ret->block_3));
+		break;
+	case 4:
+		CHECK(stream_read_uint8_t(s, &ret->block_4));
+		break;
 	}
 	CHECK(stream_read_uint16_t(s, &ret->unk20));
 	CHECK(stream_read_uint16_t(s, &ret->unk12));
@@ -505,14 +520,6 @@ int read_type_tab_extended(stream *s, type_tab_extended *ret)
 	{
 		CHECK(read_type_group_info(s, &ret->groupinfo[i]));
 	}
-	return 0;
-}
-
-int read_type_control_otherinfo(stream *s, type_control_otherinfo *ret)
-{
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_read_uint16_t(s, &ret->unk2));
-	CHECK(stream_read_uint16_t(s, &ret->unk3));
 	return 0;
 }
 
@@ -692,6 +699,17 @@ int read_application_views(stream *s, application_views *ret)
 	{
 		CHECK(read_type_tab_extended(s, &ret->ribbon_tab_info[i]));
 	}
+	ret->ribbon_tab_contextual_info = malloc(sizeof(type_tab_extended) * 0);
+	for (i = 0; i < 0; i++)
+	{
+		CHECK(read_type_tab_extended(s, &ret->ribbon_tab_contextual_info[i]));
+	}
+	CHECK(read_type_unk1_extended(s, &ret->unk_ext1));
+	ret->applicationmenu_menugroups_ext = malloc(sizeof(type_menugroup_extended) * 0);
+	for (i = 0; i < 0; i++)
+	{
+		CHECK(read_type_menugroup_extended(s, &ret->applicationmenu_menugroups_ext[i]));
+	}
 	return 0;
 }
 
@@ -705,7 +723,8 @@ int read_type_command(stream *s, type_command *ret)
 	CHECK(stream_read_uint8_t(s, &ret->unk3b));
 	CHECK(stream_expect_bytes(s, unk4));
 	CHECK(stream_read_uint16_t(s, &ret->size_str));
-	CHECK(stream_read_bytes(s, &ret->str, ret->size_str));
+	ret->str = malloc(ret->size_str);
+	CHECK(stream_read_bytes(s, ret->str, ret->size_str));
 	return 0;
 }
 

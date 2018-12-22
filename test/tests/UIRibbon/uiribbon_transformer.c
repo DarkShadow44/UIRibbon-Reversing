@@ -30,7 +30,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE:
             if (!ret_control->size_definitions)
-                ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions));
+                ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions_control));
             ret_control->size_definitions->large.sizeLarge = src_block->block_sizedefinition_imagesize.sizedefinition_imagesize == UIRIBBON_SIZEDEFINITION_IMAGESIZE_LARGE;
             ret_control->size_definitions->medium.sizeLarge = ret_control->size_definitions->large.sizeLarge;
             ret_control->size_definitions->small.sizeLarge = ret_control->size_definitions->large.sizeLarge;
@@ -48,14 +48,14 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE:
             if (!ret_control->size_definitions)
-                ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions));
+                ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions_control));
             ret_control->size_definitions->large.labelvisible = src_block->block_sizedefinition_labelvisible.sizedefinition_labelvisible == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_VISIBLE;
             ret_control->size_definitions->medium.labelvisible = ret_control->size_definitions->large.labelvisible;
             ret_control->size_definitions->small.labelvisible = ret_control->size_definitions->large.labelvisible;
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE_MIXED:
             if (!ret_control->size_definitions)
-                ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions));
+                ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions_control));
             ret_control->size_definitions->large.labelvisible = 1;
             if (src_block->block_sizedefinition_labelvisible_mixed.sizedefinition_labelvisible_mixed == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_MIXED_OVERRIDESMALL)
             {
@@ -71,7 +71,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGEVISIBLE:
             if (!ret_control->size_definitions)
-                ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions));
+                ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions_control));
 
             ret_control->size_definitions->large.imagevisible = src_block->block_sizedefinition_imagevisible.sizedefinition_imagevisible == UIRIBBON_SIZEDEFINITION_IMAGEVISIBLE_VISIBLE;
             ret_control->size_definitions->medium.imagevisible = ret_control->size_definitions->large.imagevisible;
@@ -81,9 +81,73 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
     }
 }
 
-void transform_tabs_ext(type_tab_extended *tabs_ext, uiribbon_main *ret)
+void transform_sizedefinition_group(type_uiribbon *root, type_sizedefinition *src, uiribbon_sizedefinition_group *ret)
 {
-    int i, j, k;
+    int i;
+
+    ret->count_orders = src->count_commands;
+    ret->orders = malloc(sizeof(uiribbon_sizedefinition_group_order) * ret->count_orders);
+    for (i = 0; i < ret->count_orders; i++)
+    {
+        uiribbon_sizedefinition_group_order *ret_order = &ret->orders[i];
+        type_sizedefinitions_command *src_order = &src->commands[i];
+
+        if (src_order->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND)
+        {
+            ret_order->is_special = 0;
+            ret_order->command_id = src->commands[i].command_id;
+        }
+        else if (src_order->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_SPECIAL)
+        {
+            char special;
+            ret_order->is_special = 1;
+            special = root->strings.strings[src_order->string_id].str[0];
+            switch(special)
+            {
+            case '{':
+                ret_order->special_command = UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_OPEN_GROUP;
+                break;
+            case '}':
+                ret_order->special_command = UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_CLOSE_GROUP;
+                break;
+            case '|':
+                ret_order->special_command = UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_VISIBLE_SEPARATOR;
+                break;
+            case ':':
+                ret_order->special_command = UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_INVISIBLE_SEPARATOR;
+                break;
+            case ';':
+                ret_order->special_command = UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK;
+                break;
+            }
+        }
+    }
+}
+
+void transform_group(type_uiribbon *root, type_group_info *src_group, uiribbon_group *ret_group)
+{
+    int i;
+    ret_group->count_controls = src_group->group_elements_info.sub_count;
+    ret_group->controls = malloc(sizeof(uiribbon_control) * ret_group->count_controls);
+
+    for (i = 0; i < ret_group->count_controls; i++)
+    {
+        transform_control(&src_group->group_elements_info.subcontents[i], &ret_group->controls[i]);
+    }
+
+    ret_group->sizedefinition_orders = NULL;
+    if (src_group->group_elements_info.unk10 == 5)
+    {
+        ret_group->sizedefinition_orders = malloc(sizeof(uiribbon_sizedefinitions_orders));
+        transform_sizedefinition_group(root, &src_group->group_elements_info.sizedefinition_large, &ret_group->sizedefinition_orders->large);
+        transform_sizedefinition_group(root, &src_group->group_elements_info.sizedefinition_medium, &ret_group->sizedefinition_orders->medium);
+        transform_sizedefinition_group(root, &src_group->group_elements_info.sizedefinition_small, &ret_group->sizedefinition_orders->small);
+    }
+}
+
+void transform_tabs_ext(type_uiribbon *root, type_tab_extended *tabs_ext, uiribbon_main *ret)
+{
+    int i, j;
 
     for (i = 0; i < ret->count_tabs; i++)
     {
@@ -95,17 +159,7 @@ void transform_tabs_ext(type_tab_extended *tabs_ext, uiribbon_main *ret)
 
         for (j = 0; j < ret_tab->count_groups; j++)
         {
-            uiribbon_group *ret_group = &ret_tab->groups[j];
-            type_group_info *src_group = &src_tab->groupinfo[j];
-
-            ret_group->count_controls = src_group->group_elements_info.sub_count;
-            ret_group->controls = malloc(sizeof(uiribbon_control) * ret_group->count_controls);
-
-            for (k = 0; k < ret_group->count_controls; k++)
-            {
-                transform_control(&src_group->group_elements_info.subcontents[k], &ret_group->controls[k]);
-            }
-
+            transform_group(root, &src_tab->groupinfo[j], &ret_tab->groups[j]);
         }
     }
 }
@@ -129,5 +183,5 @@ void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
         }
     }
 
-    transform_tabs_ext(src->unk6.ribbon_tab_info, ret);
+    transform_tabs_ext(src, src->unk6.ribbon_tab_info, ret);
 }

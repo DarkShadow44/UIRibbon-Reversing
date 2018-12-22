@@ -32,15 +32,8 @@ typedef enum
 typedef enum
 {
 	UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND = 3,
-	UIRIBBON_SIZEDEFINITIONS_COMMAND_NEWLINE = 9,
+	UIRIBBON_SIZEDEFINITIONS_COMMAND_SPECIAL = 9,
 } enum_sizedefinitions_command;
-
-typedef enum
-{
-	UIRIBBON_SIZEDEFINITIONS_COMMAND_NEWLINE_ROWBREAK = 1,
-	UIRIBBON_SIZEDEFINITIONS_COMMAND_NEWLINE_COLUMBREAK_WITH_SEPARATOR = 2,
-	UIRIBBON_SIZEDEFINITIONS_COMMAND_NEWLINE_COLUMBREAK_WITHOUT_SEPARATOR = 3,
-} enum_sizedefinitions_command_newline;
 
 typedef enum
 {
@@ -234,7 +227,7 @@ typedef struct
 {
 	uint8_t unk1;
 	enum_sizedefinitions_command flags_command;
-	enum_sizedefinitions_command_newline unk2;
+	uint8_t string_id;
 	uint16_t command_id;
 } type_sizedefinitions_command;
 
@@ -242,6 +235,7 @@ typedef struct
 {
 	uint16_t unk1;
 	uint8_t unk2;
+	uint16_t count_commands;
 	type_sizedefinitions_command *commands;
 } type_sizedefinition;
 
@@ -268,6 +262,7 @@ typedef struct
 	uint8_t flag;
 	union
 	{
+		uint32_t block_2;
 		uint16_t block_3;
 		uint8_t block_4;
 	};
@@ -364,10 +359,14 @@ typedef struct
 	uint16_t unk1;
 	uint16_t len_unk1;
 	uint16_t unk3;
-	uint8_t unk4;
-	uint16_t flags;
-	uint8_t id_u1;
-	uint16_t id_u2;
+	uint16_t unk4;
+	uint8_t flag;
+	union
+	{
+		uint32_t block_2;
+		uint16_t block_3;
+		uint8_t block_4;
+	};
 	uint16_t unk20;
 	uint16_t unk12;
 	uint16_t unk21;
@@ -385,13 +384,6 @@ typedef struct
 	uint8_t unk3;
 	type_group_info *groupinfo;
 } type_tab_extended;
-
-typedef struct
-{
-	uint16_t unk1;
-	uint16_t unk2;
-	uint16_t unk3;
-} type_control_otherinfo;
 
 typedef struct
 {
@@ -487,6 +479,9 @@ typedef struct
 	uint16_t ribbon_len;
 	type_ribbon ribbon;
 	type_tab_extended *ribbon_tab_info;
+	type_tab_extended *ribbon_tab_contextual_info;
+	type_unk1_extended unk_ext1;
+	type_menugroup_extended *applicationmenu_menugroups_ext;
 } application_views;
 
 typedef struct
