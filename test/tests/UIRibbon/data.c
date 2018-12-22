@@ -1,4 +1,4 @@
-#include "shared.h"
+#include "parser_generic.h"
 
 /* Make XML:    cat in.xml | perl -p -e 's/\n/\\n/g' | perl -p -e 's/\r//g' | sed 's/\"/\\\"/g' | sed 's/\t/\\t/g' |  awk '{print "const char xml_[] = \""$0"\";"}'> out.txt    */
 /* Make BML:    cat in.bml | od -t x1 -An  -w999999 | xargs | sed 's/ /, 0x/g' | awk '{print "const char bml_[] = {0x"$0"};"}' > out.txt      */
