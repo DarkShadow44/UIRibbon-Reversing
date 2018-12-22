@@ -69,6 +69,14 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
             }
 
             break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_UNK36:
+            if (!ret_control->size_definitions)
+                ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions));
+
+            ret_control->size_definitions->large.imagevisible = src_block->block_36.sizedefinition_imagevisible == UIRIBBON_SIZEDEFINITION_IMAGEVISIBLE_VISIBLE;
+            ret_control->size_definitions->medium.imagevisible = ret_control->size_definitions->large.imagevisible;
+            ret_control->size_definitions->small.imagevisible = ret_control->size_definitions->large.imagevisible;
+            break;
         }
     }
 }

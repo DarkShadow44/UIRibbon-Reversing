@@ -66,6 +66,12 @@ typedef enum
 
 typedef enum
 {
+	UIRIBBON_SIZEDEFINITION_IMAGEVISIBLE_HIDDEN = 0,
+	UIRIBBON_SIZEDEFINITION_IMAGEVISIBLE_VISIBLE = 1,
+} enum_sizedefinition_imagevisible;
+
+typedef enum
+{
 	UIRIBBON_SIZEDEFINITION_IMAGESIZE_OVERRIDE_SMALLISSMALL = 2,
 	UIRIBBON_SIZEDEFINITION_IMAGESIZE_OVERRIDE_SMALLANDMEDIUMARESMALL = 3,
 } enum_sizedefinition_imagesize_override;
@@ -285,7 +291,7 @@ typedef struct
 typedef struct
 {
 	char *unk1;
-	uint8_t unk2;
+	enum_sizedefinition_imagevisible sizedefinition_imagevisible;
 	uint8_t unk3;
 	uint8_t unk4;
 } type_control_block_36;

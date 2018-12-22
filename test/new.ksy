@@ -103,6 +103,10 @@ enums:
   enum_sizedefinition_labelvisible:
     0: hidden
     1: visible
+  
+  enum_sizedefinition_imagevisible:
+    0: hidden
+    1: visible
 
   enum_sizedefinition_imagesize_override:
     2: smallissmall
@@ -581,8 +585,9 @@ types:
     seq:
     - id: unk1
       size: 4
-    - id: unk2
+    - id: sizedefinition_imagevisible
       type: u1
+      enum: enum_sizedefinition_imagevisible
     - id: unk3
       type: u1
     - id: unk4

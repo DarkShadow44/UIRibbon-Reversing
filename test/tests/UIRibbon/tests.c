@@ -152,6 +152,31 @@ static int test_sizeinfo(void)
     ASSERT(control->size_definitions->medium.labelvisible == 1);
     ASSERT(control->size_definitions->small.labelvisible == 1);
 
+    /* ImageVisible */
+    CHECK(parse_from_testdata("sizeinfo_image_largetosmall__imagehidden_imagehidden_imagehidden", &uiribbon));
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
+    control = &uiribbon.tabs[0].groups[0].controls[0];
+    ASSERT(control->id == 10003);
+    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->size_definitions != NULL);
+    ASSERT(control->size_definitions->large.imagevisible == 0);
+    ASSERT(control->size_definitions->medium.imagevisible == 0);
+    ASSERT(control->size_definitions->small.imagevisible == 0);
+
+    CHECK(parse_from_testdata("sizeinfo_image_largetosmall__imagevisible_imagevisible_imagevisible", &uiribbon));
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
+    control = &uiribbon.tabs[0].groups[0].controls[0];
+    ASSERT(control->id == 10003);
+    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->size_definitions != NULL);
+    ASSERT(control->size_definitions->large.imagevisible == 1);
+    ASSERT(control->size_definitions->medium.imagevisible == 1);
+    ASSERT(control->size_definitions->small.imagevisible == 1);
+
     return 0;
 }
 

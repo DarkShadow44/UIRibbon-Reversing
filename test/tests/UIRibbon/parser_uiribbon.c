@@ -330,8 +330,11 @@ int read_type_control_block_sizedefinition_override_imagesize(stream *s, type_co
 
 int read_type_control_block_36(stream *s, type_control_block_36 *ret)
 {
+	uint8_t sizedefinition_imagevisible;
+
 	CHECK(stream_read_bytes(s, &ret->unk1, 4));
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
+	CHECK(stream_read_uint8_t(s, &sizedefinition_imagevisible));
+	ret->sizedefinition_imagevisible = sizedefinition_imagevisible;
 	CHECK(stream_read_uint8_t(s, &ret->unk3));
 	CHECK(stream_read_uint8_t(s, &ret->unk4));
 	return 0;
