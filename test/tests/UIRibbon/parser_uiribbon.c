@@ -295,20 +295,18 @@ int read_type_sizedefinitions_command(stream *s, type_sizedefinitions_command *r
 
 int read_type_sizedefinition(stream *s, type_sizedefinition *ret)
 {
-	type_sizedefinitions_command *_until_temp_3;
 	int i;
 
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
 	ret->commands = NULL;
-	i = 0;
+	i = -1;
 	do
 	{
+		i++;
 		ret->commands = realloc(ret->commands, sizeof(type_sizedefinitions_command) * i);
 		CHECK(read_type_sizedefinitions_command(s, &ret->commands[i]));
-		_until_temp_3 = &ret->commands[i];
-		i++;
-	} while(!(_until_temp_3->unk1 ==24 ||_until_temp_3->unk1 ==22));
+	} while(!(ret->commands[i].unk1 ==24 ||ret->commands[i].unk1 ==22));
 	return 0;
 }
 

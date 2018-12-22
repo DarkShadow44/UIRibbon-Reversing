@@ -295,18 +295,18 @@ namespace KaitaiCCompiler
                         ret.AddStruct("{0} *{1};", type, id);
                         ret.AddDependency(type);
                         ret.hasI = true;
-                        ret.AddVar("{0} *_until_temp_{1};", type, number);
-                        ret.AddCode("ret->{0} = NULL;", id, type);
-                        ret.AddCode("i = 0;", id, type);
+                        ret.AddCode("ret->{0} = NULL;", id);
+                        ret.AddCode("i = -1;");
                         ret.AddCode("do");
                         ret.AddCode("{{");
                         ret.IndentCodePlus();
+                        ret.AddCode("i++;");
                         ret.AddCode("ret->{0} = realloc(ret->{0}, sizeof({1}) * i);", id, type);
                         ret.AddCode("CHECK(read_{0}(s, &ret->{1}[i]));", type, id);
-                        ret.AddCode("_until_temp_{0} = &ret->{1}[i];", number, id);
-                        ret.AddCode("i++;", type, id);
                         ret.IndentCodeMinus();
-                        ret.AddCode("}} while(!({0}));", repeat_until.Replace("CURRENT", "_until_temp_" + number));
+                        var repat_cond =  repeat_until.Replace("CURRENT->", "ret->{0}[i].");
+                        repat_cond = string.Format(repat_cond, id);
+                        ret.AddCode("}} while(!({0}));", repat_cond);
                     }
                     else if (size != null)
                     {
