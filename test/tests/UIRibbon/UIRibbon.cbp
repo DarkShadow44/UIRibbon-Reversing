@@ -32,7 +32,17 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="data.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="parser.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="parser_generic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="shared.h" />
+		<Unit filename="tests.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

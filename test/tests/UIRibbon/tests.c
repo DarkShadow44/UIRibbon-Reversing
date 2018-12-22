@@ -1,4 +1,4 @@
-#include "shared.h"
+#include "parser_uiribbon.h"
 
 void _ok(int expr, const char *message, const char *file, int line)
 {
@@ -9,7 +9,7 @@ void _ok(int expr, const char *message, const char *file, int line)
 #define ok(expr, message) \
     _ok(expr, message, __FILE__, __LINE__)
 
-int _parse_from_testdata(char *name, type_main *ret, const char *file, int line)
+int _parse_from_testdata(char *name, type_uiribbon *ret, const char *file, int line)
 {
     stream s;
     int error;
@@ -22,7 +22,7 @@ int _parse_from_testdata(char *name, type_main *ret, const char *file, int line)
     s.max = test->bml_len;
     s.data = test->bml_data;
 
-    error = read_type_main(&s, ret);
+    error = read_type_uiribbon(&s, ret);
     _ok(error == 0, "Failed to parse file", file, line);
     return error;
 }
@@ -32,12 +32,12 @@ int _parse_from_testdata(char *name, type_main *ret, const char *file, int line)
 
 int main()
 {
-    type_main ribbon;
+    type_uiribbon uiribbon;
 
-    CHECK(parse_from_testdata("count_tabs", &ribbon));
-    ok(ribbon.ribbon.block1.block_type == RIBBON_BLOCK_TABS, "Wrong blocktype");
-    ok(ribbon.ribbon.block1.tabs.tab_type == RIBBON_TAB_NORMAL, "Wrong blocktype");
-    ok(ribbon.ribbon.block1.tabs.normal.count_tabs == 6, "Wrong count");
+    CHECK(parse_from_testdata("size_largetosmall__large_small_small", &uiribbon));
+    ok(uiribbon.unk6.ribbon.block1[0].block_type == BLOCK_TYPE_RIBBON_TABS, "Wrong blocktype");
+    ok(uiribbon.unk6.ribbon.block1[0].block_tabs.tab_type == TAB_TYPE_NORMAL, "Wrong blocktype");
+    ok(uiribbon.unk6.ribbon.block1[0].block_tabs.block_normal.count_tabs == 6, "Wrong count");
 
     return 0;
 }

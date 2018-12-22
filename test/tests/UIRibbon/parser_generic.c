@@ -1,4 +1,4 @@
-#include "shared.h"
+#include "parser_generic.h"
 
 int stream_make_substream(stream *s, stream *ret, int len)
 {
@@ -28,7 +28,7 @@ int stream_skip_bytes(stream *s, int len)
     return 0;
 }
 
-int _stream_expect_bytes(stream *s, void *data, int len)
+int _stream_expect_bytes(stream *s, const void *data, int len)
 {
     void *tmp = malloc(len);
     CHECK(stream_read_bytes(s, tmp, len));
@@ -38,35 +38,32 @@ int _stream_expect_bytes(stream *s, void *data, int len)
     return 0;
 }
 
-#define stream_expect_bytes(s, data) \
-    _stream_expect_bytes(s, data, sizeof(data))
-
-int stream_read_uint32(stream *s, uint32_t *ret)
+int stream_read_uint32_t(stream *s, uint32_t *ret)
 {
     return stream_read_bytes(s, ret, 4);
 }
 
-int stream_read_uint16(stream *s, uint16_t *ret)
+int stream_read_uint16_t(stream *s, uint16_t *ret)
 {
     return stream_read_bytes(s, ret, 2);
 }
 
-int stream_read_uint8(stream *s, uint8_t *ret)
+int stream_read_uint8_t(stream *s, uint8_t *ret)
 {
     return stream_read_bytes(s, ret, 1);
 }
 
-int stream_read_int32(stream *s, int32_t *ret)
+int stream_read_int32_t(stream *s, int32_t *ret)
 {
     return stream_read_bytes(s, ret, 4);
 }
 
-int stream_read_int16(stream *s, int16_t *ret)
+int stream_read_int16_t(stream *s, int16_t *ret)
 {
     return stream_read_bytes(s, ret, 2);
 }
 
-int stream_read_int8(stream *s, int8_t *ret)
+int stream_read_int8_t(stream *s, int8_t *ret)
 {
     return stream_read_bytes(s, ret, 1);
 }
