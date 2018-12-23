@@ -55,7 +55,7 @@ seq:
     type: u2
   - id: unk6
     type: application_views
-    size: unk5 - count_command_resources * 10 - 500 # 10 = size for resources - not properly calculated yet
+    #size: unk5 - count_command_resources * 10 - 500 # 10 = size for resources - not properly calculated yet
 
 enums:
 
@@ -763,11 +763,11 @@ types:
     - id: unk1
       type: u2
     - id: unk2
-      contents: [15, 0]
+      type: u2
     - id: unk3
       type: u2
     - id: unk4
-      contents: [0, 2]
+      type: u2
     - id: unk5
       type: u2
     - id: unk100
@@ -777,11 +777,11 @@ types:
     - id: unk6
       contents: [1, 4]
     - id: unk7
-      contents: [10, 0]
+      type: u2
     - id: unk8
-      contents: [0xc0, 0x40]
+      type: u2
     - id: unk9
-      contents: [5, 1]
+      type: u2
 
   quick_ribbon:
     seq:

@@ -344,7 +344,7 @@ namespace KaitaiCCompiler
                         ret.AddCode("for (i = 0; i < {0}; i++)", repeat_expr);
                         ret.AddCode("{{");
                         ret.IndentCodePlus();
-                        ret.AddCode("CHECK(read_{0}(s, &ret->{1}[i]));", type, id);
+                        ret.AddCode("CHECK(read_{0}(s_root, s, &ret->{1}[i]));", type, id);
                         ret.IndentCodeMinus();
                         ret.AddCode("}}");
                     }
@@ -360,7 +360,7 @@ namespace KaitaiCCompiler
                         ret.IndentCodePlus();
                         ret.AddCode("i++;");
                         ret.AddCode("ret->{0} = realloc(ret->{0}, sizeof({1}) * i);", id, type);
-                        ret.AddCode("CHECK(read_{0}(s, &ret->{1}[i]));", type, id);
+                        ret.AddCode("CHECK(read_{0}(s_root, s, &ret->{1}[i]));", type, id);
                         ret.IndentCodeMinus();
                         var repeat_cond = repeat_until.Replace("##current##->", "ret->{0}[i].");
                         repeat_cond = string.Format(repeat_cond, id);
@@ -380,7 +380,7 @@ namespace KaitaiCCompiler
                             ret.AddDependency(type);
                             ret.AddVar("stream substream_{0};", id);
                             ret.AddCode("CHECK(stream_make_substream(s, &substream_{0}, {1}));", id, size);
-                            ret.AddCode("CHECK(read_{0}(&substream_{1}, &ret->{1}));", type, id);
+                            ret.AddCode("CHECK(read_{0}(s_root, &substream_{1}, &ret->{1}));", type, id);
                         }
                     }
                     else if (type_switch_on != null)
@@ -399,7 +399,7 @@ namespace KaitaiCCompiler
                             if (info.type.StartsWith("uint"))
                                 ret.AddCode("CHECK(stream_read_{0}(s, &ret->{1}));", info.type, info.unionname);
                             else
-                                ret.AddCode("CHECK(read_{0}(s, &ret->{1}));", info.type, info.unionname);
+                                ret.AddCode("CHECK(read_{0}(s_root, s, &ret->{1}));", info.type, info.unionname);
                             ret.AddCode("break;");
                             ret.IndentCodeMinus();
                         }
@@ -415,7 +415,7 @@ namespace KaitaiCCompiler
                         if (type.StartsWith("uint"))
                             ret.AddCode("CHECK(stream_read_{0}(s, &{1}));", type, id);
                         else
-                            ret.AddCode("CHECK(read_{0}(s, &{1}));", type, id);
+                            ret.AddCode("CHECK(read_{0}(s_root, s, &{1}));", type, id);
                         ret.AddCode("ret->{0} = {0};", id);
                     }
                     else
@@ -425,7 +425,7 @@ namespace KaitaiCCompiler
                         if (type.StartsWith("uint"))
                             ret.AddCode("CHECK(stream_read_{0}(s, &ret->{1}));", type, id);
                         else
-                            ret.AddCode("CHECK(read_{0}(s, &ret->{1}));", type, id);
+                            ret.AddCode("CHECK(read_{0}(s_root, s, &ret->{1}));", type, id);
                     }
                 }
 
@@ -437,6 +437,61 @@ namespace KaitaiCCompiler
             }
 
             return ret;
+        }
+
+        static void buildInstance(SeqInfo seq, YamlMappingNode node)
+        {
+            foreach (var _instance in node.Children)
+            {
+                var instance_key = (YamlScalarNode)_instance.Key;
+                var instance_value = (YamlMappingNode)_instance.Value;
+
+                string io = null;
+                string pos = null;
+                string type = null;
+                string value = null;
+
+                foreach (var _instanceinfo in instance_value.Children)
+                {
+                    var instanceinfo_key = (YamlScalarNode)_instanceinfo.Key;
+                    var instanceinfo_value = (YamlScalarNode)_instanceinfo.Value;
+
+                    if (instanceinfo_key.Value == "io")
+                    {
+                        io = instanceinfo_value.Value;
+                    }
+
+                    if (instanceinfo_key.Value == "pos")
+                    {
+                        pos = prefixExpression(instanceinfo_value.Value);
+                    }
+
+                    if (instanceinfo_key.Value == "type")
+                    {
+                        type = instanceinfo_value.Value;
+                    }
+
+                    if (instanceinfo_key.Value == "value")
+                    {
+                        value = prefixExpression(instanceinfo_value.Value);
+                    }
+                }
+
+                if (value != null)
+                    continue;
+
+                if (io != "_root._io")
+                {
+                    throw new InvalidDataException();
+                }
+
+                seq.AddDependency(type);
+                seq.AddStruct("{0} {1};", type, instance_key.Value);
+                if (type.StartsWith("uint"))
+                    seq.AddCode("CHECK(stream_read_{0}(s_root, &ret->{1}));", type, instance_key.Value);
+                else
+                    seq.AddCode("CHECK(read_{0}(s_root, s_root, &ret->{1}));", type, instance_key.Value);
+            }
         }
 
         static List<TypeInfo> buildTypes(YamlMappingNode node)
@@ -454,6 +509,10 @@ namespace KaitaiCCompiler
                     if (key == "seq")
                     {
                         info.seqInfo = buildSeq((YamlSequenceNode)map.Value);
+                    }
+                    if (key == "instances")
+                    {
+                        buildInstance(info.seqInfo, (YamlMappingNode)map.Value);
                     }
                 }
             }
@@ -545,7 +604,7 @@ namespace KaitaiCCompiler
 
         static void writeMethod(StringBuilder sb, string name, SeqInfo seq)
         {
-            sb.AppendFormat("int read_{0}(stream *s, {0} *ret)\n", name);
+            sb.AppendFormat("int read_{0}(stream *s_root, stream *s, {0} *ret)\n", name);
             sb.AppendLine("{");
             foreach (var line in seq.linesVar)
             {
@@ -624,7 +683,7 @@ namespace KaitaiCCompiler
                 writeStruct(header, type.Name, type.seqInfo);
             }
             writeStruct(header, main_type, mainSeq);
-            header.AppendFormat("int read_{0}(stream *s, {0} *ret);\n", main_type);
+            header.AppendFormat("int read_{0}(stream *s_root, stream *s, {0} *ret);\n", main_type);
 
 
             source.AppendLine("/* This file is generated - Do not edit manually */");

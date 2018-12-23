@@ -89,6 +89,17 @@ typedef enum
 
 typedef struct
 {
+	uint8_t flag;
+	union
+	{
+		uint32_t block_2;
+		uint16_t block_3;
+		uint8_t block_4;
+	};
+} type_id;
+
+typedef struct
+{
 	uint16_t size_str;
 	char *str;
 } type_string;
@@ -115,52 +126,6 @@ typedef struct
 
 typedef struct
 {
-	uint16_t unk1;
-	uint16_t unk2;
-	uint8_t unk3a;
-	uint8_t unk3b;
-	uint16_t unk4;
-	uint16_t unk5;
-	uint16_t flags;
-	uint8_t id_u1;
-	uint16_t id_u2;
-	uint8_t unk7a;
-	uint16_t unk7b;
-	uint8_t unk8;
-	uint8_t unk9;
-} type_tab;
-
-typedef struct
-{
-	uint16_t unk1;
-	uint16_t unk2;
-	uint8_t unk3a;
-	uint8_t unk3b;
-	uint16_t unk4;
-	uint16_t unk5;
-	uint16_t flags;
-	uint8_t id_u1;
-	uint16_t id_u2;
-	uint8_t unk7;
-	uint16_t unk8;
-	uint16_t len_tabs;
-	type_tab *tabs;
-} type_tab_context;
-
-typedef struct
-{
-	uint16_t count_tabs;
-	type_tab *tabs;
-} type_ribbon_tabs_normal;
-
-typedef struct
-{
-	uint16_t count_tabs;
-	type_tab_context *tabs;
-} type_ribbon_tabs_context;
-
-typedef struct
-{
 	uint8_t unk2;
 	uint16_t unk3;
 	uint16_t unk4;
@@ -168,9 +133,8 @@ typedef struct
 	uint16_t unk6;
 	uint8_t unk7;
 	uint16_t unk8;
-	uint16_t flags;
-	uint8_t id_u1;
-	uint16_t id_u2;
+	uint8_t unk100;
+	type_id id;
 	uint16_t unk11;
 	uint16_t unk12;
 	uint16_t unk13;
@@ -183,19 +147,6 @@ typedef struct
 	char *unk20;
 	uint32_t unk21;
 } type_ribbon_tabs_applicationmenu;
-
-typedef struct
-{
-	uint8_t unk1a;
-	enum_tab_type tab_type;
-	union
-	{
-		type_ribbon_tabs_normal block_help;
-		type_ribbon_tabs_normal block_normal;
-		type_ribbon_tabs_context block_context;
-		type_ribbon_tabs_applicationmenu block_applicationmenu;
-	};
-} type_block_tabs;
 
 typedef struct
 {
@@ -217,9 +168,8 @@ typedef struct
 	uint8_t unk4;
 	uint8_t unk5;
 	uint8_t unk6;
-	uint16_t flags;
-	uint8_t id_u1;
-	uint16_t id_u2;
+	uint8_t unk100;
+	type_id id;
 	uint8_t unk11;
 } type_sizeinfo_maybe;
 
@@ -256,17 +206,6 @@ typedef struct
 {
 	uint16_t count_elements;
 } type_control_block_subcomponents;
-
-typedef struct
-{
-	uint8_t flag;
-	union
-	{
-		uint32_t block_2;
-		uint16_t block_3;
-		uint8_t block_4;
-	};
-} type_control_block_id;
 
 typedef struct
 {
@@ -313,7 +252,7 @@ typedef struct
 	enum_control_block_type block_type;
 	union
 	{
-		type_control_block_id block_id;
+		type_id block_id;
 		type_control_block_sizedefinition_labelvisible_mixed block_sizedefinition_labelvisible_mixed;
 		type_control_block_sizedefinition_imagesize_mixed block_sizedefinition_imagesize_mixed;
 		type_control_block_sizedefinition_labelvisible block_sizedefinition_labelvisible;
@@ -360,13 +299,7 @@ typedef struct
 	uint16_t len_unk1;
 	uint16_t unk3;
 	uint16_t unk4;
-	uint8_t flag;
-	union
-	{
-		uint32_t block_2;
-		uint16_t block_3;
-		uint8_t block_4;
-	};
+	type_id id;
 	uint16_t unk20;
 	uint16_t unk12;
 	uint16_t unk21;
@@ -384,6 +317,64 @@ typedef struct
 	uint8_t unk3;
 	type_group_info *groupinfo;
 } type_tab_extended;
+
+typedef struct
+{
+	uint16_t unk1;
+	uint16_t unk2;
+	uint8_t unk3a;
+	uint8_t unk3b;
+	uint16_t unk4;
+	uint16_t unk5;
+	uint8_t unk100;
+	type_id id;
+	uint8_t unk7a;
+	uint16_t offset_ext;
+	uint8_t unk8;
+	uint8_t unk9;
+	type_tab_extended ext;
+} type_tab;
+
+typedef struct
+{
+	uint16_t unk1;
+	uint16_t unk2;
+	uint8_t unk3a;
+	uint8_t unk3b;
+	uint16_t unk4;
+	uint16_t unk5;
+	uint8_t unk100;
+	type_id id;
+	uint8_t unk7;
+	uint16_t unk8;
+	uint16_t len_tabs;
+	type_tab *tabs;
+} type_tab_context;
+
+typedef struct
+{
+	uint16_t count_tabs;
+	type_tab *tabs;
+} type_ribbon_tabs_normal;
+
+typedef struct
+{
+	uint16_t count_tabs;
+	type_tab_context *tabs;
+} type_ribbon_tabs_context;
+
+typedef struct
+{
+	uint8_t unk1a;
+	enum_tab_type tab_type;
+	union
+	{
+		type_ribbon_tabs_normal block_help;
+		type_ribbon_tabs_normal block_normal;
+		type_ribbon_tabs_context block_context;
+		type_ribbon_tabs_applicationmenu block_applicationmenu;
+	};
+} type_block_tabs;
 
 typedef struct
 {
@@ -431,19 +422,23 @@ typedef struct
 typedef struct
 {
 	uint16_t unk1;
+	uint16_t unk2;
+	uint16_t unk3;
+	uint16_t unk4;
 	uint16_t unk5;
-	uint16_t flags;
-	uint8_t id_u1;
-	uint16_t id_u2;
+	uint8_t unk100;
+	type_id id;
+	uint16_t unk7;
+	uint16_t unk8;
+	uint16_t unk9;
 } quick_ribbon_button;
 
 typedef struct
 {
 	uint16_t unk1;
 	uint8_t unk2;
-	uint16_t flags;
-	uint8_t id_u1;
-	uint16_t id_u2;
+	uint8_t unk100;
+	type_id id;
 	uint16_t unk3;
 	uint8_t unk4;
 	uint16_t unk5_len;
@@ -470,7 +465,7 @@ typedef struct
 
 typedef struct
 {
-	uint8_t unk0;
+	uint8_t count_blocks;
 	type_block_generic *block1;
 } type_ribbon;
 
@@ -478,10 +473,6 @@ typedef struct
 {
 	uint16_t ribbon_len;
 	type_ribbon ribbon;
-	type_tab_extended *ribbon_tab_info;
-	type_tab_extended *ribbon_tab_contextual_info;
-	type_unk1_extended unk_ext1;
-	type_menugroup_extended *applicationmenu_menugroups_ext;
 } application_views;
 
 typedef struct
@@ -512,4 +503,4 @@ typedef struct
 	application_views unk6;
 } type_uiribbon;
 
-int read_type_uiribbon(stream *s, type_uiribbon *ret);
+int read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *ret);

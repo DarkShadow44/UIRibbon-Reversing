@@ -1,11 +1,5 @@
 #include "uiribbon_transformer.h"
 
-void transform_tabs(type_ribbon_tabs_normal *tabs_normal, uiribbon_main *ret)
-{
-    ret->count_tabs = tabs_normal->count_tabs;
-    ret->tabs = malloc(sizeof(uiribbon_tab) * ret->count_tabs);
-}
-
 void transform_control(type_control *src_control, uiribbon_control *ret_control)
 {
     int i;
@@ -145,30 +139,40 @@ void transform_group(type_uiribbon *root, type_group_info *src_group, uiribbon_g
     }
 }
 
-void transform_tabs_ext(type_uiribbon *root, type_tab_extended *tabs_ext, uiribbon_main *ret)
+void transform_tabs_ext(type_uiribbon *root, type_tab_extended *src_ext, uiribbon_tab *ret_tab)
 {
-    int i, j;
+    int i;
 
+    ret_tab->count_groups = src_ext->count_groupinfo;
+    ret_tab->groups = malloc(sizeof(uiribbon_group) * ret_tab->count_groups);
+
+    for (i = 0; i < ret_tab->count_groups; i++)
+    {
+        transform_group(root, &src_ext->groupinfo[i], &ret_tab->groups[i]);
+    }
+}
+
+void transform_tabs(type_uiribbon *root, type_ribbon_tabs_normal *tabs_normal, uiribbon_main *ret)
+{
+    int i;
+
+    ret->count_tabs = tabs_normal->count_tabs;
+    ret->tabs = malloc(sizeof(uiribbon_tab) * ret->count_tabs);
     for (i = 0; i < ret->count_tabs; i++)
     {
         uiribbon_tab *ret_tab = &ret->tabs[i];
-        type_tab_extended *src_tab = &tabs_ext[i];
+        type_tab *src_tab = &tabs_normal->tabs[i];
 
-        ret_tab->count_groups = src_tab->count_groupinfo;
-        ret_tab->groups = malloc(sizeof(uiribbon_group) * ret_tab->count_groups);
-
-        for (j = 0; j < ret_tab->count_groups; j++)
-        {
-            transform_group(root, &src_tab->groupinfo[j], &ret_tab->groups[j]);
-        }
+        transform_tabs_ext(root, &src_tab->ext, ret_tab);
     }
+
 }
 
 void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
 {
     int i;
 
-    for (i = 0; i < src->unk6.ribbon.unk0; i++)
+    for (i = 0; i < src->unk6.ribbon.count_blocks; i++)
     {
         type_block_generic *src_block = &src->unk6.ribbon.block1[i];
         if (src_block->block_type == UIRIBBON_BLOCK_TYPE_RIBBON_TABS)
@@ -177,11 +181,9 @@ void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
             {
                 if (src_block->block_ribbon_tabs.tab_type == UIRIBBON_TAB_TYPE_NORMAL)
                 {
-                    transform_tabs(&src_block->block_ribbon_tabs.block_normal, ret);
+                    transform_tabs(src, &src_block->block_ribbon_tabs.block_normal, ret);
                 }
             }
         }
     }
-
-    transform_tabs_ext(src, src->unk6.ribbon_tab_info, ret);
 }

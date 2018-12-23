@@ -10,7 +10,7 @@ void _ok(int expr, const char *message, const char *file, int line)
     _ok(expr, message, __FILE__, __LINE__)
 
 #define ASSERT(expr) \
-    ok(expr, "Assert failed")
+    CHECK2(!(expr), "Assert failed")
 
 int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file, int line)
 {
@@ -27,7 +27,7 @@ int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file, int l
     s.max = test->bml_len;
     s.data = test->bml_data;
 
-    error = read_type_uiribbon(&s, &uiribbon);
+    error = read_type_uiribbon(&s, &s, &uiribbon);
     _ok(error == 0, "Failed to parse file", file, line);
 
     transform_uiribbon(&uiribbon, ret);
@@ -57,6 +57,7 @@ static int test_sizeinfo(void)
     /* Size */
 
     CHECK(parse_from_testdata("sizeinfo_size_largetosmall__small_small_small", &uiribbon));
+
     ASSERT(uiribbon.count_tabs == 1);
     ASSERT(uiribbon.tabs[0].count_groups == 1);
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
