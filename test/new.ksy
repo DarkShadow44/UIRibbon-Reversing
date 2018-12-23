@@ -124,6 +124,18 @@ enums:
 
 types:
 
+  type_id:
+    seq:
+    - id: flag
+      type: u1
+    - id: id
+      type:
+        switch-on: flag
+        cases:
+          2: u4
+          3: u2
+          4: u1
+
   type_string:
     seq:
       - id: unk1
@@ -185,14 +197,10 @@ types:
       type: u2
     - id: unk5
       type: u2
-    - id: flags
-      type: u2
-    - id: id_u1
+    - id: unk100
       type: u1
-      if: (flags & 0x400) != 0
-    - id: id_u2
-      type: u2
-      if: (flags & 0x300) != 0
+    - id: id
+      type: type_id
     - id: unk7a
       type: u1
     - id: unk7b #offset? changes with sizedefinition
@@ -216,14 +224,10 @@ types:
       type: u2
     - id: unk5
       type: u2
-    - id: flags
-      type: u2
-    - id: id_u1
+    - id: unk100
       type: u1
-      if: (flags & 0x400) != 0
-    - id: id_u2
-      type: u2
-      if: (flags & 0x300) != 0
+    - id: id
+      type: type_id
     - id: unk7
       type: u1
     - id: unk8
@@ -310,14 +314,10 @@ types:
       type: u1
     - id: unk8
       type: u2
-    - id: flags
-      type: u2
-    - id: id_u1
+    - id: unk100
       type: u1
-      if: (flags & 0x400) != 0
-    - id: id_u2
-      type: u2
-      if: (flags & 0x300) != 0
+    - id: id
+      type: type_id
     - id: unk11
       type: u2
     - id: unk12
@@ -388,14 +388,10 @@ types:
       type: u1
     - id: unk6
       type: u1
-    - id: flags
-      type: u2
-    - id: id_u1
+    - id: unk100
       type: u1
-      if: (flags & 0x400) != 0
-    - id: id_u2
-      type: u2
-      if: (flags & 0x300) != 0
+    - id: id
+      type: type_id
     - id: unk11
       type: u1
 
@@ -475,15 +471,8 @@ types:
       type: u2
     - id: unk4
       type: u2
-    - id: flag
-      type: u1
     - id: id
-      type:
-        switch-on: flag
-        cases:
-          2: u4
-          3: u2
-          4: u1
+      type: type_id
     - id: unk20
       type: u2
     - id: unk12
@@ -546,18 +535,6 @@ types:
     #   type: type_control
     #   repeat: expr
     #   repeat-expr: count_elements
-  
-  type_control_block_id:
-    seq:
-    - id: flag
-      type: u1
-    - id: id
-      type:
-        switch-on: flag
-        cases:
-          2: u4
-          3: u2
-          4: u1
   
   type_control_block_sizedefinition_labelvisible_mixed:
     seq:
@@ -628,7 +605,7 @@ types:
       type:
         switch-on: block_type
         cases:
-          enum_control_block_type::id: type_control_block_id
+          enum_control_block_type::id: type_id
           enum_control_block_type::sizedefinition_labelvisible_mixed: type_control_block_sizedefinition_labelvisible_mixed
           enum_control_block_type::sizedefinition_imagesize_mixed: type_control_block_sizedefinition_imagesize_mixed
           enum_control_block_type::sizedefinition_labelvisible: type_control_block_sizedefinition_labelvisible
@@ -788,14 +765,10 @@ types:
       contents: [0, 2]
     - id: unk5
       type: u2
-    - id: flags
-      type: u2
-    - id: id_u1
+    - id: unk100
       type: u1
-      if: (flags & 0x400) != 0
-    - id: id_u2
-      type: u2
-      if: (flags & 0x300) != 0
+    - id: id
+      type: type_id
     - id: unk6
       contents: [1, 4]
     - id: unk7
@@ -811,14 +784,10 @@ types:
       type: u2
     - id: unk2
       type: u1
-    - id: flags
-      type: u2
-    - id: id_u1
+    - id: unk100
       type: u1
-      if: (flags & 0x400) != 0
-    - id: id_u2
-      type: u2
-      if: (flags & 0x300) != 0
+    - id: id
+      type: type_id
     - id: unk3
       type: u2
     - id: unk4
