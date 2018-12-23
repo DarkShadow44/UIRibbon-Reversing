@@ -55,7 +55,7 @@ seq:
     type: u2
   - id: unk6
     type: application_views
-    size: unk5 - count_command_resources * 10 - 200 # 10 = size for resources - not properly calculated yet
+    size: unk5 - count_command_resources * 10 - 500 # 10 = size for resources - not properly calculated yet
 
 enums:
 
@@ -203,12 +203,17 @@ types:
       type: type_id
     - id: unk7a
       type: u1
-    - id: unk7b #offset? changes with sizedefinition
+    - id: offset_ext
       type: u2
     - id: unk8
       type: u1
     - id: unk9
       type: u1
+    instances:
+      ext:
+        io: _root._io
+        pos: offset_ext + 3
+        type: type_tab_extended
 
   type_tab_context:
     seq:
@@ -343,14 +348,14 @@ types:
 
   type_ribbon:
     seq:
-    - id: unk0
-      type: u1 # number might be related to number of subelements of ribbon
+    - id: count_blocks
+      type: u1
     - id: unk1
       contents: [1, 1, 0x0b, 9, 0]
     - id: block1
       type: type_block_generic
       repeat: expr
-      repeat-expr: unk0
+      repeat-expr: count_blocks
 
   block_unk1:
     seq:
@@ -720,20 +725,20 @@ types:
     - id: ribbon
       type: type_ribbon
       size: ribbon_len
-    - id: ribbon_tab_info
-      type: type_tab_extended
-      repeat: expr
-      repeat-expr: 1  #ribbon.tabs count   #ask kaitai
-    - id: ribbon_tab_contextual_info
-      type: type_tab_extended
-      repeat: expr
-      repeat-expr: 0  #ribbon.contextualtabs count
-    - id: unk_ext1
-      type: type_unk1_extended
-    - id: applicationmenu_menugroups_ext
-      type: type_menugroup_extended
-      repeat: expr
-      repeat-expr: 0 #number of menugroups in application menu
+    # - id: ribbon_tab_info
+    #   type: type_tab_extended
+    #   repeat: expr
+    #   repeat-expr: 1  #ribbon.tabs count
+    # - id: ribbon_tab_contextual_info
+    #   type: type_tab_extended
+    #   repeat: expr
+    #   repeat-expr: 0  #ribbon.contextualtabs count
+    # - id: unk_ext1
+    #   type: type_unk1_extended
+    # - id: applicationmenu_menugroups_ext
+    #   type: type_menugroup_extended
+    #   repeat: expr
+    #   repeat-expr: 0 #number of menugroups in application menu
     # - id: check10
     #   contents: [4, 1, 1, 0x0b, 4, 0, 1, 1, 0x41, 0x2b]
     # - id: unk10
@@ -760,7 +765,7 @@ types:
     - id: unk2
       contents: [15, 0]
     - id: unk3
-      contents: [0x10, 0x16]
+      type: u2
     - id: unk4
       contents: [0, 2]
     - id: unk5
