@@ -37,12 +37,30 @@ int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file, int l
 #define parse_from_testdata(name, ret) \
     _parse_from_testdata(name, ret, __FILE__, __LINE__)
 
-static int test_tabs(void)
+static int test_simple(void)
 {
-    /* uiribbon_main uiribbon;
+    uiribbon_main uiribbon;
+    int i, j;
 
-    CHECK(parse_from_testdata("count_tabs", &uiribbon)); needs dynamic tab ext solved first
-    ASSERT(uiribbon.count_tabs == 6); */
+    CHECK(parse_from_testdata("simple_tabs", &uiribbon));
+    ASSERT(uiribbon.count_tabs == 2);
+    for (i = 0; i < 2; i++)
+    {
+        uiribbon_tab *tab = &uiribbon.tabs[i];
+        ASSERT(tab->id == 10001);
+        ASSERT(tab->count_groups == 2);
+        for (j = 0; j < 2; j++)
+        {
+            uiribbon_group *group = &tab->groups[j];
+            ASSERT(group->id == 10002);
+            ASSERT(group->count_controls == 2);
+
+            ASSERT(group->controls[0].id == 10003);
+            ASSERT(group->controls[1].id == 10004);
+            ASSERT(group->controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+            ASSERT(group->controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        }
+    }
 
     return 0;
 }
@@ -63,7 +81,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.sizeLarge == 0);
     ASSERT(control->size_definitions->medium.sizeLarge == 0);
@@ -75,7 +93,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.sizeLarge == 1);
     ASSERT(control->size_definitions->medium.sizeLarge == 0);
@@ -87,7 +105,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.sizeLarge == 1);
     ASSERT(control->size_definitions->medium.sizeLarge == 1);
@@ -99,7 +117,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.sizeLarge == 1);
     ASSERT(control->size_definitions->medium.sizeLarge == 1);
@@ -113,7 +131,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.labelvisible == 0);
     ASSERT(control->size_definitions->medium.labelvisible == 0);
@@ -125,7 +143,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.labelvisible == 1);
     ASSERT(control->size_definitions->medium.labelvisible == 0);
@@ -137,7 +155,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.labelvisible == 1);
     ASSERT(control->size_definitions->medium.labelvisible == 1);
@@ -149,7 +167,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.labelvisible == 1);
     ASSERT(control->size_definitions->medium.labelvisible == 1);
@@ -162,7 +180,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.imagevisible == 0);
     ASSERT(control->size_definitions->medium.imagevisible == 0);
@@ -174,7 +192,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TYPE_CONTROL_BUTTON);
+    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.imagevisible == 1);
     ASSERT(control->size_definitions->medium.imagevisible == 1);
@@ -238,11 +256,9 @@ static int test_sizeinfo(void)
     return 0;
 }
 
-
-
 int main()
 {
-    CHECK(test_tabs());
+    CHECK(test_simple());
     CHECK(test_sizeinfo());
 
     return 0;

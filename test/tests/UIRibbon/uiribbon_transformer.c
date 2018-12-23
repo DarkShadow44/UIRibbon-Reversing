@@ -1,10 +1,34 @@
 #include "uiribbon_transformer.h"
 
+int transform_id(type_id *id)
+{
+    switch(id->flag)
+    {
+    case 2:
+        return id->block_2;
+    case 3:
+        return id->block_3;
+    case 4:
+        return id->block_4;
+    }
+    return -1;
+}
+
+uiribbon_control_type transform_control_type(enum_type_control type)
+{
+    switch (type)
+    {
+    case UIRIBBON_TYPE_CONTROL_BUTTON:
+        return UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON;
+    }
+    return -1;
+}
+
 void transform_control(type_control *src_control, uiribbon_control *ret_control)
 {
     int i;
 
-    ret_control->type = src_control->block_type;
+    ret_control->type = transform_control_type(src_control->block_type);
     ret_control->size_definitions = NULL;
     for (i = 0; i < src_control->block.count_blocks; i++)
     {
@@ -12,15 +36,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
         switch (src_block->block_type)
         {
         case UIRIBBON_CONTROL_BLOCK_TYPE_ID:
-            switch (src_block->block_id.flag)
-            {
-            case 4:
-                ret_control->id = src_block->block_id.block_4;
-                break;
-            case 3:
-                ret_control->id = src_block->block_id.block_3;
-                break;
-            }
+            ret_control->id = transform_id(&src_block->block_id);
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE:
             if (!ret_control->size_definitions)
@@ -121,6 +137,7 @@ void transform_sizedefinition_group(type_uiribbon *root, type_sizedefinition *sr
 void transform_group(type_uiribbon *root, type_group_info *src_group, uiribbon_group *ret_group)
 {
     int i;
+    ret_group->id = transform_id(&src_group->id);
     ret_group->count_controls = src_group->group_elements_info.sub_count;
     ret_group->controls = malloc(sizeof(uiribbon_control) * ret_group->count_controls);
 
@@ -162,6 +179,8 @@ void transform_tabs(type_uiribbon *root, type_ribbon_tabs_normal *tabs_normal, u
     {
         uiribbon_tab *ret_tab = &ret->tabs[i];
         type_tab *src_tab = &tabs_normal->tabs[i];
+
+        ret_tab->id = transform_id(&src_tab->id);
 
         transform_tabs_ext(root, &src_tab->ext, ret_tab);
     }

@@ -11,6 +11,11 @@ typedef enum
     UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK = 4,
 } uiribbon_sizedefinition_group_order_command;
 
+typedef enum
+{
+    UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON = 0,
+} uiribbon_control_type;
+
 typedef struct
 {
     bool sizeLarge;
@@ -51,13 +56,14 @@ typedef struct
 
 typedef struct
 {
-    enum_type_control type;
+    uiribbon_control_type type;
     int id;
     uiribbon_sizedefinitions_control *size_definitions;
 } uiribbon_control;
 
 typedef struct
 {
+    int id;
     int count_controls;
     uiribbon_control *controls;
     uiribbon_sizedefinitions_orders *sizedefinition_orders;
@@ -65,6 +71,7 @@ typedef struct
 
 typedef struct
 {
+    int id;
     int count_groups;
     uiribbon_group *groups;
 } uiribbon_tab;
