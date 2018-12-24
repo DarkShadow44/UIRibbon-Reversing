@@ -78,9 +78,18 @@ typedef struct
 
 typedef struct
 {
+    int id;
     int count_tabs;
     uiribbon_tab *tabs;
+} uiribbon_tabgroup;
 
+
+typedef struct
+{
+    int count_tabs;
+    uiribbon_tab *tabs;
+    int count_contexttabgroups;
+    uiribbon_tabgroup *contexttabgroups;
 } uiribbon_main;
 
 void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret);

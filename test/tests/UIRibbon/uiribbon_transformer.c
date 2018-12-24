@@ -187,6 +187,32 @@ void transform_tabs(type_uiribbon *root, type_ribbon_tabs_normal *tabs_normal, u
 
 }
 
+void transform_contexttabs(type_uiribbon *root, type_ribbon_tabs_context *src, uiribbon_main *ret)
+{
+    int i, j;
+
+    ret->count_contexttabgroups = src->count_tabgroups;
+    ret->contexttabgroups = malloc(sizeof(uiribbon_tabgroup) * ret->count_contexttabgroups);
+    for (i = 0; i < ret->count_contexttabgroups; i++)
+    {
+        uiribbon_tabgroup *ret_tabgroup = &ret->contexttabgroups[i];
+        type_tabgroup *src_tabgroup = &src->tabgroups[i];
+
+        ret_tabgroup->id = transform_id(&src_tabgroup->id);
+        ret_tabgroup->count_tabs = src_tabgroup->count_tabs;
+        ret_tabgroup->tabs = malloc(sizeof(uiribbon_tab) * ret_tabgroup->count_tabs);
+        for (j = 0; j < ret_tabgroup->count_tabs; j++)
+        {
+            uiribbon_tab *ret_tab = &ret_tabgroup->tabs[j];
+            type_tab *src_tab = &src_tabgroup->tabs[j];
+
+            ret_tab->id = transform_id(&src_tab->id);
+
+            transform_tabs_ext(root, &src_tab->ext, ret_tab);
+        }
+    }
+}
+
 void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
 {
     int i;
@@ -201,6 +227,11 @@ void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
                 if (src_block->block_ribbon_tabs.tab_type == UIRIBBON_TAB_TYPE_NORMAL)
                 {
                     transform_tabs(src, &src_block->block_ribbon_tabs.block_normal, ret);
+                }
+
+                if (src_block->block_ribbon_tabs.tab_type == UIRIBBON_TAB_TYPE_CONTEXT)
+                {
+                    transform_contexttabs(src, &src_block->block_ribbon_tabs.block_context, ret);
                 }
             }
         }

@@ -347,9 +347,9 @@ typedef struct
 	type_id id;
 	uint8_t unk7;
 	uint16_t unk8;
-	uint16_t len_tabs;
+	uint16_t count_tabs;
 	type_tab *tabs;
-} type_tab_context;
+} type_tabgroup;
 
 typedef struct
 {
@@ -359,8 +359,8 @@ typedef struct
 
 typedef struct
 {
-	uint16_t count_tabs;
-	type_tab_context *tabs;
+	uint16_t count_tabgroups;
+	type_tabgroup *tabgroups;
 } type_ribbon_tabs_context;
 
 typedef struct

@@ -215,7 +215,7 @@ types:
         pos: offset_ext + 3
         type: type_tab_extended
 
-  type_tab_context:
+  type_tabgroup:
     seq:
     - id: unk1
       type: u2
@@ -237,12 +237,12 @@ types:
       type: u1
     - id: unk8
       type: u2
-    - id: len_tabs
+    - id: count_tabs
       type: u2
     - id: tabs
       type: type_tab
       repeat: expr
-      repeat-expr: len_tabs
+      repeat-expr: count_tabs
 
   type_ribbon_tabs_normal:
     seq:
@@ -255,12 +255,12 @@ types:
 
   type_ribbon_tabs_context:
     seq:
-    - id: count_tabs
+    - id: count_tabgroups
       type: u2
-    - id: tabs
-      type: type_tab_context
+    - id: tabgroups
+      type: type_tabgroup
       repeat: expr
-      repeat-expr: count_tabs
+      repeat-expr: count_tabgroups
 
   type_block_tabs:
     seq:

@@ -410,7 +410,7 @@ int read_type_tab(stream *s_root, stream *s, type_tab *ret)
 	return 0;
 }
 
-int read_type_tab_context(stream *s_root, stream *s, type_tab_context *ret)
+int read_type_tabgroup(stream *s_root, stream *s, type_tabgroup *ret)
 {
 	int i;
 
@@ -424,9 +424,9 @@ int read_type_tab_context(stream *s_root, stream *s, type_tab_context *ret)
 	CHECK(read_type_id(s_root, s, &ret->id));
 	CHECK(stream_read_uint8_t(s, &ret->unk7));
 	CHECK(stream_read_uint16_t(s, &ret->unk8));
-	CHECK(stream_read_uint16_t(s, &ret->len_tabs));
-	ret->tabs = malloc(sizeof(type_tab) * ret->len_tabs);
-	for (i = 0; i < ret->len_tabs; i++)
+	CHECK(stream_read_uint16_t(s, &ret->count_tabs));
+	ret->tabs = malloc(sizeof(type_tab) * ret->count_tabs);
+	for (i = 0; i < ret->count_tabs; i++)
 	{
 		CHECK(read_type_tab(s_root, s, &ret->tabs[i]));
 	}
@@ -450,11 +450,11 @@ int read_type_ribbon_tabs_context(stream *s_root, stream *s, type_ribbon_tabs_co
 {
 	int i;
 
-	CHECK(stream_read_uint16_t(s, &ret->count_tabs));
-	ret->tabs = malloc(sizeof(type_tab_context) * ret->count_tabs);
-	for (i = 0; i < ret->count_tabs; i++)
+	CHECK(stream_read_uint16_t(s, &ret->count_tabgroups));
+	ret->tabgroups = malloc(sizeof(type_tabgroup) * ret->count_tabgroups);
+	for (i = 0; i < ret->count_tabgroups; i++)
 	{
-		CHECK(read_type_tab_context(s_root, s, &ret->tabs[i]));
+		CHECK(read_type_tabgroup(s_root, s, &ret->tabgroups[i]));
 	}
 	return 0;
 }

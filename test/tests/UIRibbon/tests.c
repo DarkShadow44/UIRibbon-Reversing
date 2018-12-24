@@ -40,7 +40,7 @@ int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file, int l
 static int test_simple(void)
 {
     uiribbon_main uiribbon;
-    int i, j;
+    int i, j, k;
 
     CHECK(parse_from_testdata("simple_tabs", &uiribbon));
     ASSERT(uiribbon.count_tabs == 2);
@@ -59,6 +59,32 @@ static int test_simple(void)
             ASSERT(group->controls[1].id == 10004);
             ASSERT(group->controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
             ASSERT(group->controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        }
+    }
+
+    CHECK(parse_from_testdata("simple_contexttabs", &uiribbon));
+    ASSERT(uiribbon.count_contexttabgroups == 2);
+    for (k = 0; k < 2; k++)
+    {
+        uiribbon_tabgroup *tab_group = &uiribbon.contexttabgroups[k];
+        ASSERT(tab_group->id == 10005);
+        ASSERT(tab_group->count_tabs == 2);
+        for (i = 0; i < 2; i++)
+        {
+            uiribbon_tab *tab = &tab_group->tabs[i];
+            ASSERT(tab->id == 10001);
+            ASSERT(tab->count_groups == 2);
+            for (j = 0; j < 2; j++)
+            {
+                uiribbon_group *group = &tab->groups[j];
+                ASSERT(group->id == 10002);
+                ASSERT(group->count_controls == 2);
+
+                ASSERT(group->controls[0].id == 10003);
+                ASSERT(group->controls[1].id == 10004);
+                ASSERT(group->controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+                ASSERT(group->controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+            }
         }
     }
 
