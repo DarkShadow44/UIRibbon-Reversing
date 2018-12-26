@@ -9,6 +9,12 @@
 #define CHECK(expr) \
    CHECK2(expr, "")
 
+typedef struct _test_data_string_resource
+{
+    int id;
+    const char *str;
+} test_data_string_resource;
+
 typedef struct _test_data
 {
     const char *name;
@@ -16,11 +22,13 @@ typedef struct _test_data
     const char *bml_data;
     int xml_len;
     int bml_len;
+    const test_data_string_resource *strings;
+    int strings_len;
 } test_data;
 
 const test_data *get_test_data(const char *name);
 void write_test_data(const char *name);
-int run_visual_test(void);
+int run_visual_test(const char *name);
 
 /* Stream generic */
 

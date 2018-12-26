@@ -109,7 +109,48 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
     return 0;
 }
 
-int patch_file(void)
+void patch_strings(HANDLE handle, const test_data *test)
+{
+    int i, j, k;
+    BOOL *done = calloc(test->strings_len, sizeof(BOOL));
+    for (i = 0; i < test->strings_len; i++)
+    {
+        if (!done[i]) /* Found new string group */
+        {
+            int current_group = (test->strings[i].id >> 4) + 1;
+            int current_base_id = (current_group - 1) << 4;
+            WORD data[2000];
+            int data_pos = 0;
+
+            for (j = 0; j < 16; j++)
+            {
+                BOOL found = FALSE;
+                for (k = 0; k < test->strings_len; k++)
+                {
+                    if (test->strings[k].id == current_base_id + j)
+                    {
+                        WCHAR buffer[100];
+                        WORD str_len;
+
+                        done[k] = TRUE;
+                        found = TRUE;
+                        str_len = MultiByteToWideChar(CP_ACP, 0, test->strings[k].str, -1, buffer, sizeof(buffer)/sizeof(*buffer)) - 1;
+                        data[data_pos++] = str_len;
+                        memcpy(&data[data_pos], buffer, str_len * sizeof(WCHAR));
+                        data_pos += str_len;
+                    }
+                }
+                if (!found)
+                    data[data_pos++] = 0;
+            }
+            UpdateResourceW(handle, MAKEINTRESOURCEW(RT_STRING), MAKEINTRESOURCEW(current_group), MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL), data, data_pos * sizeof(WORD));
+        }
+    }
+
+    free(done);
+}
+
+int patch_file(const char *name)
 {
     HANDLE handle;
     const test_data *test;
@@ -121,7 +162,7 @@ int patch_file(void)
         return 1;
     }
 
-    test = get_test_data("simple_contexttabs");
+    test = get_test_data(name);
     if (!test)
     {
         printf("Failed to load test data\n");
@@ -130,11 +171,13 @@ int patch_file(void)
 
     UpdateResourceA(handle, "UIFILE", "APPLICATION_RIBBON", MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL), (void *)test->bml_data, test->bml_len);
 
+    patch_strings(handle, test);
+
     EndUpdateResourceA(handle, FALSE);
     return 0;
 }
 
-int run_visual_test(void)
+int run_visual_test(const char *name)
 {
     WNDCLASSA wc = {0};
     HWND handle_window;
@@ -146,7 +189,7 @@ int run_visual_test(void)
 	HINSTANCE instance;
     static const WCHAR str_ribbonres[] = {'A','P','P','L','I','C','A','T','I','O','N','_','R','I','B','B','O','N',0};
 
-    patch_file();
+    patch_file(name);
 
 	instance = LoadLibraryA("../../_DLL/dll.dll");
 	if (!instance)
