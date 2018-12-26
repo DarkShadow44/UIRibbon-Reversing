@@ -13,6 +13,8 @@ doc-ref: https://docs.microsoft.com/en-us/windows/desktop/windowsribbon/windowsr
 #add doc to everything known
 #missing groups in sizedefinition
 
+#test against mspaint ribbon! + wordpad + samples
+
 
 meta:
   id: ribbon

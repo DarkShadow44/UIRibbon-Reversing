@@ -1,5 +1,0 @@
-#!/bin/sh
-
-i686-w64-mingw32-windres ./bin/markup.rc ./bin/markup.o
-i686-w64-mingw32-gcc -c test.c -o bin/test.o
-i686-w64-mingw32-gcc ./bin/test.o ./bin/markup.o -o bin/test.exe -l ole32

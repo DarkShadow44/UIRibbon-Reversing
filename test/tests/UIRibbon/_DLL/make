@@ -1,0 +1,3 @@
+#!/bin/sh
+
+i686-w64-mingw32-gcc -shared dll.c -o dll.dll 

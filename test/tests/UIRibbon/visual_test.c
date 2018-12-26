@@ -3,7 +3,7 @@
 #define INITGUID
 #define COBJMACROS
 #include "/usr/include/wine/windows/uiribbon.h"
-#include "./bin/markup.h"
+#include "parser_generic.h"
 
 typedef struct {
     IUIApplication IUIApplication_iface;
@@ -109,7 +109,32 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
     return 0;
 }
 
-int main()
+int patch_file(void)
+{
+    HANDLE handle;
+    const test_data *test;
+
+    handle = BeginUpdateResource("../../_DLL/dll.dll", TRUE);
+    if (!handle)
+    {
+        printf("Failed to load test dll: %d\n", (int)GetLastError());
+        return 1;
+    }
+
+    test = get_test_data("simple_contexttabs");
+    if (!test)
+    {
+        printf("Failed to load test data\n");
+        return 1;
+    }
+
+    UpdateResourceA(handle, "UIFILE", "APPLICATION_RIBBON", MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL), (void *)test->bml_data, test->bml_len);
+
+    EndUpdateResourceA(handle, FALSE);
+    return 0;
+}
+
+int run_visual_test(void)
 {
     WNDCLASSA wc = {0};
     HWND handle_window;
@@ -118,7 +143,17 @@ int main()
     IUIFramework *framework;
     IUIApplication *application;
     IUIApplicationImpl *application_impl;
+	HINSTANCE instance;
     static const WCHAR str_ribbonres[] = {'A','P','P','L','I','C','A','T','I','O','N','_','R','I','B','B','O','N',0};
+
+    patch_file();
+
+	instance = LoadLibraryA("../../_DLL/dll.dll");
+	if (!instance)
+    {
+        MessageBoxA(NULL, "Failed to load test dll!", "", 0);
+        return 1;
+    }
 
     CoInitialize(NULL);
 
@@ -147,7 +182,7 @@ int main()
         return 0;
     }
 
-    hr = IUIFramework_LoadUI(framework, GetModuleHandle(NULL), str_ribbonres);
+    hr = IUIFramework_LoadUI(framework, instance, str_ribbonres);
     if (FAILED(hr))
     {
         printf("IUIFramework_LoadUI failed.\n");

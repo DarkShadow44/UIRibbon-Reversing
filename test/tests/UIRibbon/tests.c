@@ -284,6 +284,8 @@ static int test_sizeinfo(void)
 
 int main()
 {
+    run_visual_test();
+    return 0;
     CHECK(test_simple());
     CHECK(test_sizeinfo());
 
