@@ -10,6 +10,7 @@ TODO
 bin/
 obj/
 *.o
+testing/out.txt
 
 *.layout
 *.depend

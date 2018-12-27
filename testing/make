@@ -10,3 +10,8 @@ sed -i -e 's/.\\markup.h/.\/markup.h/g' ./bin/markup.rc
 i686-w64-mingw32-windres ./bin/markup.rc ./bin/markup.o
 i686-w64-mingw32-gcc -c test.c -o bin/test.o
 i686-w64-mingw32-gcc ./bin/test.o ./bin/markup.o -o bin/test.exe -l ole32
+
+cat markup.xml | perl -p -e 's/\n/\\n/g' | perl -p -e 's/\r//g' | sed 's/\"/\\\"/g' | sed 's/\t/\\t/g' |  awk '{print "const char xml_[] = \""$0"\";"}'> bin/out_xml.txt
+cat bin/markup.bml | od -t x1 -An  -w999999 | xargs | sed 's/ /, 0x/g' | awk '{print "const char bml_[] = {0x"$0"};"}' > bin/out_bml.txt
+
+cat bin/out_xml.txt bin/out_bml.txt > out.txt

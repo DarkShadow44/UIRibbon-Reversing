@@ -284,7 +284,8 @@ static int test_sizeinfo(void)
 
 int main()
 {
-    run_visual_test("simple_tabs");
+    write_test_data("simple_contexttabs");
+    run_visual_test("simple_contexttabs");
     return 0;
     CHECK(test_simple());
     CHECK(test_sizeinfo());
