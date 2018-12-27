@@ -285,6 +285,51 @@ static int test_sizeinfo(void)
     return 0;
 }
 
+static int test_commands(void)
+{
+    uiribbon_main uiribbon;
+    uiribbon_command *command;
+
+    CHECK(parse_from_testdata("command_resources", &uiribbon));
+    ASSERT(uiribbon.count_commands == 12);
+    command = &uiribbon.commands[8];
+    ASSERT(command->id == 10004);
+    ASSERT(command->id_label_title == -1);
+    ASSERT(command->id_label_description == -1);
+    ASSERT(command->id_keytip == -1);
+    ASSERT(command->id_toopltip_title == -1);
+    ASSERT(command->id_tooltip_description == -1);
+    ASSERT(command->count_images_small == 0);
+    ASSERT(command->count_images_large == 0);
+    ASSERT(command->count_images_large_high_contrast == 0);
+    ASSERT(command->count_images_small_high_contrast == 0);
+    command = &uiribbon.commands[9];
+    ASSERT(command->id == 10003);
+    ASSERT(command->id_label_title == 10005);
+    ASSERT(command->id_label_description == 10004);
+    ASSERT(command->id_keytip == 10003);
+    ASSERT(command->id_toopltip_title == 10007);
+    ASSERT(command->id_tooltip_description == 10006);
+    ASSERT(command->count_images_small == 1);
+    ASSERT(command->images_small[0].id_image == 20002);
+    ASSERT(command->images_small[0].min_dpi == 100);
+    ASSERT(command->count_images_large == 1);
+    ASSERT(command->images_large[0].id_image == 20001);
+    ASSERT(command->images_large[0].min_dpi == 96);
+    ASSERT(command->count_images_large_high_contrast == 3);
+    ASSERT(command->images_large_high_contrast[0].id_image == 20003);
+    ASSERT(command->images_large_high_contrast[0].min_dpi == 96);
+    ASSERT(command->images_large_high_contrast[1].id_image == 20004);
+    ASSERT(command->images_large_high_contrast[1].min_dpi == 100);
+    ASSERT(command->images_large_high_contrast[2].id_image == 20005);
+    ASSERT(command->images_large_high_contrast[2].min_dpi == 110);
+    ASSERT(command->count_images_small_high_contrast == 1);
+    ASSERT(command->images_small_high_contrast[0].id_image == 20006);
+    ASSERT(command->images_small_high_contrast[0].min_dpi == 96);
+
+    return 0;
+}
+
 int main()
 {
     /*write_test_data("sizeinfo_size_largetosmall__small_small_small");
@@ -292,6 +337,7 @@ int main()
     return 0;*/
     CHECK(test_simple());
     CHECK(test_sizeinfo());
+    CHECK(test_commands());
 
     return 0;
 }

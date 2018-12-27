@@ -213,9 +213,102 @@ void transform_contexttabs(type_uiribbon *root, type_ribbon_tabs_context *src, u
     }
 }
 
+void transform_command_images(enum_resource_type type, type_resource *src_resource, int *ret_count, uiribbon_command_image **ret_images)
+{
+    int i;
+    int count = 0;
+    for (i = 0; i < src_resource->count_resources; i++)
+    {
+        if (src_resource->resources[i].resource_type == type)
+            count++;
+    }
+
+    *ret_images = malloc(sizeof(uiribbon_command_image) * count);
+    *ret_count = count;
+    count = 0;
+    for (i = 0; i < src_resource->count_resources; i++)
+    {
+        type_resource_generic *src_resource_generic = &src_resource->resources[i];
+        if (src_resource_generic->resource_type == type)
+        {
+            (*ret_images)[count].id_image = src_resource_generic->resource_id;
+            (*ret_images)[count].min_dpi = src_resource_generic->mindpi;
+            count++;
+        }
+    }
+}
+
+void transform_command_resources(int command_id, type_uiribbon *src, uiribbon_command *ret_command)
+{
+    int i, j;
+
+    ret_command->id_keytip = -1;
+    ret_command->id_label_title = -1;
+    ret_command->id_label_description = -1;
+    ret_command->id_toopltip_title = -1;
+    ret_command->id_tooltip_description = -1;
+
+    for (i = 0; i < src->count_command_resources; i++)
+    {
+        type_resource *src_resource = &src->command_resources[i];
+        if (src_resource->command_id == command_id)
+        {
+            for (j = 0; j < src_resource->count_resources; j++)
+            {
+                type_resource_generic *src_resource_generic = &src_resource->resources[j];
+                switch(src_resource_generic->resource_type)
+                {
+                case UIRIBBON_RESOURCE_TYPE_KEYTIP:
+                    ret_command->id_keytip = src_resource_generic->resource_id;
+                    break;
+                case UIRIBBON_RESOURCE_TYPE_LABELTITLE:
+                    ret_command->id_label_title = src_resource_generic->resource_id;
+                    break;
+                case UIRIBBON_RESOURCE_TYPE_LABELDESCRIPTION:
+                    ret_command->id_label_description = src_resource_generic->resource_id;
+                    break;
+                case UIRIBBON_RESOURCE_TYPE_TOOLTIPTITLE:
+                    ret_command->id_toopltip_title = src_resource_generic->resource_id;
+                    break;
+                case UIRIBBON_RESOURCE_TYPE_TOOLTIPDESCRIPTION:
+                    ret_command->id_tooltip_description = src_resource_generic->resource_id;
+                    break;
+                case UIRIBBON_RESOURCE_TYPE_SMALLIMAGE:
+                case UIRIBBON_RESOURCE_TYPE_LARGEIMAGE:
+                case UIRIBBON_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE:
+                case UIRIBBON_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE:
+                    break;
+                }
+            }
+            transform_command_images(UIRIBBON_RESOURCE_TYPE_LARGEIMAGE, src_resource, &ret_command->count_images_large, &ret_command->images_large);
+            transform_command_images(UIRIBBON_RESOURCE_TYPE_SMALLIMAGE, src_resource, &ret_command->count_images_small, &ret_command->images_small);
+            transform_command_images(UIRIBBON_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE, src_resource, &ret_command->count_images_large_high_contrast, &ret_command->images_large_high_contrast);
+            transform_command_images(UIRIBBON_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE, src_resource, &ret_command->count_images_small_high_contrast, &ret_command->images_small_high_contrast);
+        }
+    }
+}
+
+void transform_commands(type_uiribbon *src, uiribbon_main *ret)
+{
+    int i;
+
+    ret->count_commands = src->command_container.commands_len;
+    ret->commands = malloc(sizeof(uiribbon_command) * ret->count_commands);
+    for (i = 0; i < ret->count_commands; i++)
+    {
+        type_command *src_command = &src->command_container.commands[i];
+        uiribbon_command *ret_command = &ret->commands[i];
+        ret_command->id = src_command->command_id;
+
+        transform_command_resources(ret_command->id, src, ret_command);
+    }
+}
+
 void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
 {
     int i;
+
+    transform_commands(src, ret);
 
     for (i = 0; i < src->unk6.ribbon.count_blocks; i++)
     {

@@ -4,3 +4,9 @@ paint bmps work fine, created by me doesn't. not sure what's wrong.
 
 <Scale Group="Test2" Size="Small"> compiles "for FourButtons", but not "MySize1" - small is only possible when small is different from medium...
 <Scale Group="Test2" Size="Small"> doesn't change anything (might only work for automatic sizing, use ScalingPolicy.IdealSizes for the rest
+
+imageformat: bmp3 with alphachannel
+convert df.bmp -define bmp:format=bmp3 -define bmp3:alpha=true f.bmp
+
+
+copy commands somewhere, to reuse (strings + images)

@@ -83,9 +83,36 @@ typedef struct
     uiribbon_tab *tabs;
 } uiribbon_tabgroup;
 
+typedef struct
+{
+    int id_image;
+    int min_dpi;
+} uiribbon_command_image;
 
 typedef struct
 {
+    int id;
+    int id_label_title;
+    int id_label_description;
+    int id_keytip;
+    int id_toopltip_title;
+    int id_tooltip_description;
+
+    int count_images_small;
+    uiribbon_command_image *images_small;
+    int count_images_large;
+    uiribbon_command_image *images_large;
+    int count_images_small_high_contrast;
+    uiribbon_command_image *images_small_high_contrast;
+    int count_images_large_high_contrast;
+    uiribbon_command_image *images_large_high_contrast;
+} uiribbon_command;
+
+
+typedef struct
+{
+    int count_commands;
+    uiribbon_command *commands;
     int count_tabs;
     uiribbon_tab *tabs;
     int count_contexttabgroups;
