@@ -41,22 +41,24 @@ static int test_simple(void)
 {
     uiribbon_main uiribbon;
     int i, j, k;
+    int id;
 
     CHECK(parse_from_testdata("simple_tabs", &uiribbon));
     ASSERT(uiribbon.count_tabs == 2);
+    id = 10001;
     for (i = 0; i < 2; i++)
     {
         uiribbon_tab *tab = &uiribbon.tabs[i];
-        ASSERT(tab->id == 10001);
+        ASSERT(tab->id == id++);
         ASSERT(tab->count_groups == 2);
         for (j = 0; j < 2; j++)
         {
             uiribbon_group *group = &tab->groups[j];
-            ASSERT(group->id == 10002);
+            ASSERT(group->id == id++);
             ASSERT(group->count_controls == 2);
 
-            ASSERT(group->controls[0].id == 10003);
-            ASSERT(group->controls[1].id == 10004);
+            ASSERT(group->controls[0].id == id++);
+            ASSERT(group->controls[1].id == id++);
             ASSERT(group->controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
             ASSERT(group->controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
         }
@@ -64,24 +66,25 @@ static int test_simple(void)
 
     CHECK(parse_from_testdata("simple_contexttabs", &uiribbon));
     ASSERT(uiribbon.count_contexttabgroups == 2);
+    id = 10001;
     for (k = 0; k < 2; k++)
     {
         uiribbon_tabgroup *tab_group = &uiribbon.contexttabgroups[k];
-        ASSERT(tab_group->id == 10005);
+        ASSERT(tab_group->id == id++);
         ASSERT(tab_group->count_tabs == 2);
         for (i = 0; i < 2; i++)
         {
             uiribbon_tab *tab = &tab_group->tabs[i];
-            ASSERT(tab->id == 10001);
+            ASSERT(tab->id == id++);
             ASSERT(tab->count_groups == 2);
             for (j = 0; j < 2; j++)
             {
                 uiribbon_group *group = &tab->groups[j];
-                ASSERT(group->id == 10002);
+                ASSERT(group->id == id++);
                 ASSERT(group->count_controls == 2);
 
-                ASSERT(group->controls[0].id == 10003);
-                ASSERT(group->controls[1].id == 10004);
+                ASSERT(group->controls[0].id == id++);
+                ASSERT(group->controls[1].id == id++);
                 ASSERT(group->controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
                 ASSERT(group->controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
             }
@@ -284,9 +287,9 @@ static int test_sizeinfo(void)
 
 int main()
 {
-    write_test_data("sizeinfo_size_largetosmall__small_small_small");
+    /*write_test_data("sizeinfo_size_largetosmall__small_small_small");
     run_visual_test("sizeinfo_size_largetosmall__small_small_small");
-    return 0;
+    return 0;*/
     CHECK(test_simple());
     CHECK(test_sizeinfo());
 
