@@ -9,6 +9,7 @@ TODO
 
 bin/
 obj/
+*.o
 
 *.layout
 *.depend
