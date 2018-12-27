@@ -434,7 +434,7 @@ types:
 
   type_group_elements_info:
     seq:
-    - id: unk10
+    - id: unk10 #2 if own size, 3 otherwise
       type: u1
     - id: check2b
       contents: [1, 1]
@@ -444,7 +444,7 @@ types:
       type: u1
     - id: check2c
       contents: [1, 4, 66, 0, 0x40, 0x44, 5, 0]
-      if: unk10 == 3
+      if: unk10 == 3 and unk2 == 9
     - id: unk1c
       type: u2
     - id: unk1d

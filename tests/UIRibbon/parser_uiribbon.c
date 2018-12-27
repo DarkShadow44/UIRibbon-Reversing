@@ -328,7 +328,7 @@ int read_type_group_elements_info(stream *s_root, stream *s, type_group_elements
 	CHECK(stream_expect_bytes(s, check2b));
 	CHECK(stream_read_uint16_t(s, &ret->unk1b));
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
-	if (ret->unk10 == 3)
+	if (ret->unk10 == 3 && ret->unk2 == 9)
 	{
 		CHECK(stream_expect_bytes(s, check2c));
 	}
