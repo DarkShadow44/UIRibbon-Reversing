@@ -330,14 +330,56 @@ static int test_commands(void)
     return 0;
 }
 
+int test_scalingpolicy(void)
+{
+    uiribbon_main uiribbon;
+
+    #define ASSERT_SCALING(scalingpolicy, large, medium, small, popup) \
+        ASSERT(scalingpolicy.can_scale_large  == large);  \
+        ASSERT(scalingpolicy.can_scale_medium == medium); \
+        ASSERT(scalingpolicy.can_scale_small  == small);  \
+        ASSERT(scalingpolicy.can_scale_popup  == popup);
+
+    CHECK(parse_from_testdata("scalingpolicy", &uiribbon));
+    ASSERT(uiribbon.count_tabs == 4);
+    ASSERT(uiribbon.tabs[0].count_groups == 4);
+    ASSERT(uiribbon.tabs[1].count_groups == 6);
+    ASSERT(uiribbon.tabs[2].count_groups == 4);
+    ASSERT(uiribbon.tabs[3].count_groups == 1);
+
+    ASSERT_SCALING(uiribbon.tabs[0].groups[0].scalingpolicy, 1, 0, 0, 0);
+    ASSERT_SCALING(uiribbon.tabs[0].groups[1].scalingpolicy, 1, 1, 0, 0);
+    ASSERT_SCALING(uiribbon.tabs[0].groups[2].scalingpolicy, 1, 0, 1, 0);
+    ASSERT_SCALING(uiribbon.tabs[0].groups[3].scalingpolicy, 1, 0, 0, 1);
+
+    ASSERT_SCALING(uiribbon.tabs[1].groups[0].scalingpolicy, 1, 1, 0, 0);
+    ASSERT_SCALING(uiribbon.tabs[1].groups[1].scalingpolicy, 1, 0, 1, 0);
+    ASSERT_SCALING(uiribbon.tabs[1].groups[2].scalingpolicy, 1, 0, 0, 1);
+    ASSERT_SCALING(uiribbon.tabs[1].groups[3].scalingpolicy, 1, 1, 1, 0);
+    ASSERT_SCALING(uiribbon.tabs[1].groups[4].scalingpolicy, 1, 1, 0, 1);
+    ASSERT_SCALING(uiribbon.tabs[1].groups[5].scalingpolicy, 1, 0, 1, 1);
+
+    ASSERT_SCALING(uiribbon.tabs[2].groups[0].scalingpolicy, 1, 1, 1, 0);
+    ASSERT_SCALING(uiribbon.tabs[2].groups[1].scalingpolicy, 1, 1, 0, 1);
+    ASSERT_SCALING(uiribbon.tabs[2].groups[2].scalingpolicy, 1, 0, 1, 1);
+    ASSERT_SCALING(uiribbon.tabs[2].groups[3].scalingpolicy, 1, 1, 1, 1);
+
+    ASSERT_SCALING(uiribbon.tabs[3].groups[0].scalingpolicy, 1, 1, 1, 1);
+
+    #undef ASSERT_SCALING
+
+    return 0;
+}
+
 int main()
 {
-    /*write_test_data("sizeinfo_size_largetosmall__small_small_small");
-    run_visual_test("sizeinfo_size_largetosmall__small_small_small");
+    /*write_test_data("sizedefinition_order");
+    run_visual_test("sizedefinition_order");
     return 0;*/
     CHECK(test_simple());
     CHECK(test_sizeinfo());
     CHECK(test_commands());
+    CHECK(test_scalingpolicy());
 
     return 0;
 }

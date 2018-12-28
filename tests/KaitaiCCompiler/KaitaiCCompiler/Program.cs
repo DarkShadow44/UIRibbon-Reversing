@@ -176,6 +176,11 @@ namespace KaitaiCCompiler
                     parts[i] = makeEnumName(split[0], split[1]);
                 }
 
+                if (parts[i] == "true")
+                    parts[i] = "1";
+                if(parts[i] == "false")
+                    parts[i] = "0";
+
                 if (char.IsLetter(parts[i][0]) && char.IsLower(parts[i][0]))
                 {
                     parts[i] = "ret->" + parts[i];
@@ -385,28 +390,43 @@ namespace KaitaiCCompiler
                     }
                     else if (type_switch_on != null)
                     {
-                        ret.AddStruct("union");
-                        ret.AddStruct("{{");
+                        bool isInt = type_switch_info[0].type.StartsWith("uint");
+                        if (isInt)
+                            ret.AddStruct("uint32_t {0};", id);
+                        else
+                        {
+                            ret.AddStruct("union");
+                            ret.AddStruct("{{");
+                            ret.IndentStructPlus();
+                        }
                         ret.AddCode("switch({0})", type_switch_on);
                         ret.AddCode("{{");
-                        ret.IndentStructPlus();
+
                         foreach (var info in type_switch_info)
                         {
-                            ret.AddStruct("{0} {1};", info.type, info.unionname);
+                            if (isInt)
+                                ret.AddVar("{0} {1}_{2};", info.type, id, info.unionname);
+                            else
+                                ret.AddStruct("{0} {1};", info.type, info.unionname);
                             ret.AddDependency(info.type);
                             ret.AddCode("case {0}:", info.enumname);
                             ret.IndentCodePlus();
                             if (info.type.StartsWith("uint"))
-                                ret.AddCode("CHECK(stream_read_{0}(s, &ret->{1}));", info.type, info.unionname);
+                            {
+                                ret.AddCode("CHECK(stream_read_{0}(s, &{2}_{1}));", info.type, info.unionname, id);
+                                ret.AddCode("ret->{0} = {0}_{1};", id, info.unionname);
+                            }
                             else
                                 ret.AddCode("CHECK(read_{0}(s_root, s, &ret->{1}));", info.type, info.unionname);
                             ret.AddCode("break;");
                             ret.IndentCodeMinus();
                         }
                         ret.AddCode("}}");
-
-                        ret.IndentStructMinus();
-                        ret.AddStruct("}};");
+                        if (!isInt)
+                        {
+                            ret.IndentStructMinus();
+                            ret.AddStruct("}};");
+                        }
                     }
                     else if (enum_type != null)
                     {
@@ -478,7 +498,11 @@ namespace KaitaiCCompiler
                 }
 
                 if (value != null)
+                {
+                    seq.AddStruct("{0} {1};", "uint8_t", instance_key.Value);
+                    seq.AddCode("ret->{0} = {1};", instance_key.Value, value);
                     continue;
+                }
 
                 if (io != "_root._io")
                 {

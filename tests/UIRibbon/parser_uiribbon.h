@@ -90,12 +90,7 @@ typedef enum
 typedef struct
 {
 	uint8_t flag;
-	union
-	{
-		uint32_t block_2;
-		uint16_t block_3;
-		uint8_t block_4;
-	};
+	uint32_t id;
 } type_id;
 
 typedef struct
@@ -188,6 +183,18 @@ typedef struct
 	uint16_t count_commands;
 	type_sizedefinitions_command *commands;
 } type_sizedefinition;
+
+typedef struct
+{
+	uint8_t unk1a;
+	uint8_t unk1b;
+	type_id scale_value;
+	uint8_t unk3;
+	uint8_t has_large;
+	uint8_t has_medium;
+	uint8_t has_small;
+	uint8_t has_popup;
+} type_scalingpolicy;
 
 typedef struct
 {
@@ -290,7 +297,7 @@ typedef struct
 	type_sizedefinition sizedefinition_large;
 	type_sizedefinition sizedefinition_medium;
 	type_sizedefinition sizedefinition_small;
-	uint8_t unk5;
+	char *unk6;
 } type_group_elements_info;
 
 typedef struct
@@ -300,7 +307,9 @@ typedef struct
 	uint16_t unk3;
 	uint16_t unk4;
 	type_id id;
-	uint16_t unk20;
+	uint8_t unk20a;
+	type_scalingpolicy scalingpolicy;
+	uint8_t unk20b;
 	uint16_t unk12;
 	uint16_t unk21;
 	uint16_t unk10;
@@ -499,7 +508,7 @@ typedef struct
 	uint32_t size_command_container;
 	type_command_container command_container;
 	uint16_t len_unk6;
-	uint16_t unk5;
+	uint16_t unklen6;
 	application_views unk6;
 } type_uiribbon;
 

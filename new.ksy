@@ -53,7 +53,7 @@ seq:
     size: size_command_container - 4
   - id: len_unk6
     type: u2
-  - id: unk5
+  - id: unklen6
     type: u2
   - id: unk6
     type: application_views
@@ -411,13 +411,11 @@ types:
       enum: enum_sizedefinitions_command
     - id: string_id
       type: u1
+      doc: 'Id in global string table'
       if: flags_command == enum_sizedefinitions_command::special
     - id: command_id
       type: u2
       if: flags_command == enum_sizedefinitions_command::command
-    instances:
-      command_str:
-        value: _root.strings.strings[string_id]
 
   type_sizedefinition:
     seq:
@@ -464,9 +462,37 @@ types:
     - id: sizedefinition_small
       type: type_sizedefinition
       if: unk10 == 5
-    - id: unk5
+    - id: unk6
+      size: 3
+
+  type_scalingpolicy:
+    seq:
+    - id: unk1a
       type: u1
-    
+    - id: unk1b
+      type: u1
+    - id: scale_value
+      type: type_id
+      doc: |
+        This is calculated the following way:
+        sum(basevalue1 * position1 + basevalue2 * position2 + ...)
+        basevalues: large(0), popup(1), small(16), medium(256)
+        e.g. large-medium-small = 0*1 + 256*2 + 16*3 = 560
+    - id: unk3
+      type: u1
+    instances:
+      has_large:
+        value: true
+        doc: 'Whether scaling to large is allowed'
+      has_medium:
+        value: scale_value.id >= 256
+        doc: 'Whether scaling to medium is allowed'
+      has_small:
+        value: (scale_value.id % 256) >= 16
+        doc: 'Whether scaling to small is allowed'
+      has_popup:
+        value: (scale_value.id % 16) >= 1
+        doc: 'Whether scaling to popup is allowed'
 
   type_group_info:
     seq:
@@ -480,8 +506,13 @@ types:
       type: u2
     - id: id
       type: type_id
-    - id: unk20
-      type: u2
+    - id: unk20a
+      type: u1
+    - id: scalingpolicy
+      type: type_scalingpolicy
+      if: unk20a == 1
+    - id: unk20b
+      type: u1
     - id: unk12
       type: u2
     - id: unk21

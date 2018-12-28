@@ -10,3 +10,6 @@ convert df.bmp -define bmp:format=bmp3 -define bmp3:alpha=true f.bmp
 
 
 copy commands somewhere, to reuse (strings + images)
+
+ScalingPolicy.IdealSizes small forces always small, ScalingPolicy.IdealSizes medium forces always medium or lower ?!? - default image small?
+without scalingpolicy, always large

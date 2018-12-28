@@ -4,17 +4,24 @@
 
 int read_type_id(stream *s_root, stream *s, type_id *ret)
 {
+	uint32_t id_block_2;
+	uint16_t id_block_3;
+	uint8_t id_block_4;
+
 	CHECK(stream_read_uint8_t(s, &ret->flag));
 	switch(ret->flag)
 	{
 	case 2:
-		CHECK(stream_read_uint32_t(s, &ret->block_2));
+		CHECK(stream_read_uint32_t(s, &id_block_2));
+		ret->id = id_block_2;
 		break;
 	case 3:
-		CHECK(stream_read_uint16_t(s, &ret->block_3));
+		CHECK(stream_read_uint16_t(s, &id_block_3));
+		ret->id = id_block_3;
 		break;
 	case 4:
-		CHECK(stream_read_uint8_t(s, &ret->block_4));
+		CHECK(stream_read_uint8_t(s, &id_block_4));
+		ret->id = id_block_4;
 		break;
 	}
 	return 0;
@@ -167,6 +174,19 @@ int read_type_sizedefinition(stream *s_root, stream *s, type_sizedefinition *ret
 	{
 		CHECK(read_type_sizedefinitions_command(s_root, s, &ret->commands[i]));
 	}
+	return 0;
+}
+
+int read_type_scalingpolicy(stream *s_root, stream *s, type_scalingpolicy *ret)
+{
+	CHECK(stream_read_uint8_t(s, &ret->unk1a));
+	CHECK(stream_read_uint8_t(s, &ret->unk1b));
+	CHECK(read_type_id(s_root, s, &ret->scale_value));
+	CHECK(stream_read_uint8_t(s, &ret->unk3));
+	ret->has_large = 1;
+	ret->has_medium = ret->scale_value.id >= 256;
+	ret->has_small = (ret->scale_value.id % 256) >= 16;
+	ret->has_popup = (ret->scale_value.id % 16) >= 1;
 	return 0;
 }
 
@@ -352,7 +372,8 @@ int read_type_group_elements_info(stream *s_root, stream *s, type_group_elements
 	{
 		CHECK(read_type_sizedefinition(s_root, s, &ret->sizedefinition_small));
 	}
-	CHECK(stream_read_uint8_t(s, &ret->unk5));
+	ret->unk6 = malloc(3);
+	CHECK(stream_read_bytes(s, ret->unk6, 3));
 	return 0;
 }
 
@@ -365,7 +386,12 @@ int read_type_group_info(stream *s_root, stream *s, type_group_info *ret)
 	CHECK(stream_read_uint16_t(s, &ret->unk3));
 	CHECK(stream_read_uint16_t(s, &ret->unk4));
 	CHECK(read_type_id(s_root, s, &ret->id));
-	CHECK(stream_read_uint16_t(s, &ret->unk20));
+	CHECK(stream_read_uint8_t(s, &ret->unk20a));
+	if (ret->unk20a == 1)
+	{
+		CHECK(read_type_scalingpolicy(s_root, s, &ret->scalingpolicy));
+	}
+	CHECK(stream_read_uint8_t(s, &ret->unk20b));
 	CHECK(stream_read_uint16_t(s, &ret->unk12));
 	CHECK(stream_read_uint16_t(s, &ret->unk21));
 	CHECK(stream_read_uint16_t(s, &ret->unk10));
@@ -695,7 +721,7 @@ int read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *ret)
 	CHECK(stream_make_substream(s, &substream_command_container, ret->size_command_container - 4));
 	CHECK(read_type_command_container(s_root, &substream_command_container, &ret->command_container));
 	CHECK(stream_read_uint16_t(s, &ret->len_unk6));
-	CHECK(stream_read_uint16_t(s, &ret->unk5));
+	CHECK(stream_read_uint16_t(s, &ret->unklen6));
 	CHECK(read_application_views(s_root, s, &ret->unk6));
 	return 0;
 }

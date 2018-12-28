@@ -1,19 +1,5 @@
 #include "uiribbon_transformer.h"
 
-int transform_id(type_id *id)
-{
-    switch(id->flag)
-    {
-    case 2:
-        return id->block_2;
-    case 3:
-        return id->block_3;
-    case 4:
-        return id->block_4;
-    }
-    return -1;
-}
-
 uiribbon_control_type transform_control_type(enum_type_control type)
 {
     switch (type)
@@ -36,7 +22,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
         switch (src_block->block_type)
         {
         case UIRIBBON_CONTROL_BLOCK_TYPE_ID:
-            ret_control->id = transform_id(&src_block->block_id);
+            ret_control->id = src_block->block_id.id;
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE:
             if (!ret_control->size_definitions)
@@ -137,7 +123,7 @@ void transform_sizedefinition_group(type_uiribbon *root, type_sizedefinition *sr
 void transform_group(type_uiribbon *root, type_group_info *src_group, uiribbon_group *ret_group)
 {
     int i;
-    ret_group->id = transform_id(&src_group->id);
+    ret_group->id = src_group->id.id;
     ret_group->count_controls = src_group->group_elements_info.sub_count;
     ret_group->controls = malloc(sizeof(uiribbon_control) * ret_group->count_controls);
 
@@ -153,6 +139,19 @@ void transform_group(type_uiribbon *root, type_group_info *src_group, uiribbon_g
         transform_sizedefinition_group(root, &src_group->group_elements_info.sizedefinition_large, &ret_group->sizedefinition_orders->large);
         transform_sizedefinition_group(root, &src_group->group_elements_info.sizedefinition_medium, &ret_group->sizedefinition_orders->medium);
         transform_sizedefinition_group(root, &src_group->group_elements_info.sizedefinition_small, &ret_group->sizedefinition_orders->small);
+    }
+
+    ret_group->scalingpolicy.can_scale_large = 1;
+    ret_group->scalingpolicy.can_scale_medium = 0;
+    ret_group->scalingpolicy.can_scale_small = 0;
+    ret_group->scalingpolicy.can_scale_popup = 0;
+
+    if (src_group->unk20a == 1)
+    {
+         ret_group->scalingpolicy.can_scale_large  = src_group->scalingpolicy.has_large;
+         ret_group->scalingpolicy.can_scale_medium  = src_group->scalingpolicy.has_medium;
+         ret_group->scalingpolicy.can_scale_small  = src_group->scalingpolicy.has_small;
+         ret_group->scalingpolicy.can_scale_popup  = src_group->scalingpolicy.has_popup;
     }
 }
 
@@ -180,7 +179,7 @@ void transform_tabs(type_uiribbon *root, type_ribbon_tabs_normal *tabs_normal, u
         uiribbon_tab *ret_tab = &ret->tabs[i];
         type_tab *src_tab = &tabs_normal->tabs[i];
 
-        ret_tab->id = transform_id(&src_tab->id);
+        ret_tab->id = src_tab->id.id;
 
         transform_tabs_ext(root, &src_tab->ext, ret_tab);
     }
@@ -198,7 +197,7 @@ void transform_contexttabs(type_uiribbon *root, type_ribbon_tabs_context *src, u
         uiribbon_tabgroup *ret_tabgroup = &ret->contexttabgroups[i];
         type_tabgroup *src_tabgroup = &src->tabgroups[i];
 
-        ret_tabgroup->id = transform_id(&src_tabgroup->id);
+        ret_tabgroup->id = src_tabgroup->id.id;
         ret_tabgroup->count_tabs = src_tabgroup->count_tabs;
         ret_tabgroup->tabs = malloc(sizeof(uiribbon_tab) * ret_tabgroup->count_tabs);
         for (j = 0; j < ret_tabgroup->count_tabs; j++)
@@ -206,7 +205,7 @@ void transform_contexttabs(type_uiribbon *root, type_ribbon_tabs_context *src, u
             uiribbon_tab *ret_tab = &ret_tabgroup->tabs[j];
             type_tab *src_tab = &src_tabgroup->tabs[j];
 
-            ret_tab->id = transform_id(&src_tab->id);
+            ret_tab->id = src_tab->id.id;
 
             transform_tabs_ext(root, &src_tab->ext, ret_tab);
         }

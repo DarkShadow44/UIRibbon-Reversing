@@ -15,7 +15,7 @@
 				<String Content="Test3" Id="10003"></String>
 			</Command.LabelTitle>
 			<Command.LargeImages>
-				<Image Id="20003">df.bmp</Image>
+				<Image Id="20003">circle_red.bmp</Image>
 			</Command.LargeImages>
 		</Command>
 		<Command Name="Test4" Id="10004">
@@ -23,7 +23,7 @@
 				<String Content="Test4" Id="10004"></String>
 			</Command.LabelTitle>
 			<Command.LargeImages>
-				<Image Id="20004">f.bmp</Image>
+				<Image Id="20004">circle_red.bmp</Image>
 			</Command.LargeImages>
 		</Command>
 		<Command Name="Test5" Id="10005">
@@ -31,7 +31,7 @@
 				<String Content="Test5" Id="10005"></String>
 			</Command.LabelTitle>
 			<Command.LargeImages>
-				<Image Id="20005" MinDPI="96">df.bmp</Image>
+				<Image Id="20005" MinDPI="96">circle_red.bmp</Image>
 			</Command.LargeImages>
 		</Command>
 		<Command Name="Test6" Id="10006">
@@ -39,7 +39,7 @@
 				<String Content="Test6" Id="10006"></String>
 			</Command.LabelTitle>
 			<Command.LargeImages>
-				<Image Id="20006" MinDPI="96">circle_red.png</Image>
+				<Image Id="20006" MinDPI="96">circle_red.bmp</Image>
 			</Command.LargeImages>
 		</Command>
 		<Command Name="Test7" Id="10007">
@@ -60,15 +60,27 @@
 				<SizeDefinition Name="MySize1">
 					<ControlNameMap>
 						<ControlNameDefinition Name="20001"/>
+						<ControlNameDefinition Name="20002"/>
+						<ControlNameDefinition Name="20003"/>
+						<ControlNameDefinition Name="20004"/>
 					</ControlNameMap>
 					<GroupSizeDefinition Size="Small">
-						<ControlSizeDefinition ControlName="20001" ImageSize="Small" IsLabelVisible="false" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20001" ImageSize="Large" IsLabelVisible="false" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20002" ImageSize="Small" IsLabelVisible="false" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20003" ImageSize="Small" IsLabelVisible="false" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20004" ImageSize="Small" IsLabelVisible="false" IsImageVisible="true" />
 					</GroupSizeDefinition>
 					<GroupSizeDefinition Size="Medium">
-						<ControlSizeDefinition ControlName="20001" ImageSize="Small" IsLabelVisible="true" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20001" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20002" ImageSize="Small" IsLabelVisible="true" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20003" ImageSize="Small" IsLabelVisible="true" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20004" ImageSize="Small" IsLabelVisible="true" IsImageVisible="true" />
 					</GroupSizeDefinition>
 					<GroupSizeDefinition Size="Large">
 						<ControlSizeDefinition ControlName="20001" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20002" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20003" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
+						<ControlSizeDefinition ControlName="20004" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
 					</GroupSizeDefinition>
 				</SizeDefinition>
 			</Ribbon.SizeDefinitions>
@@ -79,10 +91,21 @@
 							<ScalingPolicy.IdealSizes>
 								<Scale Group="Test2" Size="Large" />
 							</ScalingPolicy.IdealSizes>
+							<Scale Group="Test2" Size="Small" />
+							<Scale Group="Test2" Size="Popup" />
 						</ScalingPolicy>
 					</Tab.ScalingPolicy>
+					<Group>
+					</Group>
+					<Group>
+					</Group>
+					<Group>
+					</Group>
 					<Group CommandName="Test2" SizeDefinition="MySize1">
 						<Button CommandName="Test3" />
+						<Button CommandName="Test4" />
+						<Button CommandName="Test5" />
+						<Button CommandName="Test6" />
 					</Group>
 				</Tab>
 			</Ribbon.Tabs>
