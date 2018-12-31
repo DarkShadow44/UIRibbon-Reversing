@@ -481,18 +481,12 @@ types:
     - id: unk3
       type: u1
     instances:
-      has_large:
-        value: true
-        doc: 'Whether scaling to large is allowed'
-      has_medium:
-        value: scale_value.id >= 256
-        doc: 'Whether scaling to medium is allowed'
-      has_small:
-        value: (scale_value.id % 256) >= 16
-        doc: 'Whether scaling to small is allowed'
-      has_popup:
-        value: (scale_value.id % 16) >= 1
-        doc: 'Whether scaling to popup is allowed'
+      priority_medium:
+        value: scale_value.id / 256
+      priority_small:
+        value: (scale_value.id % 256) / 16
+      priority_popup:
+        value: (scale_value.id % 16) / 1
 
   type_group_info:
     seq:

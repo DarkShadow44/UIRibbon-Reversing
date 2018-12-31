@@ -183,10 +183,9 @@ int read_type_scalingpolicy(stream *s_root, stream *s, type_scalingpolicy *ret)
 	CHECK(stream_read_uint8_t(s, &ret->unk1b));
 	CHECK(read_type_id(s_root, s, &ret->scale_value));
 	CHECK(stream_read_uint8_t(s, &ret->unk3));
-	ret->has_large = 1;
-	ret->has_medium = ret->scale_value.id >= 256;
-	ret->has_small = (ret->scale_value.id % 256) >= 16;
-	ret->has_popup = (ret->scale_value.id % 16) >= 1;
+	ret->priority_medium = ret->scale_value.id / 256;
+	ret->priority_small = (ret->scale_value.id % 256) / 16;
+	ret->priority_popup = (ret->scale_value.id % 16) / 1;
 	return 0;
 }
 

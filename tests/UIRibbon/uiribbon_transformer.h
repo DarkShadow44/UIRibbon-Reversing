@@ -63,26 +63,32 @@ typedef struct
 
 typedef struct
 {
-    bool can_scale_large;
-    bool can_scale_medium;
-    bool can_scale_small;
-    bool can_scale_popup;
-} uiribbon_scalingpolicy;
-
-typedef struct
-{
     int id;
     int count_controls;
     uiribbon_control *controls;
     uiribbon_sizedefinitions_orders *sizedefinition_orders;
-    uiribbon_scalingpolicy scalingpolicy;
 } uiribbon_group;
+
+typedef enum
+{
+    UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM,
+    UIRIBBON_TRANSFORMED_SCALE_TO_SMALL,
+    UIRIBBON_TRANSFORMED_SCALE_TO_POPUP,
+} uiribbon_scalingpolicy_type;
+
+typedef struct
+{
+    int group_id;
+    uiribbon_scalingpolicy_type scale_type;
+} uiribbon_scalingpolicy;
 
 typedef struct
 {
     int id;
     int count_groups;
     uiribbon_group *groups;
+    int count_scalepolicies;
+    uiribbon_scalingpolicy *scalepolicies;
 } uiribbon_tab;
 
 typedef struct

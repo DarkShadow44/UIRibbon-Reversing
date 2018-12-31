@@ -190,10 +190,9 @@ typedef struct
 	uint8_t unk1b;
 	type_id scale_value;
 	uint8_t unk3;
-	uint8_t has_large;
-	uint8_t has_medium;
-	uint8_t has_small;
-	uint8_t has_popup;
+	uint8_t priority_medium;
+	uint8_t priority_small;
+	uint8_t priority_popup;
 } type_scalingpolicy;
 
 typedef struct

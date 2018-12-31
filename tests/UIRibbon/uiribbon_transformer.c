@@ -140,18 +140,57 @@ void transform_group(type_uiribbon *root, type_group_info *src_group, uiribbon_g
         transform_sizedefinition_group(root, &src_group->group_elements_info.sizedefinition_medium, &ret_group->sizedefinition_orders->medium);
         transform_sizedefinition_group(root, &src_group->group_elements_info.sizedefinition_small, &ret_group->sizedefinition_orders->small);
     }
+}
 
-    ret_group->scalingpolicy.can_scale_large = 1;
-    ret_group->scalingpolicy.can_scale_medium = 0;
-    ret_group->scalingpolicy.can_scale_small = 0;
-    ret_group->scalingpolicy.can_scale_popup = 0;
-
-    if (src_group->unk20a == 1)
+void transform_scalepolicies(type_tab_extended *src_ext, uiribbon_tab *ret_tab)
+{
+    int i, j, pos;
+    int count_scalepolicies = 0;
+    for (i = 0; i < ret_tab->count_groups; i++)
     {
-         ret_group->scalingpolicy.can_scale_large  = src_group->scalingpolicy.has_large;
-         ret_group->scalingpolicy.can_scale_medium  = src_group->scalingpolicy.has_medium;
-         ret_group->scalingpolicy.can_scale_small  = src_group->scalingpolicy.has_small;
-         ret_group->scalingpolicy.can_scale_popup  = src_group->scalingpolicy.has_popup;
+        type_group_info *src_group = &src_ext->groupinfo[i];
+        if (src_group->unk20a == 1)
+        {
+            if (src_group->scalingpolicy.priority_medium > 0)
+                count_scalepolicies++;
+            if (src_group->scalingpolicy.priority_small > 0)
+                count_scalepolicies++;
+            if (src_group->scalingpolicy.priority_popup > 0)
+                count_scalepolicies++;
+        }
+    }
+
+    ret_tab->count_scalepolicies = count_scalepolicies;
+    ret_tab->scalepolicies = malloc(sizeof(uiribbon_scalingpolicy) * ret_tab->count_scalepolicies);
+    pos = 0;
+    for (j = 0; j < 16; j++)
+    {
+        uiribbon_scalingpolicy *ret_scalingpolicy = &ret_tab->scalepolicies[pos];
+        for (i = 0; i < ret_tab->count_groups; i++)
+        {
+            type_group_info *src_group = &src_ext->groupinfo[i];
+            if (src_group->unk20a == 1)
+            {
+                if (src_group->scalingpolicy.priority_medium == j + 1)
+                {
+                    ret_scalingpolicy->group_id = src_group->id.id;
+                    ret_scalingpolicy->scale_type = UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM;
+                    pos++;
+                }
+                else if (src_group->scalingpolicy.priority_small == j + 1)
+                {
+                    ret_scalingpolicy->group_id = src_group->id.id;
+                    ret_scalingpolicy->scale_type = UIRIBBON_TRANSFORMED_SCALE_TO_SMALL;
+                    pos++;
+                }
+                else if (src_group->scalingpolicy.priority_popup == j + 1)
+                {
+                    ret_scalingpolicy->group_id = src_group->id.id;
+                    ret_scalingpolicy->scale_type = UIRIBBON_TRANSFORMED_SCALE_TO_POPUP;
+                    pos++;
+                }
+            }
+        }
     }
 }
 
@@ -166,6 +205,8 @@ void transform_tabs_ext(type_uiribbon *root, type_tab_extended *src_ext, uiribbo
     {
         transform_group(root, &src_ext->groupinfo[i], &ret_tab->groups[i]);
     }
+
+    transform_scalepolicies(src_ext, ret_tab);
 }
 
 void transform_tabs(type_uiribbon *root, type_ribbon_tabs_normal *tabs_normal, uiribbon_main *ret)

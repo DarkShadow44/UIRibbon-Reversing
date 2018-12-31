@@ -334,11 +334,9 @@ int test_scalingpolicy(void)
 {
     uiribbon_main uiribbon;
 
-    #define ASSERT_SCALING(scalingpolicy, large, medium, small, popup) \
-        ASSERT(scalingpolicy.can_scale_large  == large);  \
-        ASSERT(scalingpolicy.can_scale_medium == medium); \
-        ASSERT(scalingpolicy.can_scale_small  == small);  \
-        ASSERT(scalingpolicy.can_scale_popup  == popup);
+    #define ASSERT_SCALING(scalingpolicy, id, type) \
+        ASSERT(scalingpolicy.group_id == id); \
+        ASSERT(scalingpolicy.scale_type == type); \
 
     CHECK(parse_from_testdata("scalingpolicy", &uiribbon));
     ASSERT(uiribbon.count_tabs == 4);
@@ -347,24 +345,37 @@ int test_scalingpolicy(void)
     ASSERT(uiribbon.tabs[2].count_groups == 4);
     ASSERT(uiribbon.tabs[3].count_groups == 1);
 
-    ASSERT_SCALING(uiribbon.tabs[0].groups[0].scalingpolicy, 1, 0, 0, 0);
-    ASSERT_SCALING(uiribbon.tabs[0].groups[1].scalingpolicy, 1, 1, 0, 0);
-    ASSERT_SCALING(uiribbon.tabs[0].groups[2].scalingpolicy, 1, 0, 1, 0);
-    ASSERT_SCALING(uiribbon.tabs[0].groups[3].scalingpolicy, 1, 0, 0, 1);
+    ASSERT(uiribbon.tabs[0].count_scalepolicies == 3);
+    ASSERT_SCALING(uiribbon.tabs[0].scalepolicies[0], 10002, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[0].scalepolicies[1], 10004, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
+    ASSERT_SCALING(uiribbon.tabs[0].scalepolicies[2], 10003, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
 
-    ASSERT_SCALING(uiribbon.tabs[1].groups[0].scalingpolicy, 1, 1, 0, 0);
-    ASSERT_SCALING(uiribbon.tabs[1].groups[1].scalingpolicy, 1, 0, 1, 0);
-    ASSERT_SCALING(uiribbon.tabs[1].groups[2].scalingpolicy, 1, 0, 0, 1);
-    ASSERT_SCALING(uiribbon.tabs[1].groups[3].scalingpolicy, 1, 1, 1, 0);
-    ASSERT_SCALING(uiribbon.tabs[1].groups[4].scalingpolicy, 1, 1, 0, 1);
-    ASSERT_SCALING(uiribbon.tabs[1].groups[5].scalingpolicy, 1, 0, 1, 1);
+    ASSERT(uiribbon.tabs[1].count_scalepolicies == 9);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[0], 10010, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[1], 10005, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[2], 10006, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[3], 10007, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[4], 10008, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[5], 10008, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[6], 10009, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[7], 10009, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[8], 10010, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
 
-    ASSERT_SCALING(uiribbon.tabs[2].groups[0].scalingpolicy, 1, 1, 1, 0);
-    ASSERT_SCALING(uiribbon.tabs[2].groups[1].scalingpolicy, 1, 1, 0, 1);
-    ASSERT_SCALING(uiribbon.tabs[2].groups[2].scalingpolicy, 1, 0, 1, 1);
-    ASSERT_SCALING(uiribbon.tabs[2].groups[3].scalingpolicy, 1, 1, 1, 1);
+    ASSERT(uiribbon.tabs[2].count_scalepolicies == 9);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[0], 10011, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[1], 10011, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[2], 10012, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[3], 10012, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[4], 10013, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[5], 10013, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[6], 10014, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[7], 10014, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[8], 10014, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
 
-    ASSERT_SCALING(uiribbon.tabs[3].groups[0].scalingpolicy, 1, 1, 1, 1);
+    ASSERT(uiribbon.tabs[3].count_scalepolicies == 3);
+    ASSERT_SCALING(uiribbon.tabs[3].scalepolicies[0], 10015, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[3].scalepolicies[1], 10015, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[3].scalepolicies[2], 10015, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
 
     #undef ASSERT_SCALING
 
@@ -373,8 +384,8 @@ int test_scalingpolicy(void)
 
 int main()
 {
-    /*write_test_data("sizedefinition_order");
-    run_visual_test("sizedefinition_order");
+    /*write_test_data("scalingpolicy");
+    run_visual_test("scalingpolicy");
     return 0;*/
     CHECK(test_simple());
     CHECK(test_sizeinfo());
