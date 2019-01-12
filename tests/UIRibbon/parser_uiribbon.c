@@ -205,6 +205,7 @@ int read_type_unk1_extended(stream *s_root, stream *s, type_unk1_extended *ret)
 
 int read_type_control_block_subcomponents(stream *s_root, stream *s, type_control_block_subcomponents *ret)
 {
+	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint16_t(s, &ret->count_elements));
 	return 0;
 }
@@ -272,6 +273,30 @@ int read_type_control_block_sizedefinition_imagesize(stream *s_root, stream *s, 
 	return 0;
 }
 
+int read_type_control_block_unk4(stream *s_root, stream *s, type_control_block_unk4 *ret)
+{
+	CHECK(stream_read_uint32_t(s, &ret->unk1));
+	return 0;
+}
+
+int read_type_control_block_info4(stream *s_root, stream *s, type_control_block_info4 *ret)
+{
+	CHECK(stream_read_uint8_t(s, &ret->unk1));
+	CHECK(stream_read_uint8_t(s, &ret->value_bool));
+	CHECK(stream_read_uint8_t(s, &ret->unk2));
+	CHECK(stream_read_uint8_t(s, &ret->unk3));
+	return 0;
+}
+
+int read_type_control_block_info7(stream *s_root, stream *s, type_control_block_info7 *ret)
+{
+	CHECK(stream_read_uint32_t(s, &ret->unk1));
+	CHECK(stream_read_uint8_t(s, &ret->value_bool));
+	CHECK(stream_read_uint8_t(s, &ret->unk2));
+	CHECK(stream_read_uint8_t(s, &ret->unk3));
+	return 0;
+}
+
 int read_type_control_block_generic(stream *s_root, stream *s, type_control_block_generic *ret)
 {
 	uint8_t block_type;
@@ -300,6 +325,24 @@ int read_type_control_block_generic(stream *s_root, stream *s, type_control_bloc
 		break;
 	case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE:
 		CHECK(read_type_control_block_sizedefinition_imagesize(s_root, s, &ret->block_sizedefinition_imagesize));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK1:
+		CHECK(read_type_control_block_unk4(s_root, s, &ret->block_unk1));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_EDITABLE:
+		CHECK(read_type_control_block_unk4(s_root, s, &ret->block_editable));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK3:
+		CHECK(read_type_control_block_unk4(s_root, s, &ret->block_unk3));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK5:
+		CHECK(read_type_control_block_unk4(s_root, s, &ret->block_unk5));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_AUTOCOMPLETE_ENABLED:
+		CHECK(read_type_control_block_info7(s_root, s, &ret->block_autocomplete_enabled));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_VERTICAL_RESIZE:
+		CHECK(read_type_control_block_info4(s_root, s, &ret->block_vertical_resize));
 		break;
 	}
 	return 0;

@@ -85,6 +85,12 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_SUBCOMPONENTS = 24,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGEVISIBLE = 36,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE = 37,
+	UIRIBBON_CONTROL_BLOCK_TYPE_AUTOCOMPLETE_ENABLED = 93,
+	UIRIBBON_CONTROL_BLOCK_TYPE_VERTICAL_RESIZE = 73,
+	UIRIBBON_CONTROL_BLOCK_TYPE_UNK1 = 70,
+	UIRIBBON_CONTROL_BLOCK_TYPE_EDITABLE = 71,
+	UIRIBBON_CONTROL_BLOCK_TYPE_UNK3 = 87,
+	UIRIBBON_CONTROL_BLOCK_TYPE_UNK5 = 88,
 } enum_control_block_type;
 
 typedef struct
@@ -210,6 +216,7 @@ typedef struct
 
 typedef struct
 {
+	uint16_t unk1;
 	uint16_t count_elements;
 } type_control_block_subcomponents;
 
@@ -255,6 +262,27 @@ typedef struct
 
 typedef struct
 {
+	uint32_t unk1;
+} type_control_block_unk4;
+
+typedef struct
+{
+	uint8_t unk1;
+	uint8_t value_bool;
+	uint8_t unk2;
+	uint8_t unk3;
+} type_control_block_info4;
+
+typedef struct
+{
+	uint32_t unk1;
+	uint8_t value_bool;
+	uint8_t unk2;
+	uint8_t unk3;
+} type_control_block_info7;
+
+typedef struct
+{
 	enum_control_block_type block_type;
 	union
 	{
@@ -265,6 +293,12 @@ typedef struct
 		type_control_block_subcomponents block_subcomponents;
 		type_control_block_sizedefinition_imagevisible block_sizedefinition_imagevisible;
 		type_control_block_sizedefinition_imagesize block_sizedefinition_imagesize;
+		type_control_block_unk4 block_unk1;
+		type_control_block_unk4 block_editable;
+		type_control_block_unk4 block_unk3;
+		type_control_block_unk4 block_unk5;
+		type_control_block_info7 block_autocomplete_enabled;
+		type_control_block_info4 block_vertical_resize;
 	};
 } type_control_block_generic;
 

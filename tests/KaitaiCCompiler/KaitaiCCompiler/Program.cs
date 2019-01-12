@@ -438,7 +438,7 @@ namespace KaitaiCCompiler
                             ret.AddCode("CHECK(read_{0}(s_root, s, &{1}));", type, id);
                         ret.AddCode("ret->{0} = {0};", id);
                     }
-                    else
+                    else if(type != null)
                     {
                         ret.AddStruct("{0} {1};", type, id);
                         ret.AddDependency(type);

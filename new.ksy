@@ -123,6 +123,12 @@ enums:
     24: subcomponents
     36: sizedefinition_imagevisible
     37: sizedefinition_imagesize
+    93: autocomplete_enabled
+    73: vertical_resize
+    70: unk1
+    71: editable
+    87: unk3
+    88: unk5
 
 types:
 
@@ -559,8 +565,8 @@ types:
   
   type_control_block_subcomponents:
     seq:
-    # - id: unk1
-    #   size: 20
+    - id: unk1
+      type: u2
     - id: count_elements
       type: u2
     # - id: elements
@@ -628,6 +634,33 @@ types:
     - id: unk4
       type: u1
   
+  type_control_block_unk4:
+    seq:
+    - id: unk1
+      type: u4
+
+  type_control_block_info4:
+    seq:
+    - id: unk1
+      type: u1
+    - id: value_bool
+      type: u1
+    - id: unk2
+      type: u1
+    - id: unk3
+      type: u1
+
+  type_control_block_info7:
+    seq:
+    - id: unk1
+      type: u4
+    - id: value_bool
+      type: u1
+    - id: unk2
+      type: u1
+    - id: unk3
+      type: u1
+
   type_control_block_generic:
     seq:
     - id: block_type
@@ -645,6 +678,12 @@ types:
           enum_control_block_type::subcomponents: type_control_block_subcomponents
           enum_control_block_type::sizedefinition_imagevisible: type_control_block_sizedefinition_imagevisible
           enum_control_block_type::sizedefinition_imagesize: type_control_block_sizedefinition_imagesize
+          enum_control_block_type::unk1: type_control_block_unk4
+          enum_control_block_type::editable: type_control_block_unk4
+          enum_control_block_type::unk3: type_control_block_unk4
+          enum_control_block_type::unk5: type_control_block_unk4
+          enum_control_block_type::autocomplete_enabled: type_control_block_info7
+          enum_control_block_type::vertical_resize: type_control_block_info4
   
   type_control_blocks:
     seq:
@@ -657,6 +696,8 @@ types:
       type: type_control_block_generic
       repeat: expr
       repeat-expr: count_blocks
+    - id: blocks_bytes
+      size-eos: true
 
   type_control:
     seq:

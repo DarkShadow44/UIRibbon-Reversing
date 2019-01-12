@@ -6,8 +6,35 @@ uiribbon_control_type transform_control_type(enum_type_control type)
     {
     case UIRIBBON_TYPE_CONTROL_BUTTON:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON;
+    case UIRIBBON_TYPE_CONTROL_COMBOBOX:
+        return UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX;
     }
     return -1;
+}
+
+void transform_control_combobox(type_control *src_control, uiribbon_control_combobox *ret_control)
+{
+    int i;
+
+    ret_control->is_editable = FALSE;
+    for (i = 0; i < src_control->block.count_blocks; i++)
+    {
+        type_control_block_generic *src_block = &src_control->block.blocks[i];
+        switch(src_block->block_type)
+        {
+        case UIRIBBON_CONTROL_BLOCK_TYPE_EDITABLE:
+            ret_control->is_editable = TRUE;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_AUTOCOMPLETE_ENABLED:
+            ret_control->has_autocomplete = src_block->block_autocomplete_enabled.value_bool;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_VERTICAL_RESIZE:
+            ret_control->has_vertical_resize = src_block->block_vertical_resize.value_bool;
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 void transform_control(type_control *src_control, uiribbon_control *ret_control)
@@ -73,7 +100,19 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
             ret_control->size_definitions->medium.imagevisible = ret_control->size_definitions->large.imagevisible;
             ret_control->size_definitions->small.imagevisible = ret_control->size_definitions->large.imagevisible;
             break;
+        default:
+            break;
         }
+    }
+
+    switch(ret_control->type)
+    {
+    case UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON:
+        break;
+
+    case UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX:
+        transform_control_combobox(src_control, &ret_control->control_info.combobox);
+        break;
     }
 }
 

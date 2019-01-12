@@ -1,6 +1,8 @@
 #include "parser_uiribbon.h"
 
 typedef int bool;
+#define FALSE 0
+#define TRUE 1
 
 typedef enum
 {
@@ -14,6 +16,7 @@ typedef enum
 typedef enum
 {
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON = 0,
+    UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX = 1,
 } uiribbon_control_type;
 
 typedef struct
@@ -56,9 +59,20 @@ typedef struct
 
 typedef struct
 {
+    bool has_vertical_resize;
+    bool has_autocomplete;
+    bool is_editable;
+} uiribbon_control_combobox;
+
+typedef struct
+{
     uiribbon_control_type type;
     int id;
     uiribbon_sizedefinitions_control *size_definitions;
+    union
+    {
+        uiribbon_control_combobox combobox;
+    } control_info;
 } uiribbon_control;
 
 typedef struct

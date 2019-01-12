@@ -382,6 +382,41 @@ int test_scalingpolicy(void)
     return 0;
 }
 
+static int test_combobox(void)
+{
+    uiribbon_main uiribbon;
+    uiribbon_control *controls;
+
+    CHECK(parse_from_testdata("combobox", &uiribbon));
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 7);
+    controls = uiribbon.tabs[0].groups[0].controls;
+    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT(controls[1].control_info.combobox.is_editable == TRUE);
+    ASSERT(controls[1].control_info.combobox.has_autocomplete == TRUE);
+    ASSERT(controls[1].control_info.combobox.has_vertical_resize == FALSE);
+    ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT(controls[2].control_info.combobox.is_editable == FALSE);
+    ASSERT(controls[2].control_info.combobox.has_autocomplete == TRUE);
+    ASSERT(controls[2].control_info.combobox.has_vertical_resize == FALSE);
+    ASSERT(controls[3].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT(controls[3].control_info.combobox.is_editable == TRUE);
+    ASSERT(controls[3].control_info.combobox.has_autocomplete == FALSE);
+    ASSERT(controls[3].control_info.combobox.has_vertical_resize == FALSE);
+    ASSERT(controls[4].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT(controls[4].control_info.combobox.is_editable == TRUE);
+    ASSERT(controls[4].control_info.combobox.has_autocomplete == TRUE);
+    ASSERT(controls[4].control_info.combobox.has_vertical_resize == TRUE);
+    ASSERT(controls[5].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT(controls[5].control_info.combobox.is_editable == FALSE);
+    ASSERT(controls[5].control_info.combobox.has_autocomplete == FALSE);
+    ASSERT(controls[5].control_info.combobox.has_vertical_resize == TRUE);
+    ASSERT(controls[6].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    return 0;
+}
+
 int main()
 {
     /*write_test_data("scalingpolicy");
@@ -391,6 +426,7 @@ int main()
     CHECK(test_sizeinfo());
     CHECK(test_commands());
     CHECK(test_scalingpolicy());
+    CHECK(test_combobox());
 
     return 0;
 }
