@@ -344,6 +344,9 @@ int read_type_control_block_generic(stream *s_root, stream *s, type_control_bloc
 	case UIRIBBON_CONTROL_BLOCK_TYPE_VERTICAL_RESIZE:
 		CHECK(read_type_control_block_info4(s_root, s, &ret->block_vertical_resize));
 		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK6:
+		CHECK(read_type_control_block_info7(s_root, s, &ret->block_unk6));
+		break;
 	}
 	return 0;
 }

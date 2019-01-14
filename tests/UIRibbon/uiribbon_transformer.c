@@ -8,6 +8,8 @@ uiribbon_control_type transform_control_type(enum_type_control type)
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON;
     case UIRIBBON_TYPE_CONTROL_COMBOBOX:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX;
+    case UIRIBBON_TYPE_CONTROL_CHECKBOX:
+        return UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX;
     }
     return -1;
 }

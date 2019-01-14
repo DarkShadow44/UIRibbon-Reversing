@@ -129,6 +129,7 @@ enums:
     71: editable
     87: unk3
     88: unk5
+    63: unk6
 
 types:
 
@@ -633,7 +634,7 @@ types:
       type: u1
     - id: unk4
       type: u1
-  
+
   type_control_block_unk4:
     seq:
     - id: unk1
@@ -684,6 +685,7 @@ types:
           enum_control_block_type::unk5: type_control_block_unk4
           enum_control_block_type::autocomplete_enabled: type_control_block_info7
           enum_control_block_type::vertical_resize: type_control_block_info4
+          enum_control_block_type::unk6: type_control_block_info7
   
   type_control_blocks:
     seq:

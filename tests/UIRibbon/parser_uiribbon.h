@@ -91,6 +91,7 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_EDITABLE = 71,
 	UIRIBBON_CONTROL_BLOCK_TYPE_UNK3 = 87,
 	UIRIBBON_CONTROL_BLOCK_TYPE_UNK5 = 88,
+	UIRIBBON_CONTROL_BLOCK_TYPE_UNK6 = 63,
 } enum_control_block_type;
 
 typedef struct
@@ -299,6 +300,7 @@ typedef struct
 		type_control_block_unk4 block_unk5;
 		type_control_block_info7 block_autocomplete_enabled;
 		type_control_block_info4 block_vertical_resize;
+		type_control_block_info7 block_unk6;
 	};
 } type_control_block_generic;
 

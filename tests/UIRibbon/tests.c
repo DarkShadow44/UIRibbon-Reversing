@@ -422,6 +422,23 @@ static int test_combobox(void)
     return 0;
 }
 
+static int test_checkbox(void)
+{
+    uiribbon_main uiribbon;
+    uiribbon_control *controls;
+
+    CHECK(parse_from_testdata("checkbox", &uiribbon));
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 3);
+    controls = uiribbon.tabs[0].groups[0].controls;
+    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX);
+    ASSERT(controls[1].id == 10002);
+    ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    return 0;
+}
+
 int main()
 {
     /*write_test_data("scalingpolicy");
@@ -432,6 +449,7 @@ int main()
     CHECK(test_commands());
     CHECK(test_scalingpolicy());
     CHECK(test_combobox());
+     CHECK(test_checkbox());
 
     return 0;
 }
