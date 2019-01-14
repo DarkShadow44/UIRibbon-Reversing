@@ -563,17 +563,43 @@ types:
       type: u2
     - id: unk8
       type: u2
+
+  type_subcomponents:
+    seq:
+    - id: check1
+      contents: [2, 1, 1, 65, 43, 1, 24, 1, 62]
+    - id: count_elements
+      type: u2
+    - id: elements
+      type: type_control
+      repeat: expr
+      repeat-expr: count_elements
+
+  type_control_block_subcomponents_real:
+    seq:
+    - id: check1
+      contents: [1, 0, 22, 0, 24, 0, 16]
+    - id: len_subcomponents
+      type: u2
+    - id: subcomponents
+      type: type_subcomponents
+      size: len_subcomponents - 7
   
   type_control_block_subcomponents:
     seq:
     - id: unk1
+      type: u1
+    - id: unk2
+      type: u1
+    - id: components
+      type: type_control_block_subcomponents_real
+      if: unk2 == 62
+    - id: unk3
       type: u2
-    - id: count_elements
-      type: u2
-    # - id: elements
-    #   type: type_control
-    #   repeat: expr
-    #   repeat-expr: count_elements
+      if: unk2 != 62
+    instances:
+      has_controls:
+        value: unk2 == 62
   
   type_control_block_sizedefinition_labelvisible_mixed:
     seq:

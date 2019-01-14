@@ -18,6 +18,7 @@ typedef enum
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON = 0,
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX = 1,
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX = 2,
+    UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON = 3,
 } uiribbon_control_type;
 
 typedef struct
@@ -65,11 +66,13 @@ typedef struct
     bool is_editable;
 } uiribbon_control_combobox;
 
-typedef struct
+typedef struct uiribbon_control_
 {
     uiribbon_control_type type;
     int id;
     uiribbon_sizedefinitions_control *size_definitions;
+    int count_subcontrols;
+    struct uiribbon_control_ *subcontrols;
     union
     {
         uiribbon_control_combobox combobox;

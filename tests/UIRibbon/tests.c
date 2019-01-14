@@ -439,9 +439,46 @@ static int test_checkbox(void)
     return 0;
 }
 
+static int test_dropdownbutton(void)
+{
+    uiribbon_main uiribbon;
+    uiribbon_control *controls;
+    int i;
+
+    CHECK(parse_from_testdata("dropdownbutton", &uiribbon));
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 3);
+    controls = uiribbon.tabs[0].groups[0].controls;
+    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON);
+    ASSERT(controls[1].id == 10002);
+    ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[1].count_subcontrols == 3);
+    controls = controls[1].subcontrols;
+
+    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON);
+    ASSERT(controls[0].id == 10003);
+    ASSERT(controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON);
+    ASSERT(controls[1].id == 10004);
+    ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[2].id == 10006);
+    ASSERT(controls[0].count_subcontrols == 0);
+    ASSERT(controls[1].count_subcontrols == 4);
+    controls = controls[1].subcontrols;
+
+    for (i = 0; i < 4; i++)
+    {
+        ASSERT(controls[i].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        ASSERT(controls[i].id == 10005);
+    }
+
+    return 0;
+}
+
 int main()
 {
-    /*write_test_data("scalingpolicy");
+    /*write_test_data("combobox");
     run_visual_test("scalingpolicy");
     return 0;*/
     CHECK(test_simple());
@@ -449,7 +486,8 @@ int main()
     CHECK(test_commands());
     CHECK(test_scalingpolicy());
     CHECK(test_combobox());
-     CHECK(test_checkbox());
+    CHECK(test_checkbox());
+    CHECK(test_dropdownbutton());
 
     return 0;
 }

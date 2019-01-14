@@ -2,6 +2,53 @@
 
 #include "parser_uiribbon.h"
 
+int read_type_id(stream *s_root, stream *s, type_id *ret);
+int read_type_string(stream *s_root, stream *s, type_string *ret);
+int read_type_strings(stream *s_root, stream *s, type_strings *ret);
+int read_type_resource_generic(stream *s_root, stream *s, type_resource_generic *ret);
+int read_type_resource(stream *s_root, stream *s, type_resource *ret);
+int read_type_tabgroup(stream *s_root, stream *s, type_tabgroup *ret);
+int read_type_ribbon_tabs_normal(stream *s_root, stream *s, type_ribbon_tabs_normal *ret);
+int read_type_ribbon_tabs_context(stream *s_root, stream *s, type_ribbon_tabs_context *ret);
+int read_type_ribbon_tabs_applicationmenu(stream *s_root, stream *s, type_ribbon_tabs_applicationmenu *ret);
+int read_type_block_tabs(stream *s_root, stream *s, type_block_tabs *ret);
+int read_type_ribbon(stream *s_root, stream *s, type_ribbon *ret);
+int read_block_unk1(stream *s_root, stream *s, block_unk1 *ret);
+int read_type_sizeinfo_maybe(stream *s_root, stream *s, type_sizeinfo_maybe *ret);
+int read_type_sizedefinitions_command(stream *s_root, stream *s, type_sizedefinitions_command *ret);
+int read_type_sizedefinition(stream *s_root, stream *s, type_sizedefinition *ret);
+int read_type_group_elements_info(stream *s_root, stream *s, type_group_elements_info *ret);
+int read_type_scalingpolicy(stream *s_root, stream *s, type_scalingpolicy *ret);
+int read_type_group_info(stream *s_root, stream *s, type_group_info *ret);
+int read_type_tab_extended(stream *s_root, stream *s, type_tab_extended *ret);
+int read_type_tab(stream *s_root, stream *s, type_tab *ret);
+int read_type_unk1_extended(stream *s_root, stream *s, type_unk1_extended *ret);
+int read_type_subcomponents(stream *s_root, stream *s, type_subcomponents *ret);
+int read_type_control_block_subcomponents_real(stream *s_root, stream *s, type_control_block_subcomponents_real *ret);
+int read_type_control_block_subcomponents(stream *s_root, stream *s, type_control_block_subcomponents *ret);
+int read_type_control_block_sizedefinition_labelvisible_mixed(stream *s_root, stream *s, type_control_block_sizedefinition_labelvisible_mixed *ret);
+int read_type_control_block_sizedefinition_imagesize_mixed(stream *s_root, stream *s, type_control_block_sizedefinition_imagesize_mixed *ret);
+int read_type_control_block_sizedefinition_imagevisible(stream *s_root, stream *s, type_control_block_sizedefinition_imagevisible *ret);
+int read_type_control_block_sizedefinition_labelvisible(stream *s_root, stream *s, type_control_block_sizedefinition_labelvisible *ret);
+int read_type_control_block_sizedefinition_imagesize(stream *s_root, stream *s, type_control_block_sizedefinition_imagesize *ret);
+int read_type_control_block_unk4(stream *s_root, stream *s, type_control_block_unk4 *ret);
+int read_type_control_block_info4(stream *s_root, stream *s, type_control_block_info4 *ret);
+int read_type_control_block_info7(stream *s_root, stream *s, type_control_block_info7 *ret);
+int read_type_control_block_generic(stream *s_root, stream *s, type_control_block_generic *ret);
+int read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *ret);
+int read_type_control(stream *s_root, stream *s, type_control *ret);
+int read_type_menugroup_extended(stream *s_root, stream *s, type_menugroup_extended *ret);
+int read_type_recent2(stream *s_root, stream *s, type_recent2 *ret);
+int read_type_recent1(stream *s_root, stream *s, type_recent1 *ret);
+int read_type_command_ext(stream *s_root, stream *s, type_command_ext *ret);
+int read_application_views(stream *s_root, stream *s, application_views *ret);
+int read_quick_ribbon_button(stream *s_root, stream *s, quick_ribbon_button *ret);
+int read_quick_ribbon(stream *s_root, stream *s, quick_ribbon *ret);
+int read_type_block_quickaccess(stream *s_root, stream *s, type_block_quickaccess *ret);
+int read_type_block_generic(stream *s_root, stream *s, type_block_generic *ret);
+int read_type_command(stream *s_root, stream *s, type_command *ret);
+int read_type_command_container(stream *s_root, stream *s, type_command_container *ret);
+
 int read_type_id(stream *s_root, stream *s, type_id *ret)
 {
 	uint32_t id_block_2;
@@ -81,6 +128,55 @@ int read_type_resource(stream *s_root, stream *s, type_resource *ret)
 	return 0;
 }
 
+int read_type_tabgroup(stream *s_root, stream *s, type_tabgroup *ret)
+{
+	int i;
+
+	CHECK(stream_read_uint16_t(s, &ret->unk1));
+	CHECK(stream_read_uint16_t(s, &ret->unk2));
+	CHECK(stream_read_uint8_t(s, &ret->unk3a));
+	CHECK(stream_read_uint8_t(s, &ret->unk3b));
+	CHECK(stream_read_uint16_t(s, &ret->unk4));
+	CHECK(stream_read_uint16_t(s, &ret->unk5));
+	CHECK(stream_read_uint8_t(s, &ret->unk100));
+	CHECK(read_type_id(s_root, s, &ret->id));
+	CHECK(stream_read_uint8_t(s, &ret->unk7));
+	CHECK(stream_read_uint16_t(s, &ret->unk8));
+	CHECK(stream_read_uint16_t(s, &ret->count_tabs));
+	ret->tabs = malloc(sizeof(type_tab) * ret->count_tabs);
+	for (i = 0; i < ret->count_tabs; i++)
+	{
+		CHECK(read_type_tab(s_root, s, &ret->tabs[i]));
+	}
+	return 0;
+}
+
+int read_type_ribbon_tabs_normal(stream *s_root, stream *s, type_ribbon_tabs_normal *ret)
+{
+	int i;
+
+	CHECK(stream_read_uint16_t(s, &ret->count_tabs));
+	ret->tabs = malloc(sizeof(type_tab) * ret->count_tabs);
+	for (i = 0; i < ret->count_tabs; i++)
+	{
+		CHECK(read_type_tab(s_root, s, &ret->tabs[i]));
+	}
+	return 0;
+}
+
+int read_type_ribbon_tabs_context(stream *s_root, stream *s, type_ribbon_tabs_context *ret)
+{
+	int i;
+
+	CHECK(stream_read_uint16_t(s, &ret->count_tabgroups));
+	ret->tabgroups = malloc(sizeof(type_tabgroup) * ret->count_tabgroups);
+	for (i = 0; i < ret->count_tabgroups; i++)
+	{
+		CHECK(read_type_tabgroup(s_root, s, &ret->tabgroups[i]));
+	}
+	return 0;
+}
+
 int read_type_ribbon_tabs_applicationmenu(stream *s_root, stream *s, type_ribbon_tabs_applicationmenu *ret)
 {
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
@@ -106,6 +202,46 @@ int read_type_ribbon_tabs_applicationmenu(stream *s_root, stream *s, type_ribbon
 	ret->unk20 = malloc(1);
 	CHECK(stream_read_bytes(s, ret->unk20, 1));
 	CHECK(stream_read_uint32_t(s, &ret->unk21));
+	return 0;
+}
+
+int read_type_block_tabs(stream *s_root, stream *s, type_block_tabs *ret)
+{
+	uint8_t tab_type;
+
+	CHECK(stream_read_uint8_t(s, &ret->unk1a));
+	CHECK(stream_read_uint8_t(s, &tab_type));
+	ret->tab_type = tab_type;
+	switch(ret->tab_type)
+	{
+	case UIRIBBON_TAB_TYPE_HELP:
+		CHECK(read_type_ribbon_tabs_normal(s_root, s, &ret->block_help));
+		break;
+	case UIRIBBON_TAB_TYPE_NORMAL:
+		CHECK(read_type_ribbon_tabs_normal(s_root, s, &ret->block_normal));
+		break;
+	case UIRIBBON_TAB_TYPE_CONTEXT:
+		CHECK(read_type_ribbon_tabs_context(s_root, s, &ret->block_context));
+		break;
+	case UIRIBBON_TAB_TYPE_APPLICATIONMENU:
+		CHECK(read_type_ribbon_tabs_applicationmenu(s_root, s, &ret->block_applicationmenu));
+		break;
+	}
+	return 0;
+}
+
+int read_type_ribbon(stream *s_root, stream *s, type_ribbon *ret)
+{
+	const char unk1[] = {1, 1, 11, 9, 0};
+	int i;
+
+	CHECK(stream_read_uint8_t(s, &ret->count_blocks));
+	CHECK(stream_expect_bytes(s, unk1));
+	ret->block1 = malloc(sizeof(type_block_generic) * ret->count_blocks);
+	for (i = 0; i < ret->count_blocks; i++)
+	{
+		CHECK(read_type_block_generic(s_root, s, &ret->block1[i]));
+	}
 	return 0;
 }
 
@@ -177,6 +313,45 @@ int read_type_sizedefinition(stream *s_root, stream *s, type_sizedefinition *ret
 	return 0;
 }
 
+int read_type_group_elements_info(stream *s_root, stream *s, type_group_elements_info *ret)
+{
+	const char check2b[] = {1, 1};
+	const char check2c[] = {1, 4, 66, 0, 64, 68, 5, 0};
+	int i;
+
+	CHECK(stream_read_uint8_t(s, &ret->unk10));
+	CHECK(stream_expect_bytes(s, check2b));
+	CHECK(stream_read_uint16_t(s, &ret->unk1b));
+	CHECK(stream_read_uint8_t(s, &ret->unk2));
+	if (ret->unk10 == 3 && ret->unk2 == 9)
+	{
+		CHECK(stream_expect_bytes(s, check2c));
+	}
+	CHECK(stream_read_uint16_t(s, &ret->unk1c));
+	CHECK(stream_read_uint8_t(s, &ret->unk1d));
+	CHECK(stream_read_uint16_t(s, &ret->sub_count));
+	ret->subcontents = malloc(sizeof(type_control) * ret->sub_count);
+	for (i = 0; i < ret->sub_count; i++)
+	{
+		CHECK(read_type_control(s_root, s, &ret->subcontents[i]));
+	}
+	if (ret->unk10 == 5)
+	{
+		CHECK(read_type_sizedefinition(s_root, s, &ret->sizedefinition_large));
+	}
+	if (ret->unk10 == 5)
+	{
+		CHECK(read_type_sizedefinition(s_root, s, &ret->sizedefinition_medium));
+	}
+	if (ret->unk10 == 5)
+	{
+		CHECK(read_type_sizedefinition(s_root, s, &ret->sizedefinition_small));
+	}
+	ret->unk6 = malloc(3);
+	CHECK(stream_read_bytes(s, ret->unk6, 3));
+	return 0;
+}
+
 int read_type_scalingpolicy(stream *s_root, stream *s, type_scalingpolicy *ret)
 {
 	CHECK(stream_read_uint8_t(s, &ret->unk1a));
@@ -186,6 +361,65 @@ int read_type_scalingpolicy(stream *s_root, stream *s, type_scalingpolicy *ret)
 	ret->priority_medium = ret->scale_value.id / 256;
 	ret->priority_small = (ret->scale_value.id % 256) / 16;
 	ret->priority_popup = (ret->scale_value.id % 16) / 1;
+	return 0;
+}
+
+int read_type_group_info(stream *s_root, stream *s, type_group_info *ret)
+{
+	stream substream_group_elements_info;
+
+	CHECK(stream_read_uint16_t(s, &ret->unk1));
+	CHECK(stream_read_uint16_t(s, &ret->len_unk1));
+	CHECK(stream_read_uint16_t(s, &ret->unk3));
+	CHECK(stream_read_uint16_t(s, &ret->unk4));
+	CHECK(read_type_id(s_root, s, &ret->id));
+	CHECK(stream_read_uint8_t(s, &ret->unk20a));
+	if (ret->unk20a == 1)
+	{
+		CHECK(read_type_scalingpolicy(s_root, s, &ret->scalingpolicy));
+	}
+	CHECK(stream_read_uint8_t(s, &ret->unk20b));
+	CHECK(stream_read_uint16_t(s, &ret->unk12));
+	CHECK(stream_read_uint16_t(s, &ret->unk21));
+	CHECK(stream_read_uint16_t(s, &ret->unk10));
+	CHECK(stream_read_uint16_t(s, &ret->unk11));
+	CHECK(stream_read_uint16_t(s, &ret->size_group_elements_info));
+	CHECK(stream_make_substream(s, &substream_group_elements_info, ret->size_group_elements_info - 4));
+	CHECK(read_type_group_elements_info(s_root, &substream_group_elements_info, &ret->group_elements_info));
+	return 0;
+}
+
+int read_type_tab_extended(stream *s_root, stream *s, type_tab_extended *ret)
+{
+	int i;
+
+	CHECK(stream_read_uint16_t(s, &ret->unk_id1));
+	CHECK(stream_read_uint16_t(s, &ret->count_groupinfo));
+	CHECK(stream_read_uint16_t(s, &ret->unk2));
+	CHECK(stream_read_uint8_t(s, &ret->unk3));
+	ret->groupinfo = malloc(sizeof(type_group_info) * ret->count_groupinfo);
+	for (i = 0; i < ret->count_groupinfo; i++)
+	{
+		CHECK(read_type_group_info(s_root, s, &ret->groupinfo[i]));
+	}
+	return 0;
+}
+
+int read_type_tab(stream *s_root, stream *s, type_tab *ret)
+{
+	CHECK(stream_read_uint16_t(s, &ret->unk1));
+	CHECK(stream_read_uint16_t(s, &ret->unk2));
+	CHECK(stream_read_uint8_t(s, &ret->unk3a));
+	CHECK(stream_read_uint8_t(s, &ret->unk3b));
+	CHECK(stream_read_uint16_t(s, &ret->unk4));
+	CHECK(stream_read_uint16_t(s, &ret->unk5));
+	CHECK(stream_read_uint8_t(s, &ret->unk100));
+	CHECK(read_type_id(s_root, s, &ret->id));
+	CHECK(stream_read_uint8_t(s, &ret->unk7a));
+	CHECK(stream_read_uint16_t(s, &ret->offset_ext));
+	CHECK(stream_read_uint8_t(s, &ret->unk8));
+	CHECK(stream_read_uint8_t(s, &ret->unk9));
+	CHECK(read_type_tab_extended(s_root, s_root, &ret->ext));
 	return 0;
 }
 
@@ -203,10 +437,46 @@ int read_type_unk1_extended(stream *s_root, stream *s, type_unk1_extended *ret)
 	return 0;
 }
 
+int read_type_subcomponents(stream *s_root, stream *s, type_subcomponents *ret)
+{
+	const char check1[] = {2, 1, 1, 65, 43, 1, 24, 1, 62};
+	int i;
+
+	CHECK(stream_expect_bytes(s, check1));
+	CHECK(stream_read_uint16_t(s, &ret->count_elements));
+	ret->elements = malloc(sizeof(type_control) * ret->count_elements);
+	for (i = 0; i < ret->count_elements; i++)
+	{
+		CHECK(read_type_control(s_root, s, &ret->elements[i]));
+	}
+	return 0;
+}
+
+int read_type_control_block_subcomponents_real(stream *s_root, stream *s, type_control_block_subcomponents_real *ret)
+{
+	const char check1[] = {1, 0, 22, 0, 24, 0, 16};
+	stream substream_subcomponents;
+
+	CHECK(stream_expect_bytes(s, check1));
+	CHECK(stream_read_uint16_t(s, &ret->len_subcomponents));
+	CHECK(stream_make_substream(s, &substream_subcomponents, ret->len_subcomponents - 7));
+	CHECK(read_type_subcomponents(s_root, &substream_subcomponents, &ret->subcomponents));
+	return 0;
+}
+
 int read_type_control_block_subcomponents(stream *s_root, stream *s, type_control_block_subcomponents *ret)
 {
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_read_uint16_t(s, &ret->count_elements));
+	CHECK(stream_read_uint8_t(s, &ret->unk1));
+	CHECK(stream_read_uint8_t(s, &ret->unk2));
+	if (ret->unk2 == 62)
+	{
+		CHECK(read_type_control_block_subcomponents_real(s_root, s, &ret->components));
+	}
+	if (ret->unk2 != 62)
+	{
+		CHECK(stream_read_uint16_t(s, &ret->unk3));
+	}
+	ret->has_controls = ret->unk2 == 62;
 	return 0;
 }
 
@@ -383,178 +653,6 @@ int read_type_control(stream *s_root, stream *s, type_control *ret)
 	return 0;
 }
 
-int read_type_group_elements_info(stream *s_root, stream *s, type_group_elements_info *ret)
-{
-	const char check2b[] = {1, 1};
-	const char check2c[] = {1, 4, 66, 0, 64, 68, 5, 0};
-	int i;
-
-	CHECK(stream_read_uint8_t(s, &ret->unk10));
-	CHECK(stream_expect_bytes(s, check2b));
-	CHECK(stream_read_uint16_t(s, &ret->unk1b));
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
-	if (ret->unk10 == 3 && ret->unk2 == 9)
-	{
-		CHECK(stream_expect_bytes(s, check2c));
-	}
-	CHECK(stream_read_uint16_t(s, &ret->unk1c));
-	CHECK(stream_read_uint8_t(s, &ret->unk1d));
-	CHECK(stream_read_uint16_t(s, &ret->sub_count));
-	ret->subcontents = malloc(sizeof(type_control) * ret->sub_count);
-	for (i = 0; i < ret->sub_count; i++)
-	{
-		CHECK(read_type_control(s_root, s, &ret->subcontents[i]));
-	}
-	if (ret->unk10 == 5)
-	{
-		CHECK(read_type_sizedefinition(s_root, s, &ret->sizedefinition_large));
-	}
-	if (ret->unk10 == 5)
-	{
-		CHECK(read_type_sizedefinition(s_root, s, &ret->sizedefinition_medium));
-	}
-	if (ret->unk10 == 5)
-	{
-		CHECK(read_type_sizedefinition(s_root, s, &ret->sizedefinition_small));
-	}
-	ret->unk6 = malloc(3);
-	CHECK(stream_read_bytes(s, ret->unk6, 3));
-	return 0;
-}
-
-int read_type_group_info(stream *s_root, stream *s, type_group_info *ret)
-{
-	stream substream_group_elements_info;
-
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_read_uint16_t(s, &ret->len_unk1));
-	CHECK(stream_read_uint16_t(s, &ret->unk3));
-	CHECK(stream_read_uint16_t(s, &ret->unk4));
-	CHECK(read_type_id(s_root, s, &ret->id));
-	CHECK(stream_read_uint8_t(s, &ret->unk20a));
-	if (ret->unk20a == 1)
-	{
-		CHECK(read_type_scalingpolicy(s_root, s, &ret->scalingpolicy));
-	}
-	CHECK(stream_read_uint8_t(s, &ret->unk20b));
-	CHECK(stream_read_uint16_t(s, &ret->unk12));
-	CHECK(stream_read_uint16_t(s, &ret->unk21));
-	CHECK(stream_read_uint16_t(s, &ret->unk10));
-	CHECK(stream_read_uint16_t(s, &ret->unk11));
-	CHECK(stream_read_uint16_t(s, &ret->size_group_elements_info));
-	CHECK(stream_make_substream(s, &substream_group_elements_info, ret->size_group_elements_info - 4));
-	CHECK(read_type_group_elements_info(s_root, &substream_group_elements_info, &ret->group_elements_info));
-	return 0;
-}
-
-int read_type_tab_extended(stream *s_root, stream *s, type_tab_extended *ret)
-{
-	int i;
-
-	CHECK(stream_read_uint16_t(s, &ret->unk_id1));
-	CHECK(stream_read_uint16_t(s, &ret->count_groupinfo));
-	CHECK(stream_read_uint16_t(s, &ret->unk2));
-	CHECK(stream_read_uint8_t(s, &ret->unk3));
-	ret->groupinfo = malloc(sizeof(type_group_info) * ret->count_groupinfo);
-	for (i = 0; i < ret->count_groupinfo; i++)
-	{
-		CHECK(read_type_group_info(s_root, s, &ret->groupinfo[i]));
-	}
-	return 0;
-}
-
-int read_type_tab(stream *s_root, stream *s, type_tab *ret)
-{
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_read_uint16_t(s, &ret->unk2));
-	CHECK(stream_read_uint8_t(s, &ret->unk3a));
-	CHECK(stream_read_uint8_t(s, &ret->unk3b));
-	CHECK(stream_read_uint16_t(s, &ret->unk4));
-	CHECK(stream_read_uint16_t(s, &ret->unk5));
-	CHECK(stream_read_uint8_t(s, &ret->unk100));
-	CHECK(read_type_id(s_root, s, &ret->id));
-	CHECK(stream_read_uint8_t(s, &ret->unk7a));
-	CHECK(stream_read_uint16_t(s, &ret->offset_ext));
-	CHECK(stream_read_uint8_t(s, &ret->unk8));
-	CHECK(stream_read_uint8_t(s, &ret->unk9));
-	CHECK(read_type_tab_extended(s_root, s_root, &ret->ext));
-	return 0;
-}
-
-int read_type_tabgroup(stream *s_root, stream *s, type_tabgroup *ret)
-{
-	int i;
-
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_read_uint16_t(s, &ret->unk2));
-	CHECK(stream_read_uint8_t(s, &ret->unk3a));
-	CHECK(stream_read_uint8_t(s, &ret->unk3b));
-	CHECK(stream_read_uint16_t(s, &ret->unk4));
-	CHECK(stream_read_uint16_t(s, &ret->unk5));
-	CHECK(stream_read_uint8_t(s, &ret->unk100));
-	CHECK(read_type_id(s_root, s, &ret->id));
-	CHECK(stream_read_uint8_t(s, &ret->unk7));
-	CHECK(stream_read_uint16_t(s, &ret->unk8));
-	CHECK(stream_read_uint16_t(s, &ret->count_tabs));
-	ret->tabs = malloc(sizeof(type_tab) * ret->count_tabs);
-	for (i = 0; i < ret->count_tabs; i++)
-	{
-		CHECK(read_type_tab(s_root, s, &ret->tabs[i]));
-	}
-	return 0;
-}
-
-int read_type_ribbon_tabs_normal(stream *s_root, stream *s, type_ribbon_tabs_normal *ret)
-{
-	int i;
-
-	CHECK(stream_read_uint16_t(s, &ret->count_tabs));
-	ret->tabs = malloc(sizeof(type_tab) * ret->count_tabs);
-	for (i = 0; i < ret->count_tabs; i++)
-	{
-		CHECK(read_type_tab(s_root, s, &ret->tabs[i]));
-	}
-	return 0;
-}
-
-int read_type_ribbon_tabs_context(stream *s_root, stream *s, type_ribbon_tabs_context *ret)
-{
-	int i;
-
-	CHECK(stream_read_uint16_t(s, &ret->count_tabgroups));
-	ret->tabgroups = malloc(sizeof(type_tabgroup) * ret->count_tabgroups);
-	for (i = 0; i < ret->count_tabgroups; i++)
-	{
-		CHECK(read_type_tabgroup(s_root, s, &ret->tabgroups[i]));
-	}
-	return 0;
-}
-
-int read_type_block_tabs(stream *s_root, stream *s, type_block_tabs *ret)
-{
-	uint8_t tab_type;
-
-	CHECK(stream_read_uint8_t(s, &ret->unk1a));
-	CHECK(stream_read_uint8_t(s, &tab_type));
-	ret->tab_type = tab_type;
-	switch(ret->tab_type)
-	{
-	case UIRIBBON_TAB_TYPE_HELP:
-		CHECK(read_type_ribbon_tabs_normal(s_root, s, &ret->block_help));
-		break;
-	case UIRIBBON_TAB_TYPE_NORMAL:
-		CHECK(read_type_ribbon_tabs_normal(s_root, s, &ret->block_normal));
-		break;
-	case UIRIBBON_TAB_TYPE_CONTEXT:
-		CHECK(read_type_ribbon_tabs_context(s_root, s, &ret->block_context));
-		break;
-	case UIRIBBON_TAB_TYPE_APPLICATIONMENU:
-		CHECK(read_type_ribbon_tabs_applicationmenu(s_root, s, &ret->block_applicationmenu));
-		break;
-	}
-	return 0;
-}
-
 int read_type_menugroup_extended(stream *s_root, stream *s, type_menugroup_extended *ret)
 {
 	int i;
@@ -611,6 +709,18 @@ int read_type_command_ext(stream *s_root, stream *s, type_command_ext *ret)
 	CHECK(stream_read_uint16_t(s, &ret->unk1a));
 	CHECK(stream_read_uint16_t(s, &ret->unk2));
 	CHECK(stream_read_uint16_t(s, &ret->command_id));
+	return 0;
+}
+
+int read_application_views(stream *s_root, stream *s, application_views *ret)
+{
+	const char unk20[] = {0, 0, 22, 0, 36, 0, 16};
+	stream substream_ribbon;
+
+	CHECK(stream_expect_bytes(s, unk20));
+	CHECK(stream_read_uint16_t(s, &ret->ribbon_len));
+	CHECK(stream_make_substream(s, &substream_ribbon, ret->ribbon_len));
+	CHECK(read_type_ribbon(s_root, &substream_ribbon, &ret->ribbon));
 	return 0;
 }
 
@@ -678,33 +788,6 @@ int read_type_block_generic(stream *s_root, stream *s, type_block_generic *ret)
 		CHECK(read_type_block_quickaccess(s_root, s, &ret->block_ribbon_quickaccesstoolbar));
 		break;
 	}
-	return 0;
-}
-
-int read_type_ribbon(stream *s_root, stream *s, type_ribbon *ret)
-{
-	const char unk1[] = {1, 1, 11, 9, 0};
-	int i;
-
-	CHECK(stream_read_uint8_t(s, &ret->count_blocks));
-	CHECK(stream_expect_bytes(s, unk1));
-	ret->block1 = malloc(sizeof(type_block_generic) * ret->count_blocks);
-	for (i = 0; i < ret->count_blocks; i++)
-	{
-		CHECK(read_type_block_generic(s_root, s, &ret->block1[i]));
-	}
-	return 0;
-}
-
-int read_application_views(stream *s_root, stream *s, application_views *ret)
-{
-	const char unk20[] = {0, 0, 22, 0, 36, 0, 16};
-	stream substream_ribbon;
-
-	CHECK(stream_expect_bytes(s, unk20));
-	CHECK(stream_read_uint16_t(s, &ret->ribbon_len));
-	CHECK(stream_make_substream(s, &substream_ribbon, ret->ribbon_len));
-	CHECK(read_type_ribbon(s_root, &substream_ribbon, &ret->ribbon));
 	return 0;
 }
 

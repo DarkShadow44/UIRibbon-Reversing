@@ -10,6 +10,8 @@ uiribbon_control_type transform_control_type(enum_type_control type)
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX;
     case UIRIBBON_TYPE_CONTROL_CHECKBOX:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX;
+    case UIRIBBON_TYPE_CONTROL_DROPDOWNBUTTON:
+        return UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON;
     }
     return -1;
 }
@@ -39,12 +41,30 @@ void transform_control_combobox(type_control *src_control, uiribbon_control_comb
     }
 }
 
+void transform_control(type_control *src_control, uiribbon_control *ret_control);
+
+void transform_subcontrols(type_control_block_subcomponents *src_block, uiribbon_control *ret_control)
+{
+    int i;
+    type_subcomponents *subcomponents = &src_block->components.subcomponents;
+
+    ret_control->count_subcontrols = subcomponents->count_elements;
+    ret_control->subcontrols = malloc(sizeof(uiribbon_control) * ret_control->count_subcontrols);
+
+    for (i = 0; i < ret_control->count_subcontrols; i++)
+    {
+        transform_control(&subcomponents->elements[i], &ret_control->subcontrols[i]);
+    }
+}
+
 void transform_control(type_control *src_control, uiribbon_control *ret_control)
 {
     int i;
 
     ret_control->type = transform_control_type(src_control->block_type);
     ret_control->size_definitions = NULL;
+    ret_control->count_subcontrols = 0;
+    ret_control->subcontrols = NULL;
     for (i = 0; i < src_control->block.count_blocks; i++)
     {
         type_control_block_generic *src_block = &src_control->block.blocks[i];
@@ -102,6 +122,12 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
             ret_control->size_definitions->medium.imagevisible = ret_control->size_definitions->large.imagevisible;
             ret_control->size_definitions->small.imagevisible = ret_control->size_definitions->large.imagevisible;
             break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_SUBCOMPONENTS:
+            if (src_block->block_subcomponents.has_controls)
+            {
+                transform_subcontrols(&src_block->block_subcomponents, ret_control);
+            }
+            break;
         default:
             break;
         }
@@ -110,6 +136,8 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
     switch(ret_control->type)
     {
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON:
+    case UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX:
+    case UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON:
         break;
 
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX:

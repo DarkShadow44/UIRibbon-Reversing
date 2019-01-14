@@ -180,6 +180,8 @@ namespace KaitaiCCompiler
                     parts[i] = "1";
                 if(parts[i] == "false")
                     parts[i] = "0";
+                if (parts[i] == "not")
+                    parts[i] = "!";
 
                 if (char.IsLetter(parts[i][0]) && char.IsLower(parts[i][0]))
                 {
@@ -342,8 +344,7 @@ namespace KaitaiCCompiler
                 {
                     if (repeat != null && repeat == "expr")
                     {
-                        ret.AddStruct("{0} *{1};", type, id);
-                        ret.AddDependency(type);
+                        ret.AddStruct("struct {0}_ *{1};", type, id);
                         ret.hasI = true;
                         ret.AddCode("ret->{0} = malloc(sizeof({1}) * {2});", id, type, repeat_expr);
                         ret.AddCode("for (i = 0; i < {0}; i++)", repeat_expr);
@@ -355,8 +356,7 @@ namespace KaitaiCCompiler
                     }
                     else if (repeat != null && repeat == "until")
                     {
-                        ret.AddStruct("{0} *{1};", type, id);
-                        ret.AddDependency(type);
+                        ret.AddStruct("struct {0}_ *{1};", type, id);
                         ret.hasI = true;
                         ret.AddCode("ret->{0} = NULL;", id);
                         ret.AddCode("i = -1;");
@@ -617,7 +617,7 @@ namespace KaitaiCCompiler
 
         static void writeStruct(StringBuilder sb, string name, SeqInfo seq)
         {
-            sb.AppendFormat("typedef struct\n");
+            sb.AppendFormat("typedef struct {0}_\n", name);
             sb.AppendLine("{");
             foreach (var line in seq.linesStruct)
             {
@@ -713,6 +713,11 @@ namespace KaitaiCCompiler
             source.AppendLine("/* This file is generated - Do not edit manually */");
             source.AppendLine();
             source.AppendLine("#include \"parser_uiribbon.h\"");
+            source.AppendLine();
+            foreach (var type in types)
+            {
+                source.AppendFormat("int read_{0}(stream *s_root, stream *s, {0} *ret);\n", type.Name);
+            }
             source.AppendLine();
             foreach (var type in types)
             {
