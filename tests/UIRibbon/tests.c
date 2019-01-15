@@ -478,7 +478,7 @@ static int test_dropdownbutton(void)
 
 int main()
 {
-    /*write_test_data("combobox");
+    /*write_test_data("scalingpolicy");
     run_visual_test("scalingpolicy");
     return 0;*/
     CHECK(test_simple());

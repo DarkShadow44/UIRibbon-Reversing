@@ -13,3 +13,13 @@ copy commands somewhere, to reuse (strings + images)
 
 ScalingPolicy.IdealSizes small forces always small, ScalingPolicy.IdealSizes medium forces always medium or lower ?!? - default image small?
 without scalingpolicy, always large
+
+
+need scaling tests for all controls, all scalings
+
+https://docs.microsoft.com/en-us/windows/desktop/uxguide/cmd-ribbons
+
+default sizedefinitions - or size when no sizedefinition present
+scalingtests for all controls + tabs
+fixme for unhandled blocks
+colordropdown vs combobox

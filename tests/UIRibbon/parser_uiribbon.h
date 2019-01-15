@@ -77,6 +77,20 @@ typedef enum
 
 typedef enum
 {
+	UIRIBBON_DROPDOWNCOLORPICKER_COLORTEMPLATE_THEME_COLORS = 0,
+	UIRIBBON_DROPDOWNCOLORPICKER_COLORTEMPLATE_STANDARD_COLORS = 1,
+	UIRIBBON_DROPDOWNCOLORPICKER_COLORTEMPLATE_HIGHLIGHT_COLORS = 2,
+} enum_dropdowncolorpicker_colortemplate;
+
+typedef enum
+{
+	UIRIBBON_DROPDOWNCOLORPICKER_CHIPSIZE_SMALL = 1,
+	UIRIBBON_DROPDOWNCOLORPICKER_CHIPSIZE_MEDIUM = 2,
+	UIRIBBON_DROPDOWNCOLORPICKER_CHIPSIZE_LARGE = 3,
+} enum_dropdowncolorpicker_chipsize;
+
+typedef enum
+{
 	UIRIBBON_CONTROL_BLOCK_TYPE_ID = 0,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE_MIXED = 6,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE_MIXED = 8,
@@ -92,6 +106,15 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_UNK3 = 87,
 	UIRIBBON_CONTROL_BLOCK_TYPE_UNK5 = 88,
 	UIRIBBON_CONTROL_BLOCK_TYPE_UNK6 = 63,
+	UIRIBBON_CONTROL_BLOCK_TYPE_UNK7 = 68,
+	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLORTEMPLATE = 110,
+	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_CHIPSIZE = 111,
+	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLUMNS = 112,
+	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON = 116,
+	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON = 117,
+	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS = 115,
+	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS = 114,
+	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS = 113,
 } enum_control_block_type;
 
 typedef struct type_id_
@@ -403,6 +426,29 @@ typedef struct type_control_block_info7_
 	uint8_t unk3;
 } type_control_block_info7;
 
+typedef struct type_control_block_dropdowncolorpicker_colortemplate_
+{
+	uint8_t unk1;
+	enum_dropdowncolorpicker_colortemplate value;
+	uint8_t unk2;
+	uint8_t unk3;
+} type_control_block_dropdowncolorpicker_colortemplate;
+
+typedef struct type_control_block_dropdowncolorpicker_chipsize_
+{
+	uint8_t unk1;
+	enum_dropdowncolorpicker_chipsize value;
+	uint8_t unk2;
+	uint8_t unk3;
+} type_control_block_dropdowncolorpicker_chipsize;
+
+typedef struct type_control_block_number_
+{
+	type_id number;
+	uint8_t unk1;
+	uint8_t unk2;
+} type_control_block_number;
+
 typedef struct type_control_block_generic_
 {
 	enum_control_block_type block_type;
@@ -422,6 +468,14 @@ typedef struct type_control_block_generic_
 		type_control_block_info7 block_autocomplete_enabled;
 		type_control_block_info4 block_vertical_resize;
 		type_control_block_info7 block_unk6;
+		type_control_block_dropdowncolorpicker_colortemplate block_dropdowncolorpicker_colortemplate;
+		type_control_block_dropdowncolorpicker_chipsize block_dropdowncolorpicker_chipsize;
+		type_control_block_number block_dropdowncolorpicker_columns;
+		type_control_block_info7 block_dropdowncolorpicker_has_autocolor_button;
+		type_control_block_info7 block_dropdowncolorpicker_has_nocolor_button;
+		type_control_block_number block_dropdowncolorpicker_recent_color_rows;
+		type_control_block_number block_dropdowncolorpicker_standard_color_rows;
+		type_control_block_number block_dropdowncolorpicker_theme_color_rows;
 	};
 } type_control_block_generic;
 

@@ -114,6 +114,16 @@ enums:
     2: overridesmall
     3: overridesmallandmedium
 
+  enum_dropdowncolorpicker_colortemplate:
+    0: theme_colors
+    1: standard_colors
+    2: highlight_colors
+
+  enum_dropdowncolorpicker_chipsize:
+    1: small
+    2: medium
+    3: large
+
   enum_control_block_type:
     0: id
     6: sizedefinition_labelvisible_mixed
@@ -130,6 +140,15 @@ enums:
     87: unk3
     88: unk5
     63: unk6
+    68: unk7
+    110: dropdowncolorpicker_colortemplate
+    111: dropdowncolorpicker_chipsize
+    112: dropdowncolorpicker_columns
+    116: dropdowncolorpicker_has_autocolor_button
+    117: dropdowncolorpicker_has_nocolor_button
+    115: dropdowncolorpicker_recent_color_rows
+    114: dropdowncolorpicker_standard_color_rows
+    113: dropdowncolorpicker_theme_color_rows
 
 types:
 
@@ -688,6 +707,39 @@ types:
     - id: unk3
       type: u1
 
+  type_control_block_dropdowncolorpicker_colortemplate:
+    seq:
+    - id: unk1
+      type: u1
+    - id: value
+      type: u1
+      enum: enum_dropdowncolorpicker_colortemplate
+    - id: unk2
+      type: u1
+    - id: unk3
+      type: u1
+
+  type_control_block_dropdowncolorpicker_chipsize:
+    seq:
+    - id: unk1
+      type: u1
+    - id: value
+      type: u1
+      enum: enum_dropdowncolorpicker_chipsize
+    - id: unk2
+      type: u1
+    - id: unk3
+      type: u1
+
+  type_control_block_number:
+    seq:
+    - id: number
+      type: type_id
+    - id: unk1
+      type: u1
+    - id: unk2
+      type: u1
+
   type_control_block_generic:
     seq:
     - id: block_type
@@ -712,6 +764,15 @@ types:
           enum_control_block_type::autocomplete_enabled: type_control_block_info7
           enum_control_block_type::vertical_resize: type_control_block_info4
           enum_control_block_type::unk6: type_control_block_info7
+        #  enum_control_block_type::unk7: type_control_block_info7
+          enum_control_block_type::dropdowncolorpicker_colortemplate: type_control_block_dropdowncolorpicker_colortemplate
+          enum_control_block_type::dropdowncolorpicker_chipsize: type_control_block_dropdowncolorpicker_chipsize
+          enum_control_block_type::dropdowncolorpicker_columns: type_control_block_number
+          enum_control_block_type::dropdowncolorpicker_has_autocolor_button: type_control_block_info7
+          enum_control_block_type::dropdowncolorpicker_has_nocolor_button: type_control_block_info7
+          enum_control_block_type::dropdowncolorpicker_recent_color_rows: type_control_block_number
+          enum_control_block_type::dropdowncolorpicker_standard_color_rows: type_control_block_number
+          enum_control_block_type::dropdowncolorpicker_theme_color_rows: type_control_block_number
   
   type_control_blocks:
     seq:

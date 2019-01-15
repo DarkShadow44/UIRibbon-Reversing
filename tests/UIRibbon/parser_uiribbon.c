@@ -34,6 +34,9 @@ int read_type_control_block_sizedefinition_imagesize(stream *s_root, stream *s, 
 int read_type_control_block_unk4(stream *s_root, stream *s, type_control_block_unk4 *ret);
 int read_type_control_block_info4(stream *s_root, stream *s, type_control_block_info4 *ret);
 int read_type_control_block_info7(stream *s_root, stream *s, type_control_block_info7 *ret);
+int read_type_control_block_dropdowncolorpicker_colortemplate(stream *s_root, stream *s, type_control_block_dropdowncolorpicker_colortemplate *ret);
+int read_type_control_block_dropdowncolorpicker_chipsize(stream *s_root, stream *s, type_control_block_dropdowncolorpicker_chipsize *ret);
+int read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *ret);
 int read_type_control_block_generic(stream *s_root, stream *s, type_control_block_generic *ret);
 int read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *ret);
 int read_type_control(stream *s_root, stream *s, type_control *ret);
@@ -567,6 +570,38 @@ int read_type_control_block_info7(stream *s_root, stream *s, type_control_block_
 	return 0;
 }
 
+int read_type_control_block_dropdowncolorpicker_colortemplate(stream *s_root, stream *s, type_control_block_dropdowncolorpicker_colortemplate *ret)
+{
+	uint8_t value;
+
+	CHECK(stream_read_uint8_t(s, &ret->unk1));
+	CHECK(stream_read_uint8_t(s, &value));
+	ret->value = value;
+	CHECK(stream_read_uint8_t(s, &ret->unk2));
+	CHECK(stream_read_uint8_t(s, &ret->unk3));
+	return 0;
+}
+
+int read_type_control_block_dropdowncolorpicker_chipsize(stream *s_root, stream *s, type_control_block_dropdowncolorpicker_chipsize *ret)
+{
+	uint8_t value;
+
+	CHECK(stream_read_uint8_t(s, &ret->unk1));
+	CHECK(stream_read_uint8_t(s, &value));
+	ret->value = value;
+	CHECK(stream_read_uint8_t(s, &ret->unk2));
+	CHECK(stream_read_uint8_t(s, &ret->unk3));
+	return 0;
+}
+
+int read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *ret)
+{
+	CHECK(read_type_id(s_root, s, &ret->number));
+	CHECK(stream_read_uint8_t(s, &ret->unk1));
+	CHECK(stream_read_uint8_t(s, &ret->unk2));
+	return 0;
+}
+
 int read_type_control_block_generic(stream *s_root, stream *s, type_control_block_generic *ret)
 {
 	uint8_t block_type;
@@ -616,6 +651,30 @@ int read_type_control_block_generic(stream *s_root, stream *s, type_control_bloc
 		break;
 	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK6:
 		CHECK(read_type_control_block_info7(s_root, s, &ret->block_unk6));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLORTEMPLATE:
+		CHECK(read_type_control_block_dropdowncolorpicker_colortemplate(s_root, s, &ret->block_dropdowncolorpicker_colortemplate));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_CHIPSIZE:
+		CHECK(read_type_control_block_dropdowncolorpicker_chipsize(s_root, s, &ret->block_dropdowncolorpicker_chipsize));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLUMNS:
+		CHECK(read_type_control_block_number(s_root, s, &ret->block_dropdowncolorpicker_columns));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON:
+		CHECK(read_type_control_block_info7(s_root, s, &ret->block_dropdowncolorpicker_has_autocolor_button));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON:
+		CHECK(read_type_control_block_info7(s_root, s, &ret->block_dropdowncolorpicker_has_nocolor_button));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS:
+		CHECK(read_type_control_block_number(s_root, s, &ret->block_dropdowncolorpicker_recent_color_rows));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS:
+		CHECK(read_type_control_block_number(s_root, s, &ret->block_dropdowncolorpicker_standard_color_rows));
+		break;
+	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS:
+		CHECK(read_type_control_block_number(s_root, s, &ret->block_dropdowncolorpicker_theme_color_rows));
 		break;
 	}
 	return 0;
