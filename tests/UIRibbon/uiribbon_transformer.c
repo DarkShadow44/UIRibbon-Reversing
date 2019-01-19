@@ -1,17 +1,34 @@
 #include "uiribbon_transformer.h"
 
-uiribbon_control_type transform_control_type(enum_type_control type)
+uiribbon_control_type transform_control_type(type_control *src_control)
 {
-    switch (type)
+    int i;
+
+    switch (src_control->block_type)
     {
     case UIRIBBON_TYPE_CONTROL_BUTTON:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON;
-    case UIRIBBON_TYPE_CONTROL_COMBOBOX:
-        return UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX;
     case UIRIBBON_TYPE_CONTROL_CHECKBOX:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX;
     case UIRIBBON_TYPE_CONTROL_DROPDOWNBUTTON:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON;
+    case UIRIBBON_TYPE_CONTROL_GALLERY:
+        for (i = 0; i < src_control->block.count_blocks; i++)
+        {
+            type_control_block2 *src_block = &src_control->block.blocks[i];
+            if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TYPE)
+            {
+                switch(src_block->gallery_type)
+                {
+                case UIRIBBON_GALLERY_TYPE_COMBO:
+                case UIRIBBON_GALLERY_TYPE_DROPDOWNLIST:
+                    return UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX;
+                default:
+                    return -1;
+                }
+            }
+        }
+        break;
     }
     return -1;
 }
@@ -66,7 +83,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
 {
     int i;
 
-    ret_control->type = transform_control_type(src_control->block_type);
+    ret_control->type = transform_control_type(src_control);
     ret_control->size_definitions = NULL;
     ret_control->subcontrols = NULL;
     for (i = 0; i < src_control->block.count_blocks; i++)

@@ -91,7 +91,7 @@ enums:
     20: dropdownbutton
     6: checkbox
     25: otherinfo
-    21: combobox
+    21: gallery
     18: splitbutton
 
   enum_sizedefinition_imagesize:
@@ -134,6 +134,7 @@ enums:
     93: autocomplete_enabled
     73: vertical_resize
     71: editable
+    70: gallery_type
     110: dropdowncolorpicker_colortemplate
     111: dropdowncolorpicker_chipsize
     112: dropdowncolorpicker_columns
@@ -146,6 +147,13 @@ enums:
   enum_boolean:
     0: bool_false
     1: bool_true
+
+  enum_gallery_type:
+    0: inribbon
+    1: dropdownbutton
+    2: dropdownlist
+    3: combo
+    4: dropdownsplit
 
 types:
 
@@ -728,6 +736,10 @@ types:
         value: content_number.id.id
         enum: enum_boolean
         if: block_type == enum_control_block_type::vertical_resize
+      gallery_type:
+        value: content_number.id.id
+        enum: enum_gallery_type
+        if: block_type == enum_control_block_type::gallery_type
 
   type_control_blocks2:
     seq:

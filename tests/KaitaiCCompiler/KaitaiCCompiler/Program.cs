@@ -518,7 +518,7 @@ namespace KaitaiCCompiler
                         seq.IndentCodePlus();
                     }
 
-                    var structType = enum_type != null ? enum_type : "uint8_t";
+                    var structType = enum_type != null ? enum_type : "uint32_t";
 
                     seq.AddStruct("{0} {1};", structType, instance_key.Value);
                     seq.AddCode("ret->{0} = {1};", instance_key.Value, value);

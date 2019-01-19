@@ -593,6 +593,10 @@ int read_type_control_block2(stream *s_root, stream *s, type_control_block2 *ret
 	{
 		ret->vertical_resize = ret->content_number.id.id;
 	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TYPE)
+	{
+		ret->gallery_type = ret->content_number.id.id;
+	}
 	return 0;
 }
 
