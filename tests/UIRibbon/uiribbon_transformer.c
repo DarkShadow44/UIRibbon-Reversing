@@ -23,17 +23,17 @@ void transform_control_combobox(type_control *src_control, uiribbon_control_comb
     ret_control->is_editable = FALSE;
     for (i = 0; i < src_control->block.count_blocks; i++)
     {
-        type_control_block_generic *src_block = &src_control->block.blocks[i];
+        type_control_block2 *src_block = &src_control->block.blocks[i];
         switch(src_block->block_type)
         {
         case UIRIBBON_CONTROL_BLOCK_TYPE_EDITABLE:
             ret_control->is_editable = TRUE;
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_AUTOCOMPLETE_ENABLED:
-            ret_control->has_autocomplete = src_block->block_autocomplete_enabled.value_bool;
+            ret_control->has_autocomplete = src_block->autocomplete_enabled;
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_VERTICAL_RESIZE:
-            ret_control->has_vertical_resize = src_block->block_vertical_resize.value_bool;
+            ret_control->has_vertical_resize = src_block->vertical_resize;
             break;
         default:
             break;
@@ -49,6 +49,11 @@ void transform_subcontrols(type_control_block_subcomponents *src_block, uiribbon
     type_subcomponents *subcomponents = &src_block->components.subcomponents;
 
     ret_control->count_subcontrols = subcomponents->count_elements;
+    if (ret_control->count_subcontrols == 0)
+    {
+        ret_control->subcontrols  = NULL;
+        return;
+    }
     ret_control->subcontrols = malloc(sizeof(uiribbon_control) * ret_control->count_subcontrols);
 
     for (i = 0; i < ret_control->count_subcontrols; i++)
@@ -63,29 +68,38 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
 
     ret_control->type = transform_control_type(src_control->block_type);
     ret_control->size_definitions = NULL;
-    ret_control->count_subcontrols = 0;
     ret_control->subcontrols = NULL;
     for (i = 0; i < src_control->block.count_blocks; i++)
     {
-        type_control_block_generic *src_block = &src_control->block.blocks[i];
+        type_control_block2 *src_block = &src_control->block.blocks[i];
+
+        if (src_block->is_subcomponents)
+        {
+            if (src_block->content_subcontrols.has_controls)
+            {
+                transform_subcontrols(&src_block->content_subcontrols, ret_control);
+            }
+            continue;
+        }
+
         switch (src_block->block_type)
         {
         case UIRIBBON_CONTROL_BLOCK_TYPE_ID:
-            ret_control->id = src_block->block_id.id;
+            ret_control->id = src_block->id;
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE:
             if (!ret_control->size_definitions)
                 ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions_control));
-            ret_control->size_definitions->large.sizeLarge = src_block->block_sizedefinition_imagesize.sizedefinition_imagesize == UIRIBBON_SIZEDEFINITION_IMAGESIZE_LARGE;
+            ret_control->size_definitions->large.sizeLarge = src_block->sizedefinition_imagesize == UIRIBBON_SIZEDEFINITION_IMAGESIZE_LARGE;
             ret_control->size_definitions->medium.sizeLarge = ret_control->size_definitions->large.sizeLarge;
             ret_control->size_definitions->small.sizeLarge = ret_control->size_definitions->large.sizeLarge;
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE_MIXED:
-            if (src_block->block_sizedefinition_imagesize_mixed.sizedefinition_imagesize_mixed == UIRIBBON_SIZEDEFINITION_IMAGESIZE_MIXED_SMALLISSMALL)
+            if (src_block->sizedefinition_imagesize_mixed == UIRIBBON_SIZEDEFINITION_IMAGESIZE_MIXED_SMALLISSMALL)
             {
                 ret_control->size_definitions->small.sizeLarge = 0;
             }
-            else if(src_block->block_sizedefinition_imagesize_mixed.sizedefinition_imagesize_mixed == UIRIBBON_SIZEDEFINITION_IMAGESIZE_MIXED_SMALLANDMEDIUMARESMALL)
+            else if(src_block->sizedefinition_imagesize_mixed == UIRIBBON_SIZEDEFINITION_IMAGESIZE_MIXED_SMALLANDMEDIUMARESMALL)
             {
                 ret_control->size_definitions->medium.sizeLarge = 0;
                 ret_control->size_definitions->small.sizeLarge = 0;
@@ -94,7 +108,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
         case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE:
             if (!ret_control->size_definitions)
                 ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions_control));
-            ret_control->size_definitions->large.labelvisible = src_block->block_sizedefinition_labelvisible.sizedefinition_labelvisible == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_VISIBLE;
+            ret_control->size_definitions->large.labelvisible = src_block->sizedefinition_labelvisible == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_VISIBLE;
             ret_control->size_definitions->medium.labelvisible = ret_control->size_definitions->large.labelvisible;
             ret_control->size_definitions->small.labelvisible = ret_control->size_definitions->large.labelvisible;
             break;
@@ -102,12 +116,12 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
             if (!ret_control->size_definitions)
                 ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions_control));
             ret_control->size_definitions->large.labelvisible = 1;
-            if (src_block->block_sizedefinition_labelvisible_mixed.sizedefinition_labelvisible_mixed == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_MIXED_OVERRIDESMALL)
+            if (src_block->sizedefinition_labelvisible_mixed == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_MIXED_OVERRIDESMALL)
             {
                 ret_control->size_definitions->medium.labelvisible = 1;
                 ret_control->size_definitions->small.labelvisible = 0;
             }
-            else if (src_block->block_sizedefinition_labelvisible_mixed.sizedefinition_labelvisible_mixed == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_MIXED_OVERRIDESMALLANDMEDIUM)
+            else if (src_block->sizedefinition_labelvisible_mixed == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_MIXED_OVERRIDESMALLANDMEDIUM)
             {
                 ret_control->size_definitions->medium.labelvisible = 0;
                 ret_control->size_definitions->small.labelvisible = 0;
@@ -118,15 +132,9 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
             if (!ret_control->size_definitions)
                 ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions_control));
 
-            ret_control->size_definitions->large.imagevisible = src_block->block_sizedefinition_imagevisible.sizedefinition_imagevisible == UIRIBBON_SIZEDEFINITION_IMAGEVISIBLE_VISIBLE;
+            ret_control->size_definitions->large.imagevisible = src_block->sizedefinition_imagevisible == UIRIBBON_SIZEDEFINITION_IMAGEVISIBLE_VISIBLE;
             ret_control->size_definitions->medium.imagevisible = ret_control->size_definitions->large.imagevisible;
             ret_control->size_definitions->small.imagevisible = ret_control->size_definitions->large.imagevisible;
-            break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_SUBCOMPONENTS:
-            if (src_block->block_subcomponents.has_controls)
-            {
-                transform_subcontrols(&src_block->block_subcomponents, ret_control);
-            }
             break;
         default:
             break;

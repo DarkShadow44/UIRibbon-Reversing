@@ -454,6 +454,7 @@ static int test_dropdownbutton(void)
     ASSERT(controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON);
     ASSERT(controls[1].id == 10002);
     ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[0].count_subcontrols == 0);
     ASSERT(controls[1].count_subcontrols == 3);
     controls = controls[1].subcontrols;
 

@@ -129,18 +129,11 @@ enums:
     6: sizedefinition_labelvisible_mixed
     8: sizedefinition_imagesize_mixed
     9: sizedefinition_labelvisible
-    4: unk4
-    24: subcomponents
     36: sizedefinition_imagevisible
     37: sizedefinition_imagesize
     93: autocomplete_enabled
     73: vertical_resize
-    70: unk1
     71: editable
-    87: unk3
-    88: unk5
-    63: unk6
-    68: unk7
     110: dropdowncolorpicker_colortemplate
     111: dropdowncolorpicker_chipsize
     112: dropdowncolorpicker_columns
@@ -149,6 +142,10 @@ enums:
     115: dropdowncolorpicker_recent_color_rows
     114: dropdowncolorpicker_standard_color_rows
     113: dropdowncolorpicker_theme_color_rows
+
+  enum_boolean:
+    0: bool_false
+    1: bool_true
 
 types:
 
@@ -163,6 +160,7 @@ types:
           2: u4
           3: u2
           4: u1
+          9: u1
 
   type_string:
     seq:
@@ -597,7 +595,7 @@ types:
   type_control_block_subcomponents_real:
     seq:
     - id: check1
-      contents: [1, 0, 22, 0, 24, 0, 16]
+      contents: [22, 0, 24, 0, 16]
     - id: len_subcomponents
       type: u2
     - id: subcomponents
@@ -607,78 +605,13 @@ types:
   type_control_block_subcomponents:
     seq:
     - id: unk1
-      type: u1
-    - id: unk2
-      type: u1
+      type: u2
     - id: components
       type: type_control_block_subcomponents_real
-      if: unk2 == 62
-    - id: unk3
-      type: u2
-      if: unk2 != 62
+      if: unk1 == 1 # maybe a count
     instances:
       has_controls:
-        value: unk2 == 62
-  
-  type_control_block_sizedefinition_labelvisible_mixed:
-    seq:
-    - id: unk1
-      type: u1
-    - id: sizedefinition_labelvisible_mixed
-      type: u1
-      enum: enum_sizedefinition_labelvisible_mixed
-    - id: unk3
-      type: u1
-    - id: unk4
-      type: u1
-
-  type_control_block_sizedefinition_imagesize_mixed:
-    seq:
-    - id: unk1
-      type: u1
-    - id: sizedefinition_imagesize_mixed
-      type: u1
-      enum: enum_sizedefinition_imagesize_mixed
-    - id: unk3
-      type: u1
-    - id: unk4
-      type: u1
-
-  type_control_block_sizedefinition_imagevisible:
-    seq:
-    - id: unk1
-      size: 4
-    - id: sizedefinition_imagevisible
-      type: u1
-      enum: enum_sizedefinition_imagevisible
-    - id: unk3
-      type: u1
-    - id: unk4
-      type: u1
-  
-  type_control_block_sizedefinition_labelvisible:
-    seq:
-    - id: unk1
-      size: 4
-    - id: sizedefinition_labelvisible
-      type: u1
-      enum: enum_sizedefinition_labelvisible
-    - id: unk3
-      type: u1
-    - id: unk4
-      type: u1
-
-  type_control_block_sizedefinition_imagesize:
-    seq:
-    - id: unk1
-      size: 4
-    - id: sizedefinition_imagesize
-      type: u1
-      enum: enum_sizedefinition_imagesize
-    - id: unk3
-      type: u1
-    - id: unk4
-      type: u1
+        value: unk1 == 1
 
   type_control_block_unk4:
     seq:
@@ -731,62 +664,79 @@ types:
     - id: unk3
       type: u1
 
-  type_control_block_number:
+  type_control_block2_number:
     seq:
-    - id: number
+    - id: id
       type: type_id
+
+  type_control_block2_long:
+    seq:
     - id: unk1
-      type: u1
-    - id: unk2
+      type: u4
+    - id: value1
       type: u1
 
-  type_control_block_generic:
+  type_control_block2:
     seq:
+    - id: meta_type
+      type: u1
+    - id: block_len
+      type: u1
     - id: block_type
       type: u1
       enum: enum_control_block_type
-    - id: block
-      type:
-        switch-on: block_type
-        cases:
-          enum_control_block_type::id: type_id
-          enum_control_block_type::sizedefinition_labelvisible_mixed: type_control_block_sizedefinition_labelvisible_mixed
-          enum_control_block_type::sizedefinition_imagesize_mixed: type_control_block_sizedefinition_imagesize_mixed
-          enum_control_block_type::sizedefinition_labelvisible: type_control_block_sizedefinition_labelvisible
-     #     4: type_control_block_4
-          enum_control_block_type::subcomponents: type_control_block_subcomponents
-          enum_control_block_type::sizedefinition_imagevisible: type_control_block_sizedefinition_imagevisible
-          enum_control_block_type::sizedefinition_imagesize: type_control_block_sizedefinition_imagesize
-          enum_control_block_type::unk1: type_control_block_unk4
-          enum_control_block_type::editable: type_control_block_unk4
-          enum_control_block_type::unk3: type_control_block_unk4
-          enum_control_block_type::unk5: type_control_block_unk4
-          enum_control_block_type::autocomplete_enabled: type_control_block_info7
-          enum_control_block_type::vertical_resize: type_control_block_info4
-          enum_control_block_type::unk6: type_control_block_info7
-        #  enum_control_block_type::unk7: type_control_block_info7
-          enum_control_block_type::dropdowncolorpicker_colortemplate: type_control_block_dropdowncolorpicker_colortemplate
-          enum_control_block_type::dropdowncolorpicker_chipsize: type_control_block_dropdowncolorpicker_chipsize
-          enum_control_block_type::dropdowncolorpicker_columns: type_control_block_number
-          enum_control_block_type::dropdowncolorpicker_has_autocolor_button: type_control_block_info7
-          enum_control_block_type::dropdowncolorpicker_has_nocolor_button: type_control_block_info7
-          enum_control_block_type::dropdowncolorpicker_recent_color_rows: type_control_block_number
-          enum_control_block_type::dropdowncolorpicker_standard_color_rows: type_control_block_number
-          enum_control_block_type::dropdowncolorpicker_theme_color_rows: type_control_block_number
-  
-  type_control_blocks:
+    - id: content_number
+      type: type_control_block2_number
+      if: meta_type == 1 and block_len == 1
+    - id: content_long
+      type: type_control_block2_long
+      if: meta_type == 1 and block_len == 4
+    - id: content_subcontrols
+      type: type_control_block_subcomponents
+      if: meta_type == 24
+    instances:
+      id:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::id
+      is_subcomponents:
+        value: meta_type == 24
+      sizedefinition_labelvisible_mixed:
+        value: content_number.id.id
+        enum: enum_sizedefinition_labelvisible_mixed
+        if: block_type == enum_control_block_type::sizedefinition_labelvisible_mixed
+      sizedefinition_labelvisible:
+        value: content_long.value1
+        enum: enum_sizedefinition_labelvisible
+        if: block_type == enum_control_block_type::sizedefinition_labelvisible
+      sizedefinition_imagevisible:
+        value: content_long.value1
+        enum: enum_sizedefinition_imagevisible
+        if: block_type == enum_control_block_type::sizedefinition_imagevisible
+      sizedefinition_imagesize:
+        value: content_long.value1
+        enum: enum_sizedefinition_imagesize
+        if: block_type == enum_control_block_type::sizedefinition_imagesize
+      sizedefinition_imagesize_mixed:
+        value: content_number.id.id
+        enum: enum_sizedefinition_imagesize_mixed
+        if: block_type == enum_control_block_type::sizedefinition_imagesize_mixed
+      autocomplete_enabled:
+        value: content_long.value1
+        enum: enum_boolean
+        if: block_type == enum_control_block_type::autocomplete_enabled
+      vertical_resize:
+        value: content_number.id.id
+        enum: enum_boolean
+        if: block_type == enum_control_block_type::vertical_resize
+
+  type_control_blocks2:
     seq:
     - id: count_blocks
       type: u1
-    - id: unk1
-      type: u2
-      if: count_blocks > 0
     - id: blocks
-      type: type_control_block_generic
+      type: type_control_block2
       repeat: expr
       repeat-expr: count_blocks
-    - id: blocks_bytes
-      size-eos: true
 
   type_control:
     seq:
@@ -801,7 +751,7 @@ types:
       type: u2
     - id: block
       size: size_block - 7
-      type: type_control_blocks
+      type: type_control_blocks2
 
   type_menugroup_extended:
     seq:
@@ -966,11 +916,11 @@ types:
       - id: command_id
         type: u2
       - id: unk1
-        contents: [0, 0, 0]
+        size: 3
       - id: unk3b
         type: u1
       - id: unk4
-        contents: [0, 0x10]
+        size: 2
       - id: size_str
         type: u2
       - id: str

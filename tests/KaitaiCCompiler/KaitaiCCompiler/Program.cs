@@ -470,6 +470,8 @@ namespace KaitaiCCompiler
                 string pos = null;
                 string type = null;
                 string value = null;
+                string condition = null;
+                string enum_type = null;
 
                 foreach (var _instanceinfo in instance_value.Children)
                 {
@@ -495,12 +497,37 @@ namespace KaitaiCCompiler
                     {
                         value = prefixExpression(instanceinfo_value.Value);
                     }
+
+                    if (instanceinfo_key.Value == "if")
+                    {
+                        condition = prefixExpression(instanceinfo_value.Value);
+                    }
+
+                    if (instanceinfo_key.Value == "enum")
+                    {
+                        enum_type = ((YamlScalarNode)instanceinfo_value.Value).Value;
+                    }
                 }
 
                 if (value != null)
                 {
-                    seq.AddStruct("{0} {1};", "uint8_t", instance_key.Value);
+                    if (condition != null)
+                    {
+                        seq.AddCode("if ({0})", condition);
+                        seq.AddCode("{{");
+                        seq.IndentCodePlus();
+                    }
+
+                    var structType = enum_type != null ? enum_type : "uint8_t";
+
+                    seq.AddStruct("{0} {1};", structType, instance_key.Value);
                     seq.AddCode("ret->{0} = {1};", instance_key.Value, value);
+
+                    if (condition != null)
+                    {
+                        seq.IndentCodeMinus();
+                        seq.AddCode("}}");
+                    }
                     continue;
                 }
 

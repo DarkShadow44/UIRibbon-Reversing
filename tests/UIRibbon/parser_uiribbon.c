@@ -26,19 +26,15 @@ int read_type_unk1_extended(stream *s_root, stream *s, type_unk1_extended *ret);
 int read_type_subcomponents(stream *s_root, stream *s, type_subcomponents *ret);
 int read_type_control_block_subcomponents_real(stream *s_root, stream *s, type_control_block_subcomponents_real *ret);
 int read_type_control_block_subcomponents(stream *s_root, stream *s, type_control_block_subcomponents *ret);
-int read_type_control_block_sizedefinition_labelvisible_mixed(stream *s_root, stream *s, type_control_block_sizedefinition_labelvisible_mixed *ret);
-int read_type_control_block_sizedefinition_imagesize_mixed(stream *s_root, stream *s, type_control_block_sizedefinition_imagesize_mixed *ret);
-int read_type_control_block_sizedefinition_imagevisible(stream *s_root, stream *s, type_control_block_sizedefinition_imagevisible *ret);
-int read_type_control_block_sizedefinition_labelvisible(stream *s_root, stream *s, type_control_block_sizedefinition_labelvisible *ret);
-int read_type_control_block_sizedefinition_imagesize(stream *s_root, stream *s, type_control_block_sizedefinition_imagesize *ret);
 int read_type_control_block_unk4(stream *s_root, stream *s, type_control_block_unk4 *ret);
 int read_type_control_block_info4(stream *s_root, stream *s, type_control_block_info4 *ret);
 int read_type_control_block_info7(stream *s_root, stream *s, type_control_block_info7 *ret);
 int read_type_control_block_dropdowncolorpicker_colortemplate(stream *s_root, stream *s, type_control_block_dropdowncolorpicker_colortemplate *ret);
 int read_type_control_block_dropdowncolorpicker_chipsize(stream *s_root, stream *s, type_control_block_dropdowncolorpicker_chipsize *ret);
-int read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *ret);
-int read_type_control_block_generic(stream *s_root, stream *s, type_control_block_generic *ret);
-int read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *ret);
+int read_type_control_block2_number(stream *s_root, stream *s, type_control_block2_number *ret);
+int read_type_control_block2_long(stream *s_root, stream *s, type_control_block2_long *ret);
+int read_type_control_block2(stream *s_root, stream *s, type_control_block2 *ret);
+int read_type_control_blocks2(stream *s_root, stream *s, type_control_blocks2 *ret);
 int read_type_control(stream *s_root, stream *s, type_control *ret);
 int read_type_menugroup_extended(stream *s_root, stream *s, type_menugroup_extended *ret);
 int read_type_recent2(stream *s_root, stream *s, type_recent2 *ret);
@@ -57,6 +53,7 @@ int read_type_id(stream *s_root, stream *s, type_id *ret)
 	uint32_t id_block_2;
 	uint16_t id_block_3;
 	uint8_t id_block_4;
+	uint8_t id_block_9;
 
 	CHECK(stream_read_uint8_t(s, &ret->flag));
 	switch(ret->flag)
@@ -72,6 +69,10 @@ int read_type_id(stream *s_root, stream *s, type_id *ret)
 	case 4:
 		CHECK(stream_read_uint8_t(s, &id_block_4));
 		ret->id = id_block_4;
+		break;
+	case 9:
+		CHECK(stream_read_uint8_t(s, &id_block_9));
+		ret->id = id_block_9;
 		break;
 	}
 	return 0;
@@ -457,7 +458,7 @@ int read_type_subcomponents(stream *s_root, stream *s, type_subcomponents *ret)
 
 int read_type_control_block_subcomponents_real(stream *s_root, stream *s, type_control_block_subcomponents_real *ret)
 {
-	const char check1[] = {1, 0, 22, 0, 24, 0, 16};
+	const char check1[] = {22, 0, 24, 0, 16};
 	stream substream_subcomponents;
 
 	CHECK(stream_expect_bytes(s, check1));
@@ -469,80 +470,12 @@ int read_type_control_block_subcomponents_real(stream *s_root, stream *s, type_c
 
 int read_type_control_block_subcomponents(stream *s_root, stream *s, type_control_block_subcomponents *ret)
 {
-	CHECK(stream_read_uint8_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
-	if (ret->unk2 == 62)
+	CHECK(stream_read_uint16_t(s, &ret->unk1));
+	if (ret->unk1 == 1)
 	{
 		CHECK(read_type_control_block_subcomponents_real(s_root, s, &ret->components));
 	}
-	if (ret->unk2 != 62)
-	{
-		CHECK(stream_read_uint16_t(s, &ret->unk3));
-	}
-	ret->has_controls = ret->unk2 == 62;
-	return 0;
-}
-
-int read_type_control_block_sizedefinition_labelvisible_mixed(stream *s_root, stream *s, type_control_block_sizedefinition_labelvisible_mixed *ret)
-{
-	uint8_t sizedefinition_labelvisible_mixed;
-
-	CHECK(stream_read_uint8_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &sizedefinition_labelvisible_mixed));
-	ret->sizedefinition_labelvisible_mixed = sizedefinition_labelvisible_mixed;
-	CHECK(stream_read_uint8_t(s, &ret->unk3));
-	CHECK(stream_read_uint8_t(s, &ret->unk4));
-	return 0;
-}
-
-int read_type_control_block_sizedefinition_imagesize_mixed(stream *s_root, stream *s, type_control_block_sizedefinition_imagesize_mixed *ret)
-{
-	uint8_t sizedefinition_imagesize_mixed;
-
-	CHECK(stream_read_uint8_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &sizedefinition_imagesize_mixed));
-	ret->sizedefinition_imagesize_mixed = sizedefinition_imagesize_mixed;
-	CHECK(stream_read_uint8_t(s, &ret->unk3));
-	CHECK(stream_read_uint8_t(s, &ret->unk4));
-	return 0;
-}
-
-int read_type_control_block_sizedefinition_imagevisible(stream *s_root, stream *s, type_control_block_sizedefinition_imagevisible *ret)
-{
-	uint8_t sizedefinition_imagevisible;
-
-	ret->unk1 = malloc(4);
-	CHECK(stream_read_bytes(s, ret->unk1, 4));
-	CHECK(stream_read_uint8_t(s, &sizedefinition_imagevisible));
-	ret->sizedefinition_imagevisible = sizedefinition_imagevisible;
-	CHECK(stream_read_uint8_t(s, &ret->unk3));
-	CHECK(stream_read_uint8_t(s, &ret->unk4));
-	return 0;
-}
-
-int read_type_control_block_sizedefinition_labelvisible(stream *s_root, stream *s, type_control_block_sizedefinition_labelvisible *ret)
-{
-	uint8_t sizedefinition_labelvisible;
-
-	ret->unk1 = malloc(4);
-	CHECK(stream_read_bytes(s, ret->unk1, 4));
-	CHECK(stream_read_uint8_t(s, &sizedefinition_labelvisible));
-	ret->sizedefinition_labelvisible = sizedefinition_labelvisible;
-	CHECK(stream_read_uint8_t(s, &ret->unk3));
-	CHECK(stream_read_uint8_t(s, &ret->unk4));
-	return 0;
-}
-
-int read_type_control_block_sizedefinition_imagesize(stream *s_root, stream *s, type_control_block_sizedefinition_imagesize *ret)
-{
-	uint8_t sizedefinition_imagesize;
-
-	ret->unk1 = malloc(4);
-	CHECK(stream_read_bytes(s, ret->unk1, 4));
-	CHECK(stream_read_uint8_t(s, &sizedefinition_imagesize));
-	ret->sizedefinition_imagesize = sizedefinition_imagesize;
-	CHECK(stream_read_uint8_t(s, &ret->unk3));
-	CHECK(stream_read_uint8_t(s, &ret->unk4));
+	ret->has_controls = ret->unk1 == 1;
 	return 0;
 }
 
@@ -594,105 +527,84 @@ int read_type_control_block_dropdowncolorpicker_chipsize(stream *s_root, stream 
 	return 0;
 }
 
-int read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *ret)
+int read_type_control_block2_number(stream *s_root, stream *s, type_control_block2_number *ret)
 {
-	CHECK(read_type_id(s_root, s, &ret->number));
-	CHECK(stream_read_uint8_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
+	CHECK(read_type_id(s_root, s, &ret->id));
 	return 0;
 }
 
-int read_type_control_block_generic(stream *s_root, stream *s, type_control_block_generic *ret)
+int read_type_control_block2_long(stream *s_root, stream *s, type_control_block2_long *ret)
+{
+	CHECK(stream_read_uint32_t(s, &ret->unk1));
+	CHECK(stream_read_uint8_t(s, &ret->value1));
+	return 0;
+}
+
+int read_type_control_block2(stream *s_root, stream *s, type_control_block2 *ret)
 {
 	uint8_t block_type;
 
+	CHECK(stream_read_uint8_t(s, &ret->meta_type));
+	CHECK(stream_read_uint8_t(s, &ret->block_len));
 	CHECK(stream_read_uint8_t(s, &block_type));
 	ret->block_type = block_type;
-	switch(ret->block_type)
+	if (ret->meta_type == 1 && ret->block_len == 1)
 	{
-	case UIRIBBON_CONTROL_BLOCK_TYPE_ID:
-		CHECK(read_type_id(s_root, s, &ret->block_id));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE_MIXED:
-		CHECK(read_type_control_block_sizedefinition_labelvisible_mixed(s_root, s, &ret->block_sizedefinition_labelvisible_mixed));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE_MIXED:
-		CHECK(read_type_control_block_sizedefinition_imagesize_mixed(s_root, s, &ret->block_sizedefinition_imagesize_mixed));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE:
-		CHECK(read_type_control_block_sizedefinition_labelvisible(s_root, s, &ret->block_sizedefinition_labelvisible));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_SUBCOMPONENTS:
-		CHECK(read_type_control_block_subcomponents(s_root, s, &ret->block_subcomponents));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGEVISIBLE:
-		CHECK(read_type_control_block_sizedefinition_imagevisible(s_root, s, &ret->block_sizedefinition_imagevisible));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE:
-		CHECK(read_type_control_block_sizedefinition_imagesize(s_root, s, &ret->block_sizedefinition_imagesize));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK1:
-		CHECK(read_type_control_block_unk4(s_root, s, &ret->block_unk1));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_EDITABLE:
-		CHECK(read_type_control_block_unk4(s_root, s, &ret->block_editable));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK3:
-		CHECK(read_type_control_block_unk4(s_root, s, &ret->block_unk3));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK5:
-		CHECK(read_type_control_block_unk4(s_root, s, &ret->block_unk5));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_AUTOCOMPLETE_ENABLED:
-		CHECK(read_type_control_block_info7(s_root, s, &ret->block_autocomplete_enabled));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_VERTICAL_RESIZE:
-		CHECK(read_type_control_block_info4(s_root, s, &ret->block_vertical_resize));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_UNK6:
-		CHECK(read_type_control_block_info7(s_root, s, &ret->block_unk6));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLORTEMPLATE:
-		CHECK(read_type_control_block_dropdowncolorpicker_colortemplate(s_root, s, &ret->block_dropdowncolorpicker_colortemplate));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_CHIPSIZE:
-		CHECK(read_type_control_block_dropdowncolorpicker_chipsize(s_root, s, &ret->block_dropdowncolorpicker_chipsize));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLUMNS:
-		CHECK(read_type_control_block_number(s_root, s, &ret->block_dropdowncolorpicker_columns));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON:
-		CHECK(read_type_control_block_info7(s_root, s, &ret->block_dropdowncolorpicker_has_autocolor_button));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON:
-		CHECK(read_type_control_block_info7(s_root, s, &ret->block_dropdowncolorpicker_has_nocolor_button));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS:
-		CHECK(read_type_control_block_number(s_root, s, &ret->block_dropdowncolorpicker_recent_color_rows));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS:
-		CHECK(read_type_control_block_number(s_root, s, &ret->block_dropdowncolorpicker_standard_color_rows));
-		break;
-	case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS:
-		CHECK(read_type_control_block_number(s_root, s, &ret->block_dropdowncolorpicker_theme_color_rows));
-		break;
+		CHECK(read_type_control_block2_number(s_root, s, &ret->content_number));
+	}
+	if (ret->meta_type == 1 && ret->block_len == 4)
+	{
+		CHECK(read_type_control_block2_long(s_root, s, &ret->content_long));
+	}
+	if (ret->meta_type == 24)
+	{
+		CHECK(read_type_control_block_subcomponents(s_root, s, &ret->content_subcontrols));
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_ID)
+	{
+		ret->id = ret->content_number.id.id;
+	}
+	ret->is_subcomponents = ret->meta_type == 24;
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE_MIXED)
+	{
+		ret->sizedefinition_labelvisible_mixed = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE)
+	{
+		ret->sizedefinition_labelvisible = ret->content_long.value1;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGEVISIBLE)
+	{
+		ret->sizedefinition_imagevisible = ret->content_long.value1;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE)
+	{
+		ret->sizedefinition_imagesize = ret->content_long.value1;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE_MIXED)
+	{
+		ret->sizedefinition_imagesize_mixed = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_AUTOCOMPLETE_ENABLED)
+	{
+		ret->autocomplete_enabled = ret->content_long.value1;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_VERTICAL_RESIZE)
+	{
+		ret->vertical_resize = ret->content_number.id.id;
 	}
 	return 0;
 }
 
-int read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *ret)
+int read_type_control_blocks2(stream *s_root, stream *s, type_control_blocks2 *ret)
 {
 	int i;
 
 	CHECK(stream_read_uint8_t(s, &ret->count_blocks));
-	if (ret->count_blocks > 0)
-	{
-		CHECK(stream_read_uint16_t(s, &ret->unk1));
-	}
-	ret->blocks = malloc(sizeof(type_control_block_generic) * ret->count_blocks);
+	ret->blocks = malloc(sizeof(type_control_block2) * ret->count_blocks);
 	for (i = 0; i < ret->count_blocks; i++)
 	{
-		CHECK(read_type_control_block_generic(s_root, s, &ret->blocks[i]));
+		CHECK(read_type_control_block2(s_root, s, &ret->blocks[i]));
 	}
 	return 0;
 }
@@ -708,7 +620,7 @@ int read_type_control(stream *s_root, stream *s, type_control *ret)
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
 	CHECK(stream_read_uint16_t(s, &ret->size_block));
 	CHECK(stream_make_substream(s, &substream_block, ret->size_block - 7));
-	CHECK(read_type_control_blocks(s_root, &substream_block, &ret->block));
+	CHECK(read_type_control_blocks2(s_root, &substream_block, &ret->block));
 	return 0;
 }
 
@@ -852,13 +764,12 @@ int read_type_block_generic(stream *s_root, stream *s, type_block_generic *ret)
 
 int read_type_command(stream *s_root, stream *s, type_command *ret)
 {
-	const char unk1[] = {0, 0, 0};
-	const char unk4[] = {0, 16};
-
 	CHECK(stream_read_uint16_t(s, &ret->command_id));
-	CHECK(stream_expect_bytes(s, unk1));
+	ret->unk1 = malloc(3);
+	CHECK(stream_read_bytes(s, ret->unk1, 3));
 	CHECK(stream_read_uint8_t(s, &ret->unk3b));
-	CHECK(stream_expect_bytes(s, unk4));
+	ret->unk4 = malloc(2);
+	CHECK(stream_read_bytes(s, ret->unk4, 2));
 	CHECK(stream_read_uint16_t(s, &ret->size_str));
 	ret->str = malloc(ret->size_str);
 	CHECK(stream_read_bytes(s, ret->str, ret->size_str));

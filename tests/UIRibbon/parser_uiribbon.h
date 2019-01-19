@@ -95,18 +95,11 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE_MIXED = 6,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE_MIXED = 8,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE = 9,
-	UIRIBBON_CONTROL_BLOCK_TYPE_UNK4 = 4,
-	UIRIBBON_CONTROL_BLOCK_TYPE_SUBCOMPONENTS = 24,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGEVISIBLE = 36,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE = 37,
 	UIRIBBON_CONTROL_BLOCK_TYPE_AUTOCOMPLETE_ENABLED = 93,
 	UIRIBBON_CONTROL_BLOCK_TYPE_VERTICAL_RESIZE = 73,
-	UIRIBBON_CONTROL_BLOCK_TYPE_UNK1 = 70,
 	UIRIBBON_CONTROL_BLOCK_TYPE_EDITABLE = 71,
-	UIRIBBON_CONTROL_BLOCK_TYPE_UNK3 = 87,
-	UIRIBBON_CONTROL_BLOCK_TYPE_UNK5 = 88,
-	UIRIBBON_CONTROL_BLOCK_TYPE_UNK6 = 63,
-	UIRIBBON_CONTROL_BLOCK_TYPE_UNK7 = 68,
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLORTEMPLATE = 110,
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_CHIPSIZE = 111,
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLUMNS = 112,
@@ -116,6 +109,12 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS = 114,
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS = 113,
 } enum_control_block_type;
+
+typedef enum
+{
+	UIRIBBON_BOOLEAN_BOOL_FALSE = 0,
+	UIRIBBON_BOOLEAN_BOOL_TRUE = 1,
+} enum_boolean;
 
 typedef struct type_id_
 {
@@ -282,9 +281,9 @@ typedef struct type_scalingpolicy_
 	uint8_t unk1b;
 	type_id scale_value;
 	uint8_t unk3;
-	uint8_t priority_medium;
-	uint8_t priority_small;
-	uint8_t priority_popup;
+	uint32_t priority_medium;
+	uint32_t priority_small;
+	uint32_t priority_popup;
 } type_scalingpolicy;
 
 typedef struct type_group_info_
@@ -358,52 +357,10 @@ typedef struct type_control_block_subcomponents_real_
 
 typedef struct type_control_block_subcomponents_
 {
-	uint8_t unk1;
-	uint8_t unk2;
+	uint16_t unk1;
 	type_control_block_subcomponents_real components;
-	uint16_t unk3;
-	uint8_t has_controls;
+	uint32_t has_controls;
 } type_control_block_subcomponents;
-
-typedef struct type_control_block_sizedefinition_labelvisible_mixed_
-{
-	uint8_t unk1;
-	enum_sizedefinition_labelvisible_mixed sizedefinition_labelvisible_mixed;
-	uint8_t unk3;
-	uint8_t unk4;
-} type_control_block_sizedefinition_labelvisible_mixed;
-
-typedef struct type_control_block_sizedefinition_imagesize_mixed_
-{
-	uint8_t unk1;
-	enum_sizedefinition_imagesize_mixed sizedefinition_imagesize_mixed;
-	uint8_t unk3;
-	uint8_t unk4;
-} type_control_block_sizedefinition_imagesize_mixed;
-
-typedef struct type_control_block_sizedefinition_imagevisible_
-{
-	char *unk1;
-	enum_sizedefinition_imagevisible sizedefinition_imagevisible;
-	uint8_t unk3;
-	uint8_t unk4;
-} type_control_block_sizedefinition_imagevisible;
-
-typedef struct type_control_block_sizedefinition_labelvisible_
-{
-	char *unk1;
-	enum_sizedefinition_labelvisible sizedefinition_labelvisible;
-	uint8_t unk3;
-	uint8_t unk4;
-} type_control_block_sizedefinition_labelvisible;
-
-typedef struct type_control_block_sizedefinition_imagesize_
-{
-	char *unk1;
-	enum_sizedefinition_imagesize sizedefinition_imagesize;
-	uint8_t unk3;
-	uint8_t unk4;
-} type_control_block_sizedefinition_imagesize;
 
 typedef struct type_control_block_unk4_
 {
@@ -442,49 +399,41 @@ typedef struct type_control_block_dropdowncolorpicker_chipsize_
 	uint8_t unk3;
 } type_control_block_dropdowncolorpicker_chipsize;
 
-typedef struct type_control_block_number_
+typedef struct type_control_block2_number_
 {
-	type_id number;
-	uint8_t unk1;
-	uint8_t unk2;
-} type_control_block_number;
+	type_id id;
+} type_control_block2_number;
 
-typedef struct type_control_block_generic_
+typedef struct type_control_block2_long_
 {
+	uint32_t unk1;
+	uint8_t value1;
+} type_control_block2_long;
+
+typedef struct type_control_block2_
+{
+	uint8_t meta_type;
+	uint8_t block_len;
 	enum_control_block_type block_type;
-	union
-	{
-		type_id block_id;
-		type_control_block_sizedefinition_labelvisible_mixed block_sizedefinition_labelvisible_mixed;
-		type_control_block_sizedefinition_imagesize_mixed block_sizedefinition_imagesize_mixed;
-		type_control_block_sizedefinition_labelvisible block_sizedefinition_labelvisible;
-		type_control_block_subcomponents block_subcomponents;
-		type_control_block_sizedefinition_imagevisible block_sizedefinition_imagevisible;
-		type_control_block_sizedefinition_imagesize block_sizedefinition_imagesize;
-		type_control_block_unk4 block_unk1;
-		type_control_block_unk4 block_editable;
-		type_control_block_unk4 block_unk3;
-		type_control_block_unk4 block_unk5;
-		type_control_block_info7 block_autocomplete_enabled;
-		type_control_block_info4 block_vertical_resize;
-		type_control_block_info7 block_unk6;
-		type_control_block_dropdowncolorpicker_colortemplate block_dropdowncolorpicker_colortemplate;
-		type_control_block_dropdowncolorpicker_chipsize block_dropdowncolorpicker_chipsize;
-		type_control_block_number block_dropdowncolorpicker_columns;
-		type_control_block_info7 block_dropdowncolorpicker_has_autocolor_button;
-		type_control_block_info7 block_dropdowncolorpicker_has_nocolor_button;
-		type_control_block_number block_dropdowncolorpicker_recent_color_rows;
-		type_control_block_number block_dropdowncolorpicker_standard_color_rows;
-		type_control_block_number block_dropdowncolorpicker_theme_color_rows;
-	};
-} type_control_block_generic;
+	type_control_block2_number content_number;
+	type_control_block2_long content_long;
+	type_control_block_subcomponents content_subcontrols;
+	uint32_t id;
+	uint32_t is_subcomponents;
+	enum_sizedefinition_labelvisible_mixed sizedefinition_labelvisible_mixed;
+	enum_sizedefinition_labelvisible sizedefinition_labelvisible;
+	enum_sizedefinition_imagevisible sizedefinition_imagevisible;
+	enum_sizedefinition_imagesize sizedefinition_imagesize;
+	enum_sizedefinition_imagesize_mixed sizedefinition_imagesize_mixed;
+	enum_boolean autocomplete_enabled;
+	enum_boolean vertical_resize;
+} type_control_block2;
 
-typedef struct type_control_blocks_
+typedef struct type_control_blocks2_
 {
 	uint8_t count_blocks;
-	uint16_t unk1;
-	struct type_control_block_generic_ *blocks;
-} type_control_blocks;
+	struct type_control_block2_ *blocks;
+} type_control_blocks2;
 
 typedef struct type_control_
 {
@@ -492,7 +441,7 @@ typedef struct type_control_
 	enum_type_control block_type;
 	uint8_t unk2;
 	uint16_t size_block;
-	type_control_blocks block;
+	type_control_blocks2 block;
 } type_control;
 
 typedef struct type_menugroup_extended_
@@ -591,7 +540,9 @@ typedef struct type_block_generic_
 typedef struct type_command_
 {
 	uint16_t command_id;
+	char *unk1;
 	uint8_t unk3b;
+	char *unk4;
 	uint16_t size_str;
 	char *str;
 } type_command;
