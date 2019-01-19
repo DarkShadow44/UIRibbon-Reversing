@@ -23,11 +23,9 @@ int read_type_group_info(stream *s_root, stream *s, type_group_info *ret);
 int read_type_tab_extended(stream *s_root, stream *s, type_tab_extended *ret);
 int read_type_tab(stream *s_root, stream *s, type_tab *ret);
 int read_type_unk1_extended(stream *s_root, stream *s, type_unk1_extended *ret);
-int read_type_subcomponents(stream *s_root, stream *s, type_subcomponents *ret);
-int read_type_control_block_subcomponents_real(stream *s_root, stream *s, type_control_block_subcomponents_real *ret);
-int read_type_control_block_subcomponents(stream *s_root, stream *s, type_control_block_subcomponents *ret);
 int read_type_control_block2_number(stream *s_root, stream *s, type_control_block2_number *ret);
 int read_type_control_block2_long(stream *s_root, stream *s, type_control_block2_long *ret);
+int read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *ret);
 int read_type_control_block2(stream *s_root, stream *s, type_control_block2 *ret);
 int read_type_control_blocks2(stream *s_root, stream *s, type_control_blocks2 *ret);
 int read_type_control(stream *s_root, stream *s, type_control *ret);
@@ -49,6 +47,7 @@ int read_type_id(stream *s_root, stream *s, type_id *ret)
 	uint16_t id_block_3;
 	uint8_t id_block_4;
 	uint8_t id_block_9;
+	uint8_t id_block_43;
 
 	CHECK(stream_read_uint8_t(s, &ret->flag));
 	switch(ret->flag)
@@ -68,6 +67,10 @@ int read_type_id(stream *s_root, stream *s, type_id *ret)
 	case 9:
 		CHECK(stream_read_uint8_t(s, &id_block_9));
 		ret->id = id_block_9;
+		break;
+	case 43:
+		CHECK(stream_read_uint8_t(s, &id_block_43));
+		ret->id = id_block_43;
 		break;
 	}
 	return 0;
@@ -436,44 +439,6 @@ int read_type_unk1_extended(stream *s_root, stream *s, type_unk1_extended *ret)
 	return 0;
 }
 
-int read_type_subcomponents(stream *s_root, stream *s, type_subcomponents *ret)
-{
-	const char check1[] = {2, 1, 1, 65, 43, 1, 24, 1, 62};
-	int i;
-
-	CHECK(stream_expect_bytes(s, check1));
-	CHECK(stream_read_uint16_t(s, &ret->count_elements));
-	ret->elements = malloc(sizeof(type_control) * ret->count_elements);
-	for (i = 0; i < ret->count_elements; i++)
-	{
-		CHECK(read_type_control(s_root, s, &ret->elements[i]));
-	}
-	return 0;
-}
-
-int read_type_control_block_subcomponents_real(stream *s_root, stream *s, type_control_block_subcomponents_real *ret)
-{
-	const char check1[] = {22, 0, 24, 0, 16};
-	stream substream_subcomponents;
-
-	CHECK(stream_expect_bytes(s, check1));
-	CHECK(stream_read_uint16_t(s, &ret->len_subcomponents));
-	CHECK(stream_make_substream(s, &substream_subcomponents, ret->len_subcomponents - 7));
-	CHECK(read_type_subcomponents(s_root, &substream_subcomponents, &ret->subcomponents));
-	return 0;
-}
-
-int read_type_control_block_subcomponents(stream *s_root, stream *s, type_control_block_subcomponents *ret)
-{
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	if (ret->unk1 == 1)
-	{
-		CHECK(read_type_control_block_subcomponents_real(s_root, s, &ret->components));
-	}
-	ret->has_controls = ret->unk1 == 1;
-	return 0;
-}
-
 int read_type_control_block2_number(stream *s_root, stream *s, type_control_block2_number *ret)
 {
 	CHECK(read_type_id(s_root, s, &ret->id));
@@ -484,6 +449,19 @@ int read_type_control_block2_long(stream *s_root, stream *s, type_control_block2
 {
 	CHECK(stream_read_uint32_t(s, &ret->unk1));
 	CHECK(stream_read_uint8_t(s, &ret->value1));
+	return 0;
+}
+
+int read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *ret)
+{
+	int i;
+
+	CHECK(stream_read_uint16_t(s, &ret->count_subcontrols));
+	ret->subcontrols = malloc(sizeof(type_control) * ret->count_subcontrols);
+	for (i = 0; i < ret->count_subcontrols; i++)
+	{
+		CHECK(read_type_control(s_root, s, &ret->subcontrols[i]));
+	}
 	return 0;
 }
 
@@ -505,7 +483,7 @@ int read_type_control_block2(stream *s_root, stream *s, type_control_block2 *ret
 	}
 	if (ret->meta_type == 24)
 	{
-		CHECK(read_type_control_block_subcomponents(s_root, s, &ret->content_subcontrols));
+		CHECK(read_type_subcontrols(s_root, s, &ret->content_subcontrols));
 	}
 	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_ID)
 	{

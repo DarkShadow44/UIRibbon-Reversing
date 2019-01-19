@@ -455,8 +455,12 @@ static int test_dropdownbutton(void)
     ASSERT(controls[1].id == 10002);
     ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(controls[0].count_subcontrols == 0);
-    ASSERT(controls[1].count_subcontrols == 3);
+
+    ASSERT(controls[1].count_subcontrols == 1);
     controls = controls[1].subcontrols;
+    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP)
+    ASSERT(controls[0].count_subcontrols == 3);
+    controls = controls[0].subcontrols;
 
     ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON);
     ASSERT(controls[0].id == 10003);
@@ -464,9 +468,15 @@ static int test_dropdownbutton(void)
     ASSERT(controls[1].id == 10004);
     ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(controls[2].id == 10006);
-    ASSERT(controls[0].count_subcontrols == 0);
-    ASSERT(controls[1].count_subcontrols == 4);
+    ASSERT(controls[0].count_subcontrols == 1);
+    ASSERT(controls[0].subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP)
+    ASSERT(controls[0].subcontrols[0].count_subcontrols == 0);
+
+    ASSERT(controls[1].count_subcontrols == 1);
     controls = controls[1].subcontrols;
+    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP)
+    ASSERT(controls[0].count_subcontrols == 4);
+    controls = controls[0].subcontrols;
 
     for (i = 0; i < 4; i++)
     {
@@ -536,7 +546,7 @@ int test_dropdowncolorpicker(void)
 
 int main()
 {
-    /*write_test_data("dropdowncolorpicker");
+    /*write_test_data("dropdownbutton");
     run_visual_test("dropdowncolorpicker");
     return 0; */
     CHECK(test_simple());

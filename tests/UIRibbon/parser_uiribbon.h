@@ -43,6 +43,7 @@ typedef enum
 	UIRIBBON_TYPE_CONTROL_OTHERINFO = 25,
 	UIRIBBON_TYPE_CONTROL_GALLERY = 21,
 	UIRIBBON_TYPE_CONTROL_SPLITBUTTON = 18,
+	UIRIBBON_TYPE_CONTROL_GROUP = 24,
 } enum_type_control;
 
 typedef enum
@@ -354,25 +355,6 @@ typedef struct type_unk1_extended_
 	uint16_t unk8;
 } type_unk1_extended;
 
-typedef struct type_subcomponents_
-{
-	uint16_t count_elements;
-	struct type_control_ *elements;
-} type_subcomponents;
-
-typedef struct type_control_block_subcomponents_real_
-{
-	uint16_t len_subcomponents;
-	type_subcomponents subcomponents;
-} type_control_block_subcomponents_real;
-
-typedef struct type_control_block_subcomponents_
-{
-	uint16_t unk1;
-	type_control_block_subcomponents_real components;
-	uint32_t has_controls;
-} type_control_block_subcomponents;
-
 typedef struct type_control_block2_number_
 {
 	type_id id;
@@ -384,6 +366,12 @@ typedef struct type_control_block2_long_
 	uint8_t value1;
 } type_control_block2_long;
 
+typedef struct type_subcontrols_
+{
+	uint16_t count_subcontrols;
+	struct type_control_ *subcontrols;
+} type_subcontrols;
+
 typedef struct type_control_block2_
 {
 	uint8_t meta_type;
@@ -391,7 +379,7 @@ typedef struct type_control_block2_
 	enum_control_block_type block_type;
 	type_control_block2_number content_number;
 	type_control_block2_long content_long;
-	type_control_block_subcomponents content_subcontrols;
+	type_subcontrols content_subcontrols;
 	uint32_t id;
 	uint32_t is_subcomponents;
 	enum_sizedefinition_labelvisible_mixed sizedefinition_labelvisible_mixed;

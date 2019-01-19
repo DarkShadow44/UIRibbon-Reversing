@@ -93,6 +93,7 @@ enums:
     25: otherinfo
     21: gallery
     18: splitbutton
+    24: group
 
   enum_sizedefinition_imagesize:
     0: small
@@ -170,6 +171,7 @@ types:
           3: u2
           4: u1
           9: u1
+          43: u1
 
   type_string:
     seq:
@@ -590,38 +592,6 @@ types:
     - id: unk8
       type: u2
 
-  type_subcomponents:
-    seq:
-    - id: check1
-      contents: [2, 1, 1, 65, 43, 1, 24, 1, 62]
-    - id: count_elements
-      type: u2
-    - id: elements
-      type: type_control
-      repeat: expr
-      repeat-expr: count_elements
-
-  type_control_block_subcomponents_real:
-    seq:
-    - id: check1
-      contents: [22, 0, 24, 0, 16]
-    - id: len_subcomponents
-      type: u2
-    - id: subcomponents
-      type: type_subcomponents
-      size: len_subcomponents - 7
-  
-  type_control_block_subcomponents:
-    seq:
-    - id: unk1
-      type: u2
-    - id: components
-      type: type_control_block_subcomponents_real
-      if: unk1 == 1 # maybe a count
-    instances:
-      has_controls:
-        value: unk1 == 1
-
   type_control_block2_number:
     seq:
     - id: id
@@ -633,6 +603,15 @@ types:
       type: u4
     - id: value1
       type: u1
+
+  type_subcontrols:
+    seq:
+    - id: count_subcontrols
+      type: u2
+    - id: subcontrols
+      type: type_control
+      repeat: expr
+      repeat-expr: count_subcontrols
 
   type_control_block2:
     seq:
@@ -650,7 +629,7 @@ types:
       type: type_control_block2_long
       if: meta_type == 1 and block_len == 4
     - id: content_subcontrols
-      type: type_control_block_subcomponents
+      type: type_subcontrols
       if: meta_type == 24
     instances:
       id:
@@ -727,6 +706,8 @@ types:
       type: type_control_block2
       repeat: expr
       repeat-expr: count_blocks
+    - id: blocks_bytes
+      size-eos: true
 
   type_control:
     seq:

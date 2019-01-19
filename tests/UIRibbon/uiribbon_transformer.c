@@ -39,6 +39,8 @@ uiribbon_control_type transform_control_type(type_control *src_control)
             }
         }
         break;
+    case UIRIBBON_TYPE_CONTROL_GROUP:
+        return UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP;
     }
     return -1;
 }
@@ -144,12 +146,11 @@ void transform_control_dropdowncolorpicker(type_control *src_control, uiribbon_c
 
 void transform_control(type_control *src_control, uiribbon_control *ret_control);
 
-void transform_subcontrols(type_control_block_subcomponents *src_block, uiribbon_control *ret_control)
+void transform_subcontrols(type_subcontrols *src_block, uiribbon_control *ret_control)
 {
     int i;
-    type_subcomponents *subcomponents = &src_block->components.subcomponents;
 
-    ret_control->count_subcontrols = subcomponents->count_elements;
+    ret_control->count_subcontrols = src_block->count_subcontrols;
     if (ret_control->count_subcontrols == 0)
     {
         ret_control->subcontrols  = NULL;
@@ -159,7 +160,7 @@ void transform_subcontrols(type_control_block_subcomponents *src_block, uiribbon
 
     for (i = 0; i < ret_control->count_subcontrols; i++)
     {
-        transform_control(&subcomponents->elements[i], &ret_control->subcontrols[i]);
+        transform_control(&src_block->subcontrols[i], &ret_control->subcontrols[i]);
     }
 }
 
@@ -176,10 +177,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
 
         if (src_block->is_subcomponents)
         {
-            if (src_block->content_subcontrols.has_controls)
-            {
-                transform_subcontrols(&src_block->content_subcontrols, ret_control);
-            }
+            transform_subcontrols(&src_block->content_subcontrols, ret_control);
             continue;
         }
 
@@ -247,6 +245,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON:
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX:
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON:
+    case UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP:
         break;
 
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX:

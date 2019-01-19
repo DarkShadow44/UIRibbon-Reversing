@@ -2,6 +2,9 @@
 	<Command.LabelTitle>
 		<String Content="Test01" Id="10001"></String>
 	</Command.LabelTitle>
+	<Command.LargeImages>
+		<Image Source ="circle_red.bmp" />
+	</Command.LargeImages>
 </Command>
 <Command Name="Test02" Id="10002">
 	<Command.LabelTitle>

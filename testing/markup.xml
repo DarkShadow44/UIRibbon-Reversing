@@ -140,6 +140,66 @@
 				<String Content="Test28" Id="10028"></String>
 			</Command.LabelTitle>
 		</Command>
+		<Command Name="Test29" Id="10029">
+			<Command.LabelTitle>
+				<String Content="Test29" Id="10029"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test30" Id="10030">
+			<Command.LabelTitle>
+				<String Content="Test30" Id="10030"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test31" Id="10031">
+			<Command.LabelTitle>
+				<String Content="Test31" Id="10031"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test32" Id="10032">
+			<Command.LabelTitle>
+				<String Content="Test32" Id="10032"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test33" Id="10033">
+			<Command.LabelTitle>
+				<String Content="Test33" Id="10033"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test34" Id="10034">
+			<Command.LabelTitle>
+				<String Content="Test34" Id="10034"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test35" Id="10035">
+			<Command.LabelTitle>
+				<String Content="Test35" Id="10035"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test36" Id="10036">
+			<Command.LabelTitle>
+				<String Content="Test36" Id="10036"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test37" Id="10037">
+			<Command.LabelTitle>
+				<String Content="Test37" Id="10037"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test38" Id="10038">
+			<Command.LabelTitle>
+				<String Content="Test38" Id="10038"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test39" Id="10039">
+			<Command.LabelTitle>
+				<String Content="Test39" Id="10039"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test40" Id="10040">
+			<Command.LabelTitle>
+				<String Content="Test40" Id="10040"></String>
+			</Command.LabelTitle>
+		</Command>
 	</Application.Commands>
 
 	<Application.Views>
@@ -147,32 +207,114 @@
 			<Ribbon.Tabs>
 				<Tab CommandName="Test01">
 					<Group CommandName="Test02">
-						<Button CommandName="Test06" />
-						<DropDownColorPicker CommandName="Test07" />
-						<DropDownColorPicker CommandName="Test08" ChipSize="Medium" />
-						<DropDownColorPicker CommandName="Test09" ChipSize="Large" />
-						<DropDownColorPicker CommandName="Test10" ColorTemplate="ThemeColors" />
-						<DropDownColorPicker CommandName="Test11" ColorTemplate="StandardColors" />
-						<DropDownColorPicker CommandName="Test12" ColorTemplate="HighlightColors" />
-						<DropDownColorPicker CommandName="Test13" Columns="1" />
-						<DropDownColorPicker CommandName="Test14" Columns="4" />
-						<DropDownColorPicker CommandName="Test15" Columns="200" />
-						<DropDownColorPicker CommandName="Test16" IsAutomaticColorButtonVisible="true" />
-						<DropDownColorPicker CommandName="Test17" IsAutomaticColorButtonVisible="false" />
-						<DropDownColorPicker CommandName="Test18" IsNoColorButtonVisible="true" />
-						<DropDownColorPicker CommandName="Test19" IsNoColorButtonVisible="false" />
-						<Button CommandName="Test05" />
+						<DropDownGallery CommandName="Test05" />
+						<DropDownGallery CommandName="Test06" Type="Commands" />
+						<DropDownGallery CommandName="Test07" Type="Items" />
+						<DropDownGallery CommandName="Test08" Type="Commands" HasLargeItems="true" />
+						<DropDownGallery CommandName="Test09" Type="Commands" HasLargeItems="false" />
+						<DropDownGallery CommandName="Test10" ItemHeight="-1" />
+						<DropDownGallery CommandName="Test11" ItemHeight="32" />
+						<DropDownGallery CommandName="Test12" ItemHeight="100" />
+						<DropDownGallery CommandName="Test13" ItemWidth="-1" />
+						<DropDownGallery CommandName="Test14" ItemWidth="32" />
+						<DropDownGallery CommandName="Test15" ItemWidth="100" />
 					</Group>
 					<Group CommandName="Test03">
-						<DropDownColorPicker CommandName="Test20" Columns="2" RecentColorGridRows="1" />
-						<DropDownColorPicker CommandName="Test21" Columns="2" RecentColorGridRows="4" />
-						<DropDownColorPicker CommandName="Test22" Columns="2" RecentColorGridRows="200" />
-						<DropDownColorPicker CommandName="Test23" Columns="2" StandardColorGridRows="1" />
-						<DropDownColorPicker CommandName="Test24" Columns="2" StandardColorGridRows="4" />
-						<DropDownColorPicker CommandName="Test25" Columns="2" StandardColorGridRows="200" />
-						<DropDownColorPicker CommandName="Test26" Columns="2" ThemeColorGridRows="1" />
-						<DropDownColorPicker CommandName="Test27" Columns="2" ThemeColorGridRows="4" />
-						<DropDownColorPicker CommandName="Test28" Columns="2" ThemeColorGridRows="200" />
+						<DropDownGallery CommandName="Test16" TextPosition="Left" />
+						<DropDownGallery CommandName="Test17" TextPosition="Right" />
+						<DropDownGallery CommandName="Test18" TextPosition="Bottom" />
+						<DropDownGallery CommandName="Test19" TextPosition="Top" />
+						<DropDownGallery CommandName="Test20" TextPosition="Hide" />
+						<DropDownGallery CommandName="Test21" TextPosition="Overlap" />
+					</Group>
+					<Group CommandName="Test04">
+						<DropDownGallery CommandName="Test22">
+							<Button CommandName="Test23" />
+							<SplitButton CommandName="Test24">
+								<Button CommandName="Test25" />
+							</SplitButton>
+						</DropDownGallery>
+
+						<DropDownGallery CommandName="Test26">
+							<DropDownGallery.MenuLayout>
+								<FlowMenuLayout />
+							</DropDownGallery.MenuLayout>
+							<DropDownGallery.MenuGroups>
+								<MenuGroup CommandName="Test27">
+									<Button CommandName="Test28" />
+									<Button CommandName="Test28" />
+									<SplitButton CommandName="Test29">
+										<Button CommandName="Test28" />
+									</SplitButton>
+								</MenuGroup>
+								<MenuGroup CommandName="Test30">
+									<Button CommandName="Test28" />
+									<SplitButton CommandName="Test31">
+										<Button CommandName="Test28" />
+									</SplitButton>
+								</MenuGroup>
+							</DropDownGallery.MenuGroups>
+						</DropDownGallery>
+
+						<DropDownGallery CommandName="Test32">
+							<DropDownGallery.MenuLayout>
+								<FlowMenuLayout />
+							</DropDownGallery.MenuLayout>
+							<Button CommandName="Test28" />
+						</DropDownGallery>
+
+						<DropDownGallery CommandName="Test33">
+							<DropDownGallery.MenuLayout>
+								<VerticalMenuLayout />
+							</DropDownGallery.MenuLayout>
+							<DropDownGallery.MenuGroups>
+								<MenuGroup CommandName="Test34">
+									<Button CommandName="Test28" />
+								</MenuGroup>
+							</DropDownGallery.MenuGroups>
+						</DropDownGallery>
+
+						<DropDownGallery CommandName="Test35">
+							<DropDownGallery.MenuLayout>
+								<FlowMenuLayout Columns="4" Gripper="None" Rows="-1" />
+							</DropDownGallery.MenuLayout>
+							<Button CommandName="Test28" />
+						</DropDownGallery>
+
+						<DropDownGallery CommandName="Test36">
+							<DropDownGallery.MenuLayout>
+								<FlowMenuLayout Columns="40" Gripper="Vertical" Rows="40" />
+							</DropDownGallery.MenuLayout>
+							<Button CommandName="Test28" />
+						</DropDownGallery>
+
+						<DropDownGallery CommandName="Test37">
+							<DropDownGallery.MenuLayout>
+								<FlowMenuLayout Columns="40" Gripper="Corner" Rows="40" />
+							</DropDownGallery.MenuLayout>
+							<Button CommandName="Test28" />
+						</DropDownGallery>
+
+						<DropDownGallery CommandName="Test38">
+							<DropDownGallery.MenuLayout>
+								<VerticalMenuLayout />
+							</DropDownGallery.MenuLayout>
+							<Button CommandName="Test28" />
+						</DropDownGallery>
+
+						<DropDownGallery CommandName="Test39">
+							<DropDownGallery.MenuLayout>
+								<VerticalMenuLayout Gripper="None" IsMultipleHighlightingEnabled="true" Rows="-1" />
+							</DropDownGallery.MenuLayout>
+							<Button CommandName="Test28" />
+						</DropDownGallery>
+
+						<DropDownGallery CommandName="Test40">
+							<DropDownGallery.MenuLayout>
+								<VerticalMenuLayout Gripper="Vertical" IsMultipleHighlightingEnabled="false" Rows="4" />
+							</DropDownGallery.MenuLayout>
+							<Button CommandName="Test28" />
+						</DropDownGallery>
 					</Group>
 				</Tab>
 			</Ribbon.Tabs>
