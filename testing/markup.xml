@@ -1,111 +1,178 @@
 <Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
 	<Application.Commands>
-		<Command Name="Test1" Id="10001">
+		<Command Name="Test01" Id="10001">
 			<Command.LabelTitle>
-				<String Content="Test1" Id="10001"></String>
+				<String Content="Test01" Id="10001"></String>
 			</Command.LabelTitle>
 		</Command>
-		<Command Name="Test2" Id="10002">
+		<Command Name="Test02" Id="10002">
 			<Command.LabelTitle>
-				<String Content="Test2" Id="10002"></String>
+				<String Content="Test02" Id="10002"></String>
 			</Command.LabelTitle>
 		</Command>
-		<Command Name="Test3" Id="10003">
+		<Command Name="Test03" Id="10003">
 			<Command.LabelTitle>
-				<String Content="Test3" Id="10003"></String>
-			</Command.LabelTitle>
-			<Command.LargeImages>
-				<Image Id="20003">circle_red.bmp</Image>
-			</Command.LargeImages>
-		</Command>
-		<Command Name="Test4" Id="10004">
-			<Command.LabelTitle>
-				<String Content="Test4" Id="10004"></String>
-			</Command.LabelTitle>
-			<Command.LargeImages>
-				<Image Id="20004">circle_red.bmp</Image>
-			</Command.LargeImages>
-		</Command>
-		<Command Name="Test5" Id="10005">
-			<Command.LabelTitle>
-				<String Content="Test5" Id="10005"></String>
-			</Command.LabelTitle>
-			<Command.LargeImages>
-				<Image Id="20005" MinDPI="96">circle_red.bmp</Image>
-			</Command.LargeImages>
-		</Command>
-		<Command Name="Test6" Id="10006">
-			<Command.LabelTitle>
-				<String Content="Test6" Id="10006"></String>
-			</Command.LabelTitle>
-			<Command.LargeImages>
-				<Image Id="20006" MinDPI="96">circle_red.bmp</Image>
-			</Command.LargeImages>
-		</Command>
-		<Command Name="Test7" Id="10007">
-			<Command.LabelTitle>
-				<String Content="Test7" Id="10007"></String>
+				<String Content="Test03" Id="10003"></String>
 			</Command.LabelTitle>
 		</Command>
-		<Command Name="Test8" Id="10008">
+		<Command Name="Test04" Id="10004">
 			<Command.LabelTitle>
-				<String Content="Test8" Id="10008"></String>
+				<String Content="Test04" Id="10004"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test05" Id="10005">
+			<Command.LabelTitle>
+				<String Content="Test05" Id="10005"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test06" Id="10006">
+			<Command.LabelTitle>
+				<String Content="Test06" Id="10006"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test07" Id="10007">
+			<Command.LabelTitle>
+				<String Content="Test07" Id="10007"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test08" Id="10008">
+			<Command.LabelTitle>
+				<String Content="Test08" Id="10008"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test09" Id="10009">
+			<Command.LabelTitle>
+				<String Content="Test09" Id="10009"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test10" Id="10010">
+			<Command.LabelTitle>
+				<String Content="Test10" Id="10010"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test11" Id="10011">
+			<Command.LabelTitle>
+				<String Content="Test11" Id="10011"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test12" Id="10012">
+			<Command.LabelTitle>
+				<String Content="Test12" Id="10012"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test13" Id="10013">
+			<Command.LabelTitle>
+				<String Content="Test13" Id="10013"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test14" Id="10014">
+			<Command.LabelTitle>
+				<String Content="Test14" Id="10014"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test15" Id="10015">
+			<Command.LabelTitle>
+				<String Content="Test15" Id="10015"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test16" Id="10016">
+			<Command.LabelTitle>
+				<String Content="Test16" Id="10016"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test17" Id="10017">
+			<Command.LabelTitle>
+				<String Content="Test17" Id="10017"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test18" Id="10018">
+			<Command.LabelTitle>
+				<String Content="Test18" Id="10018"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test19" Id="10019">
+			<Command.LabelTitle>
+				<String Content="Test19" Id="10019"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test20" Id="10020">
+			<Command.LabelTitle>
+				<String Content="Test20" Id="10020"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test21" Id="10021">
+			<Command.LabelTitle>
+				<String Content="Test21" Id="10021"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test22" Id="10022">
+			<Command.LabelTitle>
+				<String Content="Test22" Id="10022"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test23" Id="10023">
+			<Command.LabelTitle>
+				<String Content="Test23" Id="10023"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test24" Id="10024">
+			<Command.LabelTitle>
+				<String Content="Test24" Id="10024"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test25" Id="10025">
+			<Command.LabelTitle>
+				<String Content="Test25" Id="10025"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test26" Id="10026">
+			<Command.LabelTitle>
+				<String Content="Test26" Id="10026"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test27" Id="10027">
+			<Command.LabelTitle>
+				<String Content="Test27" Id="10027"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test28" Id="10028">
+			<Command.LabelTitle>
+				<String Content="Test28" Id="10028"></String>
 			</Command.LabelTitle>
 		</Command>
 	</Application.Commands>
 
 	<Application.Views>
 		<Ribbon>
-			<Ribbon.SizeDefinitions>
-				<SizeDefinition Name="MySize1">
-					<ControlNameMap>
-						<ControlNameDefinition Name="20001"/>
-						<ControlNameDefinition Name="20002"/>
-						<ControlNameDefinition Name="20003"/>
-						<ControlNameDefinition Name="20004"/>
-					</ControlNameMap>
-					<GroupSizeDefinition Size="Small">
-						<ControlSizeDefinition ControlName="20001" ImageSize="Large" IsLabelVisible="false" IsImageVisible="true" />
-						<ControlSizeDefinition ControlName="20002" ImageSize="Small" IsLabelVisible="false" IsImageVisible="true" />
-						<ControlSizeDefinition ControlName="20003" ImageSize="Small" IsLabelVisible="false" IsImageVisible="true" />
-						<ControlSizeDefinition ControlName="20004" ImageSize="Small" IsLabelVisible="false" IsImageVisible="true" />
-					</GroupSizeDefinition>
-					<GroupSizeDefinition Size="Medium">
-						<ControlSizeDefinition ControlName="20001" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
-						<ControlSizeDefinition ControlName="20002" ImageSize="Small" IsLabelVisible="true" IsImageVisible="true" />
-						<ControlSizeDefinition ControlName="20003" ImageSize="Small" IsLabelVisible="true" IsImageVisible="true" />
-						<ControlSizeDefinition ControlName="20004" ImageSize="Small" IsLabelVisible="true" IsImageVisible="true" />
-					</GroupSizeDefinition>
-					<GroupSizeDefinition Size="Large">
-						<ControlSizeDefinition ControlName="20001" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
-						<ControlSizeDefinition ControlName="20002" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
-						<ControlSizeDefinition ControlName="20003" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
-						<ControlSizeDefinition ControlName="20004" ImageSize="Large" IsLabelVisible="true" IsImageVisible="true" />
-					</GroupSizeDefinition>
-				</SizeDefinition>
-			</Ribbon.SizeDefinitions>
 			<Ribbon.Tabs>
-				<Tab CommandName="Test1">
-					<Tab.ScalingPolicy>
-						<ScalingPolicy>
-							<ScalingPolicy.IdealSizes>
-								<Scale Group="Test2" Size="Large" />
-							</ScalingPolicy.IdealSizes>
-							<Scale Group="Test2" Size="Small" />
-							<Scale Group="Test2" Size="Popup" />
-						</ScalingPolicy>
-					</Tab.ScalingPolicy>
-					<Group>
+				<Tab CommandName="Test01">
+					<Group CommandName="Test02">
+						<Button CommandName="Test06" />
+						<DropDownColorPicker CommandName="Test07" />
+						<DropDownColorPicker CommandName="Test08" ChipSize="Medium" />
+						<DropDownColorPicker CommandName="Test09" ChipSize="Large" />
+						<DropDownColorPicker CommandName="Test10" ColorTemplate="ThemeColors" />
+						<DropDownColorPicker CommandName="Test11" ColorTemplate="StandardColors" />
+						<DropDownColorPicker CommandName="Test12" ColorTemplate="HighlightColors" />
+						<DropDownColorPicker CommandName="Test13" Columns="1" />
+						<DropDownColorPicker CommandName="Test14" Columns="4" />
+						<DropDownColorPicker CommandName="Test15" Columns="200" />
+						<DropDownColorPicker CommandName="Test16" IsAutomaticColorButtonVisible="true" />
+						<DropDownColorPicker CommandName="Test17" IsAutomaticColorButtonVisible="false" />
+						<DropDownColorPicker CommandName="Test18" IsNoColorButtonVisible="true" />
+						<DropDownColorPicker CommandName="Test19" IsNoColorButtonVisible="false" />
+						<Button CommandName="Test05" />
 					</Group>
-					<Group>
-					</Group>
-					<Group>
-					</Group>
-					<Group CommandName="Test2" SizeDefinition="MySize1">
-						<Button CommandName="Test3" />
-						<Button CommandName="Test4" />
-						<Button CommandName="Test5" />
-						<Button CommandName="Test6" />
+					<Group CommandName="Test03">
+						<DropDownColorPicker CommandName="Test20" Columns="2" RecentColorGridRows="1" />
+						<DropDownColorPicker CommandName="Test21" Columns="2" RecentColorGridRows="4" />
+						<DropDownColorPicker CommandName="Test22" Columns="2" RecentColorGridRows="200" />
+						<DropDownColorPicker CommandName="Test23" Columns="2" StandardColorGridRows="1" />
+						<DropDownColorPicker CommandName="Test24" Columns="2" StandardColorGridRows="4" />
+						<DropDownColorPicker CommandName="Test25" Columns="2" StandardColorGridRows="200" />
+						<DropDownColorPicker CommandName="Test26" Columns="2" ThemeColorGridRows="1" />
+						<DropDownColorPicker CommandName="Test27" Columns="2" ThemeColorGridRows="4" />
+						<DropDownColorPicker CommandName="Test28" Columns="2" ThemeColorGridRows="200" />
 					</Group>
 				</Tab>
 			</Ribbon.Tabs>

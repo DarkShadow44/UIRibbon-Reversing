@@ -135,6 +135,7 @@ enums:
     73: vertical_resize
     71: editable
     70: gallery_type
+    68: dropdowncolorpicker_identifier
     110: dropdowncolorpicker_colortemplate
     111: dropdowncolorpicker_chipsize
     112: dropdowncolorpicker_columns
@@ -621,57 +622,6 @@ types:
       has_controls:
         value: unk1 == 1
 
-  type_control_block_unk4:
-    seq:
-    - id: unk1
-      type: u4
-
-  type_control_block_info4:
-    seq:
-    - id: unk1
-      type: u1
-    - id: value_bool
-      type: u1
-    - id: unk2
-      type: u1
-    - id: unk3
-      type: u1
-
-  type_control_block_info7:
-    seq:
-    - id: unk1
-      type: u4
-    - id: value_bool
-      type: u1
-    - id: unk2
-      type: u1
-    - id: unk3
-      type: u1
-
-  type_control_block_dropdowncolorpicker_colortemplate:
-    seq:
-    - id: unk1
-      type: u1
-    - id: value
-      type: u1
-      enum: enum_dropdowncolorpicker_colortemplate
-    - id: unk2
-      type: u1
-    - id: unk3
-      type: u1
-
-  type_control_block_dropdowncolorpicker_chipsize:
-    seq:
-    - id: unk1
-      type: u1
-    - id: value
-      type: u1
-      enum: enum_dropdowncolorpicker_chipsize
-    - id: unk2
-      type: u1
-    - id: unk3
-      type: u1
-
   type_control_block2_number:
     seq:
     - id: id
@@ -740,6 +690,34 @@ types:
         value: content_number.id.id
         enum: enum_gallery_type
         if: block_type == enum_control_block_type::gallery_type
+      dropdowncolorpicker_colortemplate:
+        value: content_number.id.id
+        enum: enum_dropdowncolorpicker_colortemplate
+        if: block_type == enum_control_block_type::dropdowncolorpicker_colortemplate
+      dropdowncolorpicker_chipsize:
+        value: content_number.id.id
+        enum: enum_dropdowncolorpicker_chipsize
+        if: block_type == enum_control_block_type::dropdowncolorpicker_chipsize
+      dropdowncolorpicker_columns:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::dropdowncolorpicker_columns
+      dropdowncolorpicker_has_autocolor_button:
+        value: content_long.value1
+        enum: enum_boolean
+        if: block_type == enum_control_block_type::dropdowncolorpicker_has_autocolor_button
+      dropdowncolorpicker_has_nocolor_button:
+        value: content_long.value1
+        enum: enum_boolean
+        if: block_type == enum_control_block_type::dropdowncolorpicker_has_nocolor_button
+      dropdowncolorpicker_recent_color_rows:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::dropdowncolorpicker_recent_color_rows
+      dropdowncolorpicker_standard_rows:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::dropdowncolorpicker_standard_color_rows
+      dropdowncolorpicker_theme_color_rows:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::dropdowncolorpicker_theme_color_rows
 
   type_control_blocks2:
     seq:

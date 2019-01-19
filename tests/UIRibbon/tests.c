@@ -477,11 +477,68 @@ static int test_dropdownbutton(void)
     return 0;
 }
 
+int test_dropdowncolorpicker(void)
+{
+    uiribbon_main uiribbon;
+    uiribbon_control *controls;
+
+    #define ASSERT_COLORPICKER(control, _chipsize, _colortemplate, _columns, _has_autocolor_button, _has_nocolor_button, \
+                               _recent_color_rows, _standard_color_rows, _theme_color_rows) \
+        ASSERT(control.type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNCOLORPICKER); \
+        ASSERT(control.control_info.dropdowncolorpicker.chipsize == _chipsize); \
+        ASSERT(control.control_info.dropdowncolorpicker.colortemplate == _colortemplate); \
+        ASSERT(control.control_info.dropdowncolorpicker.columns == _columns); \
+        ASSERT(control.control_info.dropdowncolorpicker.has_autocolor_button == _has_autocolor_button); \
+        ASSERT(control.control_info.dropdowncolorpicker.has_nocolor_button == _has_nocolor_button); \
+        ASSERT(control.control_info.dropdowncolorpicker.recent_color_rows == _recent_color_rows); \
+        ASSERT(control.control_info.dropdowncolorpicker.standard_color_rows == _standard_color_rows); \
+        ASSERT(control.control_info.dropdowncolorpicker.theme_color_rows == _theme_color_rows); \
+
+    CHECK(parse_from_testdata("dropdowncolorpicker", &uiribbon));
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 2);
+
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 16)
+    controls = uiribbon.tabs[0].groups[0].controls;
+    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT_COLORPICKER(controls[1], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[2], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[3], UIRIBBON_TRANSFORMED_CHIPSIZE_MEDIUM, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[4], UIRIBBON_TRANSFORMED_CHIPSIZE_LARGE, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[5], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[6], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_STANDARD, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[7], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_HIGHLIGHT, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[8], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 1, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[9], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 4, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[10], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 200, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[11], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[12], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, FALSE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[13], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[14], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, FALSE, 1, 1, 6);
+    ASSERT(controls[15].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+
+    ASSERT(uiribbon.tabs[0].groups[1].count_controls == 9);
+    controls = uiribbon.tabs[0].groups[1].controls;
+    ASSERT_COLORPICKER(controls[0], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[1], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 4, 1, 6);
+    ASSERT_COLORPICKER(controls[2], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 200, 1, 6);
+    ASSERT_COLORPICKER(controls[3], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[4], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 4, 6);
+    ASSERT_COLORPICKER(controls[5], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 200, 6);
+    ASSERT_COLORPICKER(controls[6], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 1);
+    ASSERT_COLORPICKER(controls[7], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 4);
+    ASSERT_COLORPICKER(controls[8], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 200);
+
+    #undef ASSERT_COLORPICKER
+
+    return 0;
+}
+
 int main()
 {
-    /*write_test_data("scalingpolicy");
-    run_visual_test("scalingpolicy");
-    return 0;*/
+    /*write_test_data("dropdowncolorpicker");
+    run_visual_test("dropdowncolorpicker");
+    return 0; */
     CHECK(test_simple());
     CHECK(test_sizeinfo());
     CHECK(test_commands());
@@ -489,6 +546,7 @@ int main()
     CHECK(test_combobox());
     CHECK(test_checkbox());
     CHECK(test_dropdownbutton());
+    CHECK(test_dropdowncolorpicker());
 
     return 0;
 }

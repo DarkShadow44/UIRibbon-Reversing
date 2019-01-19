@@ -101,6 +101,7 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_VERTICAL_RESIZE = 73,
 	UIRIBBON_CONTROL_BLOCK_TYPE_EDITABLE = 71,
 	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TYPE = 70,
+	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_IDENTIFIER = 68,
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLORTEMPLATE = 110,
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_CHIPSIZE = 111,
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLUMNS = 112,
@@ -372,43 +373,6 @@ typedef struct type_control_block_subcomponents_
 	uint32_t has_controls;
 } type_control_block_subcomponents;
 
-typedef struct type_control_block_unk4_
-{
-	uint32_t unk1;
-} type_control_block_unk4;
-
-typedef struct type_control_block_info4_
-{
-	uint8_t unk1;
-	uint8_t value_bool;
-	uint8_t unk2;
-	uint8_t unk3;
-} type_control_block_info4;
-
-typedef struct type_control_block_info7_
-{
-	uint32_t unk1;
-	uint8_t value_bool;
-	uint8_t unk2;
-	uint8_t unk3;
-} type_control_block_info7;
-
-typedef struct type_control_block_dropdowncolorpicker_colortemplate_
-{
-	uint8_t unk1;
-	enum_dropdowncolorpicker_colortemplate value;
-	uint8_t unk2;
-	uint8_t unk3;
-} type_control_block_dropdowncolorpicker_colortemplate;
-
-typedef struct type_control_block_dropdowncolorpicker_chipsize_
-{
-	uint8_t unk1;
-	enum_dropdowncolorpicker_chipsize value;
-	uint8_t unk2;
-	uint8_t unk3;
-} type_control_block_dropdowncolorpicker_chipsize;
-
 typedef struct type_control_block2_number_
 {
 	type_id id;
@@ -438,6 +402,14 @@ typedef struct type_control_block2_
 	enum_boolean autocomplete_enabled;
 	enum_boolean vertical_resize;
 	enum_gallery_type gallery_type;
+	enum_dropdowncolorpicker_colortemplate dropdowncolorpicker_colortemplate;
+	enum_dropdowncolorpicker_chipsize dropdowncolorpicker_chipsize;
+	uint32_t dropdowncolorpicker_columns;
+	enum_boolean dropdowncolorpicker_has_autocolor_button;
+	enum_boolean dropdowncolorpicker_has_nocolor_button;
+	uint32_t dropdowncolorpicker_recent_color_rows;
+	uint32_t dropdowncolorpicker_standard_rows;
+	uint32_t dropdowncolorpicker_theme_color_rows;
 } type_control_block2;
 
 typedef struct type_control_blocks2_

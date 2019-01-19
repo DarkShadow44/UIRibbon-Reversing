@@ -2,7 +2,8 @@
 
 uiribbon_control_type transform_control_type(type_control *src_control)
 {
-    int i;
+    int i, j;
+    bool is_colorpicker = FALSE;
 
     switch (src_control->block_type)
     {
@@ -23,6 +24,15 @@ uiribbon_control_type transform_control_type(type_control *src_control)
                 case UIRIBBON_GALLERY_TYPE_COMBO:
                 case UIRIBBON_GALLERY_TYPE_DROPDOWNLIST:
                     return UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX;
+                case UIRIBBON_GALLERY_TYPE_DROPDOWNSPLIT:
+                    for (j = 0; j < src_control->block.count_blocks; j++)
+                    {
+                        if (src_control->block.blocks[j].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_IDENTIFIER)
+                            is_colorpicker = TRUE;
+                    }
+                    if (is_colorpicker)
+                        return UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNCOLORPICKER;
+                    break;
                 default:
                     return -1;
                 }
@@ -51,6 +61,80 @@ void transform_control_combobox(type_control *src_control, uiribbon_control_comb
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_VERTICAL_RESIZE:
             ret_control->has_vertical_resize = src_block->vertical_resize;
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+uiribbon_chipsize transform_chipsize(type_control_block2 *src_block)
+{
+    switch (src_block->dropdowncolorpicker_chipsize)
+    {
+    case UIRIBBON_DROPDOWNCOLORPICKER_CHIPSIZE_SMALL:
+        return UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL;
+    case UIRIBBON_DROPDOWNCOLORPICKER_CHIPSIZE_MEDIUM:
+        return UIRIBBON_TRANSFORMED_CHIPSIZE_MEDIUM;
+    case UIRIBBON_DROPDOWNCOLORPICKER_CHIPSIZE_LARGE:
+        return UIRIBBON_TRANSFORMED_CHIPSIZE_LARGE;
+    }
+    return -1;
+}
+
+uiribbon_colortemplate transform_colortemplate(type_control_block2 *src_block)
+{
+    switch (src_block->dropdowncolorpicker_colortemplate)
+    {
+    case UIRIBBON_DROPDOWNCOLORPICKER_COLORTEMPLATE_THEME_COLORS:
+        return UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME;
+    case UIRIBBON_DROPDOWNCOLORPICKER_COLORTEMPLATE_STANDARD_COLORS:
+        return UIRIBBON_TRANSFORMED_COLORTEMPLATE_STANDARD;
+    case UIRIBBON_DROPDOWNCOLORPICKER_COLORTEMPLATE_HIGHLIGHT_COLORS:
+        return UIRIBBON_TRANSFORMED_COLORTEMPLATE_HIGHLIGHT;
+    }
+    return -1;
+}
+
+void transform_control_dropdowncolorpicker(type_control *src_control, uiribbon_control_dropdowncolorpicker *ret_control)
+{
+    int i;
+
+    ret_control->chipsize = UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL;
+    ret_control->columns = 10;
+    ret_control->has_autocolor_button = TRUE;
+    ret_control->has_nocolor_button = TRUE;
+    ret_control->recent_color_rows = 1;
+    ret_control->standard_color_rows = 1;
+    ret_control->theme_color_rows = 6;
+    for (i = 0; i < src_control->block.count_blocks; i++)
+    {
+        type_control_block2 *src_block = &src_control->block.blocks[i];
+        switch(src_block->block_type)
+        {
+        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLORTEMPLATE:
+            ret_control->colortemplate = transform_colortemplate(src_block);
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_CHIPSIZE:
+            ret_control->chipsize = transform_chipsize(src_block);
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLUMNS:
+            ret_control->columns = src_block->dropdowncolorpicker_columns;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON:
+            ret_control->has_autocolor_button = src_block->dropdowncolorpicker_has_autocolor_button;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON:
+            ret_control->has_nocolor_button = src_block->dropdowncolorpicker_has_nocolor_button;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS:
+            ret_control->recent_color_rows = src_block->dropdowncolorpicker_recent_color_rows;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS:
+            ret_control->standard_color_rows = src_block->dropdowncolorpicker_standard_rows;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS:
+            ret_control->theme_color_rows = src_block->dropdowncolorpicker_theme_color_rows;
             break;
         default:
             break;
@@ -167,6 +251,10 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
 
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX:
         transform_control_combobox(src_control, &ret_control->control_info.combobox);
+        break;
+
+    case UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNCOLORPICKER:
+        transform_control_dropdowncolorpicker(src_control, &ret_control->control_info.dropdowncolorpicker);
         break;
     }
 }

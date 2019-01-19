@@ -26,11 +26,6 @@ int read_type_unk1_extended(stream *s_root, stream *s, type_unk1_extended *ret);
 int read_type_subcomponents(stream *s_root, stream *s, type_subcomponents *ret);
 int read_type_control_block_subcomponents_real(stream *s_root, stream *s, type_control_block_subcomponents_real *ret);
 int read_type_control_block_subcomponents(stream *s_root, stream *s, type_control_block_subcomponents *ret);
-int read_type_control_block_unk4(stream *s_root, stream *s, type_control_block_unk4 *ret);
-int read_type_control_block_info4(stream *s_root, stream *s, type_control_block_info4 *ret);
-int read_type_control_block_info7(stream *s_root, stream *s, type_control_block_info7 *ret);
-int read_type_control_block_dropdowncolorpicker_colortemplate(stream *s_root, stream *s, type_control_block_dropdowncolorpicker_colortemplate *ret);
-int read_type_control_block_dropdowncolorpicker_chipsize(stream *s_root, stream *s, type_control_block_dropdowncolorpicker_chipsize *ret);
 int read_type_control_block2_number(stream *s_root, stream *s, type_control_block2_number *ret);
 int read_type_control_block2_long(stream *s_root, stream *s, type_control_block2_long *ret);
 int read_type_control_block2(stream *s_root, stream *s, type_control_block2 *ret);
@@ -479,54 +474,6 @@ int read_type_control_block_subcomponents(stream *s_root, stream *s, type_contro
 	return 0;
 }
 
-int read_type_control_block_unk4(stream *s_root, stream *s, type_control_block_unk4 *ret)
-{
-	CHECK(stream_read_uint32_t(s, &ret->unk1));
-	return 0;
-}
-
-int read_type_control_block_info4(stream *s_root, stream *s, type_control_block_info4 *ret)
-{
-	CHECK(stream_read_uint8_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &ret->value_bool));
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
-	CHECK(stream_read_uint8_t(s, &ret->unk3));
-	return 0;
-}
-
-int read_type_control_block_info7(stream *s_root, stream *s, type_control_block_info7 *ret)
-{
-	CHECK(stream_read_uint32_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &ret->value_bool));
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
-	CHECK(stream_read_uint8_t(s, &ret->unk3));
-	return 0;
-}
-
-int read_type_control_block_dropdowncolorpicker_colortemplate(stream *s_root, stream *s, type_control_block_dropdowncolorpicker_colortemplate *ret)
-{
-	uint8_t value;
-
-	CHECK(stream_read_uint8_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &value));
-	ret->value = value;
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
-	CHECK(stream_read_uint8_t(s, &ret->unk3));
-	return 0;
-}
-
-int read_type_control_block_dropdowncolorpicker_chipsize(stream *s_root, stream *s, type_control_block_dropdowncolorpicker_chipsize *ret)
-{
-	uint8_t value;
-
-	CHECK(stream_read_uint8_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &value));
-	ret->value = value;
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
-	CHECK(stream_read_uint8_t(s, &ret->unk3));
-	return 0;
-}
-
 int read_type_control_block2_number(stream *s_root, stream *s, type_control_block2_number *ret)
 {
 	CHECK(read_type_id(s_root, s, &ret->id));
@@ -596,6 +543,38 @@ int read_type_control_block2(stream *s_root, stream *s, type_control_block2 *ret
 	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TYPE)
 	{
 		ret->gallery_type = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLORTEMPLATE)
+	{
+		ret->dropdowncolorpicker_colortemplate = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_CHIPSIZE)
+	{
+		ret->dropdowncolorpicker_chipsize = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLUMNS)
+	{
+		ret->dropdowncolorpicker_columns = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON)
+	{
+		ret->dropdowncolorpicker_has_autocolor_button = ret->content_long.value1;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON)
+	{
+		ret->dropdowncolorpicker_has_nocolor_button = ret->content_long.value1;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS)
+	{
+		ret->dropdowncolorpicker_recent_color_rows = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS)
+	{
+		ret->dropdowncolorpicker_standard_rows = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS)
+	{
+		ret->dropdowncolorpicker_theme_color_rows = ret->content_number.id.id;
 	}
 	return 0;
 }
