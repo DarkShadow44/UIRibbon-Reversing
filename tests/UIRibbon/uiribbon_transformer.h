@@ -21,6 +21,8 @@ typedef enum
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON,
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNCOLORPICKER,
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP,
+    UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNGALLERY,
+    UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON,
 } uiribbon_control_type;
 
 typedef struct
@@ -94,6 +96,49 @@ typedef struct
     int theme_color_rows;
 } uiribbon_control_dropdowncolorpicker;
 
+typedef enum
+{
+    UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS,
+    UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_COMMANDS,
+} uiribbon_gallery_elements_type;
+
+typedef enum
+{
+    UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
+    UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_RIGHT,
+    UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_TOP,
+    UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_BOTTOM,
+    UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_OVERLAY,
+    UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_HIDE,
+} uiribbon_gallery_text_position;
+
+typedef enum
+{
+    UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW,
+    UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL,
+} uiribbon_gallery_menulayout;
+
+typedef enum
+{
+    UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_NONE,
+    UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_VERTICAL,
+    UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER,
+} uiribbon_gallery_gripper;
+
+typedef struct
+{
+    uiribbon_gallery_elements_type elements_type;
+    uiribbon_gallery_text_position text_position;
+    bool has_large_items;
+    int item_height;
+    int item_width;
+    uiribbon_gallery_menulayout menulayout;
+    uiribbon_gallery_gripper gripper;
+    int rows;
+    int columns;
+
+} uiribbon_control_dropdowngallery;
+
 typedef struct uiribbon_control_
 {
     uiribbon_control_type type;
@@ -105,6 +150,7 @@ typedef struct uiribbon_control_
     {
         uiribbon_control_combobox combobox;
         uiribbon_control_dropdowncolorpicker dropdowncolorpicker;
+        uiribbon_control_dropdowngallery dropdowngallery;
     } control_info;
 } uiribbon_control;
 

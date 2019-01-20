@@ -56,7 +56,7 @@ namespace KaitaiCCompiler
 
             public void AddDependency(string type)
             {
-                if (type == "uint8_t" || type == "uint16_t" || type == "uint32_t")
+                if (type.StartsWith("uint") || type.StartsWith("int"))
                     return;
 
                 if (dependencies.Contains(type))
@@ -107,6 +107,12 @@ namespace KaitaiCCompiler
                     return "uint16_t";
                 case "u4":
                     return "uint32_t";
+                case "s1":
+                    return "int8_t";
+                case "s2":
+                    return "int16_t";
+                case "s4":
+                    return "int32_t";
             }
             return null;
         }
@@ -390,9 +396,14 @@ namespace KaitaiCCompiler
                     }
                     else if (type_switch_on != null)
                     {
-                        bool isInt = type_switch_info[0].type.StartsWith("uint");
+                        bool isInt = type_switch_info[0].type.StartsWith("uint") || type_switch_info[0].type.StartsWith("int");
                         if (isInt)
-                            ret.AddStruct("uint32_t {0};", id);
+                        {
+                            if (type_switch_info[0].type.StartsWith("uint"))
+                                ret.AddStruct("uint32_t {0};", id);
+                            else
+                                ret.AddStruct("int32_t {0};", id);
+                        }
                         else
                         {
                             ret.AddStruct("union");
@@ -411,7 +422,7 @@ namespace KaitaiCCompiler
                             ret.AddDependency(info.type);
                             ret.AddCode("case {0}:", info.enumname);
                             ret.IndentCodePlus();
-                            if (info.type.StartsWith("uint"))
+                            if (info.type.StartsWith("uint") || info.type.StartsWith("int"))
                             {
                                 ret.AddCode("CHECK(stream_read_{0}(s, &{2}_{1}));", info.type, info.unionname, id);
                                 ret.AddCode("ret->{0} = {0}_{1};", id, info.unionname);
@@ -432,7 +443,7 @@ namespace KaitaiCCompiler
                     {
                         ret.AddVar("{0} {1};", type, id);
                         ret.AddStruct("{0} {1};", enum_type, id);
-                        if (type.StartsWith("uint"))
+                        if (type.StartsWith("uint") || type.StartsWith("int"))
                             ret.AddCode("CHECK(stream_read_{0}(s, &{1}));", type, id);
                         else
                             ret.AddCode("CHECK(read_{0}(s_root, s, &{1}));", type, id);
@@ -442,7 +453,7 @@ namespace KaitaiCCompiler
                     {
                         ret.AddStruct("{0} {1};", type, id);
                         ret.AddDependency(type);
-                        if (type.StartsWith("uint"))
+                        if (type.StartsWith("uint") || type.StartsWith("int"))
                             ret.AddCode("CHECK(stream_read_{0}(s, &ret->{1}));", type, id);
                         else
                             ret.AddCode("CHECK(read_{0}(s_root, s, &ret->{1}));", type, id);
@@ -538,7 +549,7 @@ namespace KaitaiCCompiler
 
                 seq.AddDependency(type);
                 seq.AddStruct("{0} {1};", type, instance_key.Value);
-                if (type.StartsWith("uint"))
+                if (type.StartsWith("uint") || type.StartsWith("int"))
                     seq.AddCode("CHECK(stream_read_{0}(s_root, &ret->{1}));", type, instance_key.Value);
                 else
                     seq.AddCode("CHECK(read_{0}(s_root, s_root, &ret->{1}));", type, instance_key.Value);

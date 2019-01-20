@@ -27,12 +27,14 @@ uiribbon_control_type transform_control_type(type_control *src_control)
                 case UIRIBBON_GALLERY_TYPE_DROPDOWNSPLIT:
                     for (j = 0; j < src_control->block.count_blocks; j++)
                     {
-                        if (src_control->block.blocks[j].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_IDENTIFIER)
+                        if (src_control->block.blocks[j].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLORTEMPLATE)
                             is_colorpicker = TRUE;
                     }
                     if (is_colorpicker)
                         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNCOLORPICKER;
                     break;
+                case UIRIBBON_GALLERY_TYPE_DROPDOWNBUTTON:
+                    return UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNGALLERY;
                 default:
                     return -1;
                 }
@@ -41,6 +43,8 @@ uiribbon_control_type transform_control_type(type_control *src_control)
         break;
     case UIRIBBON_TYPE_CONTROL_GROUP:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP;
+    case UIRIBBON_TYPE_CONTROL_SPLITBUTTON:
+        return UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON;
     }
     return -1;
 }
@@ -55,14 +59,14 @@ void transform_control_combobox(type_control *src_control, uiribbon_control_comb
         type_control_block2 *src_block = &src_control->block.blocks[i];
         switch(src_block->block_type)
         {
-        case UIRIBBON_CONTROL_BLOCK_TYPE_EDITABLE:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MENULAYOUT:
             ret_control->is_editable = TRUE;
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_AUTOCOMPLETE_ENABLED:
             ret_control->has_autocomplete = src_block->autocomplete_enabled;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_VERTICAL_RESIZE:
-            ret_control->has_vertical_resize = src_block->vertical_resize;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_GRIPPER:
+            ret_control->has_vertical_resize = src_block->gallery_gripper != UIRIBBON_GALLERY_GRIPPER_NONE;
             break;
         default:
             break;
@@ -137,6 +141,109 @@ void transform_control_dropdowncolorpicker(type_control *src_control, uiribbon_c
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS:
             ret_control->theme_color_rows = src_block->dropdowncolorpicker_theme_color_rows;
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+enum_gallery_elements_type transform_gallery_elements_type(type_control_block2 *src_block)
+{
+    switch (src_block->gallery_elements_type)
+    {
+    case UIRIBBON_GALLERY_ELEMENTS_TYPE_COMMANDS:
+        return UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_COMMANDS;
+    case UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS:
+        return UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS;
+    }
+    return -1;
+}
+
+enum_gallery_menulayout transform_gallery_menulayout(type_control_block2 *src_block)
+{
+    switch (src_block->gallery_menulayout)
+    {
+    case UIRIBBON_GALLERY_MENULAYOUT_FLOW_MENULAYOUT:
+        return UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW;
+    case UIRIBBON_GALLERY_MENULAYOUT_VERTICAL_MENULAYOUT:
+        return UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL;
+    }
+    return -1;
+}
+
+enum_gallery_gripper transform_gallery_gripper(type_control_block2 *src_block)
+{
+    switch (src_block->gallery_gripper)
+    {
+    case UIRIBBON_GALLERY_GRIPPER_NONE:
+        return UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_NONE;
+    case UIRIBBON_GALLERY_GRIPPER_VERTICAL:
+        return UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_VERTICAL;
+    case UIRIBBON_GALLERY_GRIPPER_CORNER:
+        return UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER;
+    }
+    return -1;
+}
+
+enum_gallery_text_position transform_gallery_textposition(type_control_block2 *src_block)
+{
+    switch (src_block->gallery_text_position)
+    {
+    case UIRIBBON_GALLERY_TEXT_POSITION_LEFT:
+        return UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT;
+    case UIRIBBON_GALLERY_TEXT_POSITION_RIGHT:
+        return UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_RIGHT;
+    case UIRIBBON_GALLERY_TEXT_POSITION_TOP:
+        return UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_TOP;
+    case UIRIBBON_GALLERY_TEXT_POSITION_BOTTOM:
+        return UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_BOTTOM;
+    case UIRIBBON_GALLERY_TEXT_POSITION_OVERLAY:
+        return UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_OVERLAY;
+    case UIRIBBON_GALLERY_TEXT_POSITION_HIDE:
+        return UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_HIDE;
+    }
+    return -1;
+}
+
+void transform_control_dropdowngallery(type_control *src_control, uiribbon_control_dropdowngallery *ret_control)
+{
+    int i;
+
+    ret_control->elements_type = UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS; /* FIXME: is this the correct default? */
+    ret_control->text_position = UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT; /* FIXME: is this the correct default? */
+
+    for (i = 0; i < src_control->block.count_blocks; i++)
+    {
+        type_control_block2 *src_block = &src_control->block.blocks[i];
+        switch(src_block->block_type)
+        {
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MENULAYOUT:
+            ret_control->menulayout = transform_gallery_menulayout(src_block);
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_GRIPPER:
+            ret_control->gripper = transform_gallery_gripper(src_block);
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TEXT_POSITION:
+            ret_control->text_position = transform_gallery_textposition(src_block);
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ELEMENTS_TYPE:
+            ret_control->elements_type = transform_gallery_elements_type(src_block);
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_HAS_LARGE_ITEMS:
+            ret_control->has_large_items = src_block->gallery_has_large_items;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ITEM_WIDTH:
+            ret_control->item_width = src_block->gallery_item_width;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ITEM_HEIGHT:
+            ret_control->item_height = src_block->gallery_item_height;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ROWS:
+            ret_control->rows = src_block->gallery_rows;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_COLUMNS:
+            ret_control->columns = src_block->gallery_columns;
             break;
         default:
             break;
@@ -254,6 +361,10 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
 
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNCOLORPICKER:
         transform_control_dropdowncolorpicker(src_control, &ret_control->control_info.dropdowncolorpicker);
+        break;
+
+    case UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNGALLERY:
+        transform_control_dropdowngallery(src_control, &ret_control->control_info.dropdowngallery);
         break;
     }
 }

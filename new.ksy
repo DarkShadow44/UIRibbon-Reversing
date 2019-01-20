@@ -133,10 +133,7 @@ enums:
     36: sizedefinition_imagevisible
     37: sizedefinition_imagesize
     93: autocomplete_enabled
-    73: vertical_resize
-    71: editable
     70: gallery_type
-    68: dropdowncolorpicker_identifier
     110: dropdowncolorpicker_colortemplate
     111: dropdowncolorpicker_chipsize
     112: dropdowncolorpicker_columns
@@ -145,6 +142,15 @@ enums:
     115: dropdowncolorpicker_recent_color_rows
     114: dropdowncolorpicker_standard_color_rows
     113: dropdowncolorpicker_theme_color_rows
+    68: gallery_elements_type
+    38: gallery_has_large_items
+    87: gallery_item_height
+    88: gallery_item_width
+    78: gallery_text_position
+    71: gallery_menulayout
+    73: gallery_gripper
+    76: gallery_rows
+    77: gallery_columns
 
   enum_boolean:
     0: bool_false
@@ -157,6 +163,27 @@ enums:
     3: combo
     4: dropdownsplit
 
+  enum_gallery_elements_type:
+    0: items
+    1: commands
+
+  enum_gallery_text_position:
+    0: bottom
+    1: right
+    2: top
+    3: left
+    4: overlay
+    5: hide
+
+  enum_gallery_menulayout:
+    1: vertical_menulayout
+    2: flow_menulayout
+
+  enum_gallery_gripper:
+    0: none
+    1: vertical
+    2: corner
+
 types:
 
   type_id:
@@ -167,11 +194,11 @@ types:
       type:
         switch-on: flag
         cases:
-          2: u4
-          3: u2
-          4: u1
-          9: u1
-          43: u1
+          2: s4
+          3: s2
+          4: s1
+          9: s1
+          43: s1
 
   type_string:
     seq:
@@ -661,10 +688,6 @@ types:
         value: content_long.value1
         enum: enum_boolean
         if: block_type == enum_control_block_type::autocomplete_enabled
-      vertical_resize:
-        value: content_number.id.id
-        enum: enum_boolean
-        if: block_type == enum_control_block_type::vertical_resize
       gallery_type:
         value: content_number.id.id
         enum: enum_gallery_type
@@ -697,6 +720,38 @@ types:
       dropdowncolorpicker_theme_color_rows:
         value: content_number.id.id
         if: block_type == enum_control_block_type::dropdowncolorpicker_theme_color_rows
+      gallery_elements_type:
+        value: content_number.id.id
+        enum: enum_gallery_elements_type
+        if: block_type == enum_control_block_type::gallery_elements_type
+      gallery_has_large_items:
+        value: content_long.value1
+        enum: enum_boolean
+        if: block_type == enum_control_block_type::gallery_has_large_items
+      gallery_item_height:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::gallery_item_height
+      gallery_item_width:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::gallery_item_width
+      gallery_text_position:
+        value: content_number.id.id
+        enum: enum_gallery_text_position
+        if: block_type == enum_control_block_type::gallery_text_position
+      gallery_menulayout:
+        value: content_number.id.id
+        enum: enum_gallery_menulayout
+        if: block_type == enum_control_block_type::gallery_menulayout
+      gallery_gripper:
+        value: content_number.id.id
+        enum: enum_gallery_gripper
+        if: block_type == enum_control_block_type::gallery_gripper
+      gallery_rows:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::gallery_rows
+      gallery_columns:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::gallery_columns
 
   type_control_blocks2:
     seq:

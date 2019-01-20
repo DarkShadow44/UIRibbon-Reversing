@@ -242,14 +242,13 @@
 							<DropDownGallery.MenuGroups>
 								<MenuGroup CommandName="Test27">
 									<Button CommandName="Test28" />
-									<Button CommandName="Test28" />
 									<SplitButton CommandName="Test29">
 										<Button CommandName="Test28" />
 									</SplitButton>
 								</MenuGroup>
 								<MenuGroup CommandName="Test30">
 									<Button CommandName="Test28" />
-									<SplitButton CommandName="Test31">
+									<SplitButton CommandName="Test29">
 										<Button CommandName="Test28" />
 									</SplitButton>
 								</MenuGroup>

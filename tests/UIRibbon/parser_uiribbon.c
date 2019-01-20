@@ -43,33 +43,33 @@ int read_type_command_container(stream *s_root, stream *s, type_command_containe
 
 int read_type_id(stream *s_root, stream *s, type_id *ret)
 {
-	uint32_t id_block_2;
-	uint16_t id_block_3;
-	uint8_t id_block_4;
-	uint8_t id_block_9;
-	uint8_t id_block_43;
+	int32_t id_block_2;
+	int16_t id_block_3;
+	int8_t id_block_4;
+	int8_t id_block_9;
+	int8_t id_block_43;
 
 	CHECK(stream_read_uint8_t(s, &ret->flag));
 	switch(ret->flag)
 	{
 	case 2:
-		CHECK(stream_read_uint32_t(s, &id_block_2));
+		CHECK(stream_read_int32_t(s, &id_block_2));
 		ret->id = id_block_2;
 		break;
 	case 3:
-		CHECK(stream_read_uint16_t(s, &id_block_3));
+		CHECK(stream_read_int16_t(s, &id_block_3));
 		ret->id = id_block_3;
 		break;
 	case 4:
-		CHECK(stream_read_uint8_t(s, &id_block_4));
+		CHECK(stream_read_int8_t(s, &id_block_4));
 		ret->id = id_block_4;
 		break;
 	case 9:
-		CHECK(stream_read_uint8_t(s, &id_block_9));
+		CHECK(stream_read_int8_t(s, &id_block_9));
 		ret->id = id_block_9;
 		break;
 	case 43:
-		CHECK(stream_read_uint8_t(s, &id_block_43));
+		CHECK(stream_read_int8_t(s, &id_block_43));
 		ret->id = id_block_43;
 		break;
 	}
@@ -514,10 +514,6 @@ int read_type_control_block2(stream *s_root, stream *s, type_control_block2 *ret
 	{
 		ret->autocomplete_enabled = ret->content_long.value1;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_VERTICAL_RESIZE)
-	{
-		ret->vertical_resize = ret->content_number.id.id;
-	}
 	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TYPE)
 	{
 		ret->gallery_type = ret->content_number.id.id;
@@ -553,6 +549,42 @@ int read_type_control_block2(stream *s_root, stream *s, type_control_block2 *ret
 	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS)
 	{
 		ret->dropdowncolorpicker_theme_color_rows = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ELEMENTS_TYPE)
+	{
+		ret->gallery_elements_type = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_HAS_LARGE_ITEMS)
+	{
+		ret->gallery_has_large_items = ret->content_long.value1;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ITEM_HEIGHT)
+	{
+		ret->gallery_item_height = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ITEM_WIDTH)
+	{
+		ret->gallery_item_width = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TEXT_POSITION)
+	{
+		ret->gallery_text_position = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MENULAYOUT)
+	{
+		ret->gallery_menulayout = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_GRIPPER)
+	{
+		ret->gallery_gripper = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ROWS)
+	{
+		ret->gallery_rows = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_COLUMNS)
+	{
+		ret->gallery_columns = ret->content_number.id.id;
 	}
 	return 0;
 }

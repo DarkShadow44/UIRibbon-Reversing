@@ -99,10 +99,7 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGEVISIBLE = 36,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE = 37,
 	UIRIBBON_CONTROL_BLOCK_TYPE_AUTOCOMPLETE_ENABLED = 93,
-	UIRIBBON_CONTROL_BLOCK_TYPE_VERTICAL_RESIZE = 73,
-	UIRIBBON_CONTROL_BLOCK_TYPE_EDITABLE = 71,
 	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TYPE = 70,
-	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_IDENTIFIER = 68,
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLORTEMPLATE = 110,
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_CHIPSIZE = 111,
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLUMNS = 112,
@@ -111,6 +108,15 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS = 115,
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS = 114,
 	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS = 113,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ELEMENTS_TYPE = 68,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_HAS_LARGE_ITEMS = 38,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ITEM_HEIGHT = 87,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ITEM_WIDTH = 88,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TEXT_POSITION = 78,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MENULAYOUT = 71,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_GRIPPER = 73,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ROWS = 76,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_COLUMNS = 77,
 } enum_control_block_type;
 
 typedef enum
@@ -128,10 +134,39 @@ typedef enum
 	UIRIBBON_GALLERY_TYPE_DROPDOWNSPLIT = 4,
 } enum_gallery_type;
 
+typedef enum
+{
+	UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS = 0,
+	UIRIBBON_GALLERY_ELEMENTS_TYPE_COMMANDS = 1,
+} enum_gallery_elements_type;
+
+typedef enum
+{
+	UIRIBBON_GALLERY_TEXT_POSITION_BOTTOM = 0,
+	UIRIBBON_GALLERY_TEXT_POSITION_RIGHT = 1,
+	UIRIBBON_GALLERY_TEXT_POSITION_TOP = 2,
+	UIRIBBON_GALLERY_TEXT_POSITION_LEFT = 3,
+	UIRIBBON_GALLERY_TEXT_POSITION_OVERLAY = 4,
+	UIRIBBON_GALLERY_TEXT_POSITION_HIDE = 5,
+} enum_gallery_text_position;
+
+typedef enum
+{
+	UIRIBBON_GALLERY_MENULAYOUT_VERTICAL_MENULAYOUT = 1,
+	UIRIBBON_GALLERY_MENULAYOUT_FLOW_MENULAYOUT = 2,
+} enum_gallery_menulayout;
+
+typedef enum
+{
+	UIRIBBON_GALLERY_GRIPPER_NONE = 0,
+	UIRIBBON_GALLERY_GRIPPER_VERTICAL = 1,
+	UIRIBBON_GALLERY_GRIPPER_CORNER = 2,
+} enum_gallery_gripper;
+
 typedef struct type_id_
 {
 	uint8_t flag;
-	uint32_t id;
+	int32_t id;
 } type_id;
 
 typedef struct type_string_
@@ -388,7 +423,6 @@ typedef struct type_control_block2_
 	enum_sizedefinition_imagesize sizedefinition_imagesize;
 	enum_sizedefinition_imagesize_mixed sizedefinition_imagesize_mixed;
 	enum_boolean autocomplete_enabled;
-	enum_boolean vertical_resize;
 	enum_gallery_type gallery_type;
 	enum_dropdowncolorpicker_colortemplate dropdowncolorpicker_colortemplate;
 	enum_dropdowncolorpicker_chipsize dropdowncolorpicker_chipsize;
@@ -398,6 +432,15 @@ typedef struct type_control_block2_
 	uint32_t dropdowncolorpicker_recent_color_rows;
 	uint32_t dropdowncolorpicker_standard_rows;
 	uint32_t dropdowncolorpicker_theme_color_rows;
+	enum_gallery_elements_type gallery_elements_type;
+	enum_boolean gallery_has_large_items;
+	uint32_t gallery_item_height;
+	uint32_t gallery_item_width;
+	enum_gallery_text_position gallery_text_position;
+	enum_gallery_menulayout gallery_menulayout;
+	enum_gallery_gripper gallery_gripper;
+	uint32_t gallery_rows;
+	uint32_t gallery_columns;
 } type_control_block2;
 
 typedef struct type_control_blocks2_
