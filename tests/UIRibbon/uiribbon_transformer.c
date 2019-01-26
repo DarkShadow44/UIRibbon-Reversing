@@ -4,13 +4,24 @@ uiribbon_control_type transform_control_type(type_control *src_control)
 {
     int i, j;
     bool is_colorpicker = FALSE;
+    bool is_checkbox = FALSE;
 
     switch (src_control->block_type)
     {
     case UIRIBBON_TYPE_CONTROL_BUTTON:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON;
     case UIRIBBON_TYPE_CONTROL_CHECKBOX:
-        return UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX;
+        for (i = 0; i < src_control->block.count_blocks; i++)
+        {
+            type_control_block2 *src_block = &src_control->block.blocks[i];
+            if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_IS_CHECKBOX)
+            {
+                is_checkbox = src_block->is_checkbox;
+            }
+        }
+        if (is_checkbox)
+            return UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX;
+        return UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON;
     case UIRIBBON_TYPE_CONTROL_DROPDOWNBUTTON:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON;
     case UIRIBBON_TYPE_CONTROL_GALLERY:
@@ -392,6 +403,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON:
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP:
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPINNER:
+    case UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON:
         break;
 
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX:

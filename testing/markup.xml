@@ -25,16 +25,22 @@
 				<String Content="Test05" Id="10005"></String>
 			</Command.LabelTitle>
 		</Command>
+		<Command Name="Test06" Id="10006">
+			<Command.LabelTitle>
+				<String Content="Test06" Id="10006"></String>
+			</Command.LabelTitle>
+		</Command>
 	</Application.Commands>
 
 	<Application.Views>
 		<Ribbon>
 			<Ribbon.Tabs>
-				<Tab CommandName="Test05">
-					<Group CommandName="Test04">
+				<Tab CommandName="Test06">
+					<Group CommandName="Test05">
 						<Button CommandName="Test01" />
-						<Spinner CommandName="Test02" />
-						<Button CommandName="Test03" />
+						<CheckBox CommandName="Test02" />
+						<ToggleButton CommandName="Test03" />
+						<Button CommandName="Test04" />
 					</Group>
 				</Tab>
 			</Ribbon.Tabs>

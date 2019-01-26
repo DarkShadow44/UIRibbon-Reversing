@@ -427,20 +427,22 @@ static int test_combobox(void)
     return 0;
 }
 
-static int test_checkbox(void)
+static int test_checkbox_and_togglebutton(void)
 {
     uiribbon_main uiribbon;
     uiribbon_control *controls;
 
-    CHECK(parse_from_testdata("checkbox", &uiribbon));
+    CHECK(parse_from_testdata("checkbox_and_togglebutton", &uiribbon));
     ASSERT(uiribbon.count_tabs == 1);
     ASSERT(uiribbon.tabs[0].count_groups == 1);
-    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 3);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 4);
     controls = uiribbon.tabs[0].groups[0].controls;
     ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX);
     ASSERT(controls[1].id == 10002);
-    ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
+    ASSERT(controls[2].id == 10003);
+    ASSERT(controls[3].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     return 0;
 }
 
@@ -953,13 +955,13 @@ int main()
     CHECK(test_commands());
     CHECK(test_scalingpolicy());
     CHECK(test_combobox());
-    CHECK(test_checkbox());
     CHECK(test_dropdownbutton());
     CHECK(test_dropdowncolorpicker());
     CHECK(test_dropdowngallery());
     CHECK(test_inribbongallery());
     CHECK(test_splitbuttongallery());
     CHECK(test_spinner());
+    CHECK(test_checkbox_and_togglebutton());
 
     return 0;
 }

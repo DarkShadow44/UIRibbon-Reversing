@@ -157,6 +157,7 @@ enums:
     119: gallery_min_columns_large
     120: gallery_max_columns_medium
     121: gallery_min_columns_medium
+    63: is_checkbox
 
   enum_boolean:
     0: bool_false
@@ -774,6 +775,9 @@ types:
       gallery_min_columns_medium:
         value: content_number.id.id
         if: block_type == enum_control_block_type::gallery_min_columns_medium
+      is_checkbox:
+        value: content_long.value1
+        if: block_type == enum_control_block_type::is_checkbox
 
   type_control_blocks2:
     seq:

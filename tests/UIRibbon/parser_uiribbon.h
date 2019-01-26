@@ -123,6 +123,7 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_LARGE = 119,
 	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_COLUMNS_MEDIUM = 120,
 	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_MEDIUM = 121,
+	UIRIBBON_CONTROL_BLOCK_TYPE_IS_CHECKBOX = 63,
 } enum_control_block_type;
 
 typedef enum
@@ -453,6 +454,7 @@ typedef struct type_control_block2_
 	int32_t gallery_min_columns_large;
 	int32_t gallery_max_columns_medium;
 	int32_t gallery_min_columns_medium;
+	int32_t is_checkbox;
 } type_control_block2;
 
 typedef struct type_control_blocks2_
