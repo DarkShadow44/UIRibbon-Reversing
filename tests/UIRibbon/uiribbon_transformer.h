@@ -153,6 +153,11 @@ typedef struct
     int min_columns_medium;
 } uiribbon_control_inribbongallery;
 
+typedef struct
+{
+    struct uiribbon_control_ *buttonitem;
+} uiribbon_control_splitbutton;
+
 typedef struct uiribbon_control_
 {
     uiribbon_control_type type;
@@ -167,6 +172,7 @@ typedef struct uiribbon_control_
         uiribbon_control_gallery_generic dropdowngallery;
         uiribbon_control_inribbongallery inribbongallery;
         uiribbon_control_gallery_generic splitbuttongallery;
+        uiribbon_control_splitbutton splitbutton;
     } control_info;
 } uiribbon_control;
 

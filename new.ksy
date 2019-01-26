@@ -158,6 +158,9 @@ enums:
     120: gallery_max_columns_medium
     121: gallery_min_columns_medium
     63: is_checkbox
+    62: subcontrols
+    72: buttonitem
+    86: gallery_subcontrols
 
   enum_boolean:
     0: bool_false

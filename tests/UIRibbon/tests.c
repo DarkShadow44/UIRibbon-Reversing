@@ -1,6 +1,6 @@
 #include "uiribbon_transformer.h"
 
-void _ok(int expr, const char *message, const char *file, int line)
+static void _ok(int expr, const char *message, const char *file, int line)
 {
     if (!expr)
         printf("%s:%d - %s\n", file, line, message);
@@ -17,7 +17,7 @@ void _ok(int expr, const char *message, const char *file, int line)
     ASSERT(control.subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP); \
     ASSERT(control.subcontrols[0].count_subcontrols == count);
 
-int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file, int line)
+static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file, int line)
 {
     stream s;
     int error;
@@ -335,7 +335,7 @@ static int test_commands(void)
     return 0;
 }
 
-int test_scalingpolicy(void)
+static int test_scalingpolicy(void)
 {
     uiribbon_main uiribbon;
 
@@ -494,7 +494,7 @@ static int test_dropdownbutton(void)
     return 0;
 }
 
-int test_dropdowncolorpicker(void)
+static int test_dropdowncolorpicker(void)
 {
     uiribbon_main uiribbon;
     uiribbon_control *controls;
@@ -945,6 +945,82 @@ static int test_spinner(void)
     return 0;
 }
 
+static int test_splitbutton(void)
+{
+    uiribbon_main uiribbon;
+    uiribbon_control *controls;
+    uiribbon_control *subcontrols;
+
+    CHECK(parse_from_testdata("splitbutton", &uiribbon));
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].count_groups == 1);
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 5);
+    controls = uiribbon.tabs[0].groups[0].controls;
+
+    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(controls[0].id == 10003);
+    ASSERT_SUBCONTROL_GROUP(controls[0], 2);
+    subcontrols = controls[0].subcontrols[0].subcontrols;
+    ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[1].id == 10006);
+    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(subcontrols[0].id == 10004);
+    ASSERT_SUBCONTROL_GROUP(subcontrols[0], 1);
+    subcontrols = subcontrols[0].subcontrols[0].subcontrols;
+    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[0].id == 10005);
+    ASSERT(controls[0].control_info.splitbutton.buttonitem->id == 10006);
+    ASSERT(controls[0].control_info.splitbutton.buttonitem->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+
+    ASSERT(controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(controls[1].id == 10007);
+    ASSERT(controls[1].count_subcontrols == 2);
+    subcontrols = controls[1].subcontrols;
+    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
+    ASSERT(subcontrols[0].count_subcontrols == 0);
+    ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
+    ASSERT(subcontrols[1].count_subcontrols == 2);
+    ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
+    ASSERT(subcontrols[1].count_subcontrols == 2);
+    ASSERT(subcontrols[1].subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[1].subcontrols[0].id == 10009);
+    ASSERT(subcontrols[1].subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[1].subcontrols[1].id == 10010);
+    ASSERT(controls[1].control_info.splitbutton.buttonitem->id == 10009);
+    ASSERT(controls[1].control_info.splitbutton.buttonitem->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+
+    ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(controls[2].id == 10012);
+    ASSERT_SUBCONTROL_GROUP(controls[2], 1);
+    subcontrols = controls[2].subcontrols[0].subcontrols;
+    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[0].id == 10006);
+    ASSERT(controls[2].control_info.splitbutton.buttonitem->id == 10013);
+    ASSERT(controls[2].control_info.splitbutton.buttonitem->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+
+    ASSERT(controls[3].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(controls[3].id == 10014);
+    ASSERT_SUBCONTROL_GROUP(controls[3], 1);
+    subcontrols = controls[3].subcontrols[0].subcontrols;
+    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[0].id == 10006);
+    ASSERT(controls[3].control_info.splitbutton.buttonitem->id == 10015);
+    ASSERT(controls[3].control_info.splitbutton.buttonitem->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
+
+    ASSERT(controls[4].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(controls[4].id == 10016);
+    ASSERT_SUBCONTROL_GROUP(controls[4], 2);
+    subcontrols = controls[4].subcontrols[0].subcontrols;
+    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX);
+    ASSERT(subcontrols[0].id == 10017);
+    ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[1].id == 10006);
+    ASSERT(controls[4].control_info.splitbutton.buttonitem->id == 10017);
+    ASSERT(controls[4].control_info.splitbutton.buttonitem->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX);
+
+    return 0;
+}
+
 int main()
 {
     /*write_test_data("checkbox");
@@ -962,6 +1038,7 @@ int main()
     CHECK(test_splitbuttongallery());
     CHECK(test_spinner());
     CHECK(test_checkbox_and_togglebutton());
+    CHECK(test_splitbutton());
 
     return 0;
 }

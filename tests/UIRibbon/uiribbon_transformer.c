@@ -302,6 +302,54 @@ void transform_control_inribbongallery(type_control *src_control, uiribbon_contr
 
 void transform_control(type_control *src_control, uiribbon_control *ret_control);
 
+uiribbon_control *find_button_item(uiribbon_control *control)
+{
+    int i;
+    for (i = 0; i < control->count_subcontrols; i++)
+    {
+        uiribbon_control *subcontrol = &control->subcontrols[i];
+
+        if (subcontrol->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON
+            || subcontrol->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON
+            || subcontrol->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX)
+        {
+            return subcontrol;
+        }
+    }
+    for (i = 0; i < control->count_subcontrols; i++)
+    {
+        uiribbon_control *button_item = find_button_item(&control->subcontrols[i]);
+        if (button_item != NULL)
+            return button_item;
+    }
+    return NULL;
+}
+
+void transform_control_splitbutton(type_control *src_control, uiribbon_control *ret_control)
+{
+    int i;
+    uiribbon_control *buttonitem;
+
+    ret_control->control_info.splitbutton.buttonitem = malloc(sizeof(type_control));
+
+    for (i = 0; i < src_control->block.count_blocks; i++)
+    {
+        type_control_block2 *src_block = &src_control->block.blocks[i];
+
+        if (src_block->is_subcomponents)
+        {
+            if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_BUTTONITEM)
+            {
+                transform_control(&src_block->content_subcontrols.subcontrols[0], ret_control->control_info.splitbutton.buttonitem);
+                return;
+            }
+        }
+    }
+
+    buttonitem = find_button_item(ret_control);
+    *ret_control->control_info.splitbutton.buttonitem = *buttonitem;
+}
+
 void transform_subcontrols(type_subcontrols *src_block, uiribbon_control *ret_control)
 {
     int i;
@@ -331,7 +379,8 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
     {
         type_control_block2 *src_block = &src_control->block.blocks[i];
 
-        if (src_block->is_subcomponents)
+        if (src_block->is_subcomponents &&
+            (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SUBCONTROLS || src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_SUBCONTROLS))
         {
             transform_subcontrols(&src_block->content_subcontrols, ret_control);
             continue;
@@ -426,6 +475,10 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTONGALLERY:
          transform_control_gallery_generic(src_control, &ret_control->control_info.splitbuttongallery);
          break;
+
+    case UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON:
+        transform_control_splitbutton(src_control, ret_control);
+        break;
     }
 }
 
