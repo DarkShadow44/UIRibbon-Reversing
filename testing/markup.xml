@@ -227,43 +227,36 @@
 			<Ribbon.Tabs>
 				<Tab CommandName="Test01">
 					<Group CommandName="Test02">
-						<InRibbonGallery CommandName="Test05" />
-						<InRibbonGallery CommandName="Test06" Type="Commands" />
-						<InRibbonGallery CommandName="Test07" Type="Items" />
-						<InRibbonGallery CommandName="Test08" Type="Commands" HasLargeItems="true" />
-						<InRibbonGallery CommandName="Test09" Type="Commands" HasLargeItems="false" />
-						<InRibbonGallery CommandName="Test10" Type="Items" ItemHeight="-1" />
-						<InRibbonGallery CommandName="Test11" Type="Items" ItemHeight="32" />
-						<InRibbonGallery CommandName="Test12" Type="Items" ItemHeight="100" />
-						<InRibbonGallery CommandName="Test13" Type="Items" ItemWidth="-1" />
-						<InRibbonGallery CommandName="Test14" Type="Items" ItemWidth="32" />
-						<InRibbonGallery CommandName="Test15" Type="Items" ItemWidth="100" />
+						<SplitButtonGallery CommandName="Test05" />
+						<SplitButtonGallery CommandName="Test06" Type="Commands" />
+						<SplitButtonGallery CommandName="Test07" Type="Items" />
+						<SplitButtonGallery CommandName="Test08" Type="Commands" HasLargeItems="true" />
+						<SplitButtonGallery CommandName="Test09" Type="Commands" HasLargeItems="false" />
+						<SplitButtonGallery CommandName="Test10" Type="Items" ItemHeight="-1" />
+						<SplitButtonGallery CommandName="Test11" Type="Items" ItemHeight="32" />
+						<SplitButtonGallery CommandName="Test12" Type="Items" ItemHeight="100" />
+						<SplitButtonGallery CommandName="Test13" Type="Items" ItemWidth="-1" />
+						<SplitButtonGallery CommandName="Test14" Type="Items" ItemWidth="32" />
+						<SplitButtonGallery CommandName="Test15" Type="Items" ItemWidth="100" />
 					</Group>
 					<Group CommandName="Test03">
-						<InRibbonGallery CommandName="Test16" TextPosition="Left" />
-						<InRibbonGallery CommandName="Test17" TextPosition="Right" />
-						<InRibbonGallery CommandName="Test18" TextPosition="Bottom" />
-						<InRibbonGallery CommandName="Test19" TextPosition="Top" />
-						<InRibbonGallery CommandName="Test20" TextPosition="Hide" />
-						<InRibbonGallery CommandName="Test21" TextPosition="Overlap" />
-
-						<InRibbonGallery CommandName="Test22" MaxColumns="44" MaxColumnsMedium="20" MinColumnsLarge="30" MinColumnsMedium="10" MaxRows="33" />
-						<InRibbonGallery CommandName="Test23" MaxColumns="45" MaxColumnsMedium="21" MinColumnsLarge="31" MinColumnsMedium="11" MaxRows="34" />
-						<InRibbonGallery CommandName="Test28" MaxColumns="9" />
-						<InRibbonGallery CommandName="Test29" MinColumnsLarge="8" />
-						<InRibbonGallery CommandName="Test30" MinColumnsMedium="7" />
-						<InRibbonGallery CommandName="Test31" MaxColumnsMedium="6" />
+						<SplitButtonGallery CommandName="Test16" TextPosition="Left" />
+						<SplitButtonGallery CommandName="Test17" TextPosition="Right" />
+						<SplitButtonGallery CommandName="Test18" TextPosition="Bottom" />
+						<SplitButtonGallery CommandName="Test19" TextPosition="Top" />
+						<SplitButtonGallery CommandName="Test20" TextPosition="Hide" />
+						<SplitButtonGallery CommandName="Test21" TextPosition="Overlap" />
 					</Group>
 					<Group CommandName="Test04">
-						<InRibbonGallery CommandName="Test34">
+						<SplitButtonGallery CommandName="Test34">
 							<Button CommandName="Test32" />
 							<SplitButton CommandName="Test33">
 								<Button CommandName="Test32" />
 							</SplitButton>
-						</InRibbonGallery>
+						</SplitButtonGallery>
 
-						<InRibbonGallery CommandName="Test35">
-							<InRibbonGallery.MenuGroups>
+						<SplitButtonGallery CommandName="Test35">
+							<SplitButtonGallery.MenuGroups>
 								<MenuGroup CommandName="Test36">
 									<Button CommandName="Test32" />
 									<SplitButton CommandName="Test33">
@@ -276,57 +269,57 @@
 										<Button CommandName="Test32" />
 									</SplitButton>
 								</MenuGroup>
-							</InRibbonGallery.MenuGroups>
-						</InRibbonGallery>
+							</SplitButtonGallery.MenuGroups>
+						</SplitButtonGallery>
 
-						<InRibbonGallery CommandName="Test38">
-							<InRibbonGallery.MenuLayout>
+						<SplitButtonGallery CommandName="Test38">
+							<SplitButtonGallery.MenuLayout>
 								<FlowMenuLayout />
-							</InRibbonGallery.MenuLayout>
+							</SplitButtonGallery.MenuLayout>
 							<Button CommandName="Test32" />
-						</InRibbonGallery>
+						</SplitButtonGallery>
 
-						<InRibbonGallery CommandName="Test39">
-							<InRibbonGallery.MenuLayout>
+						<SplitButtonGallery CommandName="Test39">
+							<SplitButtonGallery.MenuLayout>
 								<FlowMenuLayout Columns="4" Gripper="None" Rows="-1" />
-							</InRibbonGallery.MenuLayout>
+							</SplitButtonGallery.MenuLayout>
 							<Button CommandName="Test32" />
-						</InRibbonGallery>
+						</SplitButtonGallery>
 
-						<InRibbonGallery CommandName="Test40">
-							<InRibbonGallery.MenuLayout>
+						<SplitButtonGallery CommandName="Test40">
+							<SplitButtonGallery.MenuLayout>
 								<FlowMenuLayout Columns="40" Gripper="Vertical" Rows="40" />
-							</InRibbonGallery.MenuLayout>
+							</SplitButtonGallery.MenuLayout>
 							<Button CommandName="Test32" />
-						</InRibbonGallery>
+						</SplitButtonGallery>
 
-						<InRibbonGallery CommandName="Test41">
-							<InRibbonGallery.MenuLayout>
+						<SplitButtonGallery CommandName="Test41">
+							<SplitButtonGallery.MenuLayout>
 								<FlowMenuLayout Columns="40" Gripper="Corner" Rows="40" />
-							</InRibbonGallery.MenuLayout>
+							</SplitButtonGallery.MenuLayout>
 							<Button CommandName="Test32" />
-						</InRibbonGallery>
+						</SplitButtonGallery>
 
-						<InRibbonGallery CommandName="Test42">
-							<InRibbonGallery.MenuLayout>
+						<SplitButtonGallery CommandName="Test42">
+							<SplitButtonGallery.MenuLayout>
 								<VerticalMenuLayout />
-							</InRibbonGallery.MenuLayout>
+							</SplitButtonGallery.MenuLayout>
 							<Button CommandName="Test32" />
-						</InRibbonGallery>
+						</SplitButtonGallery>
 
-						<InRibbonGallery CommandName="Test43">
-							<InRibbonGallery.MenuLayout>
+						<SplitButtonGallery CommandName="Test43">
+							<SplitButtonGallery.MenuLayout>
 								<VerticalMenuLayout Gripper="None" Rows="-1" />
-							</InRibbonGallery.MenuLayout>
+							</SplitButtonGallery.MenuLayout>
 							<Button CommandName="Test32" />
-						</InRibbonGallery>
+						</SplitButtonGallery>
 
-						<InRibbonGallery CommandName="Test44">
-							<InRibbonGallery.MenuLayout>
+						<SplitButtonGallery CommandName="Test44">
+							<SplitButtonGallery.MenuLayout>
 								<VerticalMenuLayout Gripper="Vertical" Rows="4" />
-							</InRibbonGallery.MenuLayout>
+							</SplitButtonGallery.MenuLayout>
 							<Button CommandName="Test32" />
-						</InRibbonGallery>
+						</SplitButtonGallery>
 					</Group>
 				</Tab>
 			</Ribbon.Tabs>

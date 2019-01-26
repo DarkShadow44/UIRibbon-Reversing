@@ -24,6 +24,7 @@ typedef enum
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNGALLERY,
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON,
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_INRIBBONGALLERY,
+    UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTONGALLERY,
 } uiribbon_control_type;
 
 typedef struct
@@ -163,6 +164,7 @@ typedef struct uiribbon_control_
         uiribbon_control_dropdowncolorpicker dropdowncolorpicker;
         uiribbon_control_gallery_generic dropdowngallery;
         uiribbon_control_inribbongallery inribbongallery;
+        uiribbon_control_gallery_generic splitbuttongallery;
     } control_info;
 } uiribbon_control;
 

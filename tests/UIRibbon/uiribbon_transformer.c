@@ -32,7 +32,7 @@ uiribbon_control_type transform_control_type(type_control *src_control)
                     }
                     if (is_colorpicker)
                         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNCOLORPICKER;
-                    break;
+                    return UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTONGALLERY;
                 case UIRIBBON_GALLERY_TYPE_DROPDOWNBUTTON:
                     return UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNGALLERY;
                 case UIRIBBON_GALLERY_TYPE_INRIBBON:
@@ -407,6 +407,10 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
         transform_control_gallery_generic(src_control, &ret_control->control_info.inribbongallery.generic);
         transform_control_inribbongallery(src_control, &ret_control->control_info.inribbongallery);
         break;
+
+    case UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTONGALLERY:
+         transform_control_gallery_generic(src_control, &ret_control->control_info.splitbuttongallery);
+         break;
     }
 }
 
