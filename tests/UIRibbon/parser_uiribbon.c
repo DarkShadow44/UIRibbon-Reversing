@@ -586,6 +586,26 @@ int read_type_control_block2(stream *s_root, stream *s, type_control_block2 *ret
 	{
 		ret->gallery_columns = ret->content_number.id.id;
 	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_ROWS)
+	{
+		ret->gallery_max_rows = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_COLUMNS)
+	{
+		ret->gallery_max_columns = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_LARGE)
+	{
+		ret->gallery_min_columns_large = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_COLUMNS_MEDIUM)
+	{
+		ret->gallery_max_columns_medium = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_MEDIUM)
+	{
+		ret->gallery_min_columns_medium = ret->content_number.id.id;
+	}
 	return 0;
 }
 

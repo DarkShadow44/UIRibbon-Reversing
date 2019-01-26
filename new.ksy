@@ -151,6 +151,11 @@ enums:
     73: gallery_gripper
     76: gallery_rows
     77: gallery_columns
+    74: gallery_max_rows
+    75: gallery_max_columns
+    119: gallery_min_columns_large
+    120: gallery_max_columns_medium
+    121: gallery_min_columns_medium
 
   enum_boolean:
     0: bool_false
@@ -176,8 +181,9 @@ enums:
     5: hide
 
   enum_gallery_menulayout:
-    1: vertical_menulayout
-    2: flow_menulayout
+    0: special
+    1: vertical
+    2: flow
 
   enum_gallery_gripper:
     0: none
@@ -752,6 +758,21 @@ types:
       gallery_columns:
         value: content_number.id.id
         if: block_type == enum_control_block_type::gallery_columns
+      gallery_max_rows:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::gallery_max_rows
+      gallery_max_columns:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::gallery_max_columns
+      gallery_min_columns_large:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::gallery_min_columns_large
+      gallery_max_columns_medium:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::gallery_max_columns_medium
+      gallery_min_columns_medium:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type::gallery_min_columns_medium
 
   type_control_blocks2:
     seq:

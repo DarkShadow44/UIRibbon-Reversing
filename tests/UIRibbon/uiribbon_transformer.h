@@ -23,6 +23,7 @@ typedef enum
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP,
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNGALLERY,
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON,
+    UIRIBBON_TRANSFORMED_CONTROL_TYPE_INRIBBONGALLERY,
 } uiribbon_control_type;
 
 typedef struct
@@ -116,6 +117,7 @@ typedef enum
 {
     UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW,
     UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL,
+    UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL,
 } uiribbon_gallery_menulayout;
 
 typedef enum
@@ -136,8 +138,17 @@ typedef struct
     uiribbon_gallery_gripper gripper;
     int rows;
     int columns;
+} uiribbon_control_gallery_generic;
 
-} uiribbon_control_dropdowngallery;
+typedef struct
+{
+    uiribbon_control_gallery_generic generic;
+    int max_columns;
+    int max_columns_medium;
+    int max_rows;
+    int min_columns_large;
+    int min_columns_medium;
+} uiribbon_control_inribbongallery;
 
 typedef struct uiribbon_control_
 {
@@ -150,7 +161,8 @@ typedef struct uiribbon_control_
     {
         uiribbon_control_combobox combobox;
         uiribbon_control_dropdowncolorpicker dropdowncolorpicker;
-        uiribbon_control_dropdowngallery dropdowngallery;
+        uiribbon_control_gallery_generic dropdowngallery;
+        uiribbon_control_inribbongallery inribbongallery;
     } control_info;
 } uiribbon_control;
 

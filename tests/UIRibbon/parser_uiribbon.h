@@ -117,6 +117,11 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_GRIPPER = 73,
 	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ROWS = 76,
 	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_COLUMNS = 77,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_ROWS = 74,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_COLUMNS = 75,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_LARGE = 119,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_COLUMNS_MEDIUM = 120,
+	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_MEDIUM = 121,
 } enum_control_block_type;
 
 typedef enum
@@ -152,8 +157,9 @@ typedef enum
 
 typedef enum
 {
-	UIRIBBON_GALLERY_MENULAYOUT_VERTICAL_MENULAYOUT = 1,
-	UIRIBBON_GALLERY_MENULAYOUT_FLOW_MENULAYOUT = 2,
+	UIRIBBON_GALLERY_MENULAYOUT_SPECIAL = 0,
+	UIRIBBON_GALLERY_MENULAYOUT_VERTICAL = 1,
+	UIRIBBON_GALLERY_MENULAYOUT_FLOW = 2,
 } enum_gallery_menulayout;
 
 typedef enum
@@ -328,9 +334,9 @@ typedef struct type_scalingpolicy_
 	uint8_t unk1b;
 	type_id scale_value;
 	uint8_t unk3;
-	uint32_t priority_medium;
-	uint32_t priority_small;
-	uint32_t priority_popup;
+	int32_t priority_medium;
+	int32_t priority_small;
+	int32_t priority_popup;
 } type_scalingpolicy;
 
 typedef struct type_group_info_
@@ -415,8 +421,8 @@ typedef struct type_control_block2_
 	type_control_block2_number content_number;
 	type_control_block2_long content_long;
 	type_subcontrols content_subcontrols;
-	uint32_t id;
-	uint32_t is_subcomponents;
+	int32_t id;
+	int32_t is_subcomponents;
 	enum_sizedefinition_labelvisible_mixed sizedefinition_labelvisible_mixed;
 	enum_sizedefinition_labelvisible sizedefinition_labelvisible;
 	enum_sizedefinition_imagevisible sizedefinition_imagevisible;
@@ -426,21 +432,26 @@ typedef struct type_control_block2_
 	enum_gallery_type gallery_type;
 	enum_dropdowncolorpicker_colortemplate dropdowncolorpicker_colortemplate;
 	enum_dropdowncolorpicker_chipsize dropdowncolorpicker_chipsize;
-	uint32_t dropdowncolorpicker_columns;
+	int32_t dropdowncolorpicker_columns;
 	enum_boolean dropdowncolorpicker_has_autocolor_button;
 	enum_boolean dropdowncolorpicker_has_nocolor_button;
-	uint32_t dropdowncolorpicker_recent_color_rows;
-	uint32_t dropdowncolorpicker_standard_rows;
-	uint32_t dropdowncolorpicker_theme_color_rows;
+	int32_t dropdowncolorpicker_recent_color_rows;
+	int32_t dropdowncolorpicker_standard_rows;
+	int32_t dropdowncolorpicker_theme_color_rows;
 	enum_gallery_elements_type gallery_elements_type;
 	enum_boolean gallery_has_large_items;
-	uint32_t gallery_item_height;
-	uint32_t gallery_item_width;
+	int32_t gallery_item_height;
+	int32_t gallery_item_width;
 	enum_gallery_text_position gallery_text_position;
 	enum_gallery_menulayout gallery_menulayout;
 	enum_gallery_gripper gallery_gripper;
-	uint32_t gallery_rows;
-	uint32_t gallery_columns;
+	int32_t gallery_rows;
+	int32_t gallery_columns;
+	int32_t gallery_max_rows;
+	int32_t gallery_max_columns;
+	int32_t gallery_min_columns_large;
+	int32_t gallery_max_columns_medium;
+	int32_t gallery_min_columns_medium;
 } type_control_block2;
 
 typedef struct type_control_blocks2_

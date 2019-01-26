@@ -35,6 +35,8 @@ uiribbon_control_type transform_control_type(type_control *src_control)
                     break;
                 case UIRIBBON_GALLERY_TYPE_DROPDOWNBUTTON:
                     return UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNGALLERY;
+                case UIRIBBON_GALLERY_TYPE_INRIBBON:
+                    return UIRIBBON_TRANSFORMED_CONTROL_TYPE_INRIBBONGALLERY;
                 default:
                     return -1;
                 }
@@ -164,10 +166,12 @@ enum_gallery_menulayout transform_gallery_menulayout(type_control_block2 *src_bl
 {
     switch (src_block->gallery_menulayout)
     {
-    case UIRIBBON_GALLERY_MENULAYOUT_FLOW_MENULAYOUT:
+    case UIRIBBON_GALLERY_MENULAYOUT_FLOW:
         return UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW;
-    case UIRIBBON_GALLERY_MENULAYOUT_VERTICAL_MENULAYOUT:
+    case UIRIBBON_GALLERY_MENULAYOUT_VERTICAL:
         return UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL;
+    case UIRIBBON_GALLERY_MENULAYOUT_SPECIAL:
+        return UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL;
     }
     return -1;
 }
@@ -206,7 +210,7 @@ enum_gallery_text_position transform_gallery_textposition(type_control_block2 *s
     return -1;
 }
 
-void transform_control_dropdowngallery(type_control *src_control, uiribbon_control_dropdowngallery *ret_control)
+void transform_control_gallery_generic(type_control *src_control, uiribbon_control_gallery_generic *ret_control)
 {
     int i;
 
@@ -244,6 +248,38 @@ void transform_control_dropdowngallery(type_control *src_control, uiribbon_contr
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_COLUMNS:
             ret_control->columns = src_block->gallery_columns;
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+void transform_control_inribbongallery(type_control *src_control, uiribbon_control_inribbongallery *ret_control)
+{
+    int i;
+
+    ret_control->max_rows = 1;
+
+    for (i = 0; i < src_control->block.count_blocks; i++)
+    {
+        type_control_block2 *src_block = &src_control->block.blocks[i];
+        switch(src_block->block_type)
+        {
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_COLUMNS:
+            ret_control->max_columns = src_block->gallery_max_columns;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_ROWS:
+            ret_control->max_rows = src_block->gallery_max_rows;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_COLUMNS_MEDIUM:
+            ret_control->max_columns_medium = src_block->gallery_max_columns_medium;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_MEDIUM:
+            ret_control->min_columns_medium = src_block->gallery_min_columns_medium;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_LARGE:
+            ret_control->min_columns_large = src_block->gallery_min_columns_large;
             break;
         default:
             break;
@@ -364,7 +400,12 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
         break;
 
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNGALLERY:
-        transform_control_dropdowngallery(src_control, &ret_control->control_info.dropdowngallery);
+        transform_control_gallery_generic(src_control, &ret_control->control_info.dropdowngallery);
+        break;
+
+    case UIRIBBON_TRANSFORMED_CONTROL_TYPE_INRIBBONGALLERY:
+        transform_control_gallery_generic(src_control, &ret_control->control_info.inribbongallery.generic);
+        transform_control_inribbongallery(src_control, &ret_control->control_info.inribbongallery);
         break;
     }
 }
