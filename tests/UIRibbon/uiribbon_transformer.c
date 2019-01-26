@@ -47,6 +47,8 @@ uiribbon_control_type transform_control_type(type_control *src_control)
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP;
     case UIRIBBON_TYPE_CONTROL_SPLITBUTTON:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON;
+    case UIRIBBON_TYPE_CONTROL_SPINNER:
+        return UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPINNER;
     }
     return -1;
 }
@@ -389,6 +391,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX:
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON:
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP:
+    case UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPINNER:
         break;
 
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX:

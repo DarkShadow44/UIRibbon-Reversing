@@ -88,6 +88,7 @@ enums:
 
   enum_type_control:
     15: button
+    13: spinner
     20: dropdownbutton
     6: checkbox
     25: otherinfo
