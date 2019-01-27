@@ -46,7 +46,7 @@ uiribbon_control_type transform_control_type(type_control *src_control)
                 case UIRIBBON_GALLERY_TYPE_DROPDOWNSPLIT:
                     for (j = 0; j < src_control->block.count_blocks; j++)
                     {
-                        if (src_block->meta_type == 1 && src_control->block.blocks[j].content_number.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
+                        if (src_control->block.blocks[j].meta_type == 1 && src_control->block.blocks[j].content_number.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
                             is_colorpicker = TRUE;
                     }
                     if (is_colorpicker)
@@ -403,6 +403,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
 
     ret_control->type = transform_control_type(src_control);
     ret_control->size_definitions = NULL;
+    ret_control->count_subcontrols = 0;
     ret_control->subcontrols = NULL;
     for (i = 0; i < src_control->block.count_blocks; i++)
     {
@@ -801,6 +802,10 @@ void transform_command_resources(int command_id, type_uiribbon *src, uiribbon_co
     ret_command->id_label_description = -1;
     ret_command->id_toopltip_title = -1;
     ret_command->id_tooltip_description = -1;
+    ret_command->count_images_large = 0;
+    ret_command->count_images_small = 0;
+    ret_command->count_images_large_high_contrast = 0;
+    ret_command->count_images_small_high_contrast = 0;
 
     for (i = 0; i < src->count_command_resources; i++)
     {
