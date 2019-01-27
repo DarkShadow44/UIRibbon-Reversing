@@ -2,8 +2,15 @@
 
 #define INITGUID
 #define COBJMACROS
-#include "/usr/include/wine/windows/uiribbon.h"
 #include "./bin/markup.h"
+
+#ifdef __MINGW32__
+	#include "/usr/include/wine/windows/uiribbon.h"
+#else
+	#include <uiribbon.h>
+	DEFINE_GUID(IID_IUIFramework, 0xf4f0385d, 0x6872, 0x43a8, 0xad, 0x09, 0x4c, 0x33, 0x9c, 0xb3, 0xf5, 0xc5);
+	DEFINE_GUID(IID_IUIApplication, 0xd428903c, 0x729a, 0x491d, 0x91, 0x0d, 0x68, 0x2a, 0x08, 0xff, 0x25, 0x22);
+#endif
 
 typedef struct {
     IUIApplication IUIApplication_iface;

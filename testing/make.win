@@ -1,0 +1,31 @@
+#!/bin/sh
+
+if [ ! -d ./bin ]; then
+	mkdir bin
+fi
+
+./native/UICC.exe markup.xml bin/markup.bml /header:bin/markup.h /res:bin/markup.rc
+sed -i -e 's/.\\markup.h/.\/markup.h/g' ./bin/markup.rc
+
+export PATH_VC="C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.16.27023"
+export PATH_WINSDK="C:\Program Files (x86)\Windows Kits\10"
+export PATH_SDKVERSION="\10.0.17763.0"
+
+export PATH=""
+export PATH=$PATH:"C:\windows\system32"
+export PATH=$PATH:$PATH_VC"\bin\Hostx64\x64"
+export PATH=$PATH:$PATH_WINSDK"\bin"$PATH_SDKVERSION"\x64"
+export INCLUDE=""
+export INCLUDE=$INCLUDE";"$PATH_WINSDK"\include"$PATH_SDKVERSION"\ucrt"
+export INCLUDE=$INCLUDE";"$PATH_WINSDK"\include"$PATH_SDKVERSION"\um"
+export INCLUDE=$INCLUDE";"$PATH_WINSDK"\include"$PATH_SDKVERSION"\shared"
+export INCLUDE=$INCLUDE";"$PATH_VC"\include"
+export LIB=""
+export LIB=$LIB";"$PATH_VC"\lib\x64;"
+export LIB=$LIB";"$PATH_WINSDK"\lib"$PATH_SDKVERSION"\um\x64;"
+export LIB=$LIB";"$PATH_WINSDK"\lib"$PATH_SDKVERSION"\ucrt\x64;"
+
+
+cmd "/c cl /nologo //Fo.\bin\ //c test.c"
+cmd "/c rc /nologo bin\markup.rc"
+cmd "/c link /nologo .\bin\test.obj .\bin\markup.res user32.lib ole32.lib"
