@@ -85,52 +85,185 @@
 				<String Content="Test17" Id="10017"></String>
 			</Command.LabelTitle>
 		</Command>
+		<Command Name="Test18" Id="10018">
+			<Command.LabelTitle>
+				<String Content="Test18" Id="10018"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test19" Id="10019">
+			<Command.LabelTitle>
+				<String Content="Test19" Id="10019"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test20" Id="10020">
+			<Command.LabelTitle>
+				<String Content="Test20" Id="10020"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test21" Id="10021">
+			<Command.LabelTitle>
+				<String Content="Test21" Id="10021"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test22" Id="10022">
+			<Command.LabelTitle>
+				<String Content="Test22" Id="10022"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test23" Id="10023">
+			<Command.LabelTitle>
+				<String Content="Test23" Id="10023"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test24" Id="10024">
+			<Command.LabelTitle>
+				<String Content="Test24" Id="10024"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test25" Id="10025">
+			<Command.LabelTitle>
+				<String Content="Test25" Id="10025"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test26" Id="10026">
+			<Command.LabelTitle>
+				<String Content="Test26" Id="10026"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test27" Id="10027">
+			<Command.LabelTitle>
+				<String Content="Test27" Id="10027"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test28" Id="10028">
+			<Command.LabelTitle>
+				<String Content="Test28" Id="10028"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test29" Id="10029">
+			<Command.LabelTitle>
+				<String Content="Test29" Id="10029"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test30" Id="10030">
+			<Command.LabelTitle>
+				<String Content="Test30" Id="10030"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test31" Id="10031">
+			<Command.LabelTitle>
+				<String Content="Test31" Id="10031"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test32" Id="10032">
+			<Command.LabelTitle>
+				<String Content="Test32" Id="10032"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test33" Id="10033">
+			<Command.LabelTitle>
+				<String Content="Test33" Id="10033"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test34" Id="10034">
+			<Command.LabelTitle>
+				<String Content="Test34" Id="10034"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test35" Id="10035">
+			<Command.LabelTitle>
+				<String Content="Test35" Id="10035"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test36" Id="10036">
+			<Command.LabelTitle>
+				<String Content="Test36" Id="10036"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test37" Id="10037">
+			<Command.LabelTitle>
+				<String Content="Test37" Id="10037"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test38" Id="10038">
+			<Command.LabelTitle>
+				<String Content="Test38" Id="10038"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test39" Id="10039">
+			<Command.LabelTitle>
+				<String Content="Test39" Id="10039"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test40" Id="10040">
+			<Command.LabelTitle>
+				<String Content="Test40" Id="10040"></String>
+			</Command.LabelTitle>
+		</Command>
 	</Application.Commands>
 
 	<Application.Views>
+		<ContextPopup>
+			<ContextPopup.MiniToolbars>
+				<MiniToolbar Name = "Toolbar1">
+					<MenuGroup CommandName = "Test20">
+						<Button CommandName = "Test21" />
+						<Button CommandName = "Test22" />
+					</MenuGroup>
+					<MenuGroup CommandName = "Test23">
+						<Button CommandName = "Test24" />
+						<Button CommandName = "Test25" />
+					</MenuGroup>
+				</MiniToolbar>
+				<MiniToolbar Name = "Toolbar2">
+					<MenuGroup CommandName = "Test26">
+						<Button CommandName = "Test27" />
+						<Button CommandName = "Test28" />
+					</MenuGroup>
+					<MenuGroup CommandName = "Test29">
+						<Button CommandName = "Test30" />
+						<Button CommandName = "Test31" />
+					</MenuGroup>
+				</MiniToolbar>
+			</ContextPopup.MiniToolbars>
+			<ContextPopup.ContextMenus>
+				<ContextMenu Name = "Context1">
+					<MenuGroup CommandName = "Test20">
+						<Button CommandName = "Test21" />
+						<Button CommandName = "Test22" />
+					</MenuGroup>
+					<MenuGroup CommandName = "Test23">
+						<Button CommandName = "Test24" />
+						<Button CommandName = "Test25" />
+					</MenuGroup>
+				</ContextMenu>
+				<ContextMenu Name = "Context2">
+					<MenuGroup CommandName = "Test26">
+						<Button CommandName = "Test27" />
+						<Button CommandName = "Test28" />
+					</MenuGroup>
+					<MenuGroup CommandName = "Test29">
+						<Button CommandName = "Test30" />
+						<Button CommandName = "Test31" />
+					</MenuGroup>
+				</ContextMenu>
+			</ContextPopup.ContextMenus>
+			<ContextPopup.ContextMaps>
+				<ContextMap CommandName = "Test35" MiniToolbar = "Toolbar1" ContextMenu = "Context1" />
+				<ContextMap CommandName = "Test36" MiniToolbar = "Toolbar2" ContextMenu = "Context2" />
+			</ContextPopup.ContextMaps>
+		</ContextPopup>
 		<Ribbon>
-			<Ribbon.Tabs>
-				<Tab CommandName="Test01">
-					<Group CommandName="Test02">
-						<SplitButton CommandName="Test03">
-							<SplitButton CommandName="Test04" >
-								<Button CommandName="Test05" />
-							</SplitButton>
-							<Button CommandName="Test06" />
-						</SplitButton>
-
-						<SplitButton CommandName="Test07">
-							<SplitButton.MenuGroups>
-								<MenuGroup CommandName="Test08">
-								</MenuGroup>
-								<MenuGroup CommandName="Test11">
-									<Button CommandName="Test09" />
-									<Button CommandName="Test10" />
-								</MenuGroup>
-							</SplitButton.MenuGroups>
-						</SplitButton>
-
-						<SplitButton CommandName="Test12">
-							<SplitButton.ButtonItem>
-								<Button CommandName="Test13"/>
-							</SplitButton.ButtonItem>
-							<Button CommandName="Test06"/>
-						</SplitButton>
-
-						<SplitButton CommandName="Test14">
-							<SplitButton.ButtonItem>
-								<ToggleButton CommandName="Test15"/>
-							</SplitButton.ButtonItem>
-							<Button CommandName="Test06"/>
-						</SplitButton>
-
-						<SplitButton CommandName="Test16">
-							<CheckBox CommandName="Test17"/>
-							<Button CommandName="Test06"/>
-						</SplitButton>
-					</Group>
-				</Tab>
-			</Ribbon.Tabs>
+			<Ribbon.QuickAccessToolbar>
+				<QuickAccessToolbar CommandName = "Test10" CustomizeCommandName = "Test01">
+					<QuickAccessToolbar.ApplicationDefaults>
+						<Button CommandName = "Test12" ApplicationDefaults.IsChecked = "true" />
+						<Button CommandName = "Test13" ApplicationDefaults.IsChecked = "true" />
+						<Button CommandName = "Test14" ApplicationDefaults.IsChecked = "false" />
+						<Button CommandName = "Test15" ApplicationDefaults.IsChecked = "false" />
+					</QuickAccessToolbar.ApplicationDefaults>
+				</QuickAccessToolbar>
+			</Ribbon.QuickAccessToolbar>
 		</Ribbon>
 	</Application.Views>
 </Application>

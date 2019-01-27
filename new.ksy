@@ -362,7 +362,7 @@ types:
     - id: len4 # 22 bigger for each <Button> in <QuickAccessToolbar.ApplicationDefaults>
       type: u2
     - id: quick_ribbon_info
-      type: quick_ribbon
+      type: type_control_blocks2
       size: len4 - 7
 
 
@@ -919,52 +919,6 @@ types:
     #   type: type_command_ext
     #   repeat: expr
     #   repeat-expr: 46 # number or commands that are actually used + recent + unknown
-
-  quick_ribbon_button:
-    seq:
-    - id: unk1
-      type: u2
-    - id: unk2
-      type: u2
-    - id: unk3
-      type: u2
-    - id: unk4
-      type: u2
-    - id: unk5
-      type: u2
-    - id: unk100
-      type: u1
-    - id: id
-      type: type_id
-    - id: unk6
-      contents: [1, 4]
-    - id: unk7
-      type: u2
-    - id: unk8
-      type: u2
-    - id: unk9
-      type: u2
-
-  quick_ribbon:
-    seq:
-    - id: unk1
-      type: u2
-    - id: unk2
-      type: u1
-    - id: unk100
-      type: u1
-    - id: id
-      type: type_id
-    - id: unk3
-      type: u2
-    - id: unk4
-      type: u1
-    - id: unk5_len # count of elements in QuickAccessToolbar.ApplicationDefaults?
-      type: u2
-    - id: entries
-      type: quick_ribbon_button
-      repeat: expr
-      repeat-expr: unk5_len
 
   type_command:
     seq:
