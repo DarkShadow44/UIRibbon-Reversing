@@ -15,6 +15,8 @@ doc-ref: https://docs.microsoft.com/en-us/windows/desktop/windowsribbon/windowsr
 
 #test against mspaint ribbon! + wordpad + samples
 
+#make group as children in splitbutton?! (test if can have sizedefinitions)
+
 
 meta:
   id: ribbon
@@ -126,7 +128,7 @@ enums:
     2: medium
     3: large
 
-  enum_control_block_type:
+  enum_control_block_type_number:
     0: id
     6: sizedefinition_labelvisible_mixed
     8: sizedefinition_imagesize_mixed
@@ -143,7 +145,7 @@ enums:
     115: dropdowncolorpicker_recent_color_rows
     114: dropdowncolorpicker_standard_color_rows
     113: dropdowncolorpicker_theme_color_rows
-    68: gallery_elements_type
+    68: meta_info
     38: gallery_has_large_items
     87: gallery_item_height
     88: gallery_item_width
@@ -158,7 +160,12 @@ enums:
     120: gallery_max_columns_medium
     121: gallery_min_columns_medium
     63: is_checkbox
-    62: subcontrols
+
+  enum_control_block_type_special:
+    62: subcomponents
+    67: sizedefinition_order_large
+    68: sizedefinition_order_medium
+    69: sizedefinition_order_small
     72: buttonitem
     86: gallery_subcontrols
 
@@ -362,7 +369,7 @@ types:
     - id: len4 # 22 bigger for each <Button> in <QuickAccessToolbar.ApplicationDefaults>
       type: u2
     - id: quick_ribbon_info
-      type: type_control_blocks2
+      type: type_control_blocks
       size: len4 - 7
 
 
@@ -432,50 +439,7 @@ types:
       repeat: expr
       repeat-expr: count_blocks
 
-  block_unk1:
-    seq:
-    - id: rest
-      size: 10
-      
-  type_sizeinfo_maybe:
-    seq:
-    - id: unk0
-      type: u1
-    - id: check1
-      contents: [1, 4, 37, 0, 128, 65, 5]
-    - id: unk0c
-      type: u2
-    - id: unk0b
-      type: u2
-    - id: unk2a
-      type: u1
-    - id: unk2b
-      type: u1
-    - id: unk2c
-      type: u1
-    - id: unk1   #ofsset maybe? 3 bigger when _parent-len_unk1 3 bigger
-      type: u1
-    - id: unk1e1
-      size: 3
-      if: unk1 == 4
-    - id: unk2
-      type: u1
-    - id: unk3
-      type: u1
-    - id: unk4
-      type: u1
-    - id: unk5
-      type: u1
-    - id: unk6
-      type: u1
-    - id: unk100
-      type: u1
-    - id: id
-      type: type_id
-    - id: unk11
-      type: u1
-
-  type_sizedefinitions_command:
+  type_sizedefinitions_order_command:
     seq:
     - id: unk1
       type: u1
@@ -490,109 +454,28 @@ types:
       type: u2
       if: flags_command == enum_sizedefinitions_command::command
 
-  type_sizedefinition:
+  type_sizedefinition_order:
     seq:
-    - id: unk1
-      type: u2
-    - id: unk2
-      type: u1
     - id: count_commands
       type: u2
     - id: commands
-      type: type_sizedefinitions_command
+      type: type_sizedefinitions_order_command
       repeat: expr
       repeat-expr: count_commands
-
-  type_group_elements_info:
-    seq:
-    - id: unk10 #2 if own size, 3 otherwise
-      type: u1
-    - id: check2b
-      contents: [1, 1]
-    - id: unk1b
-      type: u2
-    - id: unk2
-      type: u1
-    - id: check2c
-      contents: [1, 4, 66, 0, 0x40, 0x44, 5, 0]
-      if: unk10 == 3 and unk2 == 9
-    - id: unk1c
-      type: u2
-    - id: unk1d
-      type: u1
-    - id: sub_count
-      type: u2
-    - id: subcontents
-      type: type_control
-      repeat: expr
-      repeat-expr: sub_count
-    - id: sizedefinition_large
-      type: type_sizedefinition
-      if: unk10 == 5
-    - id: sizedefinition_medium
-      type: type_sizedefinition
-      if: unk10 == 5
-    - id: sizedefinition_small
-      type: type_sizedefinition
-      if: unk10 == 5
-    - id: unk6
-      size: 3
-
-  type_scalingpolicy:
-    seq:
-    - id: unk1a
-      type: u1
-    - id: unk1b
-      type: u1
-    - id: scale_value
-      type: type_id
-      doc: |
-        This is calculated the following way:
-        sum(basevalue1 * position1 + basevalue2 * position2 + ...)
-        basevalues: large(0), popup(1), small(16), medium(256)
-        e.g. large-medium-small = 0*1 + 256*2 + 16*3 = 560
-    - id: unk3
-      type: u1
-    instances:
-      priority_medium:
-        value: scale_value.id / 256
-      priority_small:
-        value: (scale_value.id % 256) / 16
-      priority_popup:
-        value: (scale_value.id % 16) / 1
 
   type_group_info:
     seq:
     - id: unk1
       type: u2
-    - id: len_unk1 # same as size_group_elements_info, just a bit bigger
-      type: u2
+    - id: unk2
+      type: u1
     - id: unk3
       type: u2
-    - id: unk4
+    - id: len_unk1 # same as size_group_elements_info, just a bit bigger
       type: u2
-    - id: id
-      type: type_id
-    - id: unk20a
-      type: u1
-    - id: scalingpolicy
-      type: type_scalingpolicy
-      if: unk20a == 1
-    - id: unk20b
-      type: u1
-    - id: unk12
-      type: u2
-    - id: unk21
-      type: u2
-    - id: unk10
-      type: u2
-    - id: unk11
-      type: u2
-    - id: size_group_elements_info
-      type: u2
-    - id: group_elements_info
-      type: type_group_elements_info
-      size: size_group_elements_info - 4
+    - id: blocks
+      type: type_control_blocks
+      size: len_unk1 - 7
 
   type_tab_extended:
     seq:
@@ -600,10 +483,6 @@ types:
       type: u2
     - id: count_groupinfo
       type: u2
-    - id: unk2
-      type: u2
-    - id: unk3
-      type: u1
     - id: groupinfo
       type: type_group_info
       repeat: expr
@@ -630,12 +509,12 @@ types:
     - id: unk8
       type: u2
 
-  type_control_block2_number:
+  type_control_block_number_variable:
     seq:
     - id: id
       type: type_id
 
-  type_control_block2_long:
+  type_control_block_number_long:
     seq:
     - id: unk1
       type: u4
@@ -651,143 +530,182 @@ types:
       repeat: expr
       repeat-expr: count_subcontrols
 
-  type_control_block2:
+  type_control_block_number:
     seq:
-    - id: meta_type
-      type: u1
     - id: block_len
       type: u1
     - id: block_type
+      enum: enum_control_block_type_number
       type: u1
-      enum: enum_control_block_type
     - id: content_number
-      type: type_control_block2_number
-      if: meta_type == 1 and block_len == 1
+      type: type_control_block_number_variable
+      if: block_len == 1
     - id: content_long
-      type: type_control_block2_long
-      if: meta_type == 1 and block_len == 4
-    - id: content_subcontrols
-      type: type_subcontrols
-      if: meta_type == 24
+      type: type_control_block_number_long
+      if: block_len == 4
     instances:
       id:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::id
-      is_subcomponents:
-        value: meta_type == 24
+        if: block_type == enum_control_block_type_number::id
       sizedefinition_labelvisible_mixed:
         value: content_number.id.id
         enum: enum_sizedefinition_labelvisible_mixed
-        if: block_type == enum_control_block_type::sizedefinition_labelvisible_mixed
+        if: block_type == enum_control_block_type_number::sizedefinition_labelvisible_mixed
       sizedefinition_labelvisible:
         value: content_long.value1
         enum: enum_sizedefinition_labelvisible
-        if: block_type == enum_control_block_type::sizedefinition_labelvisible
+        if: block_type == enum_control_block_type_number::sizedefinition_labelvisible
       sizedefinition_imagevisible:
         value: content_long.value1
         enum: enum_sizedefinition_imagevisible
-        if: block_type == enum_control_block_type::sizedefinition_imagevisible
+        if: block_type == enum_control_block_type_number::sizedefinition_imagevisible
       sizedefinition_imagesize:
         value: content_long.value1
         enum: enum_sizedefinition_imagesize
-        if: block_type == enum_control_block_type::sizedefinition_imagesize
+        if: block_type == enum_control_block_type_number::sizedefinition_imagesize
       sizedefinition_imagesize_mixed:
         value: content_number.id.id
         enum: enum_sizedefinition_imagesize_mixed
-        if: block_type == enum_control_block_type::sizedefinition_imagesize_mixed
+        if: block_type == enum_control_block_type_number::sizedefinition_imagesize_mixed
       autocomplete_enabled:
         value: content_long.value1
         enum: enum_boolean
-        if: block_type == enum_control_block_type::autocomplete_enabled
+        if: block_type == enum_control_block_type_number::autocomplete_enabled
       gallery_type:
         value: content_number.id.id
         enum: enum_gallery_type
-        if: block_type == enum_control_block_type::gallery_type
+        if: block_type == enum_control_block_type_number::gallery_type
       dropdowncolorpicker_colortemplate:
         value: content_number.id.id
         enum: enum_dropdowncolorpicker_colortemplate
-        if: block_type == enum_control_block_type::dropdowncolorpicker_colortemplate
+        if: block_type == enum_control_block_type_number::dropdowncolorpicker_colortemplate
       dropdowncolorpicker_chipsize:
         value: content_number.id.id
         enum: enum_dropdowncolorpicker_chipsize
-        if: block_type == enum_control_block_type::dropdowncolorpicker_chipsize
+        if: block_type == enum_control_block_type_number::dropdowncolorpicker_chipsize
       dropdowncolorpicker_columns:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::dropdowncolorpicker_columns
+        if: block_type == enum_control_block_type_number::dropdowncolorpicker_columns
       dropdowncolorpicker_has_autocolor_button:
         value: content_long.value1
         enum: enum_boolean
-        if: block_type == enum_control_block_type::dropdowncolorpicker_has_autocolor_button
+        if: block_type == enum_control_block_type_number::dropdowncolorpicker_has_autocolor_button
       dropdowncolorpicker_has_nocolor_button:
         value: content_long.value1
         enum: enum_boolean
-        if: block_type == enum_control_block_type::dropdowncolorpicker_has_nocolor_button
+        if: block_type == enum_control_block_type_number::dropdowncolorpicker_has_nocolor_button
       dropdowncolorpicker_recent_color_rows:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::dropdowncolorpicker_recent_color_rows
+        if: block_type == enum_control_block_type_number::dropdowncolorpicker_recent_color_rows
       dropdowncolorpicker_standard_rows:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::dropdowncolorpicker_standard_color_rows
+        if: block_type == enum_control_block_type_number::dropdowncolorpicker_standard_color_rows
       dropdowncolorpicker_theme_color_rows:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::dropdowncolorpicker_theme_color_rows
+        if: block_type == enum_control_block_type_number::dropdowncolorpicker_theme_color_rows
       gallery_elements_type:
         value: content_number.id.id
         enum: enum_gallery_elements_type
-        if: block_type == enum_control_block_type::gallery_elements_type
+        if: block_type == enum_control_block_type_number::meta_info
       gallery_has_large_items:
         value: content_long.value1
         enum: enum_boolean
-        if: block_type == enum_control_block_type::gallery_has_large_items
+        if: block_type == enum_control_block_type_number::gallery_has_large_items
       gallery_item_height:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::gallery_item_height
+        if: block_type == enum_control_block_type_number::gallery_item_height
       gallery_item_width:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::gallery_item_width
+        if: block_type == enum_control_block_type_number::gallery_item_width
       gallery_text_position:
         value: content_number.id.id
         enum: enum_gallery_text_position
-        if: block_type == enum_control_block_type::gallery_text_position
+        if: block_type == enum_control_block_type_number::gallery_text_position
       gallery_menulayout:
         value: content_number.id.id
         enum: enum_gallery_menulayout
-        if: block_type == enum_control_block_type::gallery_menulayout
+        if: block_type == enum_control_block_type_number::gallery_menulayout
       gallery_gripper:
         value: content_number.id.id
         enum: enum_gallery_gripper
-        if: block_type == enum_control_block_type::gallery_gripper
+        if: block_type == enum_control_block_type_number::gallery_gripper
       gallery_rows:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::gallery_rows
+        if: block_type == enum_control_block_type_number::gallery_rows
       gallery_columns:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::gallery_columns
+        if: block_type == enum_control_block_type_number::gallery_columns
       gallery_max_rows:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::gallery_max_rows
+        if: block_type == enum_control_block_type_number::gallery_max_rows
       gallery_max_columns:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::gallery_max_columns
+        if: block_type == enum_control_block_type_number::gallery_max_columns
       gallery_min_columns_large:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::gallery_min_columns_large
+        if: block_type == enum_control_block_type_number::gallery_min_columns_large
       gallery_max_columns_medium:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::gallery_max_columns_medium
+        if: block_type == enum_control_block_type_number::gallery_max_columns_medium
       gallery_min_columns_medium:
         value: content_number.id.id
-        if: block_type == enum_control_block_type::gallery_min_columns_medium
+        if: block_type == enum_control_block_type_number::gallery_min_columns_medium
       is_checkbox:
         value: content_long.value1
-        if: block_type == enum_control_block_type::is_checkbox
+        if: block_type == enum_control_block_type_number::is_checkbox
+      scalepolicy:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type_number::meta_info
+        doc: |
+          This is calculated the following way:
+          sum(basevalue1 * position1 + basevalue2 * position2 + ...)
+          basevalues: large(0), popup(1), small(16), medium(256)
+          e.g. large-medium-small = 0*1 + 256*2 + 16*3 = 560
+      scalepolicy_medium:
+        value: scalepolicy / 256
+        if: block_type == enum_control_block_type_number::meta_info
+      scalepolicy_small:
+        value: (scalepolicy % 256) / 16
+        if: block_type == enum_control_block_type_number::meta_info
+      scalepolicy_popup:
+        value: (scalepolicy % 16) / 1
+        if: block_type == enum_control_block_type_number::meta_info
 
-  type_control_blocks2:
+  type_control_block_special:
+    seq:
+    - id: block_len
+      type: u1
+    - id: block_type
+      enum: enum_control_block_type_special
+      type: u1
+    - id: content_subcontrols
+      type: type_subcontrols
+      if: block_type == enum_control_block_type_special::subcomponents
+        or block_type == enum_control_block_type_special::gallery_subcontrols
+        or block_type == enum_control_block_type_special::buttonitem
+    - id: sizedefinition_order
+      type: type_sizedefinition_order
+      if: block_type == enum_control_block_type_special::sizedefinition_order_large
+        or block_type == enum_control_block_type_special::sizedefinition_order_medium
+        or block_type == enum_control_block_type_special::sizedefinition_order_small
+
+  type_control_block:
+    seq:
+    - id: meta_type
+      type: u1
+    - id: content_number
+      type: type_control_block_number
+      if: meta_type == 1
+    - id: content_special
+      type: type_control_block_special
+      if: meta_type == 24
+
+  type_control_blocks:
     seq:
     - id: count_blocks
       type: u1
     - id: blocks
-      type: type_control_block2
+      type: type_control_block
       repeat: expr
       repeat-expr: count_blocks
     - id: blocks_bytes
@@ -806,7 +724,7 @@ types:
       type: u2
     - id: block
       size: size_block - 7
-      type: type_control_blocks2
+      type: type_control_blocks
 
   type_menugroup_extended:
     seq:

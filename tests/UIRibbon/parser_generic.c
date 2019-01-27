@@ -13,6 +13,18 @@ int stream_make_substream(stream *s, stream *ret, int len)
     return 0;
 }
 
+int stream_make_substream_instance(stream *s_root, stream *ret, int pos, int len)
+{
+    CHECK2(pos < 0 || pos > s_root->max, "End of stream");
+    CHECK2(len < 0 || pos + len > s_root->max, "End of stream");
+
+    ret->start = pos;
+    ret->pos = 0;
+    ret->max = pos + len;
+    ret->data = s_root->data;
+    return 0;
+}
+
 int stream_read_bytes(stream *s, void* ret, int len)
 {
     CHECK2(s->start + s->pos + len > s->max, "End of stream");

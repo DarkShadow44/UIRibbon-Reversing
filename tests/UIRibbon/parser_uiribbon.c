@@ -13,31 +13,27 @@ int read_type_ribbon_tabs_context(stream *s_root, stream *s, type_ribbon_tabs_co
 int read_type_ribbon_tabs_applicationmenu(stream *s_root, stream *s, type_ribbon_tabs_applicationmenu *ret);
 int read_type_block_tabs(stream *s_root, stream *s, type_block_tabs *ret);
 int read_type_ribbon(stream *s_root, stream *s, type_ribbon *ret);
-int read_block_unk1(stream *s_root, stream *s, block_unk1 *ret);
-int read_type_sizeinfo_maybe(stream *s_root, stream *s, type_sizeinfo_maybe *ret);
-int read_type_sizedefinitions_command(stream *s_root, stream *s, type_sizedefinitions_command *ret);
-int read_type_sizedefinition(stream *s_root, stream *s, type_sizedefinition *ret);
-int read_type_group_elements_info(stream *s_root, stream *s, type_group_elements_info *ret);
-int read_type_scalingpolicy(stream *s_root, stream *s, type_scalingpolicy *ret);
-int read_type_group_info(stream *s_root, stream *s, type_group_info *ret);
+int read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *ret);
+int read_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *ret);
 int read_type_tab_extended(stream *s_root, stream *s, type_tab_extended *ret);
 int read_type_tab(stream *s_root, stream *s, type_tab *ret);
 int read_type_unk1_extended(stream *s_root, stream *s, type_unk1_extended *ret);
-int read_type_control_block2_number(stream *s_root, stream *s, type_control_block2_number *ret);
-int read_type_control_block2_long(stream *s_root, stream *s, type_control_block2_long *ret);
+int read_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *ret);
+int read_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *ret);
 int read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *ret);
-int read_type_control_block2(stream *s_root, stream *s, type_control_block2 *ret);
-int read_type_control_blocks2(stream *s_root, stream *s, type_control_blocks2 *ret);
+int read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *ret);
+int read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *ret);
+int read_type_control_block(stream *s_root, stream *s, type_control_block *ret);
+int read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *ret);
+int read_type_block_quickaccess(stream *s_root, stream *s, type_block_quickaccess *ret);
+int read_type_block_generic(stream *s_root, stream *s, type_block_generic *ret);
+int read_type_group_info(stream *s_root, stream *s, type_group_info *ret);
 int read_type_control(stream *s_root, stream *s, type_control *ret);
 int read_type_menugroup_extended(stream *s_root, stream *s, type_menugroup_extended *ret);
 int read_type_recent2(stream *s_root, stream *s, type_recent2 *ret);
 int read_type_recent1(stream *s_root, stream *s, type_recent1 *ret);
 int read_type_command_ext(stream *s_root, stream *s, type_command_ext *ret);
 int read_application_views(stream *s_root, stream *s, application_views *ret);
-int read_quick_ribbon_button(stream *s_root, stream *s, quick_ribbon_button *ret);
-int read_quick_ribbon(stream *s_root, stream *s, quick_ribbon *ret);
-int read_type_block_quickaccess(stream *s_root, stream *s, type_block_quickaccess *ret);
-int read_type_block_generic(stream *s_root, stream *s, type_block_generic *ret);
 int read_type_command(stream *s_root, stream *s, type_command *ret);
 int read_type_command_container(stream *s_root, stream *s, type_command_container *ret);
 
@@ -247,42 +243,7 @@ int read_type_ribbon(stream *s_root, stream *s, type_ribbon *ret)
 	return 0;
 }
 
-int read_block_unk1(stream *s_root, stream *s, block_unk1 *ret)
-{
-	ret->rest = malloc(10);
-	CHECK(stream_read_bytes(s, ret->rest, 10));
-	return 0;
-}
-
-int read_type_sizeinfo_maybe(stream *s_root, stream *s, type_sizeinfo_maybe *ret)
-{
-	const char check1[] = {1, 4, 37, 0, 128, 65, 5};
-
-	CHECK(stream_read_uint8_t(s, &ret->unk0));
-	CHECK(stream_expect_bytes(s, check1));
-	CHECK(stream_read_uint16_t(s, &ret->unk0c));
-	CHECK(stream_read_uint16_t(s, &ret->unk0b));
-	CHECK(stream_read_uint8_t(s, &ret->unk2a));
-	CHECK(stream_read_uint8_t(s, &ret->unk2b));
-	CHECK(stream_read_uint8_t(s, &ret->unk2c));
-	CHECK(stream_read_uint8_t(s, &ret->unk1));
-	if (ret->unk1 == 4)
-	{
-		ret->unk1e1 = malloc(3);
-		CHECK(stream_read_bytes(s, ret->unk1e1, 3));
-	}
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
-	CHECK(stream_read_uint8_t(s, &ret->unk3));
-	CHECK(stream_read_uint8_t(s, &ret->unk4));
-	CHECK(stream_read_uint8_t(s, &ret->unk5));
-	CHECK(stream_read_uint8_t(s, &ret->unk6));
-	CHECK(stream_read_uint8_t(s, &ret->unk100));
-	CHECK(read_type_id(s_root, s, &ret->id));
-	CHECK(stream_read_uint8_t(s, &ret->unk11));
-	return 0;
-}
-
-int read_type_sizedefinitions_command(stream *s_root, stream *s, type_sizedefinitions_command *ret)
+int read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *ret)
 {
 	uint8_t flags_command;
 
@@ -300,94 +261,16 @@ int read_type_sizedefinitions_command(stream *s_root, stream *s, type_sizedefini
 	return 0;
 }
 
-int read_type_sizedefinition(stream *s_root, stream *s, type_sizedefinition *ret)
+int read_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *ret)
 {
 	int i;
 
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
 	CHECK(stream_read_uint16_t(s, &ret->count_commands));
-	ret->commands = malloc(sizeof(type_sizedefinitions_command) * ret->count_commands);
+	ret->commands = malloc(sizeof(type_sizedefinitions_order_command) * ret->count_commands);
 	for (i = 0; i < ret->count_commands; i++)
 	{
-		CHECK(read_type_sizedefinitions_command(s_root, s, &ret->commands[i]));
+		CHECK(read_type_sizedefinitions_order_command(s_root, s, &ret->commands[i]));
 	}
-	return 0;
-}
-
-int read_type_group_elements_info(stream *s_root, stream *s, type_group_elements_info *ret)
-{
-	const char check2b[] = {1, 1};
-	const char check2c[] = {1, 4, 66, 0, 64, 68, 5, 0};
-	int i;
-
-	CHECK(stream_read_uint8_t(s, &ret->unk10));
-	CHECK(stream_expect_bytes(s, check2b));
-	CHECK(stream_read_uint16_t(s, &ret->unk1b));
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
-	if (ret->unk10 == 3 && ret->unk2 == 9)
-	{
-		CHECK(stream_expect_bytes(s, check2c));
-	}
-	CHECK(stream_read_uint16_t(s, &ret->unk1c));
-	CHECK(stream_read_uint8_t(s, &ret->unk1d));
-	CHECK(stream_read_uint16_t(s, &ret->sub_count));
-	ret->subcontents = malloc(sizeof(type_control) * ret->sub_count);
-	for (i = 0; i < ret->sub_count; i++)
-	{
-		CHECK(read_type_control(s_root, s, &ret->subcontents[i]));
-	}
-	if (ret->unk10 == 5)
-	{
-		CHECK(read_type_sizedefinition(s_root, s, &ret->sizedefinition_large));
-	}
-	if (ret->unk10 == 5)
-	{
-		CHECK(read_type_sizedefinition(s_root, s, &ret->sizedefinition_medium));
-	}
-	if (ret->unk10 == 5)
-	{
-		CHECK(read_type_sizedefinition(s_root, s, &ret->sizedefinition_small));
-	}
-	ret->unk6 = malloc(3);
-	CHECK(stream_read_bytes(s, ret->unk6, 3));
-	return 0;
-}
-
-int read_type_scalingpolicy(stream *s_root, stream *s, type_scalingpolicy *ret)
-{
-	CHECK(stream_read_uint8_t(s, &ret->unk1a));
-	CHECK(stream_read_uint8_t(s, &ret->unk1b));
-	CHECK(read_type_id(s_root, s, &ret->scale_value));
-	CHECK(stream_read_uint8_t(s, &ret->unk3));
-	ret->priority_medium = ret->scale_value.id / 256;
-	ret->priority_small = (ret->scale_value.id % 256) / 16;
-	ret->priority_popup = (ret->scale_value.id % 16) / 1;
-	return 0;
-}
-
-int read_type_group_info(stream *s_root, stream *s, type_group_info *ret)
-{
-	stream substream_group_elements_info;
-
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_read_uint16_t(s, &ret->len_unk1));
-	CHECK(stream_read_uint16_t(s, &ret->unk3));
-	CHECK(stream_read_uint16_t(s, &ret->unk4));
-	CHECK(read_type_id(s_root, s, &ret->id));
-	CHECK(stream_read_uint8_t(s, &ret->unk20a));
-	if (ret->unk20a == 1)
-	{
-		CHECK(read_type_scalingpolicy(s_root, s, &ret->scalingpolicy));
-	}
-	CHECK(stream_read_uint8_t(s, &ret->unk20b));
-	CHECK(stream_read_uint16_t(s, &ret->unk12));
-	CHECK(stream_read_uint16_t(s, &ret->unk21));
-	CHECK(stream_read_uint16_t(s, &ret->unk10));
-	CHECK(stream_read_uint16_t(s, &ret->unk11));
-	CHECK(stream_read_uint16_t(s, &ret->size_group_elements_info));
-	CHECK(stream_make_substream(s, &substream_group_elements_info, ret->size_group_elements_info - 4));
-	CHECK(read_type_group_elements_info(s_root, &substream_group_elements_info, &ret->group_elements_info));
 	return 0;
 }
 
@@ -397,8 +280,6 @@ int read_type_tab_extended(stream *s_root, stream *s, type_tab_extended *ret)
 
 	CHECK(stream_read_uint16_t(s, &ret->unk_id1));
 	CHECK(stream_read_uint16_t(s, &ret->count_groupinfo));
-	CHECK(stream_read_uint16_t(s, &ret->unk2));
-	CHECK(stream_read_uint8_t(s, &ret->unk3));
 	ret->groupinfo = malloc(sizeof(type_group_info) * ret->count_groupinfo);
 	for (i = 0; i < ret->count_groupinfo; i++)
 	{
@@ -409,6 +290,8 @@ int read_type_tab_extended(stream *s_root, stream *s, type_tab_extended *ret)
 
 int read_type_tab(stream *s_root, stream *s, type_tab *ret)
 {
+	stream substream_instance_ext;
+
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint16_t(s, &ret->unk2));
 	CHECK(stream_read_uint8_t(s, &ret->unk3a));
@@ -421,7 +304,8 @@ int read_type_tab(stream *s_root, stream *s, type_tab *ret)
 	CHECK(stream_read_uint16_t(s, &ret->offset_ext));
 	CHECK(stream_read_uint8_t(s, &ret->unk8));
 	CHECK(stream_read_uint8_t(s, &ret->unk9));
-	CHECK(read_type_tab_extended(s_root, s_root, &ret->ext));
+	CHECK(stream_make_substream_instance(s_root, &substream_instance_ext, (ret->offset_ext + 3), s_root->max - (ret->offset_ext + 3)));
+	CHECK(read_type_tab_extended(s_root, &substream_instance_ext, &ret->ext));
 	return 0;
 }
 
@@ -439,13 +323,13 @@ int read_type_unk1_extended(stream *s_root, stream *s, type_unk1_extended *ret)
 	return 0;
 }
 
-int read_type_control_block2_number(stream *s_root, stream *s, type_control_block2_number *ret)
+int read_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *ret)
 {
 	CHECK(read_type_id(s_root, s, &ret->id));
 	return 0;
 }
 
-int read_type_control_block2_long(stream *s_root, stream *s, type_control_block2_long *ret)
+int read_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *ret)
 {
 	CHECK(stream_read_uint32_t(s, &ret->unk1));
 	CHECK(stream_read_uint8_t(s, &ret->value1));
@@ -465,164 +349,249 @@ int read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *ret)
 	return 0;
 }
 
-int read_type_control_block2(stream *s_root, stream *s, type_control_block2 *ret)
+int read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *ret)
 {
 	uint8_t block_type;
 
-	CHECK(stream_read_uint8_t(s, &ret->meta_type));
 	CHECK(stream_read_uint8_t(s, &ret->block_len));
 	CHECK(stream_read_uint8_t(s, &block_type));
 	ret->block_type = block_type;
-	if (ret->meta_type == 1 && ret->block_len == 1)
+	if (ret->block_len == 1)
 	{
-		CHECK(read_type_control_block2_number(s_root, s, &ret->content_number));
+		CHECK(read_type_control_block_number_variable(s_root, s, &ret->content_number));
 	}
-	if (ret->meta_type == 1 && ret->block_len == 4)
+	if (ret->block_len == 4)
 	{
-		CHECK(read_type_control_block2_long(s_root, s, &ret->content_long));
+		CHECK(read_type_control_block_number_long(s_root, s, &ret->content_long));
 	}
-	if (ret->meta_type == 24)
-	{
-		CHECK(read_type_subcontrols(s_root, s, &ret->content_subcontrols));
-	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_ID)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
 	{
 		ret->id = ret->content_number.id.id;
 	}
-	ret->is_subcomponents = ret->meta_type == 24;
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE_MIXED)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE_MIXED)
 	{
 		ret->sizedefinition_labelvisible_mixed = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE)
 	{
 		ret->sizedefinition_labelvisible = ret->content_long.value1;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGEVISIBLE)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGEVISIBLE)
 	{
 		ret->sizedefinition_imagevisible = ret->content_long.value1;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE)
 	{
 		ret->sizedefinition_imagesize = ret->content_long.value1;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE_MIXED)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE_MIXED)
 	{
 		ret->sizedefinition_imagesize_mixed = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_AUTOCOMPLETE_ENABLED)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_AUTOCOMPLETE_ENABLED)
 	{
 		ret->autocomplete_enabled = ret->content_long.value1;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TYPE)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
 	{
 		ret->gallery_type = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLORTEMPLATE)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
 	{
 		ret->dropdowncolorpicker_colortemplate = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_CHIPSIZE)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_CHIPSIZE)
 	{
 		ret->dropdowncolorpicker_chipsize = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLUMNS)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLUMNS)
 	{
 		ret->dropdowncolorpicker_columns = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON)
 	{
 		ret->dropdowncolorpicker_has_autocolor_button = ret->content_long.value1;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON)
 	{
 		ret->dropdowncolorpicker_has_nocolor_button = ret->content_long.value1;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS)
 	{
 		ret->dropdowncolorpicker_recent_color_rows = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS)
 	{
 		ret->dropdowncolorpicker_standard_rows = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS)
 	{
 		ret->dropdowncolorpicker_theme_color_rows = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ELEMENTS_TYPE)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
 	{
 		ret->gallery_elements_type = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_HAS_LARGE_ITEMS)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_HAS_LARGE_ITEMS)
 	{
 		ret->gallery_has_large_items = ret->content_long.value1;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ITEM_HEIGHT)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_HEIGHT)
 	{
 		ret->gallery_item_height = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ITEM_WIDTH)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_WIDTH)
 	{
 		ret->gallery_item_width = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TEXT_POSITION)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TEXT_POSITION)
 	{
 		ret->gallery_text_position = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MENULAYOUT)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MENULAYOUT)
 	{
 		ret->gallery_menulayout = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_GRIPPER)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_GRIPPER)
 	{
 		ret->gallery_gripper = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ROWS)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ROWS)
 	{
 		ret->gallery_rows = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_COLUMNS)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_COLUMNS)
 	{
 		ret->gallery_columns = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_ROWS)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_ROWS)
 	{
 		ret->gallery_max_rows = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_COLUMNS)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS)
 	{
 		ret->gallery_max_columns = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_LARGE)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_LARGE)
 	{
 		ret->gallery_min_columns_large = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_COLUMNS_MEDIUM)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS_MEDIUM)
 	{
 		ret->gallery_max_columns_medium = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_MEDIUM)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_MEDIUM)
 	{
 		ret->gallery_min_columns_medium = ret->content_number.id.id;
 	}
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_IS_CHECKBOX)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
 	{
 		ret->is_checkbox = ret->content_long.value1;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+		ret->scalepolicy = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+		ret->scalepolicy_medium = ret->scalepolicy / 256;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+		ret->scalepolicy_small = (ret->scalepolicy % 256) / 16;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+		ret->scalepolicy_popup = (ret->scalepolicy % 16) / 1;
 	}
 	return 0;
 }
 
-int read_type_control_blocks2(stream *s_root, stream *s, type_control_blocks2 *ret)
+int read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *ret)
+{
+	uint8_t block_type;
+
+	CHECK(stream_read_uint8_t(s, &ret->block_len));
+	CHECK(stream_read_uint8_t(s, &block_type));
+	ret->block_type = block_type;
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM)
+	{
+		CHECK(read_type_subcontrols(s_root, s, &ret->content_subcontrols));
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL)
+	{
+		CHECK(read_type_sizedefinition_order(s_root, s, &ret->sizedefinition_order));
+	}
+	return 0;
+}
+
+int read_type_control_block(stream *s_root, stream *s, type_control_block *ret)
+{
+	CHECK(stream_read_uint8_t(s, &ret->meta_type));
+	if (ret->meta_type == 1)
+	{
+		CHECK(read_type_control_block_number(s_root, s, &ret->content_number));
+	}
+	if (ret->meta_type == 24)
+	{
+		CHECK(read_type_control_block_special(s_root, s, &ret->content_special));
+	}
+	return 0;
+}
+
+int read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *ret)
 {
 	int i;
 
 	CHECK(stream_read_uint8_t(s, &ret->count_blocks));
-	ret->blocks = malloc(sizeof(type_control_block2) * ret->count_blocks);
+	ret->blocks = malloc(sizeof(type_control_block) * ret->count_blocks);
 	for (i = 0; i < ret->count_blocks; i++)
 	{
-		CHECK(read_type_control_block2(s_root, s, &ret->blocks[i]));
+		CHECK(read_type_control_block(s_root, s, &ret->blocks[i]));
 	}
+	return 0;
+}
+
+int read_type_block_quickaccess(stream *s_root, stream *s, type_block_quickaccess *ret)
+{
+	stream substream_quick_ribbon_info;
+
+	CHECK(stream_read_uint16_t(s, &ret->unk1));
+	CHECK(stream_read_uint16_t(s, &ret->unk2));
+	CHECK(stream_read_uint16_t(s, &ret->len4));
+	CHECK(stream_make_substream(s, &substream_quick_ribbon_info, ret->len4 - 7));
+	CHECK(read_type_control_blocks(s_root, &substream_quick_ribbon_info, &ret->quick_ribbon_info));
+	return 0;
+}
+
+int read_type_block_generic(stream *s_root, stream *s, type_block_generic *ret)
+{
+	uint8_t block_type;
+
+	CHECK(stream_read_uint8_t(s, &block_type));
+	ret->block_type = block_type;
+	switch(ret->block_type)
+	{
+	case UIRIBBON_BLOCK_TYPE_RIBBON_TABS:
+		CHECK(read_type_block_tabs(s_root, s, &ret->block_ribbon_tabs));
+		break;
+	case UIRIBBON_BLOCK_TYPE_RIBBON_QUICKACCESSTOOLBAR:
+		CHECK(read_type_block_quickaccess(s_root, s, &ret->block_ribbon_quickaccesstoolbar));
+		break;
+	}
+	return 0;
+}
+
+int read_type_group_info(stream *s_root, stream *s, type_group_info *ret)
+{
+	stream substream_blocks;
+
+	CHECK(stream_read_uint16_t(s, &ret->unk1));
+	CHECK(stream_read_uint8_t(s, &ret->unk2));
+	CHECK(stream_read_uint16_t(s, &ret->unk3));
+	CHECK(stream_read_uint16_t(s, &ret->len_unk1));
+	CHECK(stream_make_substream(s, &substream_blocks, ret->len_unk1 - 7));
+	CHECK(read_type_control_blocks(s_root, &substream_blocks, &ret->blocks));
 	return 0;
 }
 
@@ -637,7 +606,7 @@ int read_type_control(stream *s_root, stream *s, type_control *ret)
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
 	CHECK(stream_read_uint16_t(s, &ret->size_block));
 	CHECK(stream_make_substream(s, &substream_block, ret->size_block - 7));
-	CHECK(read_type_control_blocks2(s_root, &substream_block, &ret->block));
+	CHECK(read_type_control_blocks(s_root, &substream_block, &ret->block));
 	return 0;
 }
 
@@ -709,73 +678,6 @@ int read_application_views(stream *s_root, stream *s, application_views *ret)
 	CHECK(stream_read_uint16_t(s, &ret->ribbon_len));
 	CHECK(stream_make_substream(s, &substream_ribbon, ret->ribbon_len));
 	CHECK(read_type_ribbon(s_root, &substream_ribbon, &ret->ribbon));
-	return 0;
-}
-
-int read_quick_ribbon_button(stream *s_root, stream *s, quick_ribbon_button *ret)
-{
-	const char unk6[] = {1, 4};
-
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_read_uint16_t(s, &ret->unk2));
-	CHECK(stream_read_uint16_t(s, &ret->unk3));
-	CHECK(stream_read_uint16_t(s, &ret->unk4));
-	CHECK(stream_read_uint16_t(s, &ret->unk5));
-	CHECK(stream_read_uint8_t(s, &ret->unk100));
-	CHECK(read_type_id(s_root, s, &ret->id));
-	CHECK(stream_expect_bytes(s, unk6));
-	CHECK(stream_read_uint16_t(s, &ret->unk7));
-	CHECK(stream_read_uint16_t(s, &ret->unk8));
-	CHECK(stream_read_uint16_t(s, &ret->unk9));
-	return 0;
-}
-
-int read_quick_ribbon(stream *s_root, stream *s, quick_ribbon *ret)
-{
-	int i;
-
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
-	CHECK(stream_read_uint8_t(s, &ret->unk100));
-	CHECK(read_type_id(s_root, s, &ret->id));
-	CHECK(stream_read_uint16_t(s, &ret->unk3));
-	CHECK(stream_read_uint8_t(s, &ret->unk4));
-	CHECK(stream_read_uint16_t(s, &ret->unk5_len));
-	ret->entries = malloc(sizeof(quick_ribbon_button) * ret->unk5_len);
-	for (i = 0; i < ret->unk5_len; i++)
-	{
-		CHECK(read_quick_ribbon_button(s_root, s, &ret->entries[i]));
-	}
-	return 0;
-}
-
-int read_type_block_quickaccess(stream *s_root, stream *s, type_block_quickaccess *ret)
-{
-	stream substream_quick_ribbon_info;
-
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_read_uint16_t(s, &ret->unk2));
-	CHECK(stream_read_uint16_t(s, &ret->len4));
-	CHECK(stream_make_substream(s, &substream_quick_ribbon_info, ret->len4 - 7));
-	CHECK(read_quick_ribbon(s_root, &substream_quick_ribbon_info, &ret->quick_ribbon_info));
-	return 0;
-}
-
-int read_type_block_generic(stream *s_root, stream *s, type_block_generic *ret)
-{
-	uint8_t block_type;
-
-	CHECK(stream_read_uint8_t(s, &block_type));
-	ret->block_type = block_type;
-	switch(ret->block_type)
-	{
-	case UIRIBBON_BLOCK_TYPE_RIBBON_TABS:
-		CHECK(read_type_block_tabs(s_root, s, &ret->block_ribbon_tabs));
-		break;
-	case UIRIBBON_BLOCK_TYPE_RIBBON_QUICKACCESSTOOLBAR:
-		CHECK(read_type_block_quickaccess(s_root, s, &ret->block_ribbon_quickaccesstoolbar));
-		break;
-	}
 	return 0;
 }
 

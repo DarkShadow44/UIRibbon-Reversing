@@ -264,6 +264,40 @@
 					</QuickAccessToolbar.ApplicationDefaults>
 				</QuickAccessToolbar>
 			</Ribbon.QuickAccessToolbar>
+			<Ribbon.Tabs>
+				<Tab CommandName="Test33">
+					<Group CommandName="Test37">
+						<Button CommandName = "Test38" />
+						<Button CommandName = "Test39" />
+					</Group>
+					<Group CommandName="Test40">
+						<Button CommandName = "Test38" />
+						<Button CommandName = "Test39" />
+					</Group>
+				</Tab>
+				<Tab CommandName="Test34">
+					<Group CommandName="Test37">
+						<Button CommandName = "Test38" />
+						<Button CommandName = "Test39" />
+					</Group>
+					<Group CommandName="Test40">
+						<Button CommandName = "Test38" />
+						<Button CommandName = "Test39" />
+					</Group>
+				</Tab>
+			</Ribbon.Tabs>
+			<Ribbon.ApplicationMenu>
+				<ApplicationMenu CommandName = "Test32">
+					<MenuGroup CommandName = "Test26">
+						<Button CommandName = "Test27" />
+						<Button CommandName = "Test28" />
+					</MenuGroup>
+					<MenuGroup CommandName = "Test29">
+						<Button CommandName = "Test30" />
+						<Button CommandName = "Test31" />
+					</MenuGroup>
+				</ApplicationMenu>
+			</Ribbon.ApplicationMenu>
 		</Ribbon>
 	</Application.Views>
 </Application>

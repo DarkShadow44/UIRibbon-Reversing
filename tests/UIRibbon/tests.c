@@ -34,6 +34,8 @@ static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file
 
     error = read_type_uiribbon(&s, &s, &uiribbon);
     _ok(error == 0, "Failed to parse file", file, line);
+    if (error)
+        return error;
 
     transform_uiribbon(&uiribbon, ret);
     return error;

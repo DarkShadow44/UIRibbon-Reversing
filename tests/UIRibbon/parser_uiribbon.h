@@ -93,41 +93,48 @@ typedef enum
 
 typedef enum
 {
-	UIRIBBON_CONTROL_BLOCK_TYPE_ID = 0,
-	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE_MIXED = 6,
-	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE_MIXED = 8,
-	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE = 9,
-	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGEVISIBLE = 36,
-	UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE = 37,
-	UIRIBBON_CONTROL_BLOCK_TYPE_AUTOCOMPLETE_ENABLED = 93,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TYPE = 70,
-	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLORTEMPLATE = 110,
-	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_CHIPSIZE = 111,
-	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLUMNS = 112,
-	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON = 116,
-	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON = 117,
-	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS = 115,
-	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS = 114,
-	UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS = 113,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ELEMENTS_TYPE = 68,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_HAS_LARGE_ITEMS = 38,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ITEM_HEIGHT = 87,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ITEM_WIDTH = 88,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TEXT_POSITION = 78,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MENULAYOUT = 71,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_GRIPPER = 73,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ROWS = 76,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_COLUMNS = 77,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_ROWS = 74,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_COLUMNS = 75,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_LARGE = 119,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_COLUMNS_MEDIUM = 120,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_MEDIUM = 121,
-	UIRIBBON_CONTROL_BLOCK_TYPE_IS_CHECKBOX = 63,
-	UIRIBBON_CONTROL_BLOCK_TYPE_SUBCONTROLS = 62,
-	UIRIBBON_CONTROL_BLOCK_TYPE_BUTTONITEM = 72,
-	UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_SUBCONTROLS = 86,
-} enum_control_block_type;
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID = 0,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE_MIXED = 6,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE_MIXED = 8,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE = 9,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGEVISIBLE = 36,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE = 37,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_AUTOCOMPLETE_ENABLED = 93,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE = 70,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE = 110,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_CHIPSIZE = 111,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLUMNS = 112,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON = 116,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON = 117,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS = 115,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS = 114,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS = 113,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO = 68,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_HAS_LARGE_ITEMS = 38,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_HEIGHT = 87,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_WIDTH = 88,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TEXT_POSITION = 78,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MENULAYOUT = 71,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_GRIPPER = 73,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ROWS = 76,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_COLUMNS = 77,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_ROWS = 74,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS = 75,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_LARGE = 119,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS_MEDIUM = 120,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_MEDIUM = 121,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX = 63,
+} enum_control_block_type_number;
+
+typedef enum
+{
+	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS = 62,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE = 67,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM = 68,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL = 69,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM = 72,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS = 86,
+} enum_control_block_type_special;
 
 typedef enum
 {
@@ -277,97 +284,24 @@ typedef struct type_ribbon_
 	struct type_block_generic_ *block1;
 } type_ribbon;
 
-typedef struct block_unk1_
-{
-	char *rest;
-} block_unk1;
-
-typedef struct type_sizeinfo_maybe_
-{
-	uint8_t unk0;
-	uint16_t unk0c;
-	uint16_t unk0b;
-	uint8_t unk2a;
-	uint8_t unk2b;
-	uint8_t unk2c;
-	uint8_t unk1;
-	char *unk1e1;
-	uint8_t unk2;
-	uint8_t unk3;
-	uint8_t unk4;
-	uint8_t unk5;
-	uint8_t unk6;
-	uint8_t unk100;
-	type_id id;
-	uint8_t unk11;
-} type_sizeinfo_maybe;
-
-typedef struct type_sizedefinitions_command_
+typedef struct type_sizedefinitions_order_command_
 {
 	uint8_t unk1;
 	enum_sizedefinitions_command flags_command;
 	uint8_t string_id;
 	uint16_t command_id;
-} type_sizedefinitions_command;
+} type_sizedefinitions_order_command;
 
-typedef struct type_sizedefinition_
+typedef struct type_sizedefinition_order_
 {
-	uint16_t unk1;
-	uint8_t unk2;
 	uint16_t count_commands;
-	struct type_sizedefinitions_command_ *commands;
-} type_sizedefinition;
-
-typedef struct type_group_elements_info_
-{
-	uint8_t unk10;
-	uint16_t unk1b;
-	uint8_t unk2;
-	uint16_t unk1c;
-	uint8_t unk1d;
-	uint16_t sub_count;
-	struct type_control_ *subcontents;
-	type_sizedefinition sizedefinition_large;
-	type_sizedefinition sizedefinition_medium;
-	type_sizedefinition sizedefinition_small;
-	char *unk6;
-} type_group_elements_info;
-
-typedef struct type_scalingpolicy_
-{
-	uint8_t unk1a;
-	uint8_t unk1b;
-	type_id scale_value;
-	uint8_t unk3;
-	int32_t priority_medium;
-	int32_t priority_small;
-	int32_t priority_popup;
-} type_scalingpolicy;
-
-typedef struct type_group_info_
-{
-	uint16_t unk1;
-	uint16_t len_unk1;
-	uint16_t unk3;
-	uint16_t unk4;
-	type_id id;
-	uint8_t unk20a;
-	type_scalingpolicy scalingpolicy;
-	uint8_t unk20b;
-	uint16_t unk12;
-	uint16_t unk21;
-	uint16_t unk10;
-	uint16_t unk11;
-	uint16_t size_group_elements_info;
-	type_group_elements_info group_elements_info;
-} type_group_info;
+	struct type_sizedefinitions_order_command_ *commands;
+} type_sizedefinition_order;
 
 typedef struct type_tab_extended_
 {
 	uint16_t unk_id1;
 	uint16_t count_groupinfo;
-	uint16_t unk2;
-	uint8_t unk3;
 	struct type_group_info_ *groupinfo;
 } type_tab_extended;
 
@@ -401,16 +335,16 @@ typedef struct type_unk1_extended_
 	uint16_t unk8;
 } type_unk1_extended;
 
-typedef struct type_control_block2_number_
+typedef struct type_control_block_number_variable_
 {
 	type_id id;
-} type_control_block2_number;
+} type_control_block_number_variable;
 
-typedef struct type_control_block2_long_
+typedef struct type_control_block_number_long_
 {
 	uint32_t unk1;
 	uint8_t value1;
-} type_control_block2_long;
+} type_control_block_number_long;
 
 typedef struct type_subcontrols_
 {
@@ -418,16 +352,13 @@ typedef struct type_subcontrols_
 	struct type_control_ *subcontrols;
 } type_subcontrols;
 
-typedef struct type_control_block2_
+typedef struct type_control_block_number_
 {
-	uint8_t meta_type;
 	uint8_t block_len;
-	enum_control_block_type block_type;
-	type_control_block2_number content_number;
-	type_control_block2_long content_long;
-	type_subcontrols content_subcontrols;
+	enum_control_block_type_number block_type;
+	type_control_block_number_variable content_number;
+	type_control_block_number_long content_long;
 	int32_t id;
-	int32_t is_subcomponents;
 	enum_sizedefinition_labelvisible_mixed sizedefinition_labelvisible_mixed;
 	enum_sizedefinition_labelvisible sizedefinition_labelvisible;
 	enum_sizedefinition_imagevisible sizedefinition_imagevisible;
@@ -458,13 +389,59 @@ typedef struct type_control_block2_
 	int32_t gallery_max_columns_medium;
 	int32_t gallery_min_columns_medium;
 	int32_t is_checkbox;
-} type_control_block2;
+	int32_t scalepolicy;
+	int32_t scalepolicy_medium;
+	int32_t scalepolicy_small;
+	int32_t scalepolicy_popup;
+} type_control_block_number;
 
-typedef struct type_control_blocks2_
+typedef struct type_control_block_special_
+{
+	uint8_t block_len;
+	enum_control_block_type_special block_type;
+	type_subcontrols content_subcontrols;
+	type_sizedefinition_order sizedefinition_order;
+} type_control_block_special;
+
+typedef struct type_control_block_
+{
+	uint8_t meta_type;
+	type_control_block_number content_number;
+	type_control_block_special content_special;
+} type_control_block;
+
+typedef struct type_control_blocks_
 {
 	uint8_t count_blocks;
-	struct type_control_block2_ *blocks;
-} type_control_blocks2;
+	struct type_control_block_ *blocks;
+} type_control_blocks;
+
+typedef struct type_block_quickaccess_
+{
+	uint16_t unk1;
+	uint16_t unk2;
+	uint16_t len4;
+	type_control_blocks quick_ribbon_info;
+} type_block_quickaccess;
+
+typedef struct type_block_generic_
+{
+	enum_block_type block_type;
+	union
+	{
+		type_block_tabs block_ribbon_tabs;
+		type_block_quickaccess block_ribbon_quickaccesstoolbar;
+	};
+} type_block_generic;
+
+typedef struct type_group_info_
+{
+	uint16_t unk1;
+	uint8_t unk2;
+	uint16_t unk3;
+	uint16_t len_unk1;
+	type_control_blocks blocks;
+} type_group_info;
 
 typedef struct type_control_
 {
@@ -472,7 +449,7 @@ typedef struct type_control_
 	enum_type_control block_type;
 	uint8_t unk2;
 	uint16_t size_block;
-	type_control_blocks2 block;
+	type_control_blocks block;
 } type_control;
 
 typedef struct type_menugroup_extended_
@@ -523,50 +500,6 @@ typedef struct application_views_
 	uint16_t ribbon_len;
 	type_ribbon ribbon;
 } application_views;
-
-typedef struct quick_ribbon_button_
-{
-	uint16_t unk1;
-	uint16_t unk2;
-	uint16_t unk3;
-	uint16_t unk4;
-	uint16_t unk5;
-	uint8_t unk100;
-	type_id id;
-	uint16_t unk7;
-	uint16_t unk8;
-	uint16_t unk9;
-} quick_ribbon_button;
-
-typedef struct quick_ribbon_
-{
-	uint16_t unk1;
-	uint8_t unk2;
-	uint8_t unk100;
-	type_id id;
-	uint16_t unk3;
-	uint8_t unk4;
-	uint16_t unk5_len;
-	struct quick_ribbon_button_ *entries;
-} quick_ribbon;
-
-typedef struct type_block_quickaccess_
-{
-	uint16_t unk1;
-	uint16_t unk2;
-	uint16_t len4;
-	quick_ribbon quick_ribbon_info;
-} type_block_quickaccess;
-
-typedef struct type_block_generic_
-{
-	enum_block_type block_type;
-	union
-	{
-		type_block_tabs block_ribbon_tabs;
-		type_block_quickaccess block_ribbon_quickaccesstoolbar;
-	};
-} type_block_generic;
 
 typedef struct type_command_
 {

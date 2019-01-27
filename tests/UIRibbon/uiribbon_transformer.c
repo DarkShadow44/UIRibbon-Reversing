@@ -1,5 +1,13 @@
 #include "uiribbon_transformer.h"
 
+/* FIXME: Proper assert structure */
+
+#define ASSERT(cond) \
+    if (!(cond)) {\
+        printf("Assert failed: %s, %d\n", __FILE__, __LINE__); \
+        return; \
+    }
+
 uiribbon_control_type transform_control_type(type_control *src_control)
 {
     int i, j;
@@ -13,10 +21,10 @@ uiribbon_control_type transform_control_type(type_control *src_control)
     case UIRIBBON_TYPE_CONTROL_CHECKBOX:
         for (i = 0; i < src_control->block.count_blocks; i++)
         {
-            type_control_block2 *src_block = &src_control->block.blocks[i];
-            if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_IS_CHECKBOX)
+            type_control_block *src_block = &src_control->block.blocks[i];
+            if (src_block->meta_type == 1 && src_block->content_number.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
             {
-                is_checkbox = src_block->is_checkbox;
+                is_checkbox = src_block->content_number.is_checkbox;
             }
         }
         if (is_checkbox)
@@ -27,10 +35,10 @@ uiribbon_control_type transform_control_type(type_control *src_control)
     case UIRIBBON_TYPE_CONTROL_GALLERY:
         for (i = 0; i < src_control->block.count_blocks; i++)
         {
-            type_control_block2 *src_block = &src_control->block.blocks[i];
-            if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TYPE)
+            type_control_block *src_block = &src_control->block.blocks[i];
+            if (src_block->meta_type == 1 && src_block->content_number.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
             {
-                switch(src_block->gallery_type)
+                switch(src_block->content_number.gallery_type)
                 {
                 case UIRIBBON_GALLERY_TYPE_COMBO:
                 case UIRIBBON_GALLERY_TYPE_DROPDOWNLIST:
@@ -38,7 +46,7 @@ uiribbon_control_type transform_control_type(type_control *src_control)
                 case UIRIBBON_GALLERY_TYPE_DROPDOWNSPLIT:
                     for (j = 0; j < src_control->block.count_blocks; j++)
                     {
-                        if (src_control->block.blocks[j].block_type == UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLORTEMPLATE)
+                        if (src_block->meta_type == 1 && src_control->block.blocks[j].content_number.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
                             is_colorpicker = TRUE;
                     }
                     if (is_colorpicker)
@@ -71,16 +79,20 @@ void transform_control_combobox(type_control *src_control, uiribbon_control_comb
     ret_control->is_editable = FALSE;
     for (i = 0; i < src_control->block.count_blocks; i++)
     {
-        type_control_block2 *src_block = &src_control->block.blocks[i];
+        type_control_block_number *src_block = &src_control->block.blocks[i].content_number;
+
+        if (src_control->block.blocks[i].meta_type != 1)
+            continue;
+
         switch(src_block->block_type)
         {
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MENULAYOUT:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MENULAYOUT:
             ret_control->is_editable = TRUE;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_AUTOCOMPLETE_ENABLED:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_AUTOCOMPLETE_ENABLED:
             ret_control->has_autocomplete = src_block->autocomplete_enabled;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_GRIPPER:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_GRIPPER:
             ret_control->has_vertical_resize = src_block->gallery_gripper != UIRIBBON_GALLERY_GRIPPER_NONE;
             break;
         default:
@@ -89,7 +101,7 @@ void transform_control_combobox(type_control *src_control, uiribbon_control_comb
     }
 }
 
-uiribbon_chipsize transform_chipsize(type_control_block2 *src_block)
+uiribbon_chipsize transform_chipsize(type_control_block_number *src_block)
 {
     switch (src_block->dropdowncolorpicker_chipsize)
     {
@@ -103,7 +115,7 @@ uiribbon_chipsize transform_chipsize(type_control_block2 *src_block)
     return -1;
 }
 
-uiribbon_colortemplate transform_colortemplate(type_control_block2 *src_block)
+uiribbon_colortemplate transform_colortemplate(type_control_block_number *src_block)
 {
     switch (src_block->dropdowncolorpicker_colortemplate)
     {
@@ -130,31 +142,35 @@ void transform_control_dropdowncolorpicker(type_control *src_control, uiribbon_c
     ret_control->theme_color_rows = 6;
     for (i = 0; i < src_control->block.count_blocks; i++)
     {
-        type_control_block2 *src_block = &src_control->block.blocks[i];
+        type_control_block_number *src_block = &src_control->block.blocks[i].content_number;
+
+        if (src_control->block.blocks[i].meta_type != 1)
+            continue;
+
         switch(src_block->block_type)
         {
-        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLORTEMPLATE:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE:
             ret_control->colortemplate = transform_colortemplate(src_block);
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_CHIPSIZE:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_CHIPSIZE:
             ret_control->chipsize = transform_chipsize(src_block);
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_COLUMNS:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLUMNS:
             ret_control->columns = src_block->dropdowncolorpicker_columns;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON:
             ret_control->has_autocolor_button = src_block->dropdowncolorpicker_has_autocolor_button;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON:
             ret_control->has_nocolor_button = src_block->dropdowncolorpicker_has_nocolor_button;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS:
             ret_control->recent_color_rows = src_block->dropdowncolorpicker_recent_color_rows;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS:
             ret_control->standard_color_rows = src_block->dropdowncolorpicker_standard_rows;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS:
             ret_control->theme_color_rows = src_block->dropdowncolorpicker_theme_color_rows;
             break;
         default:
@@ -163,7 +179,7 @@ void transform_control_dropdowncolorpicker(type_control *src_control, uiribbon_c
     }
 }
 
-enum_gallery_elements_type transform_gallery_elements_type(type_control_block2 *src_block)
+enum_gallery_elements_type transform_gallery_elements_type(type_control_block_number *src_block)
 {
     switch (src_block->gallery_elements_type)
     {
@@ -175,7 +191,7 @@ enum_gallery_elements_type transform_gallery_elements_type(type_control_block2 *
     return -1;
 }
 
-enum_gallery_menulayout transform_gallery_menulayout(type_control_block2 *src_block)
+enum_gallery_menulayout transform_gallery_menulayout(type_control_block_number *src_block)
 {
     switch (src_block->gallery_menulayout)
     {
@@ -189,7 +205,7 @@ enum_gallery_menulayout transform_gallery_menulayout(type_control_block2 *src_bl
     return -1;
 }
 
-enum_gallery_gripper transform_gallery_gripper(type_control_block2 *src_block)
+enum_gallery_gripper transform_gallery_gripper(type_control_block_number *src_block)
 {
     switch (src_block->gallery_gripper)
     {
@@ -203,7 +219,7 @@ enum_gallery_gripper transform_gallery_gripper(type_control_block2 *src_block)
     return -1;
 }
 
-enum_gallery_text_position transform_gallery_textposition(type_control_block2 *src_block)
+enum_gallery_text_position transform_gallery_textposition(type_control_block_number *src_block)
 {
     switch (src_block->gallery_text_position)
     {
@@ -232,34 +248,38 @@ void transform_control_gallery_generic(type_control *src_control, uiribbon_contr
 
     for (i = 0; i < src_control->block.count_blocks; i++)
     {
-        type_control_block2 *src_block = &src_control->block.blocks[i];
+        type_control_block_number *src_block = &src_control->block.blocks[i].content_number;
+
+        if (src_control->block.blocks[i].meta_type != 1)
+            continue;
+
         switch(src_block->block_type)
         {
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MENULAYOUT:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MENULAYOUT:
             ret_control->menulayout = transform_gallery_menulayout(src_block);
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_GRIPPER:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_GRIPPER:
             ret_control->gripper = transform_gallery_gripper(src_block);
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_TEXT_POSITION:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TEXT_POSITION:
             ret_control->text_position = transform_gallery_textposition(src_block);
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ELEMENTS_TYPE:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO:
             ret_control->elements_type = transform_gallery_elements_type(src_block);
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_HAS_LARGE_ITEMS:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_HAS_LARGE_ITEMS:
             ret_control->has_large_items = src_block->gallery_has_large_items;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ITEM_WIDTH:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_WIDTH:
             ret_control->item_width = src_block->gallery_item_width;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ITEM_HEIGHT:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_HEIGHT:
             ret_control->item_height = src_block->gallery_item_height;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_ROWS:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ROWS:
             ret_control->rows = src_block->gallery_rows;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_COLUMNS:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_COLUMNS:
             ret_control->columns = src_block->gallery_columns;
             break;
         default:
@@ -276,22 +296,26 @@ void transform_control_inribbongallery(type_control *src_control, uiribbon_contr
 
     for (i = 0; i < src_control->block.count_blocks; i++)
     {
-        type_control_block2 *src_block = &src_control->block.blocks[i];
+        type_control_block_number *src_block = &src_control->block.blocks[i].content_number;
+
+        if (src_control->block.blocks[i].meta_type != 1)
+            continue;
+
         switch(src_block->block_type)
         {
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_COLUMNS:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS:
             ret_control->max_columns = src_block->gallery_max_columns;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_ROWS:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_ROWS:
             ret_control->max_rows = src_block->gallery_max_rows;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MAX_COLUMNS_MEDIUM:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS_MEDIUM:
             ret_control->max_columns_medium = src_block->gallery_max_columns_medium;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_MEDIUM:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_MEDIUM:
             ret_control->min_columns_medium = src_block->gallery_min_columns_medium;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_MIN_COLUMNS_LARGE:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_LARGE:
             ret_control->min_columns_large = src_block->gallery_min_columns_large;
             break;
         default:
@@ -330,19 +354,20 @@ void transform_control_splitbutton(type_control *src_control, uiribbon_control *
     int i;
     uiribbon_control *buttonitem;
 
-    ret_control->control_info.splitbutton.buttonitem = malloc(sizeof(type_control));
+    ret_control->control_info.splitbutton.buttonitem = malloc(sizeof(uiribbon_control));
 
     for (i = 0; i < src_control->block.count_blocks; i++)
     {
-        type_control_block2 *src_block = &src_control->block.blocks[i];
+        type_control_block_special *src_block = &src_control->block.blocks[i].content_special;
 
-        if (src_block->is_subcomponents)
+        if (src_control->block.blocks[i].meta_type != 24)
+            continue;
+
+        if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM)
         {
-            if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_BUTTONITEM)
-            {
-                transform_control(&src_block->content_subcontrols.subcontrols[0], ret_control->control_info.splitbutton.buttonitem);
-                return;
-            }
+            ASSERT(src_block->content_subcontrols.count_subcontrols == 1);
+            transform_control(&src_block->content_subcontrols.subcontrols[0], ret_control->control_info.splitbutton.buttonitem);
+            return;
         }
     }
 
@@ -350,21 +375,25 @@ void transform_control_splitbutton(type_control *src_control, uiribbon_control *
     *ret_control->control_info.splitbutton.buttonitem = *buttonitem;
 }
 
-void transform_subcontrols(type_subcontrols *src_block, uiribbon_control *ret_control)
+void transform_subcontrols(type_subcontrols *src_block, int *out_count_subcontrols, uiribbon_control **out_subcontrols)
 {
     int i;
+    int count_subcontrols;
+    uiribbon_control *subcontrols;
 
-    ret_control->count_subcontrols = src_block->count_subcontrols;
-    if (ret_control->count_subcontrols == 0)
-    {
-        ret_control->subcontrols  = NULL;
+    count_subcontrols = src_block->count_subcontrols;
+    *out_count_subcontrols = count_subcontrols;
+    *out_subcontrols  = NULL;
+
+    if (count_subcontrols == 0)
         return;
-    }
-    ret_control->subcontrols = malloc(sizeof(uiribbon_control) * ret_control->count_subcontrols);
 
-    for (i = 0; i < ret_control->count_subcontrols; i++)
+    subcontrols = malloc(sizeof(uiribbon_control) * count_subcontrols);
+    *out_subcontrols = subcontrols;
+
+    for (i = 0; i < count_subcontrols; i++)
     {
-        transform_control(&src_block->subcontrols[i], &ret_control->subcontrols[i]);
+        transform_control(&src_block->subcontrols[i], &subcontrols[i]);
     }
 }
 
@@ -377,28 +406,32 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
     ret_control->subcontrols = NULL;
     for (i = 0; i < src_control->block.count_blocks; i++)
     {
-        type_control_block2 *src_block = &src_control->block.blocks[i];
-
-        if (src_block->is_subcomponents &&
-            (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SUBCONTROLS || src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_GALLERY_SUBCONTROLS))
+        type_control_block_number *src_block = &src_control->block.blocks[i].content_number;
+        type_control_block_special *src_block_special = &src_control->block.blocks[i].content_special;
+        int meta_type = src_control->block.blocks[i].meta_type;
+        if (meta_type == 24)
         {
-            transform_subcontrols(&src_block->content_subcontrols, ret_control);
+            if (src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS
+                || src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS)
+            {
+                transform_subcontrols(&src_block_special->content_subcontrols, &ret_control->count_subcontrols, &ret_control->subcontrols);
+            }
             continue;
         }
 
         switch (src_block->block_type)
         {
-        case UIRIBBON_CONTROL_BLOCK_TYPE_ID:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID:
             ret_control->id = src_block->id;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE:
             if (!ret_control->size_definitions)
                 ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions_control));
             ret_control->size_definitions->large.sizeLarge = src_block->sizedefinition_imagesize == UIRIBBON_SIZEDEFINITION_IMAGESIZE_LARGE;
             ret_control->size_definitions->medium.sizeLarge = ret_control->size_definitions->large.sizeLarge;
             ret_control->size_definitions->small.sizeLarge = ret_control->size_definitions->large.sizeLarge;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGESIZE_MIXED:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE_MIXED:
             if (src_block->sizedefinition_imagesize_mixed == UIRIBBON_SIZEDEFINITION_IMAGESIZE_MIXED_SMALLISSMALL)
             {
                 ret_control->size_definitions->small.sizeLarge = 0;
@@ -409,14 +442,14 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
                 ret_control->size_definitions->small.sizeLarge = 0;
             }
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE:
             if (!ret_control->size_definitions)
                 ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions_control));
             ret_control->size_definitions->large.labelvisible = src_block->sizedefinition_labelvisible == UIRIBBON_SIZEDEFINITION_LABELVISIBLE_VISIBLE;
             ret_control->size_definitions->medium.labelvisible = ret_control->size_definitions->large.labelvisible;
             ret_control->size_definitions->small.labelvisible = ret_control->size_definitions->large.labelvisible;
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_LABELVISIBLE_MIXED:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE_MIXED:
             if (!ret_control->size_definitions)
                 ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions_control));
             ret_control->size_definitions->large.labelvisible = 1;
@@ -432,7 +465,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
             }
 
             break;
-        case UIRIBBON_CONTROL_BLOCK_TYPE_SIZEDEFINITION_IMAGEVISIBLE:
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGEVISIBLE:
             if (!ret_control->size_definitions)
                 ret_control->size_definitions = malloc(sizeof(uiribbon_sizedefinitions_control));
 
@@ -482,7 +515,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
     }
 }
 
-void transform_sizedefinition_group(type_uiribbon *root, type_sizedefinition *src, uiribbon_sizedefinition_group *ret)
+void transform_sizedefinition_order(type_uiribbon *root, type_sizedefinition_order *src, uiribbon_sizedefinition_group *ret)
 {
     int i;
 
@@ -491,7 +524,7 @@ void transform_sizedefinition_group(type_uiribbon *root, type_sizedefinition *sr
     for (i = 0; i < ret->count_orders; i++)
     {
         uiribbon_sizedefinition_group_order *ret_order = &ret->orders[i];
-        type_sizedefinitions_command *src_order = &src->commands[i];
+        type_sizedefinitions_order_command *src_order = &src->commands[i];
 
         if (src_order->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND)
         {
@@ -525,74 +558,150 @@ void transform_sizedefinition_group(type_uiribbon *root, type_sizedefinition *sr
     }
 }
 
+/* Skip over useless group inside tab group */
+void transform_subcontrols_group(type_uiribbon *root, type_subcontrols *src_block, uiribbon_group *ret_group)
+{
+    int i;
+
+    ASSERT(src_block->count_subcontrols == 1);
+
+    for (i = 0; i < src_block->subcontrols[0].block.count_blocks; i++)
+    {
+        type_control_block_special *src_block_special = &src_block->subcontrols[0].block.blocks[i].content_special;
+        int meta_type = src_block->subcontrols[0].block.blocks[i].meta_type;
+        if (meta_type == 24)
+        {
+             switch (src_block_special->block_type)
+            {
+            case UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS:
+                transform_subcontrols(&src_block_special->content_subcontrols, &ret_group->count_controls, &ret_group->controls);
+                break;
+            case UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE:
+                if (!ret_group->sizedefinition_orders)
+                    ret_group->sizedefinition_orders = malloc(sizeof(uiribbon_sizedefinitions_orders));
+                transform_sizedefinition_order (root, &src_block_special->sizedefinition_order, &ret_group->sizedefinition_orders->large);
+                break;
+            case UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM:
+                if (!ret_group->sizedefinition_orders)
+                    ret_group->sizedefinition_orders = malloc(sizeof(uiribbon_sizedefinitions_orders));
+                transform_sizedefinition_order (root, &src_block_special->sizedefinition_order, &ret_group->sizedefinition_orders->medium);
+                break;
+            case UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL:
+                if (!ret_group->sizedefinition_orders)
+                    ret_group->sizedefinition_orders = malloc(sizeof(uiribbon_sizedefinitions_orders));
+                transform_sizedefinition_order (root, &src_block_special->sizedefinition_order, &ret_group->sizedefinition_orders->small);
+                break;
+            default:
+                break;
+            }
+        }
+    }
+}
+
 void transform_group(type_uiribbon *root, type_group_info *src_group, uiribbon_group *ret_group)
 {
     int i;
-    ret_group->id = src_group->id.id;
-    ret_group->count_controls = src_group->group_elements_info.sub_count;
-    ret_group->controls = malloc(sizeof(uiribbon_control) * ret_group->count_controls);
 
-    for (i = 0; i < ret_group->count_controls; i++)
-    {
-        transform_control(&src_group->group_elements_info.subcontents[i], &ret_group->controls[i]);
-    }
-
+    ret_group->count_controls = 0;
+    ret_group->controls = NULL;
     ret_group->sizedefinition_orders = NULL;
-    if (src_group->group_elements_info.unk10 == 5)
+    for (i = 0; i < src_group->blocks.count_blocks; i++)
     {
-        ret_group->sizedefinition_orders = malloc(sizeof(uiribbon_sizedefinitions_orders));
-        transform_sizedefinition_group(root, &src_group->group_elements_info.sizedefinition_large, &ret_group->sizedefinition_orders->large);
-        transform_sizedefinition_group(root, &src_group->group_elements_info.sizedefinition_medium, &ret_group->sizedefinition_orders->medium);
-        transform_sizedefinition_group(root, &src_group->group_elements_info.sizedefinition_small, &ret_group->sizedefinition_orders->small);
+        type_control_block_number *src_block = &src_group->blocks.blocks[i].content_number;
+        type_control_block_special *src_block_special = &src_group->blocks.blocks[i].content_special;
+        int meta_type = src_group->blocks.blocks[i].meta_type;
+
+        if (meta_type == 24 && src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
+        {
+            transform_subcontrols_group(root, &src_block_special->content_subcontrols, ret_group);
+            continue;
+        }
+
+        switch (src_block->block_type)
+        {
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID:
+            ret_group->id = src_block->id;
+            break;
+        default:
+            break;
+        }
     }
 }
 
 void transform_scalepolicies(type_tab_extended *src_ext, uiribbon_tab *ret_tab)
 {
-    int i, j, pos;
+    int i, j, k, pos;
     int count_scalepolicies = 0;
     for (i = 0; i < ret_tab->count_groups; i++)
     {
         type_group_info *src_group = &src_ext->groupinfo[i];
-        if (src_group->unk20a == 1)
+        for (j = 0; j < src_group->blocks.count_blocks; j++)
         {
-            if (src_group->scalingpolicy.priority_medium > 0)
-                count_scalepolicies++;
-            if (src_group->scalingpolicy.priority_small > 0)
-                count_scalepolicies++;
-            if (src_group->scalingpolicy.priority_popup > 0)
-                count_scalepolicies++;
+            type_control_block_number *src_block = &src_group->blocks.blocks[j].content_number;
+            int meta_type = src_group->blocks.blocks[j].meta_type;
+
+            if (meta_type == 1)
+            {
+                if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+                {
+                    if (src_block->scalepolicy_medium > 0)
+                        count_scalepolicies++;
+                    if (src_block->scalepolicy_small > 0)
+                        count_scalepolicies++;
+                    if (src_block->scalepolicy_popup > 0)
+                        count_scalepolicies++;
+                }
+            }
         }
     }
 
     ret_tab->count_scalepolicies = count_scalepolicies;
     ret_tab->scalepolicies = malloc(sizeof(uiribbon_scalingpolicy) * ret_tab->count_scalepolicies);
     pos = 0;
-    for (j = 0; j < 16; j++)
+    for (k = 0; k < 16; k++)
     {
         uiribbon_scalingpolicy *ret_scalingpolicy = &ret_tab->scalepolicies[pos];
         for (i = 0; i < ret_tab->count_groups; i++)
         {
             type_group_info *src_group = &src_ext->groupinfo[i];
-            if (src_group->unk20a == 1)
+            int group_id = -1;
+
+            for (j = 0; j < src_group->blocks.count_blocks; j++)
             {
-                if (src_group->scalingpolicy.priority_medium == j + 1)
+                type_control_block_number *src_block = &src_group->blocks.blocks[j].content_number;
+                int meta_type = src_group->blocks.blocks[j].meta_type;
+                if (meta_type == 1 && src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
+                    group_id = src_block->id;
+            }
+
+            for (j = 0; j < src_group->blocks.count_blocks; j++)
+            {
+                type_control_block_number *src_block = &src_group->blocks.blocks[j].content_number;
+                int meta_type = src_group->blocks.blocks[j].meta_type;
+
+                if (meta_type == 1)
                 {
-                    ret_scalingpolicy->group_id = src_group->id.id;
-                    ret_scalingpolicy->scale_type = UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM;
-                    pos++;
-                }
-                else if (src_group->scalingpolicy.priority_small == j + 1)
-                {
-                    ret_scalingpolicy->group_id = src_group->id.id;
-                    ret_scalingpolicy->scale_type = UIRIBBON_TRANSFORMED_SCALE_TO_SMALL;
-                    pos++;
-                }
-                else if (src_group->scalingpolicy.priority_popup == j + 1)
-                {
-                    ret_scalingpolicy->group_id = src_group->id.id;
-                    ret_scalingpolicy->scale_type = UIRIBBON_TRANSFORMED_SCALE_TO_POPUP;
-                    pos++;
+                    if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+                    {
+                        if (src_block->scalepolicy_medium == k + 1)
+                        {
+                            ret_scalingpolicy->group_id = group_id;
+                            ret_scalingpolicy->scale_type = UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM;
+                            pos++;
+                        }
+                        else if (src_block->scalepolicy_small == k + 1)
+                        {
+                            ret_scalingpolicy->group_id = group_id;
+                            ret_scalingpolicy->scale_type = UIRIBBON_TRANSFORMED_SCALE_TO_SMALL;
+                            pos++;
+                        }
+                        else if (src_block->scalepolicy_popup == k + 1)
+                        {
+                            ret_scalingpolicy->group_id = group_id;
+                            ret_scalingpolicy->scale_type = UIRIBBON_TRANSFORMED_SCALE_TO_POPUP;
+                            pos++;
+                        }
+                    }
                 }
             }
         }

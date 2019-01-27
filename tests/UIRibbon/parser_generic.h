@@ -34,6 +34,7 @@ typedef struct _stream
 } stream;
 
 int stream_make_substream(stream *s, stream *ret, int len);
+int stream_make_substream_instance(stream *s_root, stream *ret, int pos, int len);
 int stream_read_bytes(stream *s, void* ret, int len);
 int stream_skip_bytes(stream *s, int len);
 int _stream_expect_bytes(stream *s, const void *data, int len);

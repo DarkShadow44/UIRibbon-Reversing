@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#if __MINGW32__
+
 #define INITGUID
 #define COBJMACROS
 #include "/usr/include/wine/windows/uiribbon.h"
@@ -15,7 +17,6 @@ static IUIApplicationImpl *impl_from_IUIApplication(IUIApplication *iface)
     return CONTAINING_RECORD(iface, IUIApplicationImpl, IUIApplication_iface);
 }
 
-/* IUnknown methods */
 
 static HRESULT WINAPI IUIApplicationImpl_QueryInterface(IUIApplication* iface, REFIID riid, void** ppvObject)
 {
@@ -196,3 +197,4 @@ int run_visual_test(const char *name)
     }
     return 0;
 }
+#endif
