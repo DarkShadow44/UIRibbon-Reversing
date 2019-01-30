@@ -96,7 +96,9 @@ enums:
     25: otherinfo
     21: gallery
     18: splitbutton
-    24: group
+    24: implicitgroup
+    26: tab
+    7: group
 
   enum_sizedefinition_imagesize:
     0: small
@@ -127,6 +129,12 @@ enums:
     1: small
     2: medium
     3: large
+
+  enum_control_block_meta:
+    1: number
+    24: special
+    22: inline
+    62: ext
 
   enum_control_block_type_number:
     0: id
@@ -168,6 +176,11 @@ enums:
     69: sizedefinition_order_small
     72: buttonitem
     86: gallery_subcontrols
+    0: application_menu
+    2: tabs_normal
+    3: tabs_context
+    66: quickaccess
+    5: tabs_help
 
   enum_boolean:
     0: bool_false
@@ -265,179 +278,15 @@ types:
       repeat: expr
       repeat-expr: count_resources
 
-  type_tab:
+  type_block_inline:
     seq:
-    - id: unk1
-      type: u2
     - id: unk2
-      type: u2
-    - id: unk3a
-      type: u1
-    - id: unk3b
-      type: u1
-    - id: unk4
-      type: u2
-    - id: unk5
-      type: u2
-    - id: unk100
-      type: u1
-    - id: id
-      type: type_id
-    - id: unk7a
-      type: u1
-    - id: offset_ext
-      type: u2
-    - id: unk8
-      type: u1
-    - id: unk9
-      type: u1
-    instances:
-      ext:
-        io: _root._io
-        pos: offset_ext + 3
-        type: type_tab_extended
-
-  type_tabgroup:
-    seq:
-    - id: unk1
-      type: u2
-    - id: unk2
-      type: u2
-    - id: unk3a
-      type: u1
-    - id: unk3b
-      type: u1
-    - id: unk4
-      type: u2
-    - id: unk5
-      type: u2
-    - id: unk100
-      type: u1
-    - id: id
-      type: type_id
-    - id: unk7
-      type: u1
-    - id: unk8
-      type: u2
-    - id: count_tabs
-      type: u2
-    - id: tabs
-      type: type_tab
-      repeat: expr
-      repeat-expr: count_tabs
-
-  type_ribbon_tabs_normal:
-    seq:
-    - id: count_tabs
-      type: u2
-    - id: tabs
-      type: type_tab
-      repeat: expr
-      repeat-expr: count_tabs
-
-  type_ribbon_tabs_context:
-    seq:
-    - id: count_tabgroups
-      type: u2
-    - id: tabgroups
-      type: type_tabgroup
-      repeat: expr
-      repeat-expr: count_tabgroups
-
-  type_block_tabs:
-    seq:
-    - id: unk1a
-      type: u1
-    - id: tab_type
-      type: u1
-      enum: enum_tab_type
-    - id: tabs
-      type:
-        switch-on: tab_type
-        cases:
-          enum_tab_type::help:   type_ribbon_tabs_normal
-          enum_tab_type::normal: type_ribbon_tabs_normal
-          enum_tab_type::context: type_ribbon_tabs_context
-          enum_tab_type::applicationmenu: type_ribbon_tabs_applicationmenu
-
-  type_block_quickaccess:
-    seq:
-    - id: unk1
-      type: u2
-    - id: unk2
-      type: u2
-    - id: len4 # 22 bigger for each <Button> in <QuickAccessToolbar.ApplicationDefaults>
+      type: u4
+    - id: len4
       type: u2
     - id: quick_ribbon_info
       type: type_control_blocks
       size: len4 - 7
-
-
-  type_block_generic:
-    seq:
-    - id: block_type
-      type: u1
-      enum: enum_block_type
-    - id: tabs
-      type:
-        switch-on: block_type
-        cases:
-          enum_block_type::ribbon_tabs: type_block_tabs
-          enum_block_type::ribbon_quickaccesstoolbar: type_block_quickaccess
-
-  type_ribbon_tabs_applicationmenu:
-    seq:
-    - id: unk2
-      type: u1
-    - id: unk3
-      type: u2
-    - id: unk4
-      type: u2
-    - id: unk5
-      type: u2
-    - id: unk6
-      type: u2
-    - id: unk7
-      type: u1
-    - id: unk8
-      type: u2
-    - id: unk100
-      type: u1
-    - id: id
-      type: type_id
-    - id: unk11
-      type: u2
-    - id: unk12
-      type: u2
-    - id: unk13
-      type: u2
-    - id: unk14
-      type: u2
-    - id: unk15
-      type: u1
-    - id: unk16
-      size: 5
-    - id: unk17 #offset? changes with sizedefinition
-      type: u4
-    - id: unk18
-      size: 1
-    - id: unk19 #offset? changes with sizedefinition
-      type: u4
-    - id: unk20
-      size: 1
-    - id: unk21 #offset? changes with sizedefinition
-      type: u4
-
-  type_ribbon:
-    seq:
-    - id: count_blocks
-      type: u1
-    - id: unk1
-      contents: [1, 1, 0x0b, 9, 0]
-    - id: block1
-      type: type_block_generic
-      repeat: expr
-      repeat-expr: count_blocks
 
   type_sizedefinitions_order_command:
     seq:
@@ -462,52 +311,6 @@ types:
       type: type_sizedefinitions_order_command
       repeat: expr
       repeat-expr: count_commands
-
-  type_group_info:
-    seq:
-    - id: unk1
-      type: u2
-    - id: unk2
-      type: u1
-    - id: unk3
-      type: u2
-    - id: len_unk1 # same as size_group_elements_info, just a bit bigger
-      type: u2
-    - id: blocks
-      type: type_control_blocks
-      size: len_unk1 - 7
-
-  type_tab_extended:
-    seq:
-    - id: unk_id1
-      type: u2
-    - id: count_groupinfo
-      type: u2
-    - id: groupinfo
-      type: type_group_info
-      repeat: expr
-      repeat-expr: count_groupinfo
-
-  type_unk1_extended:
-    seq:
-    - id: unk_id1
-      type: u2
-    - id: unk1
-      type: u2
-    - id: unk2
-      type: u2
-    - id: unk3
-      type: u2
-    - id: unk4
-      type: u2
-    - id: unk5
-      type: u2
-    - id: unk6
-      type: u2
-    - id: unk7
-      type: u2
-    - id: unk8
-      type: u2
 
   type_control_block_number_variable:
     seq:
@@ -683,6 +486,11 @@ types:
       if: block_type == enum_control_block_type_special::subcomponents
         or block_type == enum_control_block_type_special::gallery_subcontrols
         or block_type == enum_control_block_type_special::buttonitem
+        or block_type == enum_control_block_type_special::application_menu
+        or block_type == enum_control_block_type_special::tabs_normal
+        or block_type == enum_control_block_type_special::tabs_context
+        or block_type == enum_control_block_type_special::quickaccess
+        or block_type == enum_control_block_type_special::tabs_help
     - id: sizedefinition_order
       type: type_sizedefinition_order
       if: block_type == enum_control_block_type_special::sizedefinition_order_large
@@ -693,12 +501,25 @@ types:
     seq:
     - id: meta_type
       type: u1
+      enum: enum_control_block_meta
     - id: content_number
       type: type_control_block_number
-      if: meta_type == 1
+      if: meta_type == enum_control_block_meta::number
     - id: content_special
       type: type_control_block_special
-      if: meta_type == 24
+      if: meta_type == enum_control_block_meta::special
+    - id: block_inline
+      type: type_block_inline
+      if: meta_type == enum_control_block_meta::inline
+    - id: ext_pos
+      type: u4
+      if: meta_type == enum_control_block_meta::ext
+    instances:
+     ext:
+       io: _root._io
+       type: type_control_block_ext
+       pos: ext_pos
+       if: meta_type == enum_control_block_meta::ext
 
   type_control_blocks:
     seq:
@@ -710,6 +531,13 @@ types:
       repeat-expr: count_blocks
     - id: blocks_bytes
       size-eos: true
+
+  type_control_block_ext:
+    seq:
+    - id: len_ext
+      type: u2
+    - id: block
+      type: type_control_block
 
   type_control:
     seq:
@@ -803,7 +631,7 @@ types:
     - id: ribbon_len
       type: u2
     - id: ribbon
-      type: type_ribbon
+      type: type_control_blocks
       size: ribbon_len
     # - id: ribbon_tab_info
     #   type: type_tab_extended

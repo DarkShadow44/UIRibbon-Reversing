@@ -44,7 +44,9 @@ typedef enum
 	UIRIBBON_TYPE_CONTROL_OTHERINFO = 25,
 	UIRIBBON_TYPE_CONTROL_GALLERY = 21,
 	UIRIBBON_TYPE_CONTROL_SPLITBUTTON = 18,
-	UIRIBBON_TYPE_CONTROL_GROUP = 24,
+	UIRIBBON_TYPE_CONTROL_IMPLICITGROUP = 24,
+	UIRIBBON_TYPE_CONTROL_TAB = 26,
+	UIRIBBON_TYPE_CONTROL_GROUP = 7,
 } enum_type_control;
 
 typedef enum
@@ -93,6 +95,14 @@ typedef enum
 
 typedef enum
 {
+	UIRIBBON_CONTROL_BLOCK_META_NUMBER = 1,
+	UIRIBBON_CONTROL_BLOCK_META_SPECIAL = 24,
+	UIRIBBON_CONTROL_BLOCK_META_INLINE = 22,
+	UIRIBBON_CONTROL_BLOCK_META_EXT = 62,
+} enum_control_block_meta;
+
+typedef enum
+{
 	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID = 0,
 	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE_MIXED = 6,
 	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE_MIXED = 8,
@@ -134,6 +144,11 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL = 69,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM = 72,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS = 86,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU = 0,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL = 2,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT = 3,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS = 66,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP = 5,
 } enum_control_block_type_special;
 
 typedef enum
@@ -213,77 +228,6 @@ typedef struct type_resource_
 	struct type_resource_generic_ *resources;
 } type_resource;
 
-typedef struct type_tabgroup_
-{
-	uint16_t unk1;
-	uint16_t unk2;
-	uint8_t unk3a;
-	uint8_t unk3b;
-	uint16_t unk4;
-	uint16_t unk5;
-	uint8_t unk100;
-	type_id id;
-	uint8_t unk7;
-	uint16_t unk8;
-	uint16_t count_tabs;
-	struct type_tab_ *tabs;
-} type_tabgroup;
-
-typedef struct type_ribbon_tabs_normal_
-{
-	uint16_t count_tabs;
-	struct type_tab_ *tabs;
-} type_ribbon_tabs_normal;
-
-typedef struct type_ribbon_tabs_context_
-{
-	uint16_t count_tabgroups;
-	struct type_tabgroup_ *tabgroups;
-} type_ribbon_tabs_context;
-
-typedef struct type_ribbon_tabs_applicationmenu_
-{
-	uint8_t unk2;
-	uint16_t unk3;
-	uint16_t unk4;
-	uint16_t unk5;
-	uint16_t unk6;
-	uint8_t unk7;
-	uint16_t unk8;
-	uint8_t unk100;
-	type_id id;
-	uint16_t unk11;
-	uint16_t unk12;
-	uint16_t unk13;
-	uint16_t unk14;
-	uint8_t unk15;
-	char *unk16;
-	uint32_t unk17;
-	char *unk18;
-	uint32_t unk19;
-	char *unk20;
-	uint32_t unk21;
-} type_ribbon_tabs_applicationmenu;
-
-typedef struct type_block_tabs_
-{
-	uint8_t unk1a;
-	enum_tab_type tab_type;
-	union
-	{
-		type_ribbon_tabs_normal block_help;
-		type_ribbon_tabs_normal block_normal;
-		type_ribbon_tabs_context block_context;
-		type_ribbon_tabs_applicationmenu block_applicationmenu;
-	};
-} type_block_tabs;
-
-typedef struct type_ribbon_
-{
-	uint8_t count_blocks;
-	struct type_block_generic_ *block1;
-} type_ribbon;
-
 typedef struct type_sizedefinitions_order_command_
 {
 	uint8_t unk1;
@@ -297,43 +241,6 @@ typedef struct type_sizedefinition_order_
 	uint16_t count_commands;
 	struct type_sizedefinitions_order_command_ *commands;
 } type_sizedefinition_order;
-
-typedef struct type_tab_extended_
-{
-	uint16_t unk_id1;
-	uint16_t count_groupinfo;
-	struct type_group_info_ *groupinfo;
-} type_tab_extended;
-
-typedef struct type_tab_
-{
-	uint16_t unk1;
-	uint16_t unk2;
-	uint8_t unk3a;
-	uint8_t unk3b;
-	uint16_t unk4;
-	uint16_t unk5;
-	uint8_t unk100;
-	type_id id;
-	uint8_t unk7a;
-	uint16_t offset_ext;
-	uint8_t unk8;
-	uint8_t unk9;
-	type_tab_extended ext;
-} type_tab;
-
-typedef struct type_unk1_extended_
-{
-	uint16_t unk_id1;
-	uint16_t unk1;
-	uint16_t unk2;
-	uint16_t unk3;
-	uint16_t unk4;
-	uint16_t unk5;
-	uint16_t unk6;
-	uint16_t unk7;
-	uint16_t unk8;
-} type_unk1_extended;
 
 typedef struct type_control_block_number_variable_
 {
@@ -403,45 +310,34 @@ typedef struct type_control_block_special_
 	type_sizedefinition_order sizedefinition_order;
 } type_control_block_special;
 
-typedef struct type_control_block_
-{
-	uint8_t meta_type;
-	type_control_block_number content_number;
-	type_control_block_special content_special;
-} type_control_block;
-
 typedef struct type_control_blocks_
 {
 	uint8_t count_blocks;
 	struct type_control_block_ *blocks;
 } type_control_blocks;
 
-typedef struct type_block_quickaccess_
+typedef struct type_block_inline_
 {
-	uint16_t unk1;
-	uint16_t unk2;
+	uint32_t unk2;
 	uint16_t len4;
 	type_control_blocks quick_ribbon_info;
-} type_block_quickaccess;
+} type_block_inline;
 
-typedef struct type_block_generic_
+typedef struct type_control_block_
 {
-	enum_block_type block_type;
-	union
-	{
-		type_block_tabs block_ribbon_tabs;
-		type_block_quickaccess block_ribbon_quickaccesstoolbar;
-	};
-} type_block_generic;
+	enum_control_block_meta meta_type;
+	type_control_block_number content_number;
+	type_control_block_special content_special;
+	type_block_inline block_inline;
+	uint32_t ext_pos;
+	struct type_control_block_ext_ *ext;
+} type_control_block;
 
-typedef struct type_group_info_
+typedef struct type_control_block_ext_
 {
-	uint16_t unk1;
-	uint8_t unk2;
-	uint16_t unk3;
-	uint16_t len_unk1;
-	type_control_blocks blocks;
-} type_group_info;
+	uint16_t len_ext;
+	type_control_block block;
+} type_control_block_ext;
 
 typedef struct type_control_
 {
@@ -498,7 +394,7 @@ typedef struct type_command_ext_
 typedef struct application_views_
 {
 	uint16_t ribbon_len;
-	type_ribbon ribbon;
+	type_control_blocks ribbon;
 } application_views;
 
 typedef struct type_command_

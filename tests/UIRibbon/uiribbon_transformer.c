@@ -1,6 +1,10 @@
 #include "uiribbon_transformer.h"
 
 /* FIXME: Proper assert structure */
+/* FIXME: Proper meta type, maybe macro to make iterating over blocks shorter... */
+/* FIXME: Fix block, blocks... */
+/* FIXME: Extract all in methods for fewer loops? */
+/* structs to combine count and array ? */
 
 #define ASSERT(cond) \
     if (!(cond)) {\
@@ -62,7 +66,7 @@ uiribbon_control_type transform_control_type(type_control *src_control)
             }
         }
         break;
-    case UIRIBBON_TYPE_CONTROL_GROUP:
+    case UIRIBBON_TYPE_CONTROL_IMPLICITGROUP:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP;
     case UIRIBBON_TYPE_CONTROL_SPLITBUTTON:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON;
@@ -599,18 +603,18 @@ void transform_subcontrols_group(type_uiribbon *root, type_subcontrols *src_bloc
     }
 }
 
-void transform_group(type_uiribbon *root, type_group_info *src_group, uiribbon_group *ret_group)
+void transform_group(type_uiribbon *root, type_control *src_group, uiribbon_group *ret_group)
 {
     int i;
 
     ret_group->count_controls = 0;
     ret_group->controls = NULL;
     ret_group->sizedefinition_orders = NULL;
-    for (i = 0; i < src_group->blocks.count_blocks; i++)
+    for (i = 0; i < src_group->block.count_blocks; i++)
     {
-        type_control_block_number *src_block = &src_group->blocks.blocks[i].content_number;
-        type_control_block_special *src_block_special = &src_group->blocks.blocks[i].content_special;
-        int meta_type = src_group->blocks.blocks[i].meta_type;
+        type_control_block_number *src_block = &src_group->block.blocks[i].content_number;
+        type_control_block_special *src_block_special = &src_group->block.blocks[i].content_special;
+        int meta_type = src_group->block.blocks[i].meta_type;
 
         if (meta_type == 24 && src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
         {
@@ -629,17 +633,21 @@ void transform_group(type_uiribbon *root, type_group_info *src_group, uiribbon_g
     }
 }
 
-void transform_scalepolicies(type_tab_extended *src_ext, uiribbon_tab *ret_tab)
+void transform_scalepolicies(type_subcontrols *src_ext, uiribbon_tab *ret_tab)
 {
     int i, j, k, pos;
     int count_scalepolicies = 0;
     for (i = 0; i < ret_tab->count_groups; i++)
     {
-        type_group_info *src_group = &src_ext->groupinfo[i];
-        for (j = 0; j < src_group->blocks.count_blocks; j++)
+        type_control *src_group = &src_ext->subcontrols[i];
+
+        if (src_group->block_type != UIRIBBON_TYPE_CONTROL_GROUP)
+            continue;
+
+        for (j = 0; j < src_group->block.count_blocks; j++)
         {
-            type_control_block_number *src_block = &src_group->blocks.blocks[j].content_number;
-            int meta_type = src_group->blocks.blocks[j].meta_type;
+            type_control_block_number *src_block = &src_group->block.blocks[j].content_number;
+            int meta_type = src_group->block.blocks[j].meta_type;
 
             if (meta_type == 1)
             {
@@ -664,21 +672,24 @@ void transform_scalepolicies(type_tab_extended *src_ext, uiribbon_tab *ret_tab)
         uiribbon_scalingpolicy *ret_scalingpolicy = &ret_tab->scalepolicies[pos];
         for (i = 0; i < ret_tab->count_groups; i++)
         {
-            type_group_info *src_group = &src_ext->groupinfo[i];
+            type_control *src_group = &src_ext->subcontrols[i];
             int group_id = -1;
 
-            for (j = 0; j < src_group->blocks.count_blocks; j++)
+            if (src_group->block_type != UIRIBBON_TYPE_CONTROL_GROUP)
+                continue;
+
+            for (j = 0; j < src_group->block.count_blocks; j++)
             {
-                type_control_block_number *src_block = &src_group->blocks.blocks[j].content_number;
-                int meta_type = src_group->blocks.blocks[j].meta_type;
+                type_control_block_number *src_block = &src_group->block.blocks[j].content_number;
+                int meta_type = src_group->block.blocks[j].meta_type;
                 if (meta_type == 1 && src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
                     group_id = src_block->id;
             }
 
-            for (j = 0; j < src_group->blocks.count_blocks; j++)
+            for (j = 0; j < src_group->block.count_blocks; j++)
             {
-                type_control_block_number *src_block = &src_group->blocks.blocks[j].content_number;
-                int meta_type = src_group->blocks.blocks[j].meta_type;
+                type_control_block_number *src_block = &src_group->block.blocks[j].content_number;
+                int meta_type = src_group->block.blocks[j].meta_type;
 
                 if (meta_type == 1)
                 {
@@ -709,61 +720,95 @@ void transform_scalepolicies(type_tab_extended *src_ext, uiribbon_tab *ret_tab)
     }
 }
 
-void transform_tabs_ext(type_uiribbon *root, type_tab_extended *src_ext, uiribbon_tab *ret_tab)
+void transform_tabs_ext(type_uiribbon *root, type_subcontrols *src_ext, uiribbon_tab *ret_tab)
 {
     int i;
 
-    ret_tab->count_groups = src_ext->count_groupinfo;
+    ret_tab->count_groups = src_ext->count_subcontrols;
     ret_tab->groups = malloc(sizeof(uiribbon_group) * ret_tab->count_groups);
 
     for (i = 0; i < ret_tab->count_groups; i++)
     {
-        transform_group(root, &src_ext->groupinfo[i], &ret_tab->groups[i]);
+        transform_group(root, &src_ext->subcontrols[i], &ret_tab->groups[i]);
     }
 
     transform_scalepolicies(src_ext, ret_tab);
 }
 
-void transform_tabs(type_uiribbon *root, type_ribbon_tabs_normal *tabs_normal, uiribbon_main *ret)
+void transform_tabs(type_uiribbon *root, type_subcontrols *src_tabs, int *out_count_tabs, uiribbon_tab **out_tabs)
 {
-    int i;
+    int i, j;
 
-    ret->count_tabs = tabs_normal->count_tabs;
-    ret->tabs = malloc(sizeof(uiribbon_tab) * ret->count_tabs);
-    for (i = 0; i < ret->count_tabs; i++)
+    int count = src_tabs->count_subcontrols;
+    uiribbon_tab *tabs = malloc(sizeof(uiribbon_tab) * count);
+
+    *out_count_tabs = count;
+    *out_tabs = tabs;
+
+    for (i = 0; i < count; i++)
     {
-        uiribbon_tab *ret_tab = &ret->tabs[i];
-        type_tab *src_tab = &tabs_normal->tabs[i];
+        uiribbon_tab *ret_tab = &tabs[i];
+        type_control *src_tab = &src_tabs->subcontrols[i];
 
-        ret_tab->id = src_tab->id.id;
+        for (j = 0; j < src_tab->block.count_blocks; j++)
+        {
+            type_control_block_ext *src_block_ext = src_tab->block.blocks[j].ext;
+            type_control_block_number *src_block = &src_tab->block.blocks[j].content_number;
+            enum_control_block_meta meta_type = src_tab->block.blocks[j].meta_type;
 
-        transform_tabs_ext(root, &src_tab->ext, ret_tab);
+            if (meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
+            {
+                if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
+                {
+                     ret_tab->id = src_block->id;
+                }
+            }
+
+            if (meta_type == UIRIBBON_CONTROL_BLOCK_META_EXT)
+            {
+                /* FIXME: Not hard assert, just warn? */
+                ASSERT(src_block_ext->block.meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL);
+                ASSERT(src_block_ext->block.content_special.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
+                transform_tabs_ext(root, &src_block_ext->block.content_special.content_subcontrols, ret_tab);
+            }
+        }
     }
 
 }
 
-void transform_contexttabs(type_uiribbon *root, type_ribbon_tabs_context *src, uiribbon_main *ret)
+void transform_contexttabs(type_uiribbon *root, type_subcontrols *src, uiribbon_main *ret)
 {
     int i, j;
 
-    ret->count_contexttabgroups = src->count_tabgroups;
+    ret->count_contexttabgroups = src->count_subcontrols;
     ret->contexttabgroups = malloc(sizeof(uiribbon_tabgroup) * ret->count_contexttabgroups);
     for (i = 0; i < ret->count_contexttabgroups; i++)
     {
         uiribbon_tabgroup *ret_tabgroup = &ret->contexttabgroups[i];
-        type_tabgroup *src_tabgroup = &src->tabgroups[i];
+        type_control *src_tabgroup = &src->subcontrols[i];
 
-        ret_tabgroup->id = src_tabgroup->id.id;
-        ret_tabgroup->count_tabs = src_tabgroup->count_tabs;
-        ret_tabgroup->tabs = malloc(sizeof(uiribbon_tab) * ret_tabgroup->count_tabs);
-        for (j = 0; j < ret_tabgroup->count_tabs; j++)
+        for (j = 0; j < src_tabgroup->block.count_blocks; j++)
         {
-            uiribbon_tab *ret_tab = &ret_tabgroup->tabs[j];
-            type_tab *src_tab = &src_tabgroup->tabs[j];
+            type_control_block_special *src_block_special = &src_tabgroup->block.blocks[j].content_special;
+            type_control_block_number *src_block = &src_tabgroup->block.blocks[j].content_number;
+            enum_control_block_meta meta_type = src_tabgroup->block.blocks[j].meta_type;
 
-            ret_tab->id = src_tab->id.id;
+            if (meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
+            {
+                if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
+                {
+                    ret_tabgroup->id = src_block->id;
+                }
+            }
 
-            transform_tabs_ext(root, &src_tab->ext, ret_tab);
+            if (meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
+            {
+                if (src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
+                {
+                    transform_tabs(root, &src_block_special->content_subcontrols, &ret->contexttabgroups[i].count_tabs, &ret->contexttabgroups[i].tabs);
+                }
+            }
+
         }
     }
 }
@@ -871,20 +916,17 @@ void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
 
     for (i = 0; i < src->unk6.ribbon.count_blocks; i++)
     {
-        type_block_generic *src_block = &src->unk6.ribbon.block1[i];
-        if (src_block->block_type == UIRIBBON_BLOCK_TYPE_RIBBON_TABS)
+        type_control_block *src_block = &src->unk6.ribbon.blocks[i];
+        if (src_block->meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
         {
-            if(src_block->block_type == UIRIBBON_BLOCK_TYPE_RIBBON_TABS)
+            if (src_block->content_special.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL)
             {
-                if (src_block->block_ribbon_tabs.tab_type == UIRIBBON_TAB_TYPE_NORMAL)
-                {
-                    transform_tabs(src, &src_block->block_ribbon_tabs.block_normal, ret);
-                }
+                transform_tabs(src, &src_block->content_special.content_subcontrols, &ret->count_tabs, &ret->tabs);
+            }
 
-                if (src_block->block_ribbon_tabs.tab_type == UIRIBBON_TAB_TYPE_CONTEXT)
-                {
-                    transform_contexttabs(src, &src_block->block_ribbon_tabs.block_context, ret);
-                }
+            if (src_block->content_special.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT)
+            {
+                transform_contexttabs(src, &src_block->content_special.content_subcontrols, ret);
             }
         }
     }

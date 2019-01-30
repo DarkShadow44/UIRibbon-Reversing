@@ -547,15 +547,30 @@ namespace KaitaiCCompiler
                     throw new InvalidDataException();
                 }
 
-                seq.AddDependency(type);
-                seq.AddStruct("{0} {1};", type, instance_key.Value);
+                if (condition != null)
+                {
+                    seq.AddCode("if ({0})", condition);
+                    seq.AddCode("{{");
+                    seq.IndentCodePlus();
+                }
+
+                seq.AddStruct("struct {0}_ *{1};", type, instance_key.Value);
                 seq.AddVar("stream substream_instance_{0};", instance_key.Value);
                 seq.AddCode("CHECK(stream_make_substream_instance(s_root, &substream_instance_{0}, ({1}), s_root->max - ({1})));", instance_key.Value, pos);
 
                 if (type.StartsWith("uint") || type.StartsWith("int"))
                     seq.AddCode("CHECK(stream_read_{0}(substream_instance_{1}, &ret->{1}));", type, instance_key.Value);
                 else
-                    seq.AddCode("CHECK(read_{0}(s_root, &substream_instance_{1}, &ret->{1}));", type, instance_key.Value);
+                {
+                    seq.AddCode("ret->{0} = malloc(sizeof({1}));", instance_key.Value, type);
+                    seq.AddCode("CHECK(read_{0}(s_root, &substream_instance_{1}, ret->{1}));", type, instance_key.Value);
+                }
+
+                if (condition != null)
+                {
+                    seq.IndentCodeMinus();
+                    seq.AddCode("}}");
+                }
             }
         }
 
