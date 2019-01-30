@@ -47,6 +47,7 @@ typedef enum
 	UIRIBBON_TYPE_CONTROL_IMPLICITGROUP = 24,
 	UIRIBBON_TYPE_CONTROL_TAB = 26,
 	UIRIBBON_TYPE_CONTROL_GROUP = 7,
+	UIRIBBON_TYPE_CONTROL_TABGROUP = 27,
 } enum_type_control;
 
 typedef enum
@@ -345,7 +346,7 @@ typedef struct type_control_
 	enum_type_control block_type;
 	uint8_t unk2;
 	uint16_t size_block;
-	type_control_blocks block;
+	type_control_blocks blocks;
 } type_control;
 
 typedef struct type_menugroup_extended_

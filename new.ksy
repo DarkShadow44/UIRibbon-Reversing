@@ -99,6 +99,7 @@ enums:
     24: implicitgroup
     26: tab
     7: group
+    27: tabgroup
 
   enum_sizedefinition_imagesize:
     0: small
@@ -550,7 +551,7 @@ types:
       type: u1
     - id: size_block
       type: u2
-    - id: block
+    - id: blocks
       size: size_block - 7
       type: type_control_blocks
 

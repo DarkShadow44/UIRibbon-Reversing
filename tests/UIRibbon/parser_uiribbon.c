@@ -415,15 +415,15 @@ int read_type_control_block_ext(stream *s_root, stream *s, type_control_block_ex
 int read_type_control(stream *s_root, stream *s, type_control *ret)
 {
 	uint16_t block_type;
-	stream substream_block;
+	stream substream_blocks;
 
 	CHECK(stream_read_uint16_t(s, &ret->unk1));
 	CHECK(stream_read_uint16_t(s, &block_type));
 	ret->block_type = block_type;
 	CHECK(stream_read_uint8_t(s, &ret->unk2));
 	CHECK(stream_read_uint16_t(s, &ret->size_block));
-	CHECK(stream_make_substream(s, &substream_block, ret->size_block - 7));
-	CHECK(read_type_control_blocks(s_root, &substream_block, &ret->block));
+	CHECK(stream_make_substream(s, &substream_blocks, ret->size_block - 7));
+	CHECK(read_type_control_blocks(s_root, &substream_blocks, &ret->blocks));
 	return 0;
 }
 
