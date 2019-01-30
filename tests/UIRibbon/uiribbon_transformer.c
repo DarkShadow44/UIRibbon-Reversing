@@ -1,8 +1,7 @@
 #include "uiribbon_transformer.h"
 
 /* FIXME: Proper assert structure */
-/* FIXME: Proper meta type, maybe macro to make iterating over blocks shorter... */
-/* FIXME: Fix block, blocks... */
+/* FIXME: maybe macro to make iterating over blocks shorter... */
 /* FIXME: Extract all in methods for fewer loops? */
 /* structs to combine count and array ? */
 
@@ -26,7 +25,7 @@ uiribbon_control_type transform_control_type(type_control *src_control)
         for (i = 0; i < src_control->blocks.count_blocks; i++)
         {
             type_control_block *src_block = &src_control->blocks.blocks[i];
-            if (src_block->meta_type == 1 && src_block->content_number.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
+            if (src_block->meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER && src_block->content_number.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
             {
                 is_checkbox = src_block->content_number.is_checkbox;
             }
@@ -40,7 +39,7 @@ uiribbon_control_type transform_control_type(type_control *src_control)
         for (i = 0; i < src_control->blocks.count_blocks; i++)
         {
             type_control_block *src_block = &src_control->blocks.blocks[i];
-            if (src_block->meta_type == 1 && src_block->content_number.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
+            if (src_block->meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER && src_block->content_number.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
             {
                 switch(src_block->content_number.gallery_type)
                 {
@@ -50,7 +49,7 @@ uiribbon_control_type transform_control_type(type_control *src_control)
                 case UIRIBBON_GALLERY_TYPE_DROPDOWNSPLIT:
                     for (j = 0; j < src_control->blocks.count_blocks; j++)
                     {
-                        if (src_control->blocks.blocks[j].meta_type == 1 && src_control->blocks.blocks[j].content_number.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
+                        if (src_control->blocks.blocks[j].meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER && src_control->blocks.blocks[j].content_number.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
                             is_colorpicker = TRUE;
                     }
                     if (is_colorpicker)
@@ -85,7 +84,7 @@ void transform_control_combobox(type_control *src_control, uiribbon_control_comb
     {
         type_control_block_number *src_block = &src_control->blocks.blocks[i].content_number;
 
-        if (src_control->blocks.blocks[i].meta_type != 1)
+        if (src_control->blocks.blocks[i].meta_type != UIRIBBON_CONTROL_BLOCK_META_NUMBER)
             continue;
 
         switch(src_block->block_type)
@@ -148,7 +147,7 @@ void transform_control_dropdowncolorpicker(type_control *src_control, uiribbon_c
     {
         type_control_block_number *src_block = &src_control->blocks.blocks[i].content_number;
 
-        if (src_control->blocks.blocks[i].meta_type != 1)
+        if (src_control->blocks.blocks[i].meta_type != UIRIBBON_CONTROL_BLOCK_META_NUMBER)
             continue;
 
         switch(src_block->block_type)
@@ -254,7 +253,7 @@ void transform_control_gallery_generic(type_control *src_control, uiribbon_contr
     {
         type_control_block_number *src_block = &src_control->blocks.blocks[i].content_number;
 
-        if (src_control->blocks.blocks[i].meta_type != 1)
+        if (src_control->blocks.blocks[i].meta_type != UIRIBBON_CONTROL_BLOCK_META_NUMBER)
             continue;
 
         switch(src_block->block_type)
@@ -302,7 +301,7 @@ void transform_control_inribbongallery(type_control *src_control, uiribbon_contr
     {
         type_control_block_number *src_block = &src_control->blocks.blocks[i].content_number;
 
-        if (src_control->blocks.blocks[i].meta_type != 1)
+        if (src_control->blocks.blocks[i].meta_type != UIRIBBON_CONTROL_BLOCK_META_NUMBER)
             continue;
 
         switch(src_block->block_type)
@@ -364,7 +363,7 @@ void transform_control_splitbutton(type_control *src_control, uiribbon_control *
     {
         type_control_block_special *src_block = &src_control->blocks.blocks[i].content_special;
 
-        if (src_control->blocks.blocks[i].meta_type != 24)
+        if (src_control->blocks.blocks[i].meta_type != UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
             continue;
 
         if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM)
@@ -414,7 +413,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
         type_control_block_number *src_block = &src_control->blocks.blocks[i].content_number;
         type_control_block_special *src_block_special = &src_control->blocks.blocks[i].content_special;
         int meta_type = src_control->blocks.blocks[i].meta_type;
-        if (meta_type == 24)
+        if (meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
         {
             if (src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS
                 || src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS)
@@ -574,7 +573,7 @@ void transform_subcontrols_group(type_uiribbon *root, type_subcontrols *src_bloc
     {
         type_control_block_special *src_block_special = &src_block->subcontrols[0].blocks.blocks[i].content_special;
         int meta_type = src_block->subcontrols[0].blocks.blocks[i].meta_type;
-        if (meta_type == 24)
+        if (meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
         {
              switch (src_block_special->block_type)
             {
@@ -616,7 +615,7 @@ void transform_group(type_uiribbon *root, type_control *src_group, uiribbon_grou
         type_control_block_special *src_block_special = &src_group->blocks.blocks[i].content_special;
         int meta_type = src_group->blocks.blocks[i].meta_type;
 
-        if (meta_type == 24 && src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
+        if (meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL && src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
         {
             transform_subcontrols_group(root, &src_block_special->content_subcontrols, ret_group);
             continue;
@@ -649,7 +648,7 @@ void transform_scalepolicies(type_subcontrols *src_ext, uiribbon_tab *ret_tab)
             type_control_block_number *src_block = &src_group->blocks.blocks[j].content_number;
             int meta_type = src_group->blocks.blocks[j].meta_type;
 
-            if (meta_type == 1)
+            if (meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
             {
                 if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
                 {
@@ -682,7 +681,7 @@ void transform_scalepolicies(type_subcontrols *src_ext, uiribbon_tab *ret_tab)
             {
                 type_control_block_number *src_block = &src_group->blocks.blocks[j].content_number;
                 int meta_type = src_group->blocks.blocks[j].meta_type;
-                if (meta_type == 1 && src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
+                if (meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER && src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
                     group_id = src_block->id;
             }
 
@@ -691,7 +690,7 @@ void transform_scalepolicies(type_subcontrols *src_ext, uiribbon_tab *ret_tab)
                 type_control_block_number *src_block = &src_group->blocks.blocks[j].content_number;
                 int meta_type = src_group->blocks.blocks[j].meta_type;
 
-                if (meta_type == 1)
+                if (meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
                 {
                     if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
                     {
