@@ -96,10 +96,12 @@ enums:
     25: otherinfo
     21: gallery
     18: splitbutton
-    24: implicitgroup
+    24: menugroup
     26: tab
     7: group
     27: tabgroup
+    5: minitoolbar
+    4: contextpopup
 
   enum_sizedefinition_imagesize:
     0: small
@@ -169,6 +171,7 @@ enums:
     120: gallery_max_columns_medium
     121: gallery_min_columns_medium
     63: is_checkbox
+    65: id_reference
 
   enum_control_block_type_special:
     62: subcomponents
@@ -182,6 +185,7 @@ enums:
     3: tabs_context
     66: quickaccess
     5: tabs_help
+    10: contextpopups
 
   enum_boolean:
     0: bool_false
@@ -474,6 +478,9 @@ types:
       scalepolicy_popup:
         value: (scalepolicy % 16) / 1
         if: block_type == enum_control_block_type_number::meta_info
+      id_reference:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type_number::id_reference
 
   type_control_block_special:
     seq:
@@ -492,6 +499,7 @@ types:
         or block_type == enum_control_block_type_special::tabs_context
         or block_type == enum_control_block_type_special::quickaccess
         or block_type == enum_control_block_type_special::tabs_help
+        or block_type == enum_control_block_type_special::contextpopups
     - id: sizedefinition_order
       type: type_sizedefinition_order
       if: block_type == enum_control_block_type_special::sizedefinition_order_large

@@ -1023,6 +1023,71 @@ static int test_splitbutton(void)
     return 0;
 }
 
+static int test_contextpopups(void)
+{
+    int i;
+    uiribbon_main uiribbon;
+
+    #define ASSERT_MENUGROUP(menugroup, _id, _item_class) \
+        ASSERT(menugroup.id == _id); \
+        ASSERT(menugroup.item_class == _item_class); \
+        ASSERT(menugroup.count_controls == 2); \
+        ASSERT(menugroup.controls[0].id == 10004); \
+        ASSERT(menugroup.controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON); \
+        ASSERT(menugroup.controls[1].id == 10005); \
+        ASSERT(menugroup.controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+
+    CHECK(parse_from_testdata("contextpopups", &uiribbon));
+
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].id == 10001);
+    ASSERT(uiribbon.tabs[0].count_groups == 2);
+    for (i = 0; i < 2; i++)
+    {
+        uiribbon_group *group = &uiribbon.tabs[0].groups[i];
+        ASSERT(group->id == 10002 + i);
+        ASSERT(group->count_controls == 2);
+
+        ASSERT(group->controls[0].id == 10004);
+        ASSERT(group->controls[1].id == 10005);
+    }
+
+    ASSERT(uiribbon.count_contextmaps == 4);
+    ASSERT(uiribbon.contextmaps[0].id == 10006);
+    ASSERT(uiribbon.contextmaps[0].minitoolbar.count_menugroups == 2);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[0].minitoolbar.menugroups[0], 10010, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[0].minitoolbar.menugroups[1], 10011, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT(uiribbon.contextmaps[0].contextpopup.count_menugroups == 2);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[0].contextpopup.menugroups[0], 10012, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[0].contextpopup.menugroups[1], 10013, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+
+    ASSERT(uiribbon.contextmaps[1].id == 10007);
+    ASSERT(uiribbon.contextmaps[1].minitoolbar.count_menugroups == 2);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[1].minitoolbar.menugroups[0], 10008, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[1].minitoolbar.menugroups[1], 10009, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_MAJOR_ITEMS);
+    ASSERT(uiribbon.contextmaps[1].contextpopup.count_menugroups == 2);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[1].contextpopup.menugroups[0], 10014, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_MAJOR_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[1].contextpopup.menugroups[1], 10015, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+
+
+    ASSERT(uiribbon.contextmaps[2].id == 10016);
+    ASSERT(uiribbon.contextmaps[2].minitoolbar.count_menugroups == 2);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[2].minitoolbar.menugroups[0], 10010, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[2].minitoolbar.menugroups[1], 10011, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT(uiribbon.contextmaps[2].contextpopup.count_menugroups == 0);
+
+    ASSERT(uiribbon.contextmaps[3].id == 10017);
+    ASSERT(uiribbon.contextmaps[3].minitoolbar.count_menugroups == 0);
+    ASSERT(uiribbon.contextmaps[3].contextpopup.count_menugroups == 2);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[3].contextpopup.menugroups[0], 10014, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_MAJOR_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[3].contextpopup.menugroups[1], 10015, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+
+    #undef ASSERT_MENUGROUP
+
+    return 0;
+}
+
+
 int main()
 {
     /*write_test_data("checkbox");
@@ -1041,6 +1106,7 @@ int main()
     CHECK(test_spinner());
     CHECK(test_checkbox_and_togglebutton());
     CHECK(test_splitbutton());
+    CHECK(test_contextpopups());
 
     return 0;
 }

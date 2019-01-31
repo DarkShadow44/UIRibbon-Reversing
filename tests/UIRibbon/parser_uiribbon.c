@@ -328,6 +328,10 @@ int read_type_control_block_number(stream *s_root, stream *s, type_control_block
 	{
 		ret->scalepolicy_popup = (ret->scalepolicy % 16) / 1;
 	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE)
+	{
+		ret->id_reference = ret->content_number.id.id;
+	}
 	return 0;
 }
 
@@ -338,7 +342,7 @@ int read_type_control_block_special(stream *s_root, stream *s, type_control_bloc
 	CHECK(stream_read_uint8_t(s, &ret->block_len));
 	CHECK(stream_read_uint8_t(s, &block_type));
 	ret->block_type = block_type;
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS)
 	{
 		CHECK(read_type_subcontrols(s_root, s, &ret->content_subcontrols));
 	}

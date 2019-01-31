@@ -130,6 +130,12 @@ typedef enum
     UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER,
 } uiribbon_gallery_gripper;
 
+typedef enum
+{
+    UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS,
+    UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_MAJOR_ITEMS,
+} uiribbon_menu_item_class;
+
 typedef struct
 {
     uiribbon_gallery_elements_type elements_type;
@@ -238,6 +244,26 @@ typedef struct
     uiribbon_command_image *images_large_high_contrast;
 } uiribbon_command;
 
+typedef struct
+{
+    int id;
+    uiribbon_menu_item_class item_class;
+    int count_controls;
+    uiribbon_control *controls;
+} uiribbon_menugroup;
+
+typedef struct
+{
+    int count_menugroups;
+    uiribbon_menugroup *menugroups;
+} uiribbon_menugroup_container;
+
+typedef struct
+{
+    int id;
+    uiribbon_menugroup_container minitoolbar;
+    uiribbon_menugroup_container contextpopup;
+} uiribbon_contextmap;
 
 typedef struct
 {
@@ -247,6 +273,8 @@ typedef struct
     uiribbon_tab *tabs;
     int count_contexttabgroups;
     uiribbon_tabgroup *contexttabgroups;
+    int count_contextmaps;
+    uiribbon_contextmap *contextmaps;
 } uiribbon_main;
 
 void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret);

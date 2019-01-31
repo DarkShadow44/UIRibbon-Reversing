@@ -4,6 +4,8 @@
 /* FIXME: maybe macro to make iterating over blocks shorter... */
 /* FIXME: Extract all in methods for fewer loops? */
 /* structs to combine count and array ? */
+/* Transform ALL menugroups with majoritem/smallitems in mind */
+/* What about empty but existent minitoolbar / contextpopup */
 
 #define ASSERT(cond) \
     if (!(cond)) {\
@@ -65,7 +67,7 @@ uiribbon_control_type transform_control_type(type_control *src_control)
             }
         }
         break;
-    case UIRIBBON_TYPE_CONTROL_IMPLICITGROUP:
+    case UIRIBBON_TYPE_CONTROL_MENUGROUP:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP;
     case UIRIBBON_TYPE_CONTROL_SPLITBUTTON:
         return UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON;
@@ -907,6 +909,163 @@ void transform_commands(type_uiribbon *src, uiribbon_main *ret)
     }
 }
 
+void transform_menugroups(type_uiribbon *root, type_subcontrols *src, uiribbon_menugroup_container *ret)
+{
+    int i, j;
+
+    ret->count_menugroups = src->count_subcontrols;
+    ret->menugroups = malloc(sizeof(uiribbon_menugroup) * ret->count_menugroups);
+
+    for (i = 0; i < ret->count_menugroups; i++)
+    {
+        type_control *src_control = &src->subcontrols[i];
+        uiribbon_menugroup *ret_menugroup = &ret->menugroups[i];
+
+        ret_menugroup->item_class = UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS;
+
+        for (j = 0; j < src_control->blocks.count_blocks; j++)
+        {
+            type_control_block_special *src_block_special = &src_control->blocks.blocks[j].content_special;
+            type_control_block_number *src_block = &src_control->blocks.blocks[j].content_number;
+            enum_control_block_meta meta_type = src_control->blocks.blocks[j].meta_type;
+
+            if (meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
+            {
+                if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
+                {
+                    ret_menugroup->id = src_block->id;
+                }
+
+                if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE)
+                {
+                    type_string *str = &root->strings.strings[src_block->id_reference];
+                    int len = 10 < str->size_str ? 10 : str->size_str;
+
+                    if (strncmp(str->str, "MajorItems", len) == 0)
+                        ret_menugroup->item_class  = UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_MAJOR_ITEMS;
+                }
+            }
+
+            if (meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
+            {
+                if (src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
+                {
+                    transform_subcontrols(&src_block_special->content_subcontrols, &ret_menugroup->count_controls, &ret_menugroup->controls);
+                }
+            }
+        }
+    }
+}
+
+void transform_minitoolbar(type_uiribbon *root, type_subcontrols *src, int id, uiribbon_menugroup_container *ret)
+{
+    int i, j;
+
+    for (i = 0; i < src->count_subcontrols; i++)
+    {
+        type_control *src_control = &src->subcontrols[i];
+
+        if (src->subcontrols[i].block_type == UIRIBBON_TYPE_CONTROL_MINITOOLBAR)
+        {
+            bool do_transform = FALSE;
+
+            for (j = 0; j < src_control->blocks.count_blocks; j++)
+            {
+                type_control_block_number *src_block = &src_control->blocks.blocks[j].content_number;
+                enum_control_block_meta meta_type = src_control->blocks.blocks[j].meta_type;
+
+                if (meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
+                {
+                    if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
+                    {
+                        if (src_block->id == id)
+                            do_transform = TRUE;
+                    }
+                }
+            }
+
+            if (do_transform)
+            {
+                for (j = 0; j < src_control->blocks.count_blocks; j++)
+                {
+                    type_control_block_special *src_block_special = &src_control->blocks.blocks[j].content_special;
+                    enum_control_block_meta meta_type = src_control->blocks.blocks[j].meta_type;
+
+                    if (meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
+                    {
+                        if (src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
+                        {
+                            transform_menugroups(root, &src_block_special->content_subcontrols, ret);
+                        }
+                    }
+                }
+                return;
+            }
+        }
+    }
+}
+
+void transform_contextpopups(type_uiribbon *root, type_subcontrols *src, uiribbon_main *ret)
+{
+    int i, j;
+
+    int count_contextmaps = 0;
+
+    for (i = 0; i < src->count_subcontrols; i++)
+    {
+        if (src->subcontrols[i].block_type == UIRIBBON_TYPE_CONTROL_CONTEXTPOPUP)
+            count_contextmaps++;
+    }
+
+    ret->count_contextmaps = count_contextmaps;
+    ret->contextmaps = malloc(sizeof(uiribbon_contextmap) * ret->count_contextmaps);
+
+    count_contextmaps = 0;
+    for (i = 0; i < src->count_subcontrols; i++)
+    {
+        type_control *src_control = &src->subcontrols[i];
+        if (src_control->block_type == UIRIBBON_TYPE_CONTROL_CONTEXTPOPUP)
+        {
+            int id_toolbar = -1;
+            uiribbon_contextmap *ret_contextmap = &ret->contextmaps[count_contextmaps];
+
+            count_contextmaps++;
+            ret_contextmap->contextpopup.count_menugroups = 0;
+            ret_contextmap->contextpopup.menugroups = NULL;
+            ret_contextmap->minitoolbar.count_menugroups = 0;
+            ret_contextmap->minitoolbar.menugroups = NULL;
+
+            for (j = 0; j < src_control->blocks.count_blocks; j++)
+            {
+                type_control_block_special *src_block_special = &src_control->blocks.blocks[j].content_special;
+                type_control_block_number *src_block = &src_control->blocks.blocks[j].content_number;
+                enum_control_block_meta meta_type = src_control->blocks.blocks[j].meta_type;
+
+                if (meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
+                {
+                    if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE)
+                        id_toolbar = src_block->id_reference;
+                    if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
+                        ret_contextmap->id = src_block->id;
+                }
+
+                if (meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
+                {
+                    if (src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
+                    {
+                        transform_menugroups(root, &src_block_special->content_subcontrols, &ret_contextmap->contextpopup);
+                    }
+                }
+            }
+
+            if (id_toolbar != -1)
+            {
+                transform_minitoolbar(root, src, id_toolbar, &ret_contextmap->minitoolbar);
+            }
+        }
+    }
+}
+
 void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
 {
     int i;
@@ -926,6 +1085,11 @@ void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
             if (src_block->content_special.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT)
             {
                 transform_contexttabs(src, &src_block->content_special.content_subcontrols, ret);
+            }
+
+            if (src_block->content_special.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS)
+            {
+                transform_contextpopups(src, &src_block->content_special.content_subcontrols, ret);
             }
         }
     }
