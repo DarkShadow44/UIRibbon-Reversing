@@ -5,7 +5,6 @@
 /* FIXME: Extract all in methods for fewer loops? */
 /* structs to combine count and array ? */
 /* Transform ALL menugroups with majoritem/smallitems in mind */
-/* What about empty but existent minitoolbar / contextpopup */
 
 #define ASSERT(cond) \
     if (!(cond)) {\
