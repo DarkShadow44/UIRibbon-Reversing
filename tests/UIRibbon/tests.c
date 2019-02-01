@@ -1,5 +1,8 @@
 #include "uiribbon_transformer.h"
 
+/* FIXME: No macros, use methods */
+/* FIXME: Test all defaults */
+
 static void _ok(int expr, const char *message, const char *file, int line)
 {
     if (!expr)
@@ -1087,6 +1090,65 @@ static int test_contextpopups(void)
     return 0;
 }
 
+static int test_applicationmenu_single(char *name, int recent_count, bool enable_pinning)
+{
+    int i;
+    uiribbon_main uiribbon;
+
+    CHECK(parse_from_testdata(name, &uiribbon));
+
+    #define ASSERT_MENUGROUP(menugroup, _id, _item_class) \
+        ASSERT(menugroup.id == _id); \
+        ASSERT(menugroup.item_class == _item_class); \
+        ASSERT(menugroup.count_controls == 2); \
+        ASSERT(menugroup.controls[0].id == 10004); \
+        ASSERT(menugroup.controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON); \
+        ASSERT(menugroup.controls[1].id == 10005); \
+        ASSERT(menugroup.controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+
+    ASSERT(uiribbon.count_tabs == 1);
+    ASSERT(uiribbon.tabs[0].id == 10001);
+    ASSERT(uiribbon.tabs[0].count_groups == 2);
+    for (i = 0; i < 2; i++)
+    {
+        uiribbon_group *group = &uiribbon.tabs[0].groups[i];
+        ASSERT(group->id == 10002 + i);
+        ASSERT(group->count_controls == 2);
+
+        ASSERT(group->controls[0].id == 10004);
+        ASSERT(group->controls[1].id == 10005);
+    }
+
+    ASSERT(uiribbon.applicationmenu.id == 10006)
+    ASSERT(uiribbon.applicationmenu.recent.id == 10008);
+    ASSERT(uiribbon.applicationmenu.recent.count == recent_count);
+    ASSERT(uiribbon.applicationmenu.recent.enable_pinning == enable_pinning);
+    ASSERT(uiribbon.applicationmenu.menugroups.count_menugroups == 2);
+    ASSERT_MENUGROUP(uiribbon.applicationmenu.menugroups.menugroups[0], 10009, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_MAJOR_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.applicationmenu.menugroups.menugroups[1], 10010, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_MAJOR_ITEMS);
+
+    #undef ASSERT_MENUGROUP
+
+    return 0;
+}
+
+static int test_applicationmenu(void)
+{
+    uiribbon_main uiribbon;
+
+    CHECK(test_applicationmenu_single("applicationmenu1", 14, TRUE ));
+    CHECK(test_applicationmenu_single("applicationmenu2", 15, FALSE ));
+    CHECK(test_applicationmenu_single("applicationmenu3", 10, TRUE ));
+
+    CHECK(parse_from_testdata("simple_tabs", &uiribbon));
+    ASSERT(uiribbon.applicationmenu.id == 61000)
+    ASSERT(uiribbon.applicationmenu.recent.count == 10);
+    ASSERT(uiribbon.applicationmenu.recent.enable_pinning == TRUE);
+    ASSERT(uiribbon.applicationmenu.menugroups.count_menugroups == 0);
+
+    return 0;
+}
+
 
 int main()
 {
@@ -1107,6 +1169,7 @@ int main()
     CHECK(test_checkbox_and_togglebutton());
     CHECK(test_splitbutton());
     CHECK(test_contextpopups());
+    CHECK(test_applicationmenu());
 
     return 0;
 }

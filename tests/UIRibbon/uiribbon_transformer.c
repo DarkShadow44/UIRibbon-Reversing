@@ -5,6 +5,7 @@
 /* FIXME: Extract all in methods for fewer loops? */
 /* structs to combine count and array ? */
 /* Transform ALL menugroups with majoritem/smallitems in mind */
+/* Fixme - generic reader and stuff */
 
 #define ASSERT(cond) \
     if (!(cond)) {\
@@ -1065,6 +1066,103 @@ void transform_contextpopups(type_uiribbon *root, type_subcontrols *src, uiribbo
     }
 }
 
+static void transform_applicationmenu_ext(type_uiribbon *root, type_control_block_ext *ext, uiribbon_applicationmenu *ret)
+{
+    int j, k;
+
+    if (ext->block.meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
+    {
+        if (ext->block.content_special.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
+        {
+            transform_menugroups(root, &ext->block.content_special.content_subcontrols, &ret->menugroups);
+
+            /* Enforce major items for appliationmenu */
+            for (j = 0; j < ret->menugroups.count_menugroups; j++)
+            {
+                ret->menugroups.menugroups[j].item_class = UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_MAJOR_ITEMS;
+            }
+
+        }
+
+        if (ext->block.content_special.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM)
+        {
+            type_control *src_control;
+
+            ret->recent.enable_pinning = TRUE;
+            ret->recent.count = 10;
+
+            if (ext->block.content_special.content_subcontrols.count_subcontrols != 1)
+                   return;
+
+            src_control = &ext->block.content_special.content_subcontrols.subcontrols[0];
+
+            for (j = 0; j < src_control->blocks.count_blocks; j++)
+            {
+                type_control_block_special *src_block_special = &src_control->blocks.blocks[j].content_special;
+                type_control_block_number *src_block = &src_control->blocks.blocks[j].content_number;
+                enum_control_block_meta meta_type = src_control->blocks.blocks[j].meta_type;
+
+                if (meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
+                {
+                    if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
+                        ret->recent.id = src_block->id;
+                }
+
+                if (meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
+                {
+                     if (src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
+                     {
+                         ret->recent.count = src_block_special->content_subcontrols.count_subcontrols;
+                         if (ret->recent.count > 0)
+                         {
+                             type_control *sub_control = &src_block_special->content_subcontrols.subcontrols[0];
+                             for (k = 0; k < sub_control->blocks.count_blocks; k++)
+                             {
+                                 type_control_block *sub_block = &sub_control->blocks.blocks[k];
+                                 if (sub_block->meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
+                                 {
+                                     if (sub_block->content_number.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING)
+                                     {
+                                         ret->recent.enable_pinning = sub_block->content_number.enable_pinning;
+                                     }
+                                 }
+                             }
+                         }
+                     }
+                }
+            }
+        }
+    }
+}
+
+static void transform_applicationmenu(type_uiribbon *root, type_subcontrols *src, uiribbon_applicationmenu *ret)
+{
+    int j;
+    type_control *src_control;
+
+    ASSERT(src->count_subcontrols == 1);
+    src_control = &src->subcontrols[0];
+
+    for (j = 0; j < src_control->blocks.count_blocks; j++)
+    {
+        type_control_block_ext *src_block_ext = src_control->blocks.blocks[j].ext;
+        type_control_block_number *src_block = &src_control->blocks.blocks[j].content_number;
+        enum_control_block_meta meta_type = src_control->blocks.blocks[j].meta_type;
+
+        if (meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
+        {
+            if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
+                ret->id = src_block->id;
+        }
+
+        if (meta_type == UIRIBBON_CONTROL_BLOCK_META_EXT)
+        {
+            transform_applicationmenu_ext(root, src_block_ext, ret);
+        }
+    }
+
+}
+
 void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
 {
     int i;
@@ -1089,6 +1187,11 @@ void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
             if (src_block->content_special.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS)
             {
                 transform_contextpopups(src, &src_block->content_special.content_subcontrols, ret);
+            }
+
+            if (src_block->content_special.block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU)
+            {
+                transform_applicationmenu(src, &src_block->content_special.content_subcontrols, &ret->applicationmenu);
             }
         }
     }

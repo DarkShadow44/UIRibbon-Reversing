@@ -267,6 +267,20 @@ typedef struct
 
 typedef struct
 {
+    int id;
+    int count;
+    bool enable_pinning;
+} ribbon_recent;
+
+typedef struct
+{
+   int id;
+   ribbon_recent recent;
+   uiribbon_menugroup_container menugroups;
+}  uiribbon_applicationmenu;
+
+typedef struct
+{
     int count_commands;
     uiribbon_command *commands;
     int count_tabs;
@@ -275,6 +289,7 @@ typedef struct
     uiribbon_tabgroup *contexttabgroups;
     int count_contextmaps;
     uiribbon_contextmap *contextmaps;
+    uiribbon_applicationmenu applicationmenu;
 } uiribbon_main;
 
 void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret);

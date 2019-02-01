@@ -332,6 +332,10 @@ int read_type_control_block_number(stream *s_root, stream *s, type_control_block
 	{
 		ret->id_reference = ret->content_number.id.id;
 	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING)
+	{
+		ret->enable_pinning = ret->content_long.value1;
+	}
 	return 0;
 }
 
@@ -342,7 +346,7 @@ int read_type_control_block_special(stream *s_root, stream *s, type_control_bloc
 	CHECK(stream_read_uint8_t(s, &ret->block_len));
 	CHECK(stream_read_uint8_t(s, &block_type));
 	ret->block_type = block_type;
-	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS)
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_UNK73)
 	{
 		CHECK(read_type_subcontrols(s_root, s, &ret->content_subcontrols));
 	}

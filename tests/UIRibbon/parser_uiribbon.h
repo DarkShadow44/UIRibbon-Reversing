@@ -50,6 +50,7 @@ typedef enum
 	UIRIBBON_TYPE_CONTROL_TABGROUP = 27,
 	UIRIBBON_TYPE_CONTROL_MINITOOLBAR = 5,
 	UIRIBBON_TYPE_CONTROL_CONTEXTPOPUP = 4,
+	UIRIBBON_TYPE_CONTROL_APPLICATIONMENU = 19,
 } enum_type_control;
 
 typedef enum
@@ -138,6 +139,7 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_MEDIUM = 121,
 	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX = 63,
 	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE = 65,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING = 64,
 } enum_control_block_type_number;
 
 typedef enum
@@ -154,6 +156,7 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS = 66,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP = 5,
 	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS = 10,
+	UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_UNK73 = 73,
 } enum_control_block_type_special;
 
 typedef enum
@@ -306,6 +309,7 @@ typedef struct type_control_block_number_
 	int32_t scalepolicy_small;
 	int32_t scalepolicy_popup;
 	int32_t id_reference;
+	int32_t enable_pinning;
 } type_control_block_number;
 
 typedef struct type_control_block_special_

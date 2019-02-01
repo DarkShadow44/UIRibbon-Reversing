@@ -102,6 +102,7 @@ enums:
     27: tabgroup
     5: minitoolbar
     4: contextpopup
+    19: applicationmenu
 
   enum_sizedefinition_imagesize:
     0: small
@@ -172,6 +173,7 @@ enums:
     121: gallery_min_columns_medium
     63: is_checkbox
     65: id_reference
+    64: enable_pinning
 
   enum_control_block_type_special:
     62: subcomponents
@@ -186,6 +188,7 @@ enums:
     66: quickaccess
     5: tabs_help
     10: contextpopups
+    73: unk73
 
   enum_boolean:
     0: bool_false
@@ -481,6 +484,9 @@ types:
       id_reference:
         value: content_number.id.id
         if: block_type == enum_control_block_type_number::id_reference
+      enable_pinning:
+        value: content_long.value1
+        if: block_type == enum_control_block_type_number::enable_pinning
 
   type_control_block_special:
     seq:
@@ -500,6 +506,7 @@ types:
         or block_type == enum_control_block_type_special::quickaccess
         or block_type == enum_control_block_type_special::tabs_help
         or block_type == enum_control_block_type_special::contextpopups
+         or block_type == enum_control_block_type_special::unk73
     - id: sizedefinition_order
       type: type_sizedefinition_order
       if: block_type == enum_control_block_type_special::sizedefinition_order_large
