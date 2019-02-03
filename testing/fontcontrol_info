@@ -1,0 +1,71 @@
+
+FontType="FontWithColor" IsGrowShrinkButtonGroupVisible="false"			- 23
+
+
+
+
+
+FontType="FontWithColor" IsUnderlineButtonVisible="false" 				- 31
+FontType="FontWithColor" IsStrikethroughButtonVisible="false"			- 31
+
+FontType="FontOnly" IsStrikethroughButtonVisible="false"				- 32
+FontType="FontOnly" IsUnderlineButtonVisible="false"					- 32
+
+FontType="RichFont"														- 34
+FontType="RichFont" IsGrowShrinkButtonGroupVisible="true"				- 34
+
+FontType="FontWithColor"												- 39
+FontType="FontWithColor" IsGrowShrinkButtonGroupVisible="true"			- 39
+FontType="FontWithColor" IsHighlightButtonVisible="false" 				- 39
+FontType="FontWithColor" IsStrikethroughButtonVisible="true"			- 39
+FontType="FontWithColor" IsUnderlineButtonVisible="true" 				- 39
+
+
+FontType="FontOnly"														- 40
+FontType="FontOnly" IsStrikethroughButtonVisible="true"					- 40
+FontType="FontOnly" IsUnderlineButtonVisible="true"						- 40
+
+FontType="FontWithColor" IsHighlightButtonVisible="true" 				- 50
+FontType="RichFont" IsGrowShrinkButtonGroupVisible="false"				- 50
+
+
+FontType="FontWithColor" IsStrikethroughButtonVisible="false" IsUnderlineButtonVisible="false" - 23
+FontType="FontWithColor" IsStrikethroughButtonVisible="false" IsUnderlineButtonVisible="true" - 31
+FontType="FontWithColor" IsStrikethroughButtonVisible="true" IsUnderlineButtonVisible="false" - 31
+FontType="FontWithColor" IsStrikethroughButtonVisible="true" IsUnderlineButtonVisible="true" - 39
+
+
+
+IsGrowShrinkButtonGroupVisible 	0 = true,  16 = false
+IsUnderlineButtonVisible		0 = false,  8 = true
+IsStrikethroughButtonVisible	0 = false,  8 = true
+IsHighlightButtonVisible		0 = false, 11 = true
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+629xx	buttonBigger
+630xx	buttonSmaller
+
+
+
+
+
+
+

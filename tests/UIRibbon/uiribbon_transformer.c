@@ -77,9 +77,13 @@ uiribbon_control_type transform_control_type(type_control *src_control)
     return -1;
 }
 
-void transform_control_combobox(type_control *src_control, uiribbon_control_combobox *ret_control)
+void transform_control_combobox(type_uiribbon *root, type_control *src_control, uiribbon_control_combobox *ret_control)
 {
     int i;
+
+    ret_control->fontcontrol_string_for_width[0] = 0;
+    ret_control->fontcontrol_show_truetype_only = 0;
+    ret_control->fontcontrol_show_vertical = 0;
 
     ret_control->is_editable = FALSE;
     for (i = 0; i < src_control->blocks.count_blocks; i++)
@@ -99,6 +103,27 @@ void transform_control_combobox(type_control *src_control, uiribbon_control_comb
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_GRIPPER:
             ret_control->has_vertical_resize = src_block->gallery_gripper != UIRIBBON_GALLERY_GRIPPER_NONE;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MIN:
+            ret_control->fontcontrol_fontsize_min = src_block->fontcontrol_fontsize_min;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MAX:
+            ret_control->fontcontrol_fontsize_max = src_block->fontcontrol_fontsize_max;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_VERTICALFONTS:
+            ret_control->fontcontrol_show_vertical = src_block->fontcontrol_verticalfonts;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_TRUETYPEONLY:
+            ret_control->fontcontrol_show_truetype_only = src_block->fontcontrol_truetypeonly;
+            break;
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_STR:
+            {
+                int index = src_block->fontcontrol_str;
+                type_string *str = &root->strings.strings[index];
+                ASSERT(str->size_str + 1 < sizeof(ret_control->fontcontrol_string_for_width));
+                ret_control->fontcontrol_string_for_width[str->size_str] = 0; /* Add null terminator since the strings are lacking them */
+                memcpy(ret_control->fontcontrol_string_for_width, str->str, str->size_str);
+            }
             break;
         default:
             break;
@@ -329,7 +354,7 @@ void transform_control_inribbongallery(type_control *src_control, uiribbon_contr
     }
 }
 
-void transform_control(type_control *src_control, uiribbon_control *ret_control);
+void transform_control(type_uiribbon *root, type_control *src_control, uiribbon_control *ret_control);
 
 uiribbon_control *find_button_item(uiribbon_control *control)
 {
@@ -354,7 +379,7 @@ uiribbon_control *find_button_item(uiribbon_control *control)
     return NULL;
 }
 
-void transform_control_splitbutton(type_control *src_control, uiribbon_control *ret_control)
+void transform_control_splitbutton(type_uiribbon *root, type_control *src_control, uiribbon_control *ret_control)
 {
     int i;
     uiribbon_control *buttonitem;
@@ -371,7 +396,7 @@ void transform_control_splitbutton(type_control *src_control, uiribbon_control *
         if (src_block->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM)
         {
             ASSERT(src_block->content_subcontrols.count_subcontrols == 1);
-            transform_control(&src_block->content_subcontrols.subcontrols[0], ret_control->control_info.splitbutton.buttonitem);
+            transform_control(root, &src_block->content_subcontrols.subcontrols[0], ret_control->control_info.splitbutton.buttonitem);
             return;
         }
     }
@@ -380,7 +405,7 @@ void transform_control_splitbutton(type_control *src_control, uiribbon_control *
     *ret_control->control_info.splitbutton.buttonitem = *buttonitem;
 }
 
-void transform_subcontrols(type_subcontrols *src_block, int *out_count_subcontrols, uiribbon_control **out_subcontrols)
+void transform_subcontrols(type_uiribbon *root, type_subcontrols *src_block, int *out_count_subcontrols, uiribbon_control **out_subcontrols)
 {
     int i;
     int count_subcontrols;
@@ -398,14 +423,55 @@ void transform_subcontrols(type_subcontrols *src_block, int *out_count_subcontro
 
     for (i = 0; i < count_subcontrols; i++)
     {
-        transform_control(&src_block->subcontrols[i], &subcontrols[i]);
+        transform_control(root, &src_block->subcontrols[i], &subcontrols[i]);
     }
 }
 
-void transform_control(type_control *src_control, uiribbon_control *ret_control)
+static uiribbon_subcontrol_type make_control_subtype(int id)
+{
+    if (id >= 62000 && id <= 62099)
+        return UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_TYPE;
+
+    if (id >= 62300 && id <= 62399)
+        return UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SIZE;
+
+    if (id >= 63100 && id <= 63199)
+        return UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_HIGHLIGHT;
+
+    if (id >= 63200 && id <= 63299)
+        return UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_COLOR;
+
+    if (id >= 62100 && id <= 62199)
+        return UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_ITALIC;
+
+    if (id >= 62200 && id <= 62299)
+        return UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_UNDERLINE;
+
+    if (id >= 62400 && id <= 62499)
+        return UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_BOLD;
+
+    if (id >= 62600 && id <= 62699)
+        return UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_STRIKETHROUGH;
+
+    if (id >= 62700 && id <= 62799)
+        return UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SUPERSCRIPT;
+
+    if (id >= 62800 && id <= 62899)
+        return UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SUBSCRIPT;
+
+    if (id >= 62900 && id <= 62999)
+        return UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_BIGGER;
+
+    if (id >= 63000 && id <= 63099)
+        return UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SMALLER;
+
+    return UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_NONE;
+}
+
+void transform_control(type_uiribbon *root, type_control *src_control, uiribbon_control *ret_control)
 {
     int i;
-
+    ret_control->parent_id = -1;
     ret_control->type = transform_control_type(src_control);
     ret_control->size_definitions = NULL;
     ret_control->count_subcontrols = 0;
@@ -420,15 +486,19 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
             if (src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS
                 || src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS)
             {
-                transform_subcontrols(&src_block_special->content_subcontrols, &ret_control->count_subcontrols, &ret_control->subcontrols);
+                transform_subcontrols(root, &src_block_special->content_subcontrols, &ret_control->count_subcontrols, &ret_control->subcontrols);
             }
             continue;
         }
 
         switch (src_block->block_type)
         {
+        case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_PARENT_COMMANDID:
+            ret_control->parent_id = src_block->fontcontrol_parent_commandid;
+            break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID:
             ret_control->id = src_block->id;
+            ret_control->subtype = make_control_subtype(src_block->id);
             break;
         case UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE:
             if (!ret_control->size_definitions)
@@ -495,7 +565,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
         break;
 
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX:
-        transform_control_combobox(src_control, &ret_control->control_info.combobox);
+        transform_control_combobox(root, src_control, &ret_control->control_info.combobox);
         break;
 
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNCOLORPICKER:
@@ -516,7 +586,7 @@ void transform_control(type_control *src_control, uiribbon_control *ret_control)
          break;
 
     case UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON:
-        transform_control_splitbutton(src_control, ret_control);
+        transform_control_splitbutton(root, src_control, ret_control);
         break;
     }
 }
@@ -580,7 +650,7 @@ void transform_subcontrols_group(type_uiribbon *root, type_subcontrols *src_bloc
              switch (src_block_special->block_type)
             {
             case UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS:
-                transform_subcontrols(&src_block_special->content_subcontrols, &ret_group->count_controls, &ret_group->controls);
+                transform_subcontrols(root, &src_block_special->content_subcontrols, &ret_group->count_controls, &ret_group->controls);
                 break;
             case UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE:
                 if (!ret_group->sizedefinition_orders)
@@ -950,7 +1020,7 @@ void transform_menugroups(type_uiribbon *root, type_subcontrols *src, uiribbon_m
             {
                 if (src_block_special->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
                 {
-                    transform_subcontrols(&src_block_special->content_subcontrols, &ret_menugroup->count_controls, &ret_menugroup->controls);
+                    transform_subcontrols(root, &src_block_special->content_subcontrols, &ret_menugroup->count_controls, &ret_menugroup->controls);
                 }
             }
         }

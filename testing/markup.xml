@@ -85,37 +85,99 @@
 				<String Content="Test17" Id="10017"></String>
 			</Command.LabelTitle>
 		</Command>
+		<Command Name="Test18" Id="10018">
+			<Command.LabelTitle>
+				<String Content="Test18" Id="10018"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test19" Id="10019">
+			<Command.LabelTitle>
+				<String Content="Test19" Id="10019"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test20" Id="10020">
+			<Command.LabelTitle>
+				<String Content="Test20" Id="10020"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test21" Id="10021">
+			<Command.LabelTitle>
+				<String Content="Test21" Id="10021"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test22" Id="10022">
+			<Command.LabelTitle>
+				<String Content="Test22" Id="10022"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test23" Id="10023">
+			<Command.LabelTitle>
+				<String Content="Test23" Id="10023"></String>
+			</Command.LabelTitle>
+		</Command>
+		<Command Name="Test24" Id="10024">
+			<Command.LabelTitle>
+				<String Content="Test24" Id="10024"></String>
+			</Command.LabelTitle>
+		</Command>
 	</Application.Commands>
 
 	<Application.Views>
+		<ContextPopup>
+			<ContextPopup.MiniToolbars>
+				<MiniToolbar Name="MiniToolbar1">
+					<MenuGroup CommandName="Test22" Class="MajorItems">
+						<FontControl CommandName="Test23" />
+					</MenuGroup>
+				</MiniToolbar>
+			</ContextPopup.MiniToolbars>
+			<ContextPopup.ContextMaps>
+				<ContextMap CommandName="Test24" MiniToolbar="MiniToolbar1" />
+			</ContextPopup.ContextMaps>
+		</ContextPopup>
 		<Ribbon>
 			<Ribbon.Tabs>
 				<Tab CommandName="Test01">
 					<Group CommandName="Test02">
-						<Button CommandName="Test04" />
-						<Button CommandName="Test05" />
+						<FontControl CommandName="Test03" FontType="FontOnly" />
 					</Group>
-					<Group CommandName="Test03">
-						<Button CommandName="Test04" />
-						<Button CommandName="Test05" />
+					<Group CommandName="Test04">
+						<FontControl CommandName="Test05" FontType="FontWithColor" />
+					</Group>
+					<Group CommandName="Test06">
+						<FontControl CommandName="Test07" FontType="RichFont" />
+					</Group>
+					<Group CommandName="Test08">
+						<FontControl CommandName="Test09" FontType="FontWithColor"
+									 IsGrowShrinkButtonGroupVisible="true"
+									 IsUnderlineButtonVisible="true"
+									 IsStrikethroughButtonVisible="true"
+									 IsHighlightButtonVisible="true" />
+					</Group>
+					<Group CommandName="Test10">
+						<FontControl CommandName="Test11" FontType="FontWithColor"
+									 IsGrowShrinkButtonGroupVisible="false"
+									 IsUnderlineButtonVisible="false"
+									 IsStrikethroughButtonVisible="false"
+									 IsHighlightButtonVisible="false" />
+					</Group>
+					<Group CommandName="Test12">
+						<FontControl CommandName="Test13" FontType="FontWithColor" MinimumFontSize="44" MaximumFontSize="45" />
+					</Group>
+					<Group CommandName="Test14">
+						<FontControl CommandName="Test15" FontType="FontWithColor" ShowTrueTypeOnly="true" />
+					</Group>
+					<Group CommandName="Test16">
+						<FontControl CommandName="Test17" FontType="FontWithColor" ShowTrueTypeOnly="false" />
+					</Group>
+					<Group CommandName="Test18">
+						<FontControl CommandName="Test19" FontType="FontWithColor" ShowVerticalFonts="true" />
+					</Group>
+					<Group CommandName="Test20">
+						<FontControl CommandName="Test21" FontType="FontWithColor" ShowVerticalFonts="false" />
 					</Group>
 				</Tab>
 			</Ribbon.Tabs>
-			<Ribbon.ApplicationMenu>
-				<ApplicationMenu CommandName="Test06">
-					<ApplicationMenu.RecentItems>
-						<RecentItems CommandName="Test08" />
-					</ApplicationMenu.RecentItems>
-					<MenuGroup CommandName = "Test09" Class="MajorItems">
-						<Button CommandName="Test04" />
-						<Button CommandName="Test05" />
-					</MenuGroup>
-					<MenuGroup CommandName = "Test10" Class="StandardItems">
-						<Button CommandName="Test04" />
-						<Button CommandName="Test05" />
-					</MenuGroup>
-				</ApplicationMenu>
-			</Ribbon.ApplicationMenu>
 		</Ribbon>
 	</Application.Views>
 </Application>

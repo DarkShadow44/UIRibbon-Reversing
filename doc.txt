@@ -23,3 +23,13 @@ default sizedefinitions - or size when no sizedefinition present
 scalingtests for all controls + tabs
 fixme for unhandled blocks
 colordropdown vs combobox
+
+test ControlGroup in group
+predefined sizedefinitions
+
+write defaults into .ksy ?
+
+uiribbon
+- where fontcontrol images come from? - maybe just apply them by their ID, and register their ID as special commands - maybe have ids + subcontrol list... - link commandinfo, maybe put that info in there?
+- transform commandhandlers, put info about special commands for fontdropdown into there
+- fontcontrol subcontrols as list inside fontcontrol? - need to be able to apply sizedefinition order

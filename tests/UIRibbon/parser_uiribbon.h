@@ -31,6 +31,7 @@ typedef enum
 
 typedef enum
 {
+	UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND_INTERNAL = 2,
 	UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND = 3,
 	UIRIBBON_SIZEDEFINITIONS_COMMAND_SPECIAL = 9,
 } enum_sizedefinitions_command;
@@ -140,6 +141,12 @@ typedef enum
 	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX = 63,
 	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE = 65,
 	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING = 64,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_STR = 79,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MIN = 48,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MAX = 49,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_PARENT_COMMANDID = 44,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_TRUETYPEONLY = 46,
+	UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_VERTICALFONTS = 47,
 } enum_control_block_type_number;
 
 typedef enum
@@ -242,6 +249,7 @@ typedef struct type_sizedefinitions_order_command_
 	enum_sizedefinitions_command flags_command;
 	uint8_t string_id;
 	uint16_t command_id;
+	uint32_t unk2;
 } type_sizedefinitions_order_command;
 
 typedef struct type_sizedefinition_order_
@@ -310,6 +318,12 @@ typedef struct type_control_block_number_
 	int32_t scalepolicy_popup;
 	int32_t id_reference;
 	int32_t enable_pinning;
+	int32_t fontcontrol_str;
+	int32_t fontcontrol_fontsize_min;
+	int32_t fontcontrol_fontsize_max;
+	int32_t fontcontrol_parent_commandid;
+	int32_t fontcontrol_truetypeonly;
+	int32_t fontcontrol_verticalfonts;
 } type_control_block_number;
 
 typedef struct type_control_block_special_

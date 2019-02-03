@@ -131,6 +131,10 @@ int read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_size
 	{
 		CHECK(stream_read_uint16_t(s, &ret->command_id));
 	}
+	if (ret->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND_INTERNAL)
+	{
+		CHECK(stream_read_uint32_t(s, &ret->unk2));
+	}
 	return 0;
 }
 
@@ -335,6 +339,30 @@ int read_type_control_block_number(stream *s_root, stream *s, type_control_block
 	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING)
 	{
 		ret->enable_pinning = ret->content_long.value1;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_STR)
+	{
+		ret->fontcontrol_str = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MIN)
+	{
+		ret->fontcontrol_fontsize_min = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MAX)
+	{
+		ret->fontcontrol_fontsize_max = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_PARENT_COMMANDID)
+	{
+		ret->fontcontrol_parent_commandid = ret->content_number.id.id;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_TRUETYPEONLY)
+	{
+		ret->fontcontrol_truetypeonly = ret->content_long.value1;
+	}
+	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_VERTICALFONTS)
+	{
+		ret->fontcontrol_verticalfonts = ret->content_long.value1;
 	}
 	return 0;
 }

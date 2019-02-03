@@ -13,7 +13,23 @@ static void _ok(int expr, const char *message, const char *file, int line)
     _ok(expr, message, __FILE__, __LINE__)
 
 #define ASSERT(expr) \
-    CHECK2(!(expr), "Assert failed")
+    do { \
+        CHECK2(!(expr), "Assert failed") \
+    } while (0)
+
+#define ASSERT_INT(actual, expected) \
+    do { \
+         if (expected != actual) { \
+                printf("%s:%d - Expected %d, got %d.\n", __FILE__, __LINE__, expected, actual); return 1; \
+         } \
+     } while (0)
+
+#define ASSERT_STR(actual, expected) \
+    do { \
+         if (strcmp(expected, actual) != 0) { \
+                printf("%s:%d - Expected %s, got %s.\n", __FILE__, __LINE__, expected, actual); return 1; \
+         } \
+     } while (0)
 
 #define ASSERT_SUBCONTROL_GROUP(control, count) \
     ASSERT(control.count_subcontrols == 1); \
@@ -470,7 +486,7 @@ static int test_dropdownbutton(void)
 
     ASSERT(controls[1].count_subcontrols == 1);
     controls = controls[1].subcontrols;
-    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP)
+    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
     ASSERT(controls[0].count_subcontrols == 3);
     controls = controls[0].subcontrols;
 
@@ -481,12 +497,12 @@ static int test_dropdownbutton(void)
     ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT(controls[2].id == 10006);
     ASSERT(controls[0].count_subcontrols == 1);
-    ASSERT(controls[0].subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP)
+    ASSERT(controls[0].subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
     ASSERT(controls[0].subcontrols[0].count_subcontrols == 0);
 
     ASSERT(controls[1].count_subcontrols == 1);
     controls = controls[1].subcontrols;
-    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP)
+    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
     ASSERT(controls[0].count_subcontrols == 4);
     controls = controls[0].subcontrols;
 
@@ -521,7 +537,7 @@ static int test_dropdowncolorpicker(void)
     ASSERT(uiribbon.count_tabs == 1);
     ASSERT(uiribbon.tabs[0].count_groups == 2);
 
-    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 16)
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 16);
     controls = uiribbon.tabs[0].groups[0].controls;
     ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
     ASSERT_COLORPICKER(controls[1], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
@@ -581,7 +597,7 @@ static int test_dropdowngallery(void)
     ASSERT(uiribbon.count_tabs == 1);
     ASSERT(uiribbon.tabs[0].count_groups == 3);
 
-    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 11)
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 11);
     controls = uiribbon.tabs[0].groups[0].controls;
     ASSERT_GALLERY(controls[0], 10005, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
                    TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
@@ -606,7 +622,7 @@ static int test_dropdowngallery(void)
     ASSERT_GALLERY(controls[10], 10015, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
                    TRUE, -1, 100, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
 
-    ASSERT(uiribbon.tabs[0].groups[1].count_controls == 6)
+    ASSERT(uiribbon.tabs[0].groups[1].count_controls == 6);
     controls = uiribbon.tabs[0].groups[1].controls;
     ASSERT_GALLERY(controls[0], 10016, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
                    TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
@@ -621,7 +637,7 @@ static int test_dropdowngallery(void)
     ASSERT_GALLERY(controls[5], 10021, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_OVERLAY,
                    TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
 
-    ASSERT(uiribbon.tabs[0].groups[2].count_controls == 10)
+    ASSERT(uiribbon.tabs[0].groups[2].count_controls == 10);
     controls = uiribbon.tabs[0].groups[2].controls;
 
     ASSERT_GALLERY(controls[0], 10022, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
@@ -707,7 +723,7 @@ static int test_inribbongallery(void)
     ASSERT(uiribbon.count_tabs == 1);
     ASSERT(uiribbon.tabs[0].count_groups == 3);
 
-    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 11)
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 11);
     controls = uiribbon.tabs[0].groups[0].controls;
     ASSERT_GALLERY(controls[0], 10005, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
                    TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
@@ -732,7 +748,7 @@ static int test_inribbongallery(void)
     ASSERT_GALLERY(controls[10], 10015, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
                    TRUE, -1, 100, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
 
-    ASSERT(uiribbon.tabs[0].groups[1].count_controls == 12)
+    ASSERT(uiribbon.tabs[0].groups[1].count_controls == 12);
     controls = uiribbon.tabs[0].groups[1].controls;
     ASSERT_GALLERY(controls[0], 10016, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
                    TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
@@ -760,7 +776,7 @@ static int test_inribbongallery(void)
     ASSERT_GALLERY(controls[11], 10031, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
                    TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 6, 1, 6, 6, 6);
 
-    ASSERT(uiribbon.tabs[0].groups[2].count_controls == 9)
+    ASSERT(uiribbon.tabs[0].groups[2].count_controls == 9);
     controls = uiribbon.tabs[0].groups[2].controls;
 
     ASSERT_GALLERY(controls[0], 10034, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
@@ -839,7 +855,7 @@ static int test_splitbuttongallery(void)
     ASSERT(uiribbon.count_tabs == 1);
     ASSERT(uiribbon.tabs[0].count_groups == 3);
 
-    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 11)
+    ASSERT(uiribbon.tabs[0].groups[0].count_controls == 11);
     controls = uiribbon.tabs[0].groups[0].controls;
     ASSERT_GALLERY(controls[0], 10005, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
                    TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
@@ -864,7 +880,7 @@ static int test_splitbuttongallery(void)
     ASSERT_GALLERY(controls[10], 10015, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
                    TRUE, -1, 100, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
 
-    ASSERT(uiribbon.tabs[0].groups[1].count_controls == 6)
+    ASSERT(uiribbon.tabs[0].groups[1].count_controls == 6);
     controls = uiribbon.tabs[0].groups[1].controls;
     ASSERT_GALLERY(controls[0], 10016, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
                    TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
@@ -879,7 +895,7 @@ static int test_splitbuttongallery(void)
     ASSERT_GALLERY(controls[5], 10021, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_OVERLAY,
                    TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
 
-    ASSERT(uiribbon.tabs[0].groups[2].count_controls == 9)
+    ASSERT(uiribbon.tabs[0].groups[2].count_controls == 9);
     controls = uiribbon.tabs[0].groups[2].controls;
 
     ASSERT_GALLERY(controls[0], 10034, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
@@ -1119,7 +1135,7 @@ static int test_applicationmenu_single(char *name, int recent_count, bool enable
         ASSERT(group->controls[1].id == 10005);
     }
 
-    ASSERT(uiribbon.applicationmenu.id == 10006)
+    ASSERT(uiribbon.applicationmenu.id == 10006);
     ASSERT(uiribbon.applicationmenu.recent.id == 10008);
     ASSERT(uiribbon.applicationmenu.recent.count == recent_count);
     ASSERT(uiribbon.applicationmenu.recent.enable_pinning == enable_pinning);
@@ -1141,7 +1157,7 @@ static int test_applicationmenu(void)
     CHECK(test_applicationmenu_single("applicationmenu3", 10, TRUE ));
 
     CHECK(parse_from_testdata("simple_tabs", &uiribbon));
-    ASSERT(uiribbon.applicationmenu.id == 61000)
+    ASSERT(uiribbon.applicationmenu.id == 61000);
     ASSERT(uiribbon.applicationmenu.recent.count == 10);
     ASSERT(uiribbon.applicationmenu.recent.enable_pinning == TRUE);
     ASSERT(uiribbon.applicationmenu.menugroups.count_menugroups == 0);
@@ -1149,11 +1165,154 @@ static int test_applicationmenu(void)
     return 0;
 }
 
+static int assert_fontcontrol(uiribbon_group *group, int id, int id_type, int id_size,
+                              int id_bold, int id_italic, int id_underline, int id_strikethrough,
+                              int id_color, int id_bigger, int id_smaller,
+                              int id_subscript, int id_superscript, int id_highlight,
+                              int fontsize_min, int fontsize_max, bool show_vertical_fonts, bool truetype_only, char *string_for_width)
+{
+    int pos = 0;
+    int i;
+    uiribbon_control *controls = group->controls;
+
+    for (i = 0; i < group->count_controls; i++)
+    {
+        uiribbon_control *control = &controls[i];
+        ASSERT_INT(control->parent_id, id);
+    }
+
+    ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_TYPE);
+    ASSERT_INT(controls[pos].id, id_type);
+    ASSERT_INT(controls[pos].control_info.combobox.fontcontrol_fontsize_min, fontsize_min);
+    ASSERT_INT(controls[pos].control_info.combobox.fontcontrol_fontsize_max, fontsize_max);
+    ASSERT_INT(controls[pos].control_info.combobox.fontcontrol_show_vertical, show_vertical_fonts);
+    ASSERT_INT(controls[pos].control_info.combobox.fontcontrol_show_truetype_only, truetype_only);
+    ASSERT_STR(controls[pos].control_info.combobox.fontcontrol_string_for_width, string_for_width);
+    pos++;
+    ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SIZE);
+    ASSERT_INT(controls[pos].id, id_size);
+    pos++;
+    if (id_bigger != -1)
+    {
+        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_BIGGER);
+        ASSERT_INT(controls[pos].id, id_bigger);
+        pos++;
+    }
+    if (id_smaller != -1)
+    {
+        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SMALLER);
+        ASSERT_INT(controls[pos].id, id_smaller);
+        pos++;
+    }
+    ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
+    ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_BOLD);
+    ASSERT_INT(controls[pos].id, id_bold);
+    pos++;
+    ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
+    ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_ITALIC);
+    ASSERT_INT(controls[pos].id, id_italic);
+    pos++;
+    if (id_underline != -1)
+    {
+        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_UNDERLINE);
+        ASSERT_INT(controls[pos].id, id_underline);
+        pos++;
+    }
+    if (id_strikethrough != -1)
+    {
+        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_STRIKETHROUGH);
+        ASSERT_INT(controls[pos].id, id_strikethrough);
+        pos++;
+    }
+    if (id_subscript != -1)
+    {
+        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SUBSCRIPT);
+        ASSERT_INT(controls[pos].id, id_subscript);
+        pos++;
+    }
+    if (id_superscript != -1)
+    {
+        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SUPERSCRIPT);
+        ASSERT_INT(controls[pos].id, id_superscript);
+        pos++;
+    }
+    if (id_color != -1)
+    {
+        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTONGALLERY);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_COLOR);
+        ASSERT_INT(controls[pos].id, id_color);
+        pos++;
+    }
+    if (id_highlight != -1)
+    {
+        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTONGALLERY);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_HIGHLIGHT);
+        ASSERT_INT(controls[pos].id, id_highlight);
+        pos++;
+    }
+
+
+    ASSERT_INT(pos, group->count_controls);
+
+    return 0;
+}
+
+static int test_fontcontrol(void)
+{
+    uiribbon_main uiribbon;
+    uiribbon_group *groups;
+    uiribbon_menugroup *menugroup;
+    uiribbon_control *controls;
+
+    CHECK(parse_from_testdata("fontcontrol", &uiribbon));
+    ASSERT_INT(uiribbon.count_tabs, 1);
+    ASSERT_INT(uiribbon.tabs[0].count_groups, 10);
+    groups = uiribbon.tabs[0].groups;
+    /*                                      id,  type,  size   bold, italic, underline, strike, color, bigger, smaller, subscript, superscript, highlight size_min, size_max, vertical, truetype str */
+    CHECK(assert_fontcontrol(&groups[0], 10003, 62001, 62301, 62401,  62101,     62201,  62601,    -1,     -1,     -1,         -1,          -1,        -1,       1,     9999,        1,        0, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"));
+    CHECK(assert_fontcontrol(&groups[1], 10005, 62002, 62302, 62402,  62102,     62202,  62602, 63202,  62902,  63002,         -1,          -1,        -1,       1,     9999,        1,        0, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"));
+    CHECK(assert_fontcontrol(&groups[2], 10007, 62003, 62303, 62403,  62103,     62203,  62603, 63203,  62903,  63003,      62803,       62703,     63103,       1,     9999,        1,        0, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"));
+    CHECK(assert_fontcontrol(&groups[3], 10009, 62004, 62304, 62404,  62104,     62204,  62604, 63204,  62904,  63004,         -1,          -1,     63104,       1,     9999,        1,        0, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"));
+    CHECK(assert_fontcontrol(&groups[4], 10011, 62005, 62305, 62405,  62105,        -1,     -1, 63205,     -1,     -1,         -1,          -1,        -1,       1,     9999,        1,        0, "IIIIIIIIIIIIIIIIIIIIIII"));
+    CHECK(assert_fontcontrol(&groups[5], 10013, 62006, 62306, 62406,  62106,     62206,  62606, 63206,  62906,  63006,         -1,          -1,        -1,       44,      45,        1,        0, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"));
+    CHECK(assert_fontcontrol(&groups[6], 10015, 62007, 62307, 62407,  62107,     62207,  62607, 63207,  62907,  63007,         -1,          -1,        -1,       1,     9999,        1,        1, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"));
+    CHECK(assert_fontcontrol(&groups[7], 10017, 62008, 62308, 62408,  62108,     62208,  62608, 63208,  62908,  63008,         -1,          -1,        -1,       1,     9999,        1,        0, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"));
+    CHECK(assert_fontcontrol(&groups[8], 10019, 62009, 62309, 62409,  62109,     62209,  62609, 63209,  62909,  63009,         -1,          -1,        -1,       1,     9999,        1,        0, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"));
+    CHECK(assert_fontcontrol(&groups[9], 10021, 62010, 62310, 62410,  62110,     62210,  62610, 63210,  62910,  63010,         -1,          -1,        -1,       1,     9999,        0,        0, "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"));
+
+    ASSERT_INT(uiribbon.count_contextmaps, 1);
+    ASSERT_INT(uiribbon.contextmaps[0].minitoolbar.count_menugroups, 1);
+    menugroup = &uiribbon.contextmaps[0].minitoolbar.menugroups[0];
+    ASSERT_INT(menugroup->count_controls, 4);
+    controls = menugroup->controls;
+    ASSERT_INT(controls[0].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT_INT(controls[0].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_TYPE);
+    ASSERT_INT(controls[0].id, 62000);
+    ASSERT_INT(controls[1].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT_INT(controls[1].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SIZE);
+    ASSERT_INT(controls[1].id, 62300);
+    ASSERT_INT(controls[2].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
+    ASSERT_INT(controls[2].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_BOLD);
+    ASSERT_INT(controls[2].id, 62400);
+    ASSERT_INT(controls[3].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
+    ASSERT_INT(controls[3].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_ITALIC);
+    ASSERT_INT(controls[3].id, 62100);
+
+    return 0;
+}
 
 int main()
 {
-    /*write_test_data("checkbox");
-    run_visual_test("dropdowncolorpicker");
+    /* run_visual_test("dropdowncolorpicker"); */
+    /*write_test_data("fontcontrol");
     return 0;*/
     CHECK(test_simple());
     CHECK(test_sizeinfo());
@@ -1170,6 +1329,7 @@ int main()
     CHECK(test_splitbutton());
     CHECK(test_contextpopups());
     CHECK(test_applicationmenu());
+    CHECK(test_fontcontrol());
 
     return 0;
 }

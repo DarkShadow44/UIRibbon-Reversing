@@ -4,6 +4,8 @@ typedef int bool;
 #define FALSE 0
 #define TRUE 1
 
+/* FIXME: Subcontrol not part of ALL controls, only that that can have them */
+
 typedef enum
 {
     UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_OPEN_GROUP,
@@ -28,6 +30,23 @@ typedef enum
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPINNER,
     UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON,
 } uiribbon_control_type;
+
+typedef enum
+{
+    UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_NONE,
+    UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_TYPE,
+    UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SIZE,
+    UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_HIGHLIGHT,
+    UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_COLOR,
+    UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_ITALIC,
+    UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_UNDERLINE,
+    UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_BOLD,
+    UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_STRIKETHROUGH,
+    UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SUPERSCRIPT,
+    UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SUBSCRIPT,
+    UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_BIGGER,
+    UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SMALLER,
+} uiribbon_subcontrol_type;
 
 typedef struct
 {
@@ -72,6 +91,11 @@ typedef struct
     bool has_vertical_resize;
     bool has_autocomplete;
     bool is_editable;
+    int fontcontrol_fontsize_min;
+    int fontcontrol_fontsize_max;
+    bool fontcontrol_show_truetype_only;
+    bool fontcontrol_show_vertical;
+    char fontcontrol_string_for_width[80];
 } uiribbon_control_combobox;
 
 typedef enum
@@ -168,6 +192,8 @@ typedef struct uiribbon_control_
 {
     uiribbon_control_type type;
     int id;
+    int parent_id;
+    uiribbon_subcontrol_type subtype;
     uiribbon_sizedefinitions_control *size_definitions;
     int count_subcontrols;
     struct uiribbon_control_ *subcontrols;

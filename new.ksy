@@ -85,6 +85,7 @@ enums:
     5: help
 
   enum_sizedefinitions_command:
+    2: command_internal
     3: command
     9: special
 
@@ -174,6 +175,12 @@ enums:
     63: is_checkbox
     65: id_reference
     64: enable_pinning
+    79: fontcontrol_str # id in strings - maximum number of 'I' that fit into fontcontrol
+    48: fontcontrol_fontsize_min
+    49: fontcontrol_fontsize_max
+    44: fontcontrol_parent_commandid
+    46: fontcontrol_truetypeonly
+    47: fontcontrol_verticalfonts
 
   enum_control_block_type_special:
     62: subcomponents
@@ -310,6 +317,9 @@ types:
     - id: command_id
       type: u2
       if: flags_command == enum_sizedefinitions_command::command
+    - id: unk2
+      type: u4
+      if: flags_command == enum_sizedefinitions_command::command_internal
 
   type_sizedefinition_order:
     seq:
@@ -487,6 +497,24 @@ types:
       enable_pinning:
         value: content_long.value1
         if: block_type == enum_control_block_type_number::enable_pinning
+      fontcontrol_str:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type_number::fontcontrol_str
+      fontcontrol_fontsize_min:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type_number::fontcontrol_fontsize_min
+      fontcontrol_fontsize_max:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type_number::fontcontrol_fontsize_max
+      fontcontrol_parent_commandid:
+        value: content_number.id.id
+        if: block_type == enum_control_block_type_number::fontcontrol_parent_commandid
+      fontcontrol_truetypeonly:
+        value: content_long.value1
+        if: block_type == enum_control_block_type_number::fontcontrol_truetypeonly
+      fontcontrol_verticalfonts:
+        value: content_long.value1
+        if: block_type == enum_control_block_type_number::fontcontrol_verticalfonts
 
   type_control_block_special:
     seq:
