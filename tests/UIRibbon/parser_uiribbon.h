@@ -396,11 +396,9 @@ typedef struct type_command_container_
 
 typedef struct type_command_ext5_
 {
-	uint16_t unk1;
-	uint16_t unk2;
-	uint16_t unk3;
-	uint16_t unk4;
-	uint16_t unk5;
+	uint16_t command_id;
+	uint16_t count;
+	uint16_t offset;
 } type_command_ext5;
 
 typedef struct type_command_ext4_

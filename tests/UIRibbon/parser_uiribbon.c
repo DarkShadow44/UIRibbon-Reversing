@@ -504,11 +504,14 @@ int read_type_command_container(stream *s_root, stream *s, type_command_containe
 
 int read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *ret)
 {
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_read_uint16_t(s, &ret->unk2));
-	CHECK(stream_read_uint16_t(s, &ret->unk3));
-	CHECK(stream_read_uint16_t(s, &ret->unk4));
-	CHECK(stream_read_uint16_t(s, &ret->unk5));
+	const char unk3[] = {0, 0};
+	const char unk5[] = {0, 0};
+
+	CHECK(stream_read_uint16_t(s, &ret->command_id));
+	CHECK(stream_read_uint16_t(s, &ret->count));
+	CHECK(stream_expect_bytes(s, unk3));
+	CHECK(stream_read_uint16_t(s, &ret->offset));
+	CHECK(stream_expect_bytes(s, unk5));
 	return 0;
 }
 

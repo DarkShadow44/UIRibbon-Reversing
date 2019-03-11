@@ -635,16 +635,18 @@ types:
 
   type_command_ext5:
     seq:
-    - id: unk1
+    - id: command_id
       type: u2
-    - id: unk2
+    - id: count
       type: u2
+      doc: 'command ids can be used multiple times, this is an index to differentiate between them'
     - id: unk3
+      contents: [0, 0]
+    - id: offset
       type: u2
-    - id: unk4 #offset, starting from beginning, references start of control that uses this id
-      type: u2
+      doc: 'offset, starting from beginning, references start of control that uses this id'
     - id: unk5
-      type: u2
+      contents: [0, 0]
 
   type_command_ext4:
     seq:
