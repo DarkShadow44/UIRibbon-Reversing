@@ -1312,7 +1312,7 @@ static int test_fontcontrol(void)
 int main()
 {
     /* run_visual_test("dropdowncolorpicker"); */
-    /*write_test_data("fontcontrol");
+    /*write_test_data("scalingpolicy");
     return 0;*/
     CHECK(test_simple());
     CHECK(test_sizeinfo());

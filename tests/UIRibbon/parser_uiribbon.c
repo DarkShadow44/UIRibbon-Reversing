@@ -26,6 +26,10 @@ int read_type_command_ext(stream *s_root, stream *s, type_command_ext *ret);
 int read_application_views(stream *s_root, stream *s, application_views *ret);
 int read_type_command(stream *s_root, stream *s, type_command *ret);
 int read_type_command_container(stream *s_root, stream *s, type_command_container *ret);
+int read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *ret);
+int read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *ret);
+int read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *ret);
+int read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *ret);
 
 int read_type_id(stream *s_root, stream *s, type_id *ret)
 {
@@ -561,6 +565,44 @@ int read_type_command_container(stream *s_root, stream *s, type_command_containe
 	return 0;
 }
 
+int read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *ret)
+{
+	CHECK(stream_read_uint16_t(s, &ret->unk1));
+	CHECK(stream_read_uint16_t(s, &ret->unk2));
+	CHECK(stream_read_uint16_t(s, &ret->unk3));
+	CHECK(stream_read_uint16_t(s, &ret->unk4));
+	CHECK(stream_read_uint16_t(s, &ret->unk5));
+	return 0;
+}
+
+int read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *ret)
+{
+	CHECK(read_type_command_ext5(s_root, s, &ret->blocks));
+	return 0;
+}
+
+int read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *ret)
+{
+	stream substream_unk3;
+
+	CHECK(stream_read_uint16_t(s, &ret->unk1));
+	CHECK(stream_read_uint16_t(s, &ret->unk2));
+	CHECK(stream_make_substream(s, &substream_unk3, ret->unk1 - 4));
+	CHECK(read_type_command_ext4(s_root, &substream_unk3, &ret->unk3));
+	return 0;
+}
+
+int read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *ret)
+{
+	stream substream_instance_ext;
+
+	CHECK(stream_read_uint16_t(s, &ret->pos));
+	CHECK(stream_make_substream_instance(s_root, &substream_instance_ext, (ret->pos), s_root->max - (ret->pos)));
+	ret->ext = malloc(sizeof(type_command_ext3));
+	CHECK(read_type_command_ext3(s_root, &substream_instance_ext, ret->ext));
+	return 0;
+}
+
 int read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *ret)
 {
 	const char unknown1[] = {0, 18, 0, 0, 0, 0, 0, 1, 0};
@@ -591,7 +633,7 @@ int read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *ret)
 	CHECK(stream_make_substream(s, &substream_command_container, ret->size_command_container - 4));
 	CHECK(read_type_command_container(s_root, &substream_command_container, &ret->command_container));
 	CHECK(stream_read_uint16_t(s, &ret->len_unk6));
-	CHECK(stream_read_uint16_t(s, &ret->unklen6));
+	CHECK(read_type_command_ext2(s_root, s, &ret->command_ext));
 	CHECK(read_application_views(s_root, s, &ret->unk6));
 	return 0;
 }

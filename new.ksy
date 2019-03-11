@@ -55,11 +55,10 @@ seq:
     size: size_command_container - 4
   - id: len_unk6
     type: u2
-  - id: unklen6
-    type: u2
+  - id: command_ext
+    type: type_command_ext2
   - id: unk6
     type: application_views
-    #size: unk5 - count_command_resources * 10 - 500 # 10 = size for resources - not properly calculated yet
 
 enums:
 
@@ -735,3 +734,42 @@ types:
       type: type_command
       repeat: expr
       repeat-expr: commands_len
+
+  type_command_ext5:
+    seq:
+    - id: unk1
+      type: u2
+    - id: unk2
+      type: u2
+    - id: unk3
+      type: u2
+    - id: unk4 #offset, starting from beginning, references start of control that uses this id
+      type: u2
+    - id: unk5
+      type: u2
+
+  type_command_ext4:
+    seq:
+    - id: blocks
+      repeat: eos
+      type: type_command_ext5
+
+  type_command_ext3:
+    seq:
+    - id: unk1
+      type: u2
+    - id: unk2
+      type: u2
+    - id: unk3
+      size: unk1 - 4
+      type: type_command_ext4
+
+  type_command_ext2:
+    seq:
+    - id: pos
+      type: u2
+    instances:
+      ext:
+        io: _root._io
+        pos: pos
+        type: type_command_ext3

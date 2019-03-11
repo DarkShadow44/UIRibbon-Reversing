@@ -437,6 +437,33 @@ typedef struct type_command_container_
 	struct type_command_ *commands;
 } type_command_container;
 
+typedef struct type_command_ext5_
+{
+	uint16_t unk1;
+	uint16_t unk2;
+	uint16_t unk3;
+	uint16_t unk4;
+	uint16_t unk5;
+} type_command_ext5;
+
+typedef struct type_command_ext4_
+{
+	type_command_ext5 blocks;
+} type_command_ext4;
+
+typedef struct type_command_ext3_
+{
+	uint16_t unk1;
+	uint16_t unk2;
+	type_command_ext4 unk3;
+} type_command_ext3;
+
+typedef struct type_command_ext2_
+{
+	uint16_t pos;
+	struct type_command_ext3_ *ext;
+} type_command_ext2;
+
 typedef struct type_uiribbon_
 {
 	uint32_t length_this_file;
@@ -447,7 +474,7 @@ typedef struct type_uiribbon_
 	uint32_t size_command_container;
 	type_command_container command_container;
 	uint16_t len_unk6;
-	uint16_t unklen6;
+	type_command_ext2 command_ext;
 	application_views unk6;
 } type_uiribbon;
 
