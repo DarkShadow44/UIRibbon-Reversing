@@ -19,10 +19,6 @@ int read_type_block_inline(stream *s_root, stream *s, type_block_inline *ret);
 int read_type_control_block(stream *s_root, stream *s, type_control_block *ret);
 int read_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *ret);
 int read_type_control(stream *s_root, stream *s, type_control *ret);
-int read_type_menugroup_extended(stream *s_root, stream *s, type_menugroup_extended *ret);
-int read_type_recent2(stream *s_root, stream *s, type_recent2 *ret);
-int read_type_recent1(stream *s_root, stream *s, type_recent1 *ret);
-int read_type_command_ext(stream *s_root, stream *s, type_command_ext *ret);
 int read_application_views(stream *s_root, stream *s, application_views *ret);
 int read_type_command(stream *s_root, stream *s, type_command *ret);
 int read_type_command_container(stream *s_root, stream *s, type_command_container *ret);
@@ -464,65 +460,6 @@ int read_type_control(stream *s_root, stream *s, type_control *ret)
 	CHECK(stream_read_uint16_t(s, &ret->size_block));
 	CHECK(stream_make_substream(s, &substream_blocks, ret->size_block - 7));
 	CHECK(read_type_control_blocks(s_root, &substream_blocks, &ret->blocks));
-	return 0;
-}
-
-int read_type_menugroup_extended(stream *s_root, stream *s, type_menugroup_extended *ret)
-{
-	int i;
-
-	CHECK(stream_read_uint16_t(s, &ret->unk_id1));
-	CHECK(stream_read_uint16_t(s, &ret->menu_items_len));
-	ret->items = malloc(sizeof(type_control) * ret->menu_items_len);
-	for (i = 0; i < ret->menu_items_len; i++)
-	{
-		CHECK(read_type_control(s_root, s, &ret->items[i]));
-	}
-	CHECK(stream_read_uint32_t(s, &ret->unk1));
-	CHECK(stream_read_uint32_t(s, &ret->unk2));
-	CHECK(stream_read_uint32_t(s, &ret->unk3));
-	CHECK(stream_read_uint16_t(s, &ret->unk4));
-	return 0;
-}
-
-int read_type_recent2(stream *s_root, stream *s, type_recent2 *ret)
-{
-	CHECK(stream_read_uint32_t(s, &ret->unk1));
-	CHECK(stream_read_uint32_t(s, &ret->unk2));
-	CHECK(stream_read_uint32_t(s, &ret->unk3));
-	CHECK(stream_read_uint8_t(s, &ret->own_index));
-	CHECK(stream_read_uint8_t(s, &ret->unk4b));
-	CHECK(stream_read_uint16_t(s, &ret->unk4c));
-	CHECK(stream_read_uint32_t(s, &ret->unk5));
-	CHECK(stream_read_uint32_t(s, &ret->unk6));
-	CHECK(stream_read_uint32_t(s, &ret->unk7));
-	CHECK(stream_read_uint32_t(s, &ret->unk8));
-	CHECK(stream_read_uint32_t(s, &ret->unk9));
-	CHECK(stream_read_uint8_t(s, &ret->unk10));
-	return 0;
-}
-
-int read_type_recent1(stream *s_root, stream *s, type_recent1 *ret)
-{
-	int i;
-
-	CHECK(stream_read_uint16_t(s, &ret->unk_id1));
-	CHECK(stream_read_uint16_t(s, &ret->recent_len));
-	ret->elements = malloc(sizeof(type_recent2) * ret->recent_len);
-	for (i = 0; i < ret->recent_len; i++)
-	{
-		CHECK(read_type_recent2(s_root, s, &ret->elements[i]));
-	}
-	return 0;
-}
-
-int read_type_command_ext(stream *s_root, stream *s, type_command_ext *ret)
-{
-	CHECK(stream_read_uint16_t(s, &ret->own_index_maybe));
-	CHECK(stream_read_uint16_t(s, &ret->unk0));
-	CHECK(stream_read_uint16_t(s, &ret->unk1a));
-	CHECK(stream_read_uint16_t(s, &ret->unk2));
-	CHECK(stream_read_uint16_t(s, &ret->command_id));
 	return 0;
 }
 

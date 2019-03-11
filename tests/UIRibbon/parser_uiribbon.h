@@ -372,49 +372,6 @@ typedef struct type_control_
 	type_control_blocks blocks;
 } type_control;
 
-typedef struct type_menugroup_extended_
-{
-	uint16_t unk_id1;
-	uint16_t menu_items_len;
-	struct type_control_ *items;
-	uint32_t unk1;
-	uint32_t unk2;
-	uint32_t unk3;
-	uint16_t unk4;
-} type_menugroup_extended;
-
-typedef struct type_recent2_
-{
-	uint32_t unk1;
-	uint32_t unk2;
-	uint32_t unk3;
-	uint8_t own_index;
-	uint8_t unk4b;
-	uint16_t unk4c;
-	uint32_t unk5;
-	uint32_t unk6;
-	uint32_t unk7;
-	uint32_t unk8;
-	uint32_t unk9;
-	uint8_t unk10;
-} type_recent2;
-
-typedef struct type_recent1_
-{
-	uint16_t unk_id1;
-	uint16_t recent_len;
-	struct type_recent2_ *elements;
-} type_recent1;
-
-typedef struct type_command_ext_
-{
-	uint16_t own_index_maybe;
-	uint16_t unk0;
-	uint16_t unk1a;
-	uint16_t unk2;
-	uint16_t command_id;
-} type_command_ext;
-
 typedef struct application_views_
 {
 	uint16_t ribbon_len;

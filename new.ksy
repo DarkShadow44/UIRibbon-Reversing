@@ -597,76 +597,6 @@ types:
       size: size_block - 7
       type: type_control_blocks
 
-  type_menugroup_extended:
-    seq:
-    - id: unk_id1
-      type: u2
-    - id: menu_items_len
-      type: u2
-    - id: items
-      type: type_control
-      repeat: expr
-      repeat-expr: menu_items_len
-    - id: unk1
-      type: u4
-    - id: unk2
-      type: u4
-    - id: unk3
-      type: u4
-    - id: unk4
-      type: u2
-
-  type_recent2:
-    seq:
-    - id: unk1
-      type: u4
-    - id: unk2
-      type: u4
-    - id: unk3
-      type: u4
-    - id: own_index
-      type: u1
-    - id: unk4b
-      type: u1
-    - id: unk4c
-      type: u2
-    - id: unk5
-      type: u4
-    - id: unk6
-      type: u4
-    - id: unk7
-      type: u4
-    - id: unk8
-      type: u4
-    - id: unk9
-      type: u4
-    - id: unk10
-      type: u1
-
-  type_recent1:
-    seq:
-    - id: unk_id1
-      type: u2
-    - id: recent_len # <RecentItems MaxCount="XXX" />
-      type: u2
-    - id: elements
-      type: type_recent2
-      repeat: expr
-      repeat-expr: recent_len
-
-  type_command_ext:
-    seq:
-    - id: own_index_maybe
-      type: u2
-    - id: unk0
-      type: u2
-    - id: unk1a  #offset? changes with sizedefinition
-      type: u2
-    - id: unk2
-      type: u2
-    - id: command_id
-      type: u2
-
   application_views:
     seq:
     - id: unk20
@@ -676,38 +606,6 @@ types:
     - id: ribbon
       type: type_control_blocks
       size: ribbon_len
-    # - id: ribbon_tab_info
-    #   type: type_tab_extended
-    #   repeat: expr
-    #   repeat-expr: 1  #ribbon.tabs count
-    # - id: ribbon_tab_contextual_info
-    #   type: type_tab_extended
-    #   repeat: expr
-    #   repeat-expr: 0  #ribbon.contextualtabs count
-    # - id: unk_ext1
-    #   type: type_unk1_extended
-    # - id: applicationmenu_menugroups_ext
-    #   type: type_menugroup_extended
-    #   repeat: expr
-    #   repeat-expr: 0 #number of menugroups in application menu
-    # - id: check10
-    #   contents: [4, 1, 1, 0x0b, 4, 0, 1, 1, 0x41, 0x2b]
-    # - id: unk10
-    #   type: u1
-    # - id: check11
-    #   contents: [1, 1, 0, 3]
-    # - id: unk12
-    #   type: u1
-    # - id: check12
-    #   contents: [0x27, 0x18]
-    # - id: recent
-    #   type: type_recent1
-    # - id: check13
-    #   contents: [7, 0, 0x18]
-    # - id: command_ext
-    #   type: type_command_ext
-    #   repeat: expr
-    #   repeat-expr: 46 # number or commands that are actually used + recent + unknown
 
   type_command:
     seq:
