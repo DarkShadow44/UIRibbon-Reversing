@@ -69,7 +69,7 @@ def prefix_expression(expr):
 	expr = expr.replace(' )', ')')
 	return expr
 	
-def findTypeWithOkDependencies(existing, remaining):
+def findTypeWithOkDependencies(existing, remaining): ###throw out
 	for i, currentToTest in enumerate(remaining):
 		allSatisfied = True
 		for currentDep in currentToTest.seqInfo.dependencies:
@@ -101,7 +101,7 @@ def write_struct(sb, name, seq):
 	sb.append(f'}} {name};\n\n')
 
 def write_method(sb, name, seq):
-	sb.append(f'int read_{name}(stream *s_root, stream *s, {name} *ret)\n')
+	sb.append(f'int stream_read_{name}(stream *s_root, stream *s, {name} *ret)\n')
 	sb.append('{\n')
 	for line in seq.lines_var:
 		sb.append(line + '\n')
@@ -177,6 +177,22 @@ class seq_info:
 			return
 		if str not in self.dependencies:
 			self.dependencies.append(str)
+			
+	def indent_code_plus(self):
+		self.add_code('{')
+		self.indent_code += 1
+
+	def indent_code_minus(self):
+		self.indent_code -= 1
+		self.add_code('}')
+		
+	def indent_struct_plus(self):
+		self.add_struct('{')
+		self.indent_struct += 1
+
+	def indent_struct_minus(self):
+		self.indent_struct -= 1
+		self.add_struct('}')
 	
 	def load_instance(self, instance_name, node):
 		node_io = None
@@ -201,17 +217,16 @@ class seq_info:
 		if node_value is not None:
 			if node_condition is not None:
 				self.add_code(f'if ({node_condition})', )
-				self.add_code('{')
-				self.indent_code += 1
+				self.indent_code_plus()
 
-			structType = node_enum if node_enum is not None else 'int32_t'
+			struct_type = node_enum if node_enum is not None else 'int32_t'
 
-			self.add_struct(f'{structType} {instance_name};')
+			self.add_struct(f'{struct_type} {instance_name};')
 			self.add_code(f'ret->{instance_name} = {node_value};')
 
 			if node_condition is not None:
-				self.indent_code -= 1
-				self.add_code('}')
+				self.indent_code_minus()
+
 			return
 
 		if node_io != '_root._io':
@@ -219,8 +234,7 @@ class seq_info:
 
 		if node_condition is not None:
 			self.add_code(f'if ({node_condition})')
-			self.add_code('{')
-			self.indent_code += 1
+			self.indent_code_plus()
 
 		self.add_struct(f'struct {node_type}_ *{instance_name};')
 		self.add_var(f'stream substream_instance_{instance_name};')
@@ -230,11 +244,10 @@ class seq_info:
 			self.add_code(f'CHECK(stream_read_{node_type}(substream_instance_{instance_name}, &ret->{instance_name}));')
 		else:
 			self.add_code(f'ret->{instance_name} = malloc(sizeof({node_type}));')
-			self.add_code(f'CHECK(read_{node_type}(s_root, &substream_instance_{instance_name}, ret->{instance_name}));')
+			self.add_code(f'CHECK(stream_read_{node_type}(s_root, &substream_instance_{instance_name}, ret->{instance_name}));')
 
 		if node_condition is not None:
-			self.indent_code -= 1
-			self.add_code('}')
+			self.indent_code_minus()
 			
 	def load_instances(self, node):
 		for name, value in node.items():
@@ -295,103 +308,80 @@ class seq_info:
 				if key == 'enum':
 					node_enum_type = value
 
+			multi = ""
+			substream = 's'
+			struct_type = node_type;
+
 			if node_condition is not None:
 				self.add_code(f'if ({node_condition})')
-				self.add_code('{')
-				self.indent_code += 1
-			
+				self.indent_code_plus()
+				
+			if node_enum_type is not None:
+				struct_type = node_enum_type;
+				
+			if node_repeat is not None:
+				multi='[i]'
+				self.has_i = True
+				struct_type = f'struct {node_type}_ *'
+				if node_repeat == 'expr':
+					self.add_code(f'ret->{node_id} = malloc(sizeof({node_type}) * {node_repeat_expr});')
+					self.add_code(f'for (i = 0; i < {node_repeat_expr}; i++)')
+					self.indent_code_plus()
+				elif node_repeat == 'until':
+					self.add_code(f'ret->{node_id} = NULL;')
+					self.add_code('i = -1;')
+					self.add_code('do')
+					self.indent_code_plus()
+					self.add_code('i += 1;')
+					self.add_code(f'ret->{node_id} = realloc(ret->{node_id}, sizeof({node_type}) * (i + 1));')
+
 			if node_contents is not None:
 				bytes = ', '.join(map(str, node_contents))
 				self.add_var(f'const char {node_id}[] = {{{bytes}}};')
 				self.add_code(f'CHECK(stream_expect_bytes(s, {node_id}));')
+			elif node_size is not None and (node_type == None or node_type == 'str'):
+				self.add_struct(f'char *{node_id};')
+				self.add_code(f'ret->{node_id} = malloc({node_size});')
+				self.add_code(f'CHECK(stream_read_bytes(s, ret->{node_id}, {node_size}));')
 			else:
-				if node_repeat == 'expr':
-					self.add_struct(f'struct {node_type}_ *{node_id};')
-					self.has_i = True
-					self.add_code(f'ret->{node_id} = malloc(sizeof({node_type}) * {node_repeat_expr});')
-					self.add_code(f'for (i = 0; i < {node_repeat_expr}; i++)')
-					self.add_code('{')
-					self.indent_code += 1
-					self.add_code(f'CHECK(read_{node_type}(s_root, s, &ret->{node_id}[i]));')
-					self.indent_code -= 1
-					self.add_code('}')
-				elif node_repeat == 'until':
-					self.add_struct(f'struct {node_type}_ *{node_id};')
-					self.has_i = True
-					self.add_code(f'ret->{node_id} = NULL;')
-					self.add_code('i = -1;')
-					self.add_code('do')
-					self.add_code('{')
-					self.indent_code += 1
-					self.add_code('i += 1;')
-					self.add_code(f'ret->{node_id} = realloc(ret->{node_id}, sizeof({node_type}) * i);')
-					self.add_code(f'CHECK(read_{node_type}(s_root, s, &ret->{node_id}[i]));')
-					self.indent_code -= 1
-					repeat_cond = node_repeat_until.replace(f'##current##->', 'ret->{node_id}[i].')
-					self.add_code(f'}} while(!({repeat_cond}))')
-				elif node_size is not None:
-					if node_type == None or node_type == 'str':
-						self.add_struct(f'char *{node_id};')
-						self.add_code(f'ret->{node_id} = malloc({node_size});')
-						self.add_code(f'CHECK(stream_read_bytes(s, ret->{node_id}, {node_size}));')
-					else:
-						self.add_struct(f'{node_type} {node_id};')
-						self.add_dependency(node_type)
-						self.add_var(f'stream substream_{node_id};')
-						self.add_code(f'CHECK(stream_make_substream(s, &substream_{node_id}, {node_size}));')
-						self.add_code(f'CHECK(read_{node_type}(s_root, &substream_{node_id}, &ret->{node_id}));')
-				elif node_switch_on is not None:
-					isInt = node_type_switch[0].type.startswith('uint') or node_type_switch[0].type.startswith('int')
-					if isInt:
-						if node_type_switch[0].type.startswith('uint'):
-							self.add_struct(f'uint32_t {node_id};')
-						else:
-							self.add_struct(f'int32_t {node_id};')
-					else:
-						self.add_struct('union')
-						self.add_struct('{')
-						self.indent_struct += 1
+				if node_size is not None and node_type != None and node_type != 'str' :
+					self.add_var(f'stream substream_{node_id};')
+					self.add_code(f'CHECK(stream_make_substream(s, &substream_{node_id}, {node_size}));')
+					substream = f'&substream_{node_id}'
+
+				if node_switch_on is not None:
+					self.add_struct('union')
+					self.indent_struct_plus()
 					self.add_code(f'switch({node_switch_on})')
 					self.add_code('{')
-
 					for info in node_type_switch:
-						if isInt:
-							self.add_var(f'{info.type} {node_id}_{info.unionname};')
-						else:
-							self.add_struct(f'{info.type} {info.unionname}')
+						self.add_struct(f'{info.type} {info.unionname}')
 						self.add_dependency(info.type)
 						self.add_code(f'case {info.enumname}:')
-						self.indent_code += 1
-						if info.type.startswith('uint') or info.type.startswith('int'):
-							self.add_code(f'CHECK(stream_read_{info.type}(s, &{node_id}_{info.unionname}));')
-							self.add_code(f'ret->{node_id} = {node_id}_{info.unionname};')
-						else:
-							self.add_code(f'CHECK(read_{info.type}(s_root, s, &ret->{info.unionname}));')
+						self.indent_code_plus()
+						self.add_code(f'CHECK(stream_read_{info.type}(s_root, s, &ret->{info.unionname}));')
 						self.add_code('break;')
-						self.indent_code -= 1
-					self.add_code('}')
-					if not isInt:
-						self.indent_struct -= 1
-						self.add_struct('}')
-				elif node_enum_type is not None:
-					self.add_var(f'{node_type} {node_id};')
-					self.add_struct(f'{node_enum_type} {node_id};')
-					if node_type.startswith('uint') or node_type.startswith('int'):
-						self.add_code(f'CHECK(stream_read_{node_type}(s, &{node_id}));')
-					else:
-						self.add_code(f'CHECK(read_{node_type}(s_root, s, &{node_id}));')
-					self.add_code(f'ret->{node_id} = {node_id};')
-				elif node_type is not None:
-					self.add_struct(f'{node_type} {node_id};')
+						self.indent_code_minus()
+					self.indent_struct_minus()
+				else:
+					self.add_struct(f'{struct_type} {node_id};')
 					self.add_dependency(node_type)
-					if node_type.startswith('uint') or node_type.startswith('int'):
-						self.add_code(f'CHECK(stream_read_{node_type}(s, &ret->{node_id}));')
+					if node_enum_type is not None:
+						self.add_var(f'{node_type} {node_id};')
+						self.add_code(f'CHECK(stream_read_{node_type}(s_root, {substream}, &{node_id}));')
+						self.add_code(f'ret->{node_id}{multi} = {node_id};')
 					else:
-						self.add_code(f'CHECK(read_{node_type}(s_root, s, &ret->{node_id}));')
-					
+						self.add_code(f'CHECK(stream_read_{node_type}(s_root, {substream}, &ret->{node_id}{multi}));')
+			
+			if node_repeat == 'expr':
+				self.indent_code_minus()
+			elif node_repeat == 'until':
+				self.indent_code_minus()
+				repeat_cond = node_repeat_until.replace(f'##current##->', 'ret->{node_id}[i].')
+				self.add_code(f'while(!({repeat_cond}))')
+						
 			if node_condition is not None:
-				self.indent_code -= 1
-				self.add_code('}')
+				self.indent_code_minus()
 		
 
 document = open('new.ksy', 'r')
@@ -452,13 +442,13 @@ def main():
 	for type in types:
 		write_struct(header, type.name, type.seqInfo)
 	write_struct(header, main_type, mainSeq)
-	header.append(f'int read_{main_type}(stream *s_root, stream *s, {main_type} *ret);\n')
+	header.append(f'int stream_read_{main_type}(stream *s_root, stream *s, {main_type} *ret);\n')
 
 
 	source.append('/* This file is generated - Do not edit manually */\n\n')
 	source.append('#include "parser_uiribbon.h"\n\n')
 	for type in types:
-		source.append(f'int read_{type.name}(stream *s_root, stream *s, { type.name} *ret);\n')
+		source.append(f'int stream_read_{type.name}(stream *s_root, stream *s, { type.name} *ret);\n')
 	source.append('\n')
 	for type in types:
 		write_method(source, type.name, type.seqInfo)
