@@ -1,5 +1,9 @@
 #!/bin/python3
 
+# tabs -> spaces
+# no empty lines with whitespace
+# more comments
+
 import yaml
 
 def get_type_identifier(type):
@@ -8,7 +12,7 @@ def get_type_identifier(type):
 		'u2': 'uint16_t',
 		'u4': 'uint32_t',
 		's1': 'int8_t',
-		's2':'int16_t',
+		's2': 'int16_t',
 		's4': 'int32_t',
 	}
 	return switch.get(type, type)
@@ -34,10 +38,10 @@ def split_expression(expr):
 
 def make_enum_name(type, name):
 	type = type.strip()
-	
+
 	if type.startswith('enum_'):
 		type = type[5:]
-	ret = 'uiribbon_' + type + '_' + name
+	ret = f'uiribbon_{type}_{name}'
 
 	return ret.upper()
 
@@ -52,14 +56,14 @@ def prefix_expression(expr):
 			'true': '1',
 			'false': '0',
 		}
-		
+
 		res = switch.get(part, None)
 		if res != None:
 			parts[i] = res
 		else:
 			char = part[0]
 			if char.isalpha():
-				parts[i] = 'ret->' + part
+				parts[i] = f'ret->{part}'
 			if '::' in part:
 				split = part.split('::')
 				parts[i] = make_enum_name(split[0], split[1])
@@ -68,26 +72,26 @@ def prefix_expression(expr):
 	expr = expr.replace('( ', '(')
 	expr = expr.replace(' )', ')')
 	return expr
-	
-def findTypeWithOkDependencies(existing, remaining): ###throw out
-	for i, currentToTest in enumerate(remaining):
-		allSatisfied = True
-		for currentDep in currentToTest.seqInfo.dependencies:
+
+def find_type_with_ok_dependencies(existing, remaining):
+	for i, current_to_test in enumerate(remaining):
+		all_satisfied = True
+		for current_dependency in current_to_test.seq.dependencies:
 			found = False
 			for ex in existing:
-				if ex.name == currentDep:
+				if ex.name == current_dependency:
 					found = True
 			if not found:
-				allSatisfied = False
+				all_satisfied = False
 				break
-		if allSatisfied:
+		if all_satisfied:
 			return i
 	return -1
 
-def sortTypes(info):
+def sort_types(info):
 	ret = []
 	while len(info) > 0:
-		index = findTypeWithOkDependencies(ret, info)
+		index = find_type_with_ok_dependencies(ret, info)
 		if index == -1:
 			print('Remaining types:')
 			print([(x.name) for x in info])
@@ -117,34 +121,34 @@ def write_method(sb, name, seq):
 		sb.append(line + '\n')
 	sb.append('\treturn 0;\n')
 	sb.append('}\n\n')
-		
+
 class type_info:
 	def __init__(self, name):
 		self.name = name
-		self.seqInfo = seq_info()
-		
+		self.seq = seq_info()
+
 	def load(self, node):
 		for k, v in node.items():
 			if k == 'seq':
-				self.seqInfo.load_seq(v)
+				self.seq.load_seq(v)
 			if k == 'instances':
-				self.seqInfo.load_instances(v)
-				
+				self.seq.load_instances(v)
+
 
 class enum_info:
 	def __init__(self):
 		self.name = ''
 		self.lines_enum = []
-		
+
 	def add(self, str):
 		self.lines_enum.append('\t' + str)
-		
+
 	def load(self, name, node):
 		self.name = name
 		for k, v in node.items():
 			name2 = make_enum_name(name, v)
 			self.add(f'{name2} = {k},')
-	
+
 
 class type_switch_info:
 	def __init__(self):
@@ -162,26 +166,26 @@ class seq_info:
 		self.has_i = False
 		self.indent_code = 1
 		self.indent_struct = 1
-		
+
 	def add_code(self, str):
 		tabs = '\t' * self.indent_code
 		self.lines_code.append(tabs + str)
-		
+
 	def add_var(self, str):
 		self.lines_var.append('\t' + str)
-	
+
 	def add_struct(self, str):
 		tabs = '\t' * self.indent_struct
 		line = tabs + str
 		if line not in self.lines_struct:
 			self.lines_struct.append(line)
-			
+
 	def add_dependency(self, str):
 		if str.startswith('uint') or str.startswith('int'):
 			return
 		if str not in self.dependencies:
 			self.dependencies.append(str)
-			
+
 	def indent_code_plus(self):
 		self.add_code('{')
 		self.indent_code += 1
@@ -189,7 +193,7 @@ class seq_info:
 	def indent_code_minus(self):
 		self.indent_code -= 1
 		self.add_code('}')
-		
+
 	def indent_struct_plus(self):
 		self.add_struct('{')
 		self.indent_struct += 1
@@ -197,7 +201,7 @@ class seq_info:
 	def indent_struct_minus(self, str):
 		self.indent_struct -= 1
 		self.add_struct(str)
-	
+
 	def load_instance(self, instance_name, node):
 		node_io = None
 		node_pos = None
@@ -205,6 +209,8 @@ class seq_info:
 		node_value = None
 		node_condition = None
 		node_enum = None
+
+		# Get values from node
 		for key, value in node.items():
 			if key == 'io':
 				node_io = value
@@ -218,6 +224,9 @@ class seq_info:
 				node_condition = prefix_expression(value)
 			if key == 'enum':
 				node_enum = value
+
+		# Generate code for loading instance
+
 		if node_value is not None:
 			if node_condition is not None:
 				self.add_code(f'if ({node_condition})', )
@@ -244,15 +253,13 @@ class seq_info:
 		self.add_var(f'stream substream_instance_{instance_name};')
 		self.add_code(f'CHECK(stream_make_substream_instance(s_root, &substream_instance_{instance_name}, ({node_pos}), s_root->max - ({node_pos})));')
 
-		if node_type.startswith('uint') or node_type.startswith('int'):
-			self.add_code(f'CHECK(stream_read_{node_type}(substream_instance_{instance_name}, &ret->{instance_name}));')
-		else:
+		if not node_type.startswith('uint') and not node_type.startswith('int'):
 			self.add_code(f'ret->{instance_name} = malloc(sizeof({node_type}));')
-			self.add_code(f'CHECK(stream_read_{node_type}(s_root, &substream_instance_{instance_name}, ret->{instance_name}));')
+		self.add_code(f'CHECK(stream_read_{node_type}(s_root, &substream_instance_{instance_name}, ret->{instance_name}));')
 
 		if node_condition is not None:
 			self.indent_code_minus()
-			
+
 	def load_instances(self, node):
 		for name, value in node.items():
 			self.load_instance(name, value)
@@ -270,7 +277,8 @@ class seq_info:
 			node_size = None
 			node_condition = None
 			node_enum_type = None
-			
+
+			# Get values from node
 			for key, value in child.items():
 				if key == 'id':
 					node_id = value
@@ -312,17 +320,17 @@ class seq_info:
 				if key == 'enum':
 					node_enum_type = value
 
+			# Generate code for loading sequence
 			multi = ""
 			substream = 's'
 			struct_type = node_type;
 
+			# Start condition block
 			if node_condition is not None:
 				self.add_code(f'if ({node_condition})')
 				self.indent_code_plus()
-				
-			if node_enum_type is not None:
-				struct_type = node_enum_type;
-				
+
+			# Start repetition block
 			if node_repeat is not None:
 				multi='[i]'
 				self.has_i = True
@@ -338,22 +346,33 @@ class seq_info:
 					self.indent_code_plus()
 					self.add_code('i += 1;')
 					self.add_code(f'ret->{node_id} = realloc(ret->{node_id}, sizeof({node_type}) * (i + 1));')
-			
+
+
+			if node_enum_type is not None:
+				struct_type = node_enum_type;
+
+
 			if node_contents is not None:
+				# Load fixed data that is always the same
 				bytes = ', '.join(map(str, node_contents))
 				self.add_var(f'const char {node_id}[] = {{{bytes}}};')
 				self.add_code(f'CHECK(stream_expect_bytes(s, {node_id}));')
 			elif node_size is not None and (node_type == None or node_type == 'str'):
+				# Load dynamic, untyped data
 				self.add_struct(f'char *{node_id};')
 				self.add_code(f'ret->{node_id} = malloc({node_size});')
 				self.add_code(f'CHECK(stream_read_bytes(s, ret->{node_id}, {node_size}));')
 			else:
+
+				# Create substream ?
 				if node_size is not None and node_type != None and node_type != 'str':
 					self.add_var(f'stream substream_{node_id};')
 					self.add_code(f'CHECK(stream_make_substream(s, &substream_{node_id}, {node_size}));')
 					substream = f'&substream_{node_id}'
 
 				if node_switch_on is not None:
+					# Load a type that is decided by an enum
+					# Integer are for easier usage coerced into an int32
 					is_int = node_type_switch[0].type.startswith('int')
 					if is_int:
 						self.add_struct(f'int32_t {node_id};')
@@ -380,31 +399,32 @@ class seq_info:
 					if not is_int:
 						self.indent_struct_minus('};')
 				else:
+					# Load a normal type
 					self.add_struct(f'{struct_type} {node_id};')
 					if node_repeat is None:
 						self.add_dependency(node_type)
 					if node_enum_type is not None:
+						# For enums we need to make a copy, since not all enums are the same size (could read only an int8, but enum is int32)
 						self.add_var(f'{node_type} {node_id};')
 						self.add_code(f'CHECK(stream_read_{node_type}(s_root, {substream}, &{node_id}));')
 						self.add_code(f'ret->{node_id}{multi} = {node_id};')
 					else:
 						self.add_code(f'CHECK(stream_read_{node_type}(s_root, {substream}, &ret->{node_id}{multi}));')
-			
+
+			# Close repetition block
 			if node_repeat == 'expr':
 				self.indent_code_minus()
 			elif node_repeat == 'until':
 				self.indent_code_minus()
 				repeat_cond = node_repeat_until.replace(f'##current##->', 'ret->{node_id}[i].')
 				self.add_code(f'while(!({repeat_cond}))')
-						
+
+			# Close condition block
 			if node_condition is not None:
 				self.indent_code_minus()
-		
-
-document = open('new.ksy', 'r')
 
 
-def buildEnums(node):
+def build_enums(node):
 	ret = []
 	for k in node:
 		v = node[k]
@@ -413,7 +433,7 @@ def buildEnums(node):
 		info.load(k, v)
 	return ret
 
-def buildTypes(node):
+def build_types(node):
 	ret = []
 	for k in node:
 		v = node[k]
@@ -439,12 +459,12 @@ def main():
 			mainSeq.load_seq(v)
 
 		if k == 'types':
-			types = buildTypes(v)
+			types = build_types(v)
 
 		if k == 'enums':
-			enums = buildEnums(v)
+			enums = build_enums(v)
 
-	types = sortTypes(types)
+	types = sort_types(types)
 	header = []
 	source = []
 
@@ -457,7 +477,7 @@ def main():
 			header.append(line + '\n')
 		header.append(f'}} {enum.name};\n\n')
 	for type in types:
-		write_struct(header, type.name, type.seqInfo)
+		write_struct(header, type.name, type.seq)
 	write_struct(header, main_type, mainSeq)
 	header.append(f'int stream_read_{main_type}(stream *s_root, stream *s, {main_type} *ret);\n')
 
@@ -468,9 +488,9 @@ def main():
 		source.append(f'int stream_read_{type.name}(stream *s_root, stream *s, { type.name} *ret);\n')
 	source.append('\n')
 	for type in types:
-		write_method(source, type.name, type.seqInfo)
+		write_method(source, type.name, type.seq)
 	write_method(source, main_type, mainSeq)
-	
+
 	file_header = open('./tests/UIRibbon/parser_uiribbon.h', 'w')
 	file_header.write(''.join(header))
 	file_header.close()
