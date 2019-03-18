@@ -572,8 +572,6 @@ types:
       type: type_control_block
       repeat: expr
       repeat-expr: count_blocks
-    - id: blocks_bytes
-      size-eos: true
 
   type_control_block_ext:
     seq:
