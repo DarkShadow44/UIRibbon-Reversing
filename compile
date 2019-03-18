@@ -1,0 +1,474 @@
+#!/bin/python3
+
+import yaml
+
+def get_type_identifier(type):
+	switch = {
+		'u1': 'uint8_t',
+		'u2': 'uint16_t',
+		'u4': 'uint32_t',
+		's1': 'int8_t',
+		's2':'int16_t',
+		's4': 'int32_t',
+	}
+	return switch.get(type, type)
+
+def split_expression(expr):
+	def is_special_char(c):
+		return c in [' ', '+', '-', '*', '/', '&', '|', '(', ')', '!', '=']
+
+	pos_split = []
+	strings = []
+	for i, current in enumerate(expr):
+		if i != 0:
+			last = expr[i - 1]
+			if (is_special_char(current) and (not is_special_char(last))) or ((not is_special_char(current)) and is_special_char(last)):
+				pos_split.append(i)
+	pos_split.append(len(expr))
+	for i, split in enumerate(pos_split):
+		start = 0 if i == 0 else pos_split[i - 1]
+		str = expr[start : split].strip()
+		if len(str) > 0:
+			strings.append(str)
+	return strings
+
+def make_enum_name(type, name):
+	type = type.strip()
+	
+	if type.startswith('enum_'):
+		type = type[5:]
+	ret = 'uiribbon_' + type + '_' + name
+
+	return ret.upper()
+
+def prefix_expression(expr):
+	pos_split = []
+	parts = split_expression(expr)
+	for i, part in enumerate(parts):
+		switch = {
+			'and': '&&',
+			'or': '||',
+			'not': '!',
+			'true': '1',
+			'false': '0',
+		}
+		
+		res = switch.get(part, None)
+		if res != None:
+			parts[i] = res
+		else:
+			char = part[0]
+			if char.isalpha():
+				parts[i] = 'ret->' + part
+			if '::' in part:
+				split = part.split('::')
+				parts[i] = make_enum_name(split[0], split[1])
+	expr = ' '.join(parts)
+	expr = expr.replace('_.', '##current##->')
+	expr = expr.replace('( ', '(')
+	expr = expr.replace(' )', ')')
+	return expr
+	
+def findTypeWithOkDependencies(existing, remaining):
+	for i, currentToTest in enumerate(remaining):
+		allSatisfied = True
+		for currentDep in currentToTest.seqInfo.dependencies:
+			found = False
+			for ex in existing:
+				if ex.name == currentDep:
+					found = True
+			if not found:
+				allSatisfied = False
+				break
+		if allSatisfied:
+			return i
+	return -1
+
+def sortTypes(info):
+	ret = []
+	while len(info) > 0:
+		index = findTypeWithOkDependencies(ret, info)
+		ret.append(info[index])
+		info.pop(index)
+
+	return ret
+
+def write_struct(sb, name, seq):
+	sb.append(f'typedef struct {name}_\n')
+	sb.append('{\n')
+	for line in seq.lines_struct:
+		sb.append(line + '\n')
+	sb.append(f'}} {name};\n\n')
+
+def write_method(sb, name, seq):
+	sb.append(f'int read_{name}(stream *s_root, stream *s, {name} *ret)\n')
+	sb.append('{\n')
+	for line in seq.lines_var:
+		sb.append(line + '\n')
+	if seq.has_i:
+		sb.append('\tint i;\n')
+	if len(seq.lines_var) > 0 or seq.has_i:
+		sb.append('\n')
+	for line in seq.lines_code:
+		sb.append(line + '\n')
+	sb.append('\treturn 0;\n')
+	sb.append('}\n\n')
+		
+class type_info:
+	def __init__(self, name):
+		self.name = name
+		self.seqInfo = seq_info()
+		
+	def load(self, node):
+		for k, v in node.items():
+			if k == 'seq':
+				self.seqInfo.load_seq(v)
+			if k == 'instances':
+				self.seqInfo.load_instances(v)
+				
+
+class enum_info:
+	def __init__(self):
+		self.name = ''
+		self.lines_enum = []
+		
+	def add(self, str):
+		self.lines_enum.append('\t' + str)
+		
+	def load(self, name, node):
+		self.name = name
+		for k, v in node.items():
+			name2 = make_enum_name(name, v)
+			self.add(f'{name2} = {k},')
+	
+
+class type_switch_info:
+	def __init__(self):
+		self.enumname = ''
+		self.type = ''
+		self.unionname = ''
+
+class seq_info:
+	def __init__(self):
+		self.x = []
+		self.lines_code = []
+		self.lines_var = []
+		self.lines_struct = []
+		self.dependencies = []
+		self.has_i = False
+		self.indent_code = 1
+		self.indent_struct = 1
+		
+	def add_code(self, str):
+		tabs = '\t' * self.indent_code
+		self.lines_code.append(tabs + str)
+		
+	def add_var(self, str):
+		self.lines_var.append('\t' + str)
+	
+	def add_struct(self, str):
+		tabs = '\t' * self.indent_struct
+		line = tabs + str
+		if line not in self.lines_struct:
+			self.lines_struct.append(line)
+			
+	def add_dependency(self, str):
+		if str.startswith('uint') or str.startswith('int'):
+			return
+		if str not in self.dependencies:
+			self.dependencies.append(str)
+	
+	def load_instance(self, instance_name, node):
+		node_io = None
+		node_pos = None
+		node_type = None
+		node_value = None
+		node_condition = None
+		node_enum = None
+		for key, value in node.items():
+			if key == 'io':
+				node_io = value
+			if key == 'pos':
+				node_pos = prefix_expression(value)
+			if key == 'type':
+				node_type = value
+			if key == 'value':
+				node_value = prefix_expression(value)
+			if key == 'if':
+				node_condition = prefix_expression(value)
+			if key == 'enum':
+				node_enum = value
+		if node_value is not None:
+			if node_condition is not None:
+				self.add_code(f'if ({node_condition})', )
+				self.add_code('{')
+				self.indent_code += 1
+
+			structType = node_enum if node_enum is not None else 'int32_t'
+
+			self.add_struct(f'{structType} {instance_name};')
+			self.add_code(f'ret->{instance_name} = {node_value};')
+
+			if node_condition is not None:
+				self.indent_code -= 1
+				self.add_code('}')
+			return
+
+		if node_io != '_root._io':
+			raise Exception('Unsupported')
+
+		if node_condition is not None:
+			self.add_code(f'if ({node_condition})')
+			self.add_code('{')
+			self.indent_code += 1
+
+		self.add_struct(f'struct {node_type}_ *{instance_name};')
+		self.add_var(f'stream substream_instance_{instance_name};')
+		self.add_code(f'CHECK(stream_make_substream_instance(s_root, &substream_instance_{instance_name}, ({node_pos}), s_root->max - ({node_pos})));')
+
+		if node_type.startswith('uint') or node_type.startswith('int'):
+			self.add_code(f'CHECK(stream_read_{node_type}(substream_instance_{instance_name}, &ret->{instance_name}));')
+		else:
+			self.add_code(f'ret->{instance_name} = malloc(sizeof({node_type}));')
+			self.add_code(f'CHECK(read_{node_type}(s_root, &substream_instance_{instance_name}, ret->{instance_name}));')
+
+		if node_condition is not None:
+			self.indent_code -= 1
+			self.add_code('}')
+			
+	def load_instances(self, node):
+		for name, value in node.items():
+			self.load_instance(name, value)
+
+	def load_seq(self, seq):
+		for child in seq:
+			node_id = None
+			node_contents = None
+			node_type = None
+			node_switch_on = None
+			node_type_switch = []
+			node_repeat = None
+			node_repeat_expr = None
+			node_repeat_until = None
+			node_size = None
+			node_condition = None
+			node_enum_type = None
+			
+			for key, value in child.items():
+				if key == 'id':
+					node_id = value
+				if key == 'contents':
+					if isinstance(value, str):
+						node_contents = list(value.encode('ascii'))
+					else:
+						node_contents = value
+				if key == 'type':
+					if isinstance(value, str):
+						node_type = get_type_identifier(value)
+					else:
+						for key_type, value_type in value.items():
+							if key_type == 'switch-on':
+								node_switch_on = prefix_expression(value_type)
+							if key_type == 'cases':
+								for case_enum, case_type in value_type.items():
+									case_enum = str(case_enum)
+									info = type_switch_info()
+									node_type_switch.append(info)
+									info.enumname = prefix_expression(case_enum)
+									info.type = case_type
+									if '::' in case_enum:
+										split = case_enum.split('::')
+										info.unionname = 'block_' + split[1]
+									else:
+										info.unionname = 'block_' + case_enum
+									info.type = get_type_identifier(info.type)
+				if key == 'repeat':
+					node_repeat = value
+				if key == 'repeat-expr':
+					node_repeat_expr = prefix_expression(value)
+				if key == 'repeat-until':
+					node_repeat_until = prefix_expression(value)
+				if key == 'size':
+					node_size = prefix_expression(str(value))
+				if key == 'if':
+					node_condition = prefix_expression(value)
+				if key == 'enum':
+					node_enum_type = value
+
+			if node_condition is not None:
+				self.add_code(f'if ({node_condition})')
+				self.add_code('{')
+				self.indent_code += 1
+			
+			if node_contents is not None:
+				bytes = ', '.join(map(str, node_contents))
+				self.add_var(f'const char {node_id}[] = {{{bytes}}};')
+				self.add_code(f'CHECK(stream_expect_bytes(s, {node_id}));')
+			else:
+				if node_repeat == 'expr':
+					self.add_struct(f'struct {node_type}_ *{node_id};')
+					self.has_i = True
+					self.add_code(f'ret->{node_id} = malloc(sizeof({node_type}) * {node_repeat_expr});')
+					self.add_code(f'for (i = 0; i < {node_repeat_expr}; i++)')
+					self.add_code('{')
+					self.indent_code += 1
+					self.add_code(f'CHECK(read_{node_type}(s_root, s, &ret->{node_id}[i]));')
+					self.indent_code -= 1
+					self.add_code('}')
+				elif node_repeat == 'until':
+					self.add_struct(f'struct {node_type}_ *{node_id};')
+					self.has_i = True
+					self.add_code(f'ret->{node_id} = NULL;')
+					self.add_code('i = -1;')
+					self.add_code('do')
+					self.add_code('{')
+					self.indent_code += 1
+					self.add_code('i += 1;')
+					self.add_code(f'ret->{node_id} = realloc(ret->{node_id}, sizeof({node_type}) * i);')
+					self.add_code(f'CHECK(read_{node_type}(s_root, s, &ret->{node_id}[i]));')
+					self.indent_code -= 1
+					repeat_cond = node_repeat_until.replace(f'##current##->', 'ret->{node_id}[i].')
+					self.add_code(f'}} while(!({repeat_cond}))')
+				elif node_size is not None:
+					if node_type == None or node_type == 'str':
+						self.add_struct(f'char *{node_id};')
+						self.add_code(f'ret->{node_id} = malloc({node_size});')
+						self.add_code(f'CHECK(stream_read_bytes(s, ret->{node_id}, {node_size}));')
+					else:
+						self.add_struct(f'{node_type} {node_id};')
+						self.add_dependency(node_type)
+						self.add_var(f'stream substream_{node_id};')
+						self.add_code(f'CHECK(stream_make_substream(s, &substream_{node_id}, {node_size}));')
+						self.add_code(f'CHECK(read_{node_type}(s_root, &substream_{node_id}, &ret->{node_id}));')
+				elif node_switch_on is not None:
+					isInt = node_type_switch[0].type.startswith('uint') or node_type_switch[0].type.startswith('int')
+					if isInt:
+						if node_type_switch[0].type.startswith('uint'):
+							self.add_struct(f'uint32_t {node_id};')
+						else:
+							self.add_struct(f'int32_t {node_id};')
+					else:
+						self.add_struct('union')
+						self.add_struct('{')
+						self.indent_struct += 1
+					self.add_code(f'switch({node_switch_on})')
+					self.add_code('{')
+
+					for info in node_type_switch:
+						if isInt:
+							self.add_var(f'{info.type} {node_id}_{info.unionname};')
+						else:
+							self.add_struct(f'{info.type} {info.unionname}')
+						self.add_dependency(info.type)
+						self.add_code(f'case {info.enumname}:')
+						self.indent_code += 1
+						if info.type.startswith('uint') or info.type.startswith('int'):
+							self.add_code(f'CHECK(stream_read_{info.type}(s, &{node_id}_{info.unionname}));')
+							self.add_code(f'ret->{node_id} = {node_id}_{info.unionname};')
+						else:
+							self.add_code(f'CHECK(read_{info.type}(s_root, s, &ret->{info.unionname}));')
+						self.add_code('break;')
+						self.indent_code -= 1
+					self.add_code('}')
+					if not isInt:
+						self.indent_struct -= 1
+						self.add_struct('}')
+				elif node_enum_type is not None:
+					self.add_var(f'{node_type} {node_id};')
+					self.add_struct(f'{node_enum_type} {node_id};')
+					if node_type.startswith('uint') or node_type.startswith('int'):
+						self.add_code(f'CHECK(stream_read_{node_type}(s, &{node_id}));')
+					else:
+						self.add_code(f'CHECK(read_{node_type}(s_root, s, &{node_id}));')
+					self.add_code(f'ret->{node_id} = {node_id};')
+				elif node_type is not None:
+					self.add_struct(f'{node_type} {node_id};')
+					self.add_dependency(node_type)
+					if node_type.startswith('uint') or node_type.startswith('int'):
+						self.add_code(f'CHECK(stream_read_{node_type}(s, &ret->{node_id}));')
+					else:
+						self.add_code(f'CHECK(read_{node_type}(s_root, s, &ret->{node_id}));')
+					
+			if node_condition is not None:
+				self.indent_code -= 1
+				self.add_code('}')
+		
+
+document = open('new.ksy', 'r')
+
+
+def buildEnums(node):
+	ret = []
+	for k in node:
+		v = node[k]
+		info = enum_info()
+		ret.append(info)
+		info.load(k, v)
+	return ret
+
+def buildTypes(node):
+	ret = []
+	for k in node:
+		v = node[k]
+		info = type_info(k)
+		ret.append(info)
+		info.load(v)
+	return ret
+
+def main():
+	file_in = open('new.ksy', 'r')
+	root = yaml.safe_load(file_in)
+	file_in.close()
+
+	main_type = 'type_uiribbon'
+
+	enums = None
+	mainSeq = seq_info()
+	types = None
+
+	for k in root:
+		v = root[k]
+		if k == 'seq':
+			mainSeq.load_seq(v)
+
+		if k == 'types':
+			types = buildTypes(v)
+
+		if k == 'enums':
+			enums = buildEnums(v)
+
+	types = sortTypes(types)
+	header = []
+	source = []
+
+	header.append('/* This file is generated - Do not edit manually */\n\n')
+	header.append('#include "parser_generic.h"\n\n')
+	for enum in enums:
+		header.append('typedef enum\n')
+		header.append('{\n')
+		for line in enum.lines_enum:
+			header.append(line + '\n')
+		header.append(f'}} {enum.name};\n\n')
+	for type in types:
+		write_struct(header, type.name, type.seqInfo)
+	write_struct(header, main_type, mainSeq)
+	header.append(f'int read_{main_type}(stream *s_root, stream *s, {main_type} *ret);\n')
+
+
+	source.append('/* This file is generated - Do not edit manually */\n\n')
+	source.append('#include "parser_uiribbon.h"\n\n')
+	for type in types:
+		source.append(f'int read_{type.name}(stream *s_root, stream *s, { type.name} *ret);\n')
+	source.append('\n')
+	for type in types:
+		write_method(source, type.name, type.seqInfo)
+	write_method(source, main_type, mainSeq)
+	
+	file_header = open('./tests/UIRibbon/parser_uiribbon.h', 'w')
+	file_header.write(''.join(header))
+	file_header.close()
+	file_source = open('./tests/UIRibbon/parser_uiribbon.c', 'w')
+	file_source.write(''.join(source))
+	file_source.close()
+
+main()
