@@ -2,32 +2,32 @@
 
 #include "parser_uiribbon.h"
 
-int read_type_id(stream *s_root, stream *s, type_id *ret);
-int read_type_string(stream *s_root, stream *s, type_string *ret);
-int read_type_strings(stream *s_root, stream *s, type_strings *ret);
-int read_type_resource_generic(stream *s_root, stream *s, type_resource_generic *ret);
-int read_type_resource(stream *s_root, stream *s, type_resource *ret);
-int read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *ret);
-int read_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *ret);
-int read_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *ret);
-int read_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *ret);
-int read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *ret);
-int read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *ret);
-int read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *ret);
-int read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *ret);
-int read_type_block_inline(stream *s_root, stream *s, type_block_inline *ret);
-int read_type_control_block(stream *s_root, stream *s, type_control_block *ret);
-int read_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *ret);
-int read_type_control(stream *s_root, stream *s, type_control *ret);
-int read_application_views(stream *s_root, stream *s, application_views *ret);
-int read_type_command(stream *s_root, stream *s, type_command *ret);
-int read_type_command_container(stream *s_root, stream *s, type_command_container *ret);
-int read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *ret);
-int read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *ret);
-int read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *ret);
-int read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *ret);
+int stream_read_type_id(stream *s_root, stream *s, type_id *ret);
+int stream_read_type_string(stream *s_root, stream *s, type_string *ret);
+int stream_read_type_strings(stream *s_root, stream *s, type_strings *ret);
+int stream_read_type_resource_generic(stream *s_root, stream *s, type_resource_generic *ret);
+int stream_read_type_resource(stream *s_root, stream *s, type_resource *ret);
+int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *ret);
+int stream_read_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *ret);
+int stream_read_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *ret);
+int stream_read_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *ret);
+int stream_read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *ret);
+int stream_read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *ret);
+int stream_read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *ret);
+int stream_read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *ret);
+int stream_read_type_block_inline(stream *s_root, stream *s, type_block_inline *ret);
+int stream_read_type_control_block(stream *s_root, stream *s, type_control_block *ret);
+int stream_read_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *ret);
+int stream_read_type_control(stream *s_root, stream *s, type_control *ret);
+int stream_read_application_views(stream *s_root, stream *s, application_views *ret);
+int stream_read_type_command(stream *s_root, stream *s, type_command *ret);
+int stream_read_type_command_container(stream *s_root, stream *s, type_command_container *ret);
+int stream_read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *ret);
+int stream_read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *ret);
+int stream_read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *ret);
+int stream_read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *ret);
 
-int read_type_id(stream *s_root, stream *s, type_id *ret)
+int stream_read_type_id(stream *s_root, stream *s, type_id *ret)
 {
 	int32_t id_block_2;
 	int16_t id_block_3;
@@ -35,162 +35,172 @@ int read_type_id(stream *s_root, stream *s, type_id *ret)
 	int8_t id_block_9;
 	int8_t id_block_43;
 
-	CHECK(stream_read_uint8_t(s, &ret->flag));
+	CHECK(stream_read_uint8_t(s_root, s, &ret->flag));
 	switch(ret->flag)
 	{
-	case 2:
-		CHECK(stream_read_int32_t(s, &id_block_2));
-		ret->id = id_block_2;
-		break;
-	case 3:
-		CHECK(stream_read_int16_t(s, &id_block_3));
-		ret->id = id_block_3;
-		break;
-	case 4:
-		CHECK(stream_read_int8_t(s, &id_block_4));
-		ret->id = id_block_4;
-		break;
-	case 9:
-		CHECK(stream_read_int8_t(s, &id_block_9));
-		ret->id = id_block_9;
-		break;
-	case 43:
-		CHECK(stream_read_int8_t(s, &id_block_43));
-		ret->id = id_block_43;
-		break;
+		case 2:
+		{
+			CHECK(stream_read_int32_t(s_root, s, &id_block_2));
+			ret->id = id_block_2;
+			break;
+		}
+		case 3:
+		{
+			CHECK(stream_read_int16_t(s_root, s, &id_block_3));
+			ret->id = id_block_3;
+			break;
+		}
+		case 4:
+		{
+			CHECK(stream_read_int8_t(s_root, s, &id_block_4));
+			ret->id = id_block_4;
+			break;
+		}
+		case 9:
+		{
+			CHECK(stream_read_int8_t(s_root, s, &id_block_9));
+			ret->id = id_block_9;
+			break;
+		}
+		case 43:
+		{
+			CHECK(stream_read_int8_t(s_root, s, &id_block_43));
+			ret->id = id_block_43;
+			break;
+		}
 	}
 	return 0;
 }
 
-int read_type_string(stream *s_root, stream *s, type_string *ret)
+int stream_read_type_string(stream *s_root, stream *s, type_string *ret)
 {
 	const char unk1[] = {1};
 
 	CHECK(stream_expect_bytes(s, unk1));
-	CHECK(stream_read_uint16_t(s, &ret->size_str));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->size_str));
 	ret->str = malloc(ret->size_str);
 	CHECK(stream_read_bytes(s, ret->str, ret->size_str));
 	return 0;
 }
 
-int read_type_strings(stream *s_root, stream *s, type_strings *ret)
+int stream_read_type_strings(stream *s_root, stream *s, type_strings *ret)
 {
 	const char unk1[] = {0, 0, 1};
 	int i;
 
 	CHECK(stream_expect_bytes(s, unk1));
-	CHECK(stream_read_uint8_t(s, &ret->count_strings));
+	CHECK(stream_read_uint8_t(s_root, s, &ret->count_strings));
 	ret->strings = malloc(sizeof(type_string) * ret->count_strings);
 	for (i = 0; i < ret->count_strings; i++)
 	{
-		CHECK(read_type_string(s_root, s, &ret->strings[i]));
+		CHECK(stream_read_type_string(s_root, s, &ret->strings[i]));
 	}
 	return 0;
 }
 
-int read_type_resource_generic(stream *s_root, stream *s, type_resource_generic *ret)
+int stream_read_type_resource_generic(stream *s_root, stream *s, type_resource_generic *ret)
 {
 	uint8_t resource_type;
 
-	CHECK(stream_read_uint8_t(s, &resource_type));
+	CHECK(stream_read_uint8_t(s_root, s, &resource_type));
 	ret->resource_type = resource_type;
-	CHECK(stream_read_uint32_t(s, &ret->resource_id));
+	CHECK(stream_read_uint32_t(s_root, s, &ret->resource_id));
 	if (ret->resource_type == UIRIBBON_RESOURCE_TYPE_LARGEIMAGE || ret->resource_type == UIRIBBON_RESOURCE_TYPE_SMALLIMAGE || ret->resource_type == UIRIBBON_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE || ret->resource_type == UIRIBBON_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
 	{
-		CHECK(stream_read_uint16_t(s, &ret->mindpi));
+		CHECK(stream_read_uint16_t(s_root, s, &ret->mindpi));
 	}
 	return 0;
 }
 
-int read_type_resource(stream *s_root, stream *s, type_resource *ret)
+int stream_read_type_resource(stream *s_root, stream *s, type_resource *ret)
 {
 	int i;
 
-	CHECK(stream_read_uint32_t(s, &ret->command_id));
-	CHECK(stream_read_uint8_t(s, &ret->count_resources));
+	CHECK(stream_read_uint32_t(s_root, s, &ret->command_id));
+	CHECK(stream_read_uint8_t(s_root, s, &ret->count_resources));
 	ret->resources = malloc(sizeof(type_resource_generic) * ret->count_resources);
 	for (i = 0; i < ret->count_resources; i++)
 	{
-		CHECK(read_type_resource_generic(s_root, s, &ret->resources[i]));
+		CHECK(stream_read_type_resource_generic(s_root, s, &ret->resources[i]));
 	}
 	return 0;
 }
 
-int read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *ret)
+int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *ret)
 {
 	uint8_t flags_command;
 
-	CHECK(stream_read_uint8_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &flags_command));
+	CHECK(stream_read_uint8_t(s_root, s, &ret->unk1));
+	CHECK(stream_read_uint8_t(s_root, s, &flags_command));
 	ret->flags_command = flags_command;
 	if (ret->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_SPECIAL)
 	{
-		CHECK(stream_read_uint8_t(s, &ret->string_id));
+		CHECK(stream_read_uint8_t(s_root, s, &ret->string_id));
 	}
 	if (ret->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND)
 	{
-		CHECK(stream_read_uint16_t(s, &ret->command_id));
+		CHECK(stream_read_uint16_t(s_root, s, &ret->command_id));
 	}
 	if (ret->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND_INTERNAL)
 	{
-		CHECK(stream_read_uint32_t(s, &ret->unk2));
+		CHECK(stream_read_uint32_t(s_root, s, &ret->unk2));
 	}
 	return 0;
 }
 
-int read_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *ret)
+int stream_read_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *ret)
 {
 	int i;
 
-	CHECK(stream_read_uint16_t(s, &ret->count_commands));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->count_commands));
 	ret->commands = malloc(sizeof(type_sizedefinitions_order_command) * ret->count_commands);
 	for (i = 0; i < ret->count_commands; i++)
 	{
-		CHECK(read_type_sizedefinitions_order_command(s_root, s, &ret->commands[i]));
+		CHECK(stream_read_type_sizedefinitions_order_command(s_root, s, &ret->commands[i]));
 	}
 	return 0;
 }
 
-int read_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *ret)
+int stream_read_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *ret)
 {
-	CHECK(read_type_id(s_root, s, &ret->id));
+	CHECK(stream_read_type_id(s_root, s, &ret->id));
 	return 0;
 }
 
-int read_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *ret)
+int stream_read_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *ret)
 {
-	CHECK(stream_read_uint32_t(s, &ret->unk1));
-	CHECK(stream_read_uint8_t(s, &ret->value1));
+	CHECK(stream_read_uint32_t(s_root, s, &ret->unk1));
+	CHECK(stream_read_uint8_t(s_root, s, &ret->value1));
 	return 0;
 }
 
-int read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *ret)
+int stream_read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *ret)
 {
 	int i;
 
-	CHECK(stream_read_uint16_t(s, &ret->count_subcontrols));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->count_subcontrols));
 	ret->subcontrols = malloc(sizeof(type_control) * ret->count_subcontrols);
 	for (i = 0; i < ret->count_subcontrols; i++)
 	{
-		CHECK(read_type_control(s_root, s, &ret->subcontrols[i]));
+		CHECK(stream_read_type_control(s_root, s, &ret->subcontrols[i]));
 	}
 	return 0;
 }
 
-int read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *ret)
+int stream_read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *ret)
 {
 	uint8_t block_type;
 
-	CHECK(stream_read_uint8_t(s, &ret->block_len));
-	CHECK(stream_read_uint8_t(s, &block_type));
+	CHECK(stream_read_uint8_t(s_root, s, &ret->block_len));
+	CHECK(stream_read_uint8_t(s_root, s, &block_type));
 	ret->block_type = block_type;
 	if (ret->block_len == 1)
 	{
-		CHECK(read_type_control_block_number_variable(s_root, s, &ret->content_number));
+		CHECK(stream_read_type_control_block_number_variable(s_root, s, &ret->content_number));
 	}
 	if (ret->block_len == 4)
 	{
-		CHECK(read_type_control_block_number_long(s_root, s, &ret->content_long));
+		CHECK(stream_read_type_control_block_number_long(s_root, s, &ret->content_long));
 	}
 	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
 	{
@@ -367,183 +377,183 @@ int read_type_control_block_number(stream *s_root, stream *s, type_control_block
 	return 0;
 }
 
-int read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *ret)
+int stream_read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *ret)
 {
 	uint8_t block_type;
 
-	CHECK(stream_read_uint8_t(s, &ret->block_len));
-	CHECK(stream_read_uint8_t(s, &block_type));
+	CHECK(stream_read_uint8_t(s_root, s, &ret->block_len));
+	CHECK(stream_read_uint8_t(s_root, s, &block_type));
 	ret->block_type = block_type;
 	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_UNK73)
 	{
-		CHECK(read_type_subcontrols(s_root, s, &ret->content_subcontrols));
+		CHECK(stream_read_type_subcontrols(s_root, s, &ret->content_subcontrols));
 	}
 	if (ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM || ret->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL)
 	{
-		CHECK(read_type_sizedefinition_order(s_root, s, &ret->sizedefinition_order));
+		CHECK(stream_read_type_sizedefinition_order(s_root, s, &ret->sizedefinition_order));
 	}
 	return 0;
 }
 
-int read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *ret)
+int stream_read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *ret)
 {
 	int i;
 
-	CHECK(stream_read_uint8_t(s, &ret->count_blocks));
+	CHECK(stream_read_uint8_t(s_root, s, &ret->count_blocks));
 	ret->blocks = malloc(sizeof(type_control_block) * ret->count_blocks);
 	for (i = 0; i < ret->count_blocks; i++)
 	{
-		CHECK(read_type_control_block(s_root, s, &ret->blocks[i]));
+		CHECK(stream_read_type_control_block(s_root, s, &ret->blocks[i]));
 	}
 	return 0;
 }
 
-int read_type_block_inline(stream *s_root, stream *s, type_block_inline *ret)
+int stream_read_type_block_inline(stream *s_root, stream *s, type_block_inline *ret)
 {
 	stream substream_quick_ribbon_info;
 
-	CHECK(stream_read_uint32_t(s, &ret->unk2));
-	CHECK(stream_read_uint16_t(s, &ret->len4));
+	CHECK(stream_read_uint32_t(s_root, s, &ret->unk2));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->len4));
 	CHECK(stream_make_substream(s, &substream_quick_ribbon_info, ret->len4 - 7));
-	CHECK(read_type_control_blocks(s_root, &substream_quick_ribbon_info, &ret->quick_ribbon_info));
+	CHECK(stream_read_type_control_blocks(s_root, &substream_quick_ribbon_info, &ret->quick_ribbon_info));
 	return 0;
 }
 
-int read_type_control_block(stream *s_root, stream *s, type_control_block *ret)
+int stream_read_type_control_block(stream *s_root, stream *s, type_control_block *ret)
 {
 	uint8_t meta_type;
 	stream substream_instance_ext;
 
-	CHECK(stream_read_uint8_t(s, &meta_type));
+	CHECK(stream_read_uint8_t(s_root, s, &meta_type));
 	ret->meta_type = meta_type;
 	if (ret->meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
 	{
-		CHECK(read_type_control_block_number(s_root, s, &ret->content_number));
+		CHECK(stream_read_type_control_block_number(s_root, s, &ret->content_number));
 	}
 	if (ret->meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
 	{
-		CHECK(read_type_control_block_special(s_root, s, &ret->content_special));
+		CHECK(stream_read_type_control_block_special(s_root, s, &ret->content_special));
 	}
 	if (ret->meta_type == UIRIBBON_CONTROL_BLOCK_META_INLINE)
 	{
-		CHECK(read_type_block_inline(s_root, s, &ret->block_inline));
+		CHECK(stream_read_type_block_inline(s_root, s, &ret->block_inline));
 	}
 	if (ret->meta_type == UIRIBBON_CONTROL_BLOCK_META_EXT)
 	{
-		CHECK(stream_read_uint32_t(s, &ret->ext_pos));
+		CHECK(stream_read_uint32_t(s_root, s, &ret->ext_pos));
 	}
 	if (ret->meta_type == UIRIBBON_CONTROL_BLOCK_META_EXT)
 	{
 		CHECK(stream_make_substream_instance(s_root, &substream_instance_ext, (ret->ext_pos), s_root->max - (ret->ext_pos)));
 		ret->ext = malloc(sizeof(type_control_block_ext));
-		CHECK(read_type_control_block_ext(s_root, &substream_instance_ext, ret->ext));
+		CHECK(stream_read_type_control_block_ext(s_root, &substream_instance_ext, ret->ext));
 	}
 	return 0;
 }
 
-int read_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *ret)
+int stream_read_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *ret)
 {
-	CHECK(stream_read_uint16_t(s, &ret->len_ext));
-	CHECK(read_type_control_block(s_root, s, &ret->block));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->len_ext));
+	CHECK(stream_read_type_control_block(s_root, s, &ret->block));
 	return 0;
 }
 
-int read_type_control(stream *s_root, stream *s, type_control *ret)
+int stream_read_type_control(stream *s_root, stream *s, type_control *ret)
 {
 	uint16_t block_type;
 	stream substream_blocks;
 
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_read_uint16_t(s, &block_type));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->unk1));
+	CHECK(stream_read_uint16_t(s_root, s, &block_type));
 	ret->block_type = block_type;
-	CHECK(stream_read_uint8_t(s, &ret->unk2));
-	CHECK(stream_read_uint16_t(s, &ret->size_block));
+	CHECK(stream_read_uint8_t(s_root, s, &ret->unk2));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->size_block));
 	CHECK(stream_make_substream(s, &substream_blocks, ret->size_block - 7));
-	CHECK(read_type_control_blocks(s_root, &substream_blocks, &ret->blocks));
+	CHECK(stream_read_type_control_blocks(s_root, &substream_blocks, &ret->blocks));
 	return 0;
 }
 
-int read_application_views(stream *s_root, stream *s, application_views *ret)
+int stream_read_application_views(stream *s_root, stream *s, application_views *ret)
 {
 	const char unk20[] = {0, 0, 22, 0, 36, 0, 16};
 	stream substream_ribbon;
 
 	CHECK(stream_expect_bytes(s, unk20));
-	CHECK(stream_read_uint16_t(s, &ret->ribbon_len));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->ribbon_len));
 	CHECK(stream_make_substream(s, &substream_ribbon, ret->ribbon_len));
-	CHECK(read_type_control_blocks(s_root, &substream_ribbon, &ret->ribbon));
+	CHECK(stream_read_type_control_blocks(s_root, &substream_ribbon, &ret->ribbon));
 	return 0;
 }
 
-int read_type_command(stream *s_root, stream *s, type_command *ret)
+int stream_read_type_command(stream *s_root, stream *s, type_command *ret)
 {
-	CHECK(stream_read_uint16_t(s, &ret->command_id));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->command_id));
 	ret->unk1 = malloc(3);
 	CHECK(stream_read_bytes(s, ret->unk1, 3));
-	CHECK(stream_read_uint8_t(s, &ret->unk3b));
+	CHECK(stream_read_uint8_t(s_root, s, &ret->unk3b));
 	ret->unk4 = malloc(2);
 	CHECK(stream_read_bytes(s, ret->unk4, 2));
-	CHECK(stream_read_uint16_t(s, &ret->size_str));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->size_str));
 	ret->str = malloc(ret->size_str);
 	CHECK(stream_read_bytes(s, ret->str, ret->size_str));
 	return 0;
 }
 
-int read_type_command_container(stream *s_root, stream *s, type_command_container *ret)
+int stream_read_type_command_container(stream *s_root, stream *s, type_command_container *ret)
 {
 	int i;
 
-	CHECK(stream_read_uint32_t(s, &ret->commands_len));
+	CHECK(stream_read_uint32_t(s_root, s, &ret->commands_len));
 	ret->commands = malloc(sizeof(type_command) * ret->commands_len);
 	for (i = 0; i < ret->commands_len; i++)
 	{
-		CHECK(read_type_command(s_root, s, &ret->commands[i]));
+		CHECK(stream_read_type_command(s_root, s, &ret->commands[i]));
 	}
 	return 0;
 }
 
-int read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *ret)
+int stream_read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *ret)
 {
 	const char unk3[] = {0, 0};
 	const char unk5[] = {0, 0};
 
-	CHECK(stream_read_uint16_t(s, &ret->command_id));
-	CHECK(stream_read_uint16_t(s, &ret->count));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->command_id));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->count));
 	CHECK(stream_expect_bytes(s, unk3));
-	CHECK(stream_read_uint16_t(s, &ret->offset));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->offset));
 	CHECK(stream_expect_bytes(s, unk5));
 	return 0;
 }
 
-int read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *ret)
+int stream_read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *ret)
 {
-	CHECK(read_type_command_ext5(s_root, s, &ret->blocks));
+	CHECK(stream_read_type_command_ext5(s_root, s, &ret->blocks));
 	return 0;
 }
 
-int read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *ret)
+int stream_read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *ret)
 {
 	stream substream_unk3;
 
-	CHECK(stream_read_uint16_t(s, &ret->unk1));
-	CHECK(stream_read_uint16_t(s, &ret->unk2));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->unk1));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->unk2));
 	CHECK(stream_make_substream(s, &substream_unk3, ret->unk1 - 4));
-	CHECK(read_type_command_ext4(s_root, &substream_unk3, &ret->unk3));
+	CHECK(stream_read_type_command_ext4(s_root, &substream_unk3, &ret->unk3));
 	return 0;
 }
 
-int read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *ret)
+int stream_read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *ret)
 {
 	stream substream_instance_ext;
 
-	CHECK(stream_read_uint16_t(s, &ret->pos));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->pos));
 	CHECK(stream_make_substream_instance(s_root, &substream_instance_ext, (ret->pos), s_root->max - (ret->pos)));
 	ret->ext = malloc(sizeof(type_command_ext3));
-	CHECK(read_type_command_ext3(s_root, &substream_instance_ext, ret->ext));
+	CHECK(stream_read_type_command_ext3(s_root, &substream_instance_ext, ret->ext));
 	return 0;
 }
 
-int read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *ret)
+int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *ret)
 {
 	const char unknown1[] = {0, 18, 0, 0, 0, 0, 0, 1, 0};
 	const char magic[] = {83, 67, 66, 105, 110};
@@ -556,25 +566,25 @@ int read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *ret)
 
 	CHECK(stream_expect_bytes(s, unknown1));
 	CHECK(stream_expect_bytes(s, magic));
-	CHECK(stream_read_uint32_t(s, &ret->length_this_file));
+	CHECK(stream_read_uint32_t(s_root, s, &ret->length_this_file));
 	CHECK(stream_expect_bytes(s, unknown2));
-	CHECK(stream_read_uint16_t(s, &ret->size_strings));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->size_strings));
 	CHECK(stream_make_substream(s, &substream_strings, ret->size_strings - 2));
-	CHECK(read_type_strings(s_root, &substream_strings, &ret->strings));
-	CHECK(stream_read_uint16_t(s, &ret->count_command_resources));
+	CHECK(stream_read_type_strings(s_root, &substream_strings, &ret->strings));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->count_command_resources));
 	CHECK(stream_expect_bytes(s, unknown3));
 	ret->command_resources = malloc(sizeof(type_resource) * ret->count_command_resources);
 	for (i = 0; i < ret->count_command_resources; i++)
 	{
-		CHECK(read_type_resource(s_root, s, &ret->command_resources[i]));
+		CHECK(stream_read_type_resource(s_root, s, &ret->command_resources[i]));
 	}
 	CHECK(stream_expect_bytes(s, unk44));
-	CHECK(stream_read_uint32_t(s, &ret->size_command_container));
+	CHECK(stream_read_uint32_t(s_root, s, &ret->size_command_container));
 	CHECK(stream_make_substream(s, &substream_command_container, ret->size_command_container - 4));
-	CHECK(read_type_command_container(s_root, &substream_command_container, &ret->command_container));
-	CHECK(stream_read_uint16_t(s, &ret->len_unk6));
-	CHECK(read_type_command_ext2(s_root, s, &ret->command_ext));
-	CHECK(read_application_views(s_root, s, &ret->unk6));
+	CHECK(stream_read_type_command_container(s_root, &substream_command_container, &ret->command_container));
+	CHECK(stream_read_uint16_t(s_root, s, &ret->len_unk6));
+	CHECK(stream_read_type_command_ext2(s_root, s, &ret->command_ext));
+	CHECK(stream_read_application_views(s_root, s, &ret->unk6));
 	return 0;
 }
 

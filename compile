@@ -88,6 +88,10 @@ def sortTypes(info):
 	ret = []
 	while len(info) > 0:
 		index = findTypeWithOkDependencies(ret, info)
+		if index == -1:
+			print('Remaining types:')
+			print([(x.name) for x in info])
+			raise Exception('Can not find type!')
 		ret.append(info[index])
 		info.pop(index)
 
@@ -190,9 +194,9 @@ class seq_info:
 		self.add_struct('{')
 		self.indent_struct += 1
 
-	def indent_struct_minus(self):
+	def indent_struct_minus(self, str):
 		self.indent_struct -= 1
-		self.add_struct('}')
+		self.add_struct(str)
 	
 	def load_instance(self, instance_name, node):
 		node_io = None
@@ -334,7 +338,7 @@ class seq_info:
 					self.indent_code_plus()
 					self.add_code('i += 1;')
 					self.add_code(f'ret->{node_id} = realloc(ret->{node_id}, sizeof({node_type}) * (i + 1));')
-
+			
 			if node_contents is not None:
 				bytes = ', '.join(map(str, node_contents))
 				self.add_var(f'const char {node_id}[] = {{{bytes}}};')
@@ -344,28 +348,41 @@ class seq_info:
 				self.add_code(f'ret->{node_id} = malloc({node_size});')
 				self.add_code(f'CHECK(stream_read_bytes(s, ret->{node_id}, {node_size}));')
 			else:
-				if node_size is not None and node_type != None and node_type != 'str' :
+				if node_size is not None and node_type != None and node_type != 'str':
 					self.add_var(f'stream substream_{node_id};')
 					self.add_code(f'CHECK(stream_make_substream(s, &substream_{node_id}, {node_size}));')
 					substream = f'&substream_{node_id}'
 
 				if node_switch_on is not None:
-					self.add_struct('union')
-					self.indent_struct_plus()
+					is_int = node_type_switch[0].type.startswith('int')
+					if is_int:
+						self.add_struct(f'int32_t {node_id};')
+					else:
+						self.add_struct('union')
+						self.indent_struct_plus()
 					self.add_code(f'switch({node_switch_on})')
-					self.add_code('{')
+					self.indent_code_plus()
 					for info in node_type_switch:
-						self.add_struct(f'{info.type} {info.unionname}')
+						if not is_int:
+							self.add_struct(f'{info.type} {info.unionname};')
 						self.add_dependency(info.type)
 						self.add_code(f'case {info.enumname}:')
 						self.indent_code_plus()
-						self.add_code(f'CHECK(stream_read_{info.type}(s_root, s, &ret->{info.unionname}));')
+						if is_int:
+							self.add_var(f'{info.type} {node_id}_{info.unionname};')
+							self.add_code(f'CHECK(stream_read_{info.type}(s_root, s, &{node_id}_{info.unionname}));')
+							self.add_code(f'ret->{node_id} = {node_id}_{info.unionname};')
+						else:
+							self.add_code(f'CHECK(stream_read_{info.type}(s_root, s, &ret->{info.unionname}));')
 						self.add_code('break;')
 						self.indent_code_minus()
-					self.indent_struct_minus()
+					self.indent_code_minus()
+					if not is_int:
+						self.indent_struct_minus('};')
 				else:
 					self.add_struct(f'{struct_type} {node_id};')
-					self.add_dependency(node_type)
+					if node_repeat is None:
+						self.add_dependency(node_type)
 					if node_enum_type is not None:
 						self.add_var(f'{node_type} {node_id};')
 						self.add_code(f'CHECK(stream_read_{node_type}(s_root, {substream}, &{node_id}));')

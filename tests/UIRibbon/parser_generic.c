@@ -50,32 +50,32 @@ int _stream_expect_bytes(stream *s, const void *data, int len)
     return 0;
 }
 
-int stream_read_uint32_t(stream *s, uint32_t *ret)
+int stream_read_uint32_t(stream *s_root, stream *s, uint32_t *ret)
 {
     return stream_read_bytes(s, ret, 4);
 }
 
-int stream_read_uint16_t(stream *s, uint16_t *ret)
+int stream_read_uint16_t(stream *s_root, stream *s, uint16_t *ret)
 {
     return stream_read_bytes(s, ret, 2);
 }
 
-int stream_read_uint8_t(stream *s, uint8_t *ret)
+int stream_read_uint8_t(stream *s_root, stream *s, uint8_t *ret)
 {
     return stream_read_bytes(s, ret, 1);
 }
 
-int stream_read_int32_t(stream *s, int32_t *ret)
+int stream_read_int32_t(stream *s_root, stream *s, int32_t *ret)
 {
     return stream_read_bytes(s, ret, 4);
 }
 
-int stream_read_int16_t(stream *s, int16_t *ret)
+int stream_read_int16_t(stream *s_root, stream *s, int16_t *ret)
 {
     return stream_read_bytes(s, ret, 2);
 }
 
-int stream_read_int8_t(stream *s, int8_t *ret)
+int stream_read_int8_t(stream *s_root, stream *s, int8_t *ret)
 {
     return stream_read_bytes(s, ret, 1);
 }

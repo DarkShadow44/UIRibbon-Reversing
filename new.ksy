@@ -649,7 +649,7 @@ types:
   type_command_ext4:
     seq:
     - id: blocks
-      repeat: eos
+      #repeat: eos !!!
       type: type_command_ext5
 
   type_command_ext3:

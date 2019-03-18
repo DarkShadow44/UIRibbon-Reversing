@@ -51,7 +51,7 @@ static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file
     s.max = test->bml_len;
     s.data = test->bml_data;
 
-    error = read_type_uiribbon(&s, &s, &uiribbon);
+    error = stream_read_type_uiribbon(&s, &s, &uiribbon);
     _ok(error == 0, "Failed to parse file", file, line);
     if (error)
         return error;

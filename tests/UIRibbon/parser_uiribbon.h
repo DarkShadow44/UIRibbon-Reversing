@@ -226,7 +226,7 @@ typedef struct type_string_
 typedef struct type_strings_
 {
 	uint8_t count_strings;
-	struct type_string_ *strings;
+	struct type_string_ * strings;
 } type_strings;
 
 typedef struct type_resource_generic_
@@ -240,7 +240,7 @@ typedef struct type_resource_
 {
 	uint32_t command_id;
 	uint8_t count_resources;
-	struct type_resource_generic_ *resources;
+	struct type_resource_generic_ * resources;
 } type_resource;
 
 typedef struct type_sizedefinitions_order_command_
@@ -255,7 +255,7 @@ typedef struct type_sizedefinitions_order_command_
 typedef struct type_sizedefinition_order_
 {
 	uint16_t count_commands;
-	struct type_sizedefinitions_order_command_ *commands;
+	struct type_sizedefinitions_order_command_ * commands;
 } type_sizedefinition_order;
 
 typedef struct type_control_block_number_variable_
@@ -272,7 +272,7 @@ typedef struct type_control_block_number_long_
 typedef struct type_subcontrols_
 {
 	uint16_t count_subcontrols;
-	struct type_control_ *subcontrols;
+	struct type_control_ * subcontrols;
 } type_subcontrols;
 
 typedef struct type_control_block_number_
@@ -337,7 +337,7 @@ typedef struct type_control_block_special_
 typedef struct type_control_blocks_
 {
 	uint8_t count_blocks;
-	struct type_control_block_ *blocks;
+	struct type_control_block_ * blocks;
 } type_control_blocks;
 
 typedef struct type_block_inline_
@@ -391,7 +391,7 @@ typedef struct type_command_
 typedef struct type_command_container_
 {
 	uint32_t commands_len;
-	struct type_command_ *commands;
+	struct type_command_ * commands;
 } type_command_container;
 
 typedef struct type_command_ext5_
@@ -425,7 +425,7 @@ typedef struct type_uiribbon_
 	uint16_t size_strings;
 	type_strings strings;
 	uint16_t count_command_resources;
-	struct type_resource_ *command_resources;
+	struct type_resource_ * command_resources;
 	uint32_t size_command_container;
 	type_command_container command_container;
 	uint16_t len_unk6;
@@ -433,4 +433,4 @@ typedef struct type_uiribbon_
 	application_views unk6;
 } type_uiribbon;
 
-int read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *ret);
+int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *ret);
