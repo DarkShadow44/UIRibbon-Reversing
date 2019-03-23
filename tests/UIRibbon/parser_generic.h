@@ -38,7 +38,10 @@ typedef struct _stream
     int start;
     int pos;
     int max;
+    int allocated;
     char *data;
+    struct _stream *parent;
+    BOOL is_instance;
 } stream;
 
 int stream_read_make_substream(stream *s, stream *ret, int len);
@@ -64,5 +67,4 @@ int stream_write_int16_t(stream *s_root, stream *s, int16_t *data, stream_write_
 int stream_write_int8_t(stream *s_root, stream *s, int8_t *data, stream_write_stage stage, BOOL from_instance);
 int stream_write_bytes(stream *s, const void *data, int length, stream_write_stage stage, BOOL from_instance);
 int stream_write_make_substream(stream *s, stream *ret);
-int stream_write_merge_substream(stream *s, stream *sub);
 int stream_write_make_substream_instance(stream *s_root, stream *ret, int pos);

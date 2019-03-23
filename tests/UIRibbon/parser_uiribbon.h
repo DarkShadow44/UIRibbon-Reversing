@@ -230,6 +230,7 @@ typedef struct type_strings_
 	int _dryrun_pos;
 	uint8_t count_strings;
 	struct type_string_ * strings;
+	uint8_t unk2;
 } type_strings;
 
 typedef struct type_resource_generic_
@@ -395,6 +396,7 @@ typedef struct application_views_
 	int _dryrun_pos;
 	uint16_t ribbon_len;
 	type_control_blocks ribbon;
+	uint32_t unk1;
 } application_views;
 
 typedef struct type_command_
@@ -413,6 +415,7 @@ typedef struct type_command_container_
 	int _dryrun_pos;
 	uint32_t commands_len;
 	struct type_command_ * commands;
+	uint8_t unk1;
 } type_command_container;
 
 typedef struct type_command_ext5_

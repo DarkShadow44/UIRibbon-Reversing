@@ -1311,7 +1311,8 @@ static int test_fontcontrol(void)
 
 static int copy_from_testdata(char *name)
 {
-    stream s_read, s_write;
+    stream s_read = {0};
+    stream s_write = {0};
     int error;
     type_uiribbon uiribbon;
     FILE *file;
@@ -1321,7 +1322,6 @@ static int copy_from_testdata(char *name)
     if (!test)
         return 1;
 
-    s_read.start = s_read.pos = 0;
     s_read.max = test->bml_len;
     s_read.data = (char *)test->bml_data;
 
@@ -1330,8 +1330,7 @@ static int copy_from_testdata(char *name)
     if (error)
         return error;
 
-    s_write.start = s_write.pos = 0;
-    s_write.max = 100;
+    s_write.allocated = 100;
     s_write.data = malloc(100);
 
     error = stream_write_type_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN_SEQUENCE, 0);
@@ -1343,7 +1342,7 @@ static int copy_from_testdata(char *name)
 
     file = fopen("dump_write.bml", "wb");
     ok(file != NULL, "Failed to open file");
-    fwrite(s_write.data, s_write.pos, 1, file);
+    fwrite(s_write.data, s_write.max, 1, file);
     fclose(file);
     free(s_write.data);
 
@@ -1355,9 +1354,6 @@ int main()
     /* run_visual_test("dropdowncolorpicker"); */
     /*write_test_data("scalingpolicy");
     return 0;*/
-    write_test_data("simple_tabs");
-    copy_from_testdata("simple_tabs");
-    return 0;
     CHECK(test_simple());
     CHECK(test_sizeinfo());
     CHECK(test_commands());
@@ -1374,6 +1370,10 @@ int main()
     CHECK(test_contextpopups());
     CHECK(test_applicationmenu());
     CHECK(test_fontcontrol());
+
+    write_test_data("simple_tabs");
+    copy_from_testdata("simple_tabs");
+    return 0;
 
     return 0;
 }

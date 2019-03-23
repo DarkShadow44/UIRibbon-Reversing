@@ -266,6 +266,8 @@ types:
         type: type_string
         repeat: expr
         repeat-expr: count_strings
+      - id: unk2
+        type: u1
     -webide-representation: '{strings}'
 
   type_resource_generic:
@@ -603,7 +605,9 @@ types:
       type: u2
     - id: ribbon
       type: type_control_blocks
-      size: ribbon_len
+      size: ribbon_len -7
+    - id: unk1
+      type: u4
 
   type_command:
     seq:
@@ -630,6 +634,8 @@ types:
       type: type_command
       repeat: expr
       repeat-expr: commands_len
+    - id: unk1
+      type: u1
 
   type_command_ext5:
     seq:
@@ -649,7 +655,7 @@ types:
   type_command_ext4:
     seq:
     - id: blocks
-      #repeat: eos !!!
+      #repeat: eos
       type: type_command_ext5
 
   type_command_ext3:

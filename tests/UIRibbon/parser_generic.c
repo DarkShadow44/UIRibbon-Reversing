@@ -95,15 +95,10 @@ int stream_write_make_substream(stream *s, stream *ret)
     ret->start = s->start + s->pos;
     ret->pos = 0;
     ret->max = s->max;
+    ret->allocated = s->allocated;
     ret->data = s->data;
-    return 0;
-}
-
-int stream_write_merge_substream(stream *s, stream *sub)
-{
-    s->data = sub->data;
-    s->max = sub->max;
-    s->pos += sub->pos;
+    ret->parent = s;
+    ret->is_instance = 0;
     return 0;
 }
 
@@ -112,20 +107,44 @@ int stream_write_make_substream_instance(stream *s_root, stream *ret, int pos)
     ret->start = pos;
     ret->pos = 0;
     ret->max = s_root->max;
+    ret->allocated = s_root->allocated;
     ret->data = s_root->data;
+    ret->parent = s_root;
+    ret->is_instance = 1;
 
     return 0;
+}
+
+static void stream_update_pos(stream *s, int offset_pos)
+{
+    int new_max = s->start + s->pos + offset_pos;
+    stream *current = s;
+    while (current != NULL)
+    {
+        current->pos += offset_pos;
+        current->data = s->data;
+        current->allocated = s->allocated;
+
+        if (new_max > current->max)
+            current->max = new_max;
+
+         /* Don't relay pos offset from instance stream up*/
+        if (current->is_instance)
+            offset_pos = 0;
+
+        current = current->parent;
+    }
 }
 
 int stream_write_bytes(stream *s, const void *data, int length, stream_write_stage stage, BOOL from_instance)
 {
     if (stage == STREAM_WRITE_STAGE_WRITE)
     {
-        if (s->start + s->pos + length >= s->max)
+        if (s->start + s->pos + length >= s->allocated)
         {
-            int new_len = (s->max + length) * 2;
+            int new_len = (s->allocated + length) * 2;
             s->data = realloc(s->data, new_len);
-            s->max = new_len;
+            s->allocated = new_len;
         }
 
         memcpy(s->data + s->start + s->pos, data, length);
@@ -133,7 +152,7 @@ int stream_write_bytes(stream *s, const void *data, int length, stream_write_sta
 
     if ((from_instance && stage != STREAM_WRITE_STAGE_DRYRUN_SEQUENCE) || (!from_instance && stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCE))
     {
-         s->pos += length;
+         stream_update_pos(s, length);
     }
 
     return 0;
