@@ -133,7 +133,7 @@ def write_method(sb, name, code, is_read):
 	if is_read:
 		sb.append(f'int stream_read_{name}(stream *s_root, stream *s, {name} *data)\n')
 	else:
-		sb.append(f'int stream_write_{name}(stream *s_root, stream *s, {name} *data, stream_write_stage stage)\n')
+		sb.append(f'int stream_write_{name}(stream *s_root, stream *s, {name} *data, stream_write_stage stage, BOOL from_instance)\n')
 	sb.append('{\n')
 	for line in code.lines_var:
 		sb.append(line + '\n')
@@ -299,11 +299,14 @@ class seq_info:
 		if node_io != '_root._io':
 			raise Exception('Unsupported')
 
-		self.add_struct(f'int _stream_pos_instance_{instance_name};')
-		self.write.add_code(f'data->_stream_pos_instance_{instance_name} = stream_write_get_position_absolute(s);')
+		self.write.add_code('if (stage == STREAM_WRITE_STAGE_DRYRUN_INSTANCE)')
+		self.write.indent_code_plus()
+		self.add_struct(f'int _dryrun_pos_instance_{instance_name};')
+		self.write.add_code(f'data->_dryrun_pos_instance_{instance_name} = stream_write_get_position_absolute(s);')
 		expr_size = make_expression_for_setting_size(node_pos, 'stream_write_get_position_absolute(s)')
 		if expr_size is not None:
 			self.write.add_code(expr_size)
+		self.write.indent_code_minus()
 
 		if node_condition is not None:
 			self.add_code(f'if ({node_condition})')
@@ -312,22 +315,26 @@ class seq_info:
 		self.add_struct(f'struct {node_type}_ *{instance_name};')
 		self.add_var(f'stream substream_instance_{instance_name};')
 		self.read.add_code(f'CHECK(stream_read_make_substream_instance(s_root, &substream_instance_{instance_name}, ({node_pos}), s_root->max - ({node_pos})));')
+		self.write.add_code(f'if (stage == STREAM_WRITE_STAGE_WRITE)');
+		self.write.indent_code_plus()
+		self.write.add_code(f'CHECK(stream_write_make_substream_instance(s_root, &substream_instance_{instance_name}, data->_dryrun_pos_instance_{instance_name}));')
+		self.write.indent_code_minus()
+		self.write.add_code('else')
+		self.write.indent_code_plus()
 		self.write.add_code(f'CHECK(stream_write_make_substream(s_root, &substream_instance_{instance_name}));')
+		self.write.indent_code_minus()
 
 		if not node_type.startswith('uint') and not node_type.startswith('int'):
 			self.add_code(f'data->{instance_name} = malloc(sizeof({node_type}));')
 		self.read.add_code(f'CHECK(stream_read_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}));')
-		self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}, stage));')
+		self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}, stage, 1));')
 
 		if node_condition is not None:
 			self.indent_code_minus()
 
 	def load_instances(self, node):
-		self.write.add_code("if (stage != STREAM_WRITE_STAGE_DRYRUN_DATA)")
-		self.write.indent_code_plus()
 		for name, value in node.items():
 			self.load_instance(name, value)
-		self.write.indent_code_minus()
 
 	def load_sequence(self, child):
 		node_id = None
@@ -421,13 +428,13 @@ class seq_info:
 			bytes = ', '.join(map(str, node_contents))
 			self.add_var(f'const char {node_id}[] = {{{bytes}}};')
 			self.read.add_code(f'CHECK(stream_read_expect_bytes(s, {node_id}));')
-			self.write.add_code(f'CHECK(stream_write_bytes(s, {node_id}, sizeof({node_id}), stage));')
+			self.write.add_code(f'CHECK(stream_write_bytes(s, {node_id}, sizeof({node_id}), stage, from_instance));')
 		elif node_size is not None and (node_type == None or node_type == 'str'):
 			# Load dynamic, untyped data
 			self.add_struct(f'char *{node_id};')
 			self.read.add_code(f'data->{node_id} = malloc({node_size});')
 			self.read.add_code(f'CHECK(stream_read_bytes(s, data->{node_id}, {node_size}));')
-			self.write.add_code(f'CHECK(stream_write_bytes(s, data->{node_id}, {node_size}, stage));')
+			self.write.add_code(f'CHECK(stream_write_bytes(s, data->{node_id}, {node_size}, stage, from_instance));')
 		else:
 
 			# Create substream ?
@@ -459,10 +466,10 @@ class seq_info:
 						self.read.add_code(f'CHECK(stream_read_{info.type}(s_root, s, &{node_id}_{info.unionname}));')
 						self.read.add_code(f'data->{node_id} = {node_id}_{info.unionname};')
 						self.write.add_code(f'{node_id}_{info.unionname} = data->{node_id};')
-						self.write.add_code(f'CHECK(stream_write_{info.type}(s_root, s, &{node_id}_{info.unionname}, stage));')
+						self.write.add_code(f'CHECK(stream_write_{info.type}(s_root, s, &{node_id}_{info.unionname}, stage, from_instance));')
 					else:
 						self.read.add_code(f'CHECK(stream_read_{info.type}(s_root, s, &data->{info.unionname}));')
-						self.write.add_code(f'CHECK(stream_write_{info.type}(s_root, s, &data->{info.unionname}, stage));')
+						self.write.add_code(f'CHECK(stream_write_{info.type}(s_root, s, &data->{info.unionname}, stage, from_instance));')
 					self.add_code('break;')
 					self.indent_code_minus()
 				self.indent_code_minus()
@@ -479,17 +486,17 @@ class seq_info:
 					self.read.add_code(f'CHECK(stream_read_{node_type}(s_root, {substream}, &{node_id}));')
 					self.read.add_code(f'data->{node_id}{multi} = {node_id};')
 					self.write.add_code(f'{node_id} = data->{node_id}{multi};')
-					self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, {substream}, &{node_id}, stage));')
+					self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, {substream}, &{node_id}, stage, from_instance));')
 				else:
 					self.read.add_code(f'CHECK(stream_read_{node_type}(s_root, {substream}, &data->{node_id}{multi}));')
-					self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, {substream}, &data->{node_id}{multi}, stage));')
+					self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, {substream}, &data->{node_id}{multi}, stage, from_instance));')
 
 			# Set substream size into struct
 			if node_size is not None and node_type != None and node_type != 'str':
 				self.write.add_code(f'CHECK(stream_write_merge_substream(s, &substream_{node_id}));')
 				expr = make_expression_for_setting_size(node_size, f'stream_write_get_length(&substream_{node_id})')
 				if expr != None:
-					self.write.add_code('if (stage == STREAM_WRITE_STAGE_DRYRUN_DATA)')
+					self.write.add_code('if (stage == STREAM_WRITE_STAGE_DRYRUN_SEQUENCE)')
 					self.write.indent_code_plus()
 					self.write.add_code(expr)
 					self.write.indent_code_minus()
@@ -507,15 +514,10 @@ class seq_info:
 			self.indent_code_minus()
 
 	def load_sequences(self, seq):
-		self.write.add_code("if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)")
-		self.write.indent_code_plus()
-		self.add_struct('int _stream_pos;')
-		self.add_struct('int _stream_size;')
-		self.write.add_code('data->_stream_pos = stream_write_get_position_absolute(s);')
+		self.add_struct('int _dryrun_pos;')
+		self.write.add_code('data->_dryrun_pos = stream_write_get_position_absolute(s);')
 		for child in seq:
 			self.load_sequence(child)
-			self.write.add_code('data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;')
-		self.write.indent_code_minus()
 
 
 def build_enums(node):
@@ -546,6 +548,9 @@ def main():
 	enums = None
 	mainSeq = seq_info()
 	types = None
+	
+	# Need to reset the stream for the second and third stage
+	mainSeq.write.add_code('s_root->pos = 0;\n');
 
 	for k in root:
 		v = root[k]
@@ -574,14 +579,14 @@ def main():
 		write_struct(header, type.name, type.seq)
 	write_struct(header, main_type, mainSeq)
 	header.append(f'int stream_read_{main_type}(stream *s_root, stream *s, {main_type} *data);\n')
-	header.append(f'int stream_write_{main_type}(stream *s_root, stream *s, {main_type} *data, stream_write_stage stage);\n')
+	header.append(f'int stream_write_{main_type}(stream *s_root, stream *s, {main_type} *data, stream_write_stage stage, BOOL from_instance);\n')
 
 
 	source.append('/* This file is generated - Do not edit manually */\n\n')
 	source.append('#include "parser_uiribbon.h"\n\n')
 	for type in types:
 		source.append(f'int stream_read_{type.name}(stream *s_root, stream *s, { type.name} *data);\n')
-		source.append(f'int stream_write_{type.name}(stream *s_root, stream *s, { type.name} *data, stream_write_stage stage);\n')
+		source.append(f'int stream_write_{type.name}(stream *s_root, stream *s, { type.name} *data, stream_write_stage stage, BOOL from_instance);\n')
 	source.append('\n')
 	for type in types:
 		write_method(source, type.name, type.seq.read, True)

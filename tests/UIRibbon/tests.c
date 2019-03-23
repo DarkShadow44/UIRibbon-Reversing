@@ -1334,11 +1334,11 @@ static int copy_from_testdata(char *name)
     s_write.max = 100;
     s_write.data = malloc(100);
 
-    error = stream_write_type_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN_DATA);
+    error = stream_write_type_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN_SEQUENCE, 0);
     ok(error == 0, "Failed to write file");
-    error = stream_write_type_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN_INSTANCES);
+    error = stream_write_type_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN_INSTANCE, 0);
     ok(error == 0, "Failed to write file");
-    error = stream_write_type_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_WRITE);
+    error = stream_write_type_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_WRITE, 0);
     ok(error == 0, "Failed to write file");
 
     file = fopen("dump_write.bml", "wb");

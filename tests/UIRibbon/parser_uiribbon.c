@@ -3,53 +3,53 @@
 #include "parser_uiribbon.h"
 
 int stream_read_type_id(stream *s_root, stream *s, type_id *data);
-int stream_write_type_id(stream *s_root, stream *s, type_id *data, stream_write_stage stage);
+int stream_write_type_id(stream *s_root, stream *s, type_id *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_string(stream *s_root, stream *s, type_string *data);
-int stream_write_type_string(stream *s_root, stream *s, type_string *data, stream_write_stage stage);
+int stream_write_type_string(stream *s_root, stream *s, type_string *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_strings(stream *s_root, stream *s, type_strings *data);
-int stream_write_type_strings(stream *s_root, stream *s, type_strings *data, stream_write_stage stage);
+int stream_write_type_strings(stream *s_root, stream *s, type_strings *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data);
-int stream_write_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data, stream_write_stage stage);
+int stream_write_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_resource(stream *s_root, stream *s, type_resource *data);
-int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, stream_write_stage stage);
+int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data);
-int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, stream_write_stage stage);
+int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data);
-int stream_write_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data, stream_write_stage stage);
+int stream_write_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data);
-int stream_write_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data, stream_write_stage stage);
+int stream_write_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data);
-int stream_write_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data, stream_write_stage stage);
+int stream_write_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data);
-int stream_write_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data, stream_write_stage stage);
+int stream_write_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data);
-int stream_write_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data, stream_write_stage stage);
+int stream_write_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data);
-int stream_write_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, stream_write_stage stage);
+int stream_write_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data);
-int stream_write_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data, stream_write_stage stage);
+int stream_write_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_block_inline(stream *s_root, stream *s, type_block_inline *data);
-int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline *data, stream_write_stage stage);
+int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_control_block(stream *s_root, stream *s, type_control_block *data);
-int stream_write_type_control_block(stream *s_root, stream *s, type_control_block *data, stream_write_stage stage);
+int stream_write_type_control_block(stream *s_root, stream *s, type_control_block *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data);
-int stream_write_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data, stream_write_stage stage);
+int stream_write_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_control(stream *s_root, stream *s, type_control *data);
-int stream_write_type_control(stream *s_root, stream *s, type_control *data, stream_write_stage stage);
+int stream_write_type_control(stream *s_root, stream *s, type_control *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_application_views(stream *s_root, stream *s, application_views *data);
-int stream_write_application_views(stream *s_root, stream *s, application_views *data, stream_write_stage stage);
+int stream_write_application_views(stream *s_root, stream *s, application_views *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_command(stream *s_root, stream *s, type_command *data);
-int stream_write_type_command(stream *s_root, stream *s, type_command *data, stream_write_stage stage);
+int stream_write_type_command(stream *s_root, stream *s, type_command *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_command_container(stream *s_root, stream *s, type_command_container *data);
-int stream_write_type_command_container(stream *s_root, stream *s, type_command_container *data, stream_write_stage stage);
+int stream_write_type_command_container(stream *s_root, stream *s, type_command_container *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data);
-int stream_write_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data, stream_write_stage stage);
+int stream_write_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data);
-int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, stream_write_stage stage);
+int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data);
-int stream_write_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data, stream_write_stage stage);
+int stream_write_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data, stream_write_stage stage, BOOL from_instance);
 int stream_read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data);
-int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data, stream_write_stage stage);
+int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data, stream_write_stage stage, BOOL from_instance);
 
 int stream_read_type_id(stream *s_root, stream *s, type_id *data)
 {
@@ -96,7 +96,7 @@ int stream_read_type_id(stream *s_root, stream *s, type_id *data)
 	return 0;
 }
 
-int stream_write_type_id(stream *s_root, stream *s, type_id *data, stream_write_stage stage)
+int stream_write_type_id(stream *s_root, stream *s, type_id *data, stream_write_stage stage, BOOL from_instance)
 {
 	int32_t id_block_2;
 	int16_t id_block_3;
@@ -104,45 +104,40 @@ int stream_write_type_id(stream *s_root, stream *s, type_id *data, stream_write_
 	int8_t id_block_9;
 	int8_t id_block_43;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint8_t(s_root, s, &data->flag, stage, from_instance));
+	switch(data->flag)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint8_t(s_root, s, &data->flag, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		switch(data->flag)
+		case 2:
 		{
-			case 2:
-			{
-				id_block_2 = data->id;
-				CHECK(stream_write_int32_t(s_root, s, &id_block_2, stage));
-				break;
-			}
-			case 3:
-			{
-				id_block_3 = data->id;
-				CHECK(stream_write_int16_t(s_root, s, &id_block_3, stage));
-				break;
-			}
-			case 4:
-			{
-				id_block_4 = data->id;
-				CHECK(stream_write_int8_t(s_root, s, &id_block_4, stage));
-				break;
-			}
-			case 9:
-			{
-				id_block_9 = data->id;
-				CHECK(stream_write_int8_t(s_root, s, &id_block_9, stage));
-				break;
-			}
-			case 43:
-			{
-				id_block_43 = data->id;
-				CHECK(stream_write_int8_t(s_root, s, &id_block_43, stage));
-				break;
-			}
+			id_block_2 = data->id;
+			CHECK(stream_write_int32_t(s_root, s, &id_block_2, stage, from_instance));
+			break;
 		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		case 3:
+		{
+			id_block_3 = data->id;
+			CHECK(stream_write_int16_t(s_root, s, &id_block_3, stage, from_instance));
+			break;
+		}
+		case 4:
+		{
+			id_block_4 = data->id;
+			CHECK(stream_write_int8_t(s_root, s, &id_block_4, stage, from_instance));
+			break;
+		}
+		case 9:
+		{
+			id_block_9 = data->id;
+			CHECK(stream_write_int8_t(s_root, s, &id_block_9, stage, from_instance));
+			break;
+		}
+		case 43:
+		{
+			id_block_43 = data->id;
+			CHECK(stream_write_int8_t(s_root, s, &id_block_43, stage, from_instance));
+			break;
+		}
 	}
 	return 0;
 }
@@ -158,20 +153,14 @@ int stream_read_type_string(stream *s_root, stream *s, type_string *data)
 	return 0;
 }
 
-int stream_write_type_string(stream *s_root, stream *s, type_string *data, stream_write_stage stage)
+int stream_write_type_string(stream *s_root, stream *s, type_string *data, stream_write_stage stage, BOOL from_instance)
 {
 	const char unk1[] = {1};
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
-	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_bytes(s, unk1, sizeof(unk1), stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint16_t(s_root, s, &data->size_str, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_bytes(s, data->str, data->size_str, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-	}
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_bytes(s, unk1, sizeof(unk1), stage, from_instance));
+	CHECK(stream_write_uint16_t(s_root, s, &data->size_str, stage, from_instance));
+	CHECK(stream_write_bytes(s, data->str, data->size_str, stage, from_instance));
 	return 0;
 }
 
@@ -190,23 +179,17 @@ int stream_read_type_strings(stream *s_root, stream *s, type_strings *data)
 	return 0;
 }
 
-int stream_write_type_strings(stream *s_root, stream *s, type_strings *data, stream_write_stage stage)
+int stream_write_type_strings(stream *s_root, stream *s, type_strings *data, stream_write_stage stage, BOOL from_instance)
 {
 	const char unk1[] = {0, 0, 1};
 	int i;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_bytes(s, unk1, sizeof(unk1), stage, from_instance));
+	CHECK(stream_write_uint8_t(s_root, s, &data->count_strings, stage, from_instance));
+	for (i = 0; i < data->count_strings; i++)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_bytes(s, unk1, sizeof(unk1), stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint8_t(s_root, s, &data->count_strings, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		for (i = 0; i < data->count_strings; i++)
-		{
-			CHECK(stream_write_type_string(s_root, s, &data->strings[i], stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		CHECK(stream_write_type_string(s_root, s, &data->strings[i], stage, from_instance));
 	}
 	return 0;
 }
@@ -225,23 +208,17 @@ int stream_read_type_resource_generic(stream *s_root, stream *s, type_resource_g
 	return 0;
 }
 
-int stream_write_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data, stream_write_stage stage)
+int stream_write_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data, stream_write_stage stage, BOOL from_instance)
 {
 	uint8_t resource_type;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	resource_type = data->resource_type;
+	CHECK(stream_write_uint8_t(s_root, s, &resource_type, stage, from_instance));
+	CHECK(stream_write_uint32_t(s_root, s, &data->resource_id, stage, from_instance));
+	if (data->resource_type == UIRIBBON_RESOURCE_TYPE_LARGEIMAGE || data->resource_type == UIRIBBON_RESOURCE_TYPE_SMALLIMAGE || data->resource_type == UIRIBBON_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE || data->resource_type == UIRIBBON_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		resource_type = data->resource_type;
-		CHECK(stream_write_uint8_t(s_root, s, &resource_type, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint32_t(s_root, s, &data->resource_id, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		if (data->resource_type == UIRIBBON_RESOURCE_TYPE_LARGEIMAGE || data->resource_type == UIRIBBON_RESOURCE_TYPE_SMALLIMAGE || data->resource_type == UIRIBBON_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE || data->resource_type == UIRIBBON_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
-		{
-			CHECK(stream_write_uint16_t(s_root, s, &data->mindpi, stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		CHECK(stream_write_uint16_t(s_root, s, &data->mindpi, stage, from_instance));
 	}
 	return 0;
 }
@@ -260,22 +237,16 @@ int stream_read_type_resource(stream *s_root, stream *s, type_resource *data)
 	return 0;
 }
 
-int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, stream_write_stage stage)
+int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, stream_write_stage stage, BOOL from_instance)
 {
 	int i;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint32_t(s_root, s, &data->command_id, stage, from_instance));
+	CHECK(stream_write_uint8_t(s_root, s, &data->count_resources, stage, from_instance));
+	for (i = 0; i < data->count_resources; i++)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint32_t(s_root, s, &data->command_id, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint8_t(s_root, s, &data->count_resources, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		for (i = 0; i < data->count_resources; i++)
-		{
-			CHECK(stream_write_type_resource_generic(s_root, s, &data->resources[i], stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		CHECK(stream_write_type_resource_generic(s_root, s, &data->resources[i], stage, from_instance));
 	}
 	return 0;
 }
@@ -302,33 +273,25 @@ int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, ty
 	return 0;
 }
 
-int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, stream_write_stage stage)
+int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, stream_write_stage stage, BOOL from_instance)
 {
 	uint8_t flags_command;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint8_t(s_root, s, &data->unk1, stage, from_instance));
+	flags_command = data->flags_command;
+	CHECK(stream_write_uint8_t(s_root, s, &flags_command, stage, from_instance));
+	if (data->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_SPECIAL)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint8_t(s_root, s, &data->unk1, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		flags_command = data->flags_command;
-		CHECK(stream_write_uint8_t(s_root, s, &flags_command, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		if (data->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_SPECIAL)
-		{
-			CHECK(stream_write_uint8_t(s_root, s, &data->string_id, stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		if (data->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND)
-		{
-			CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		if (data->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND_INTERNAL)
-		{
-			CHECK(stream_write_uint32_t(s_root, s, &data->unk2, stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		CHECK(stream_write_uint8_t(s_root, s, &data->string_id, stage, from_instance));
+	}
+	if (data->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND)
+	{
+		CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage, from_instance));
+	}
+	if (data->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND_INTERNAL)
+	{
+		CHECK(stream_write_uint32_t(s_root, s, &data->unk2, stage, from_instance));
 	}
 	return 0;
 }
@@ -346,20 +309,15 @@ int stream_read_type_sizedefinition_order(stream *s_root, stream *s, type_sizede
 	return 0;
 }
 
-int stream_write_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data, stream_write_stage stage)
+int stream_write_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data, stream_write_stage stage, BOOL from_instance)
 {
 	int i;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint16_t(s_root, s, &data->count_commands, stage, from_instance));
+	for (i = 0; i < data->count_commands; i++)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint16_t(s_root, s, &data->count_commands, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		for (i = 0; i < data->count_commands; i++)
-		{
-			CHECK(stream_write_type_sizedefinitions_order_command(s_root, s, &data->commands[i], stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		CHECK(stream_write_type_sizedefinitions_order_command(s_root, s, &data->commands[i], stage, from_instance));
 	}
 	return 0;
 }
@@ -370,14 +328,10 @@ int stream_read_type_control_block_number_variable(stream *s_root, stream *s, ty
 	return 0;
 }
 
-int stream_write_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data, stream_write_stage stage)
+int stream_write_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data, stream_write_stage stage, BOOL from_instance)
 {
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
-	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_type_id(s_root, s, &data->id, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-	}
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_type_id(s_root, s, &data->id, stage, from_instance));
 	return 0;
 }
 
@@ -388,16 +342,11 @@ int stream_read_type_control_block_number_long(stream *s_root, stream *s, type_c
 	return 0;
 }
 
-int stream_write_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data, stream_write_stage stage)
+int stream_write_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data, stream_write_stage stage, BOOL from_instance)
 {
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
-	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint32_t(s_root, s, &data->unk1, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint8_t(s_root, s, &data->value1, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-	}
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint32_t(s_root, s, &data->unk1, stage, from_instance));
+	CHECK(stream_write_uint8_t(s_root, s, &data->value1, stage, from_instance));
 	return 0;
 }
 
@@ -414,20 +363,15 @@ int stream_read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *da
 	return 0;
 }
 
-int stream_write_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data, stream_write_stage stage)
+int stream_write_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data, stream_write_stage stage, BOOL from_instance)
 {
 	int i;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint16_t(s_root, s, &data->count_subcontrols, stage, from_instance));
+	for (i = 0; i < data->count_subcontrols; i++)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint16_t(s_root, s, &data->count_subcontrols, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		for (i = 0; i < data->count_subcontrols; i++)
-		{
-			CHECK(stream_write_type_control(s_root, s, &data->subcontrols[i], stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		CHECK(stream_write_type_control(s_root, s, &data->subcontrols[i], stage, from_instance));
 	}
 	return 0;
 }
@@ -622,200 +566,190 @@ int stream_read_type_control_block_number(stream *s_root, stream *s, type_contro
 	return 0;
 }
 
-int stream_write_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data, stream_write_stage stage)
+int stream_write_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data, stream_write_stage stage, BOOL from_instance)
 {
 	uint8_t block_type;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint8_t(s_root, s, &data->block_len, stage, from_instance));
+	block_type = data->block_type;
+	CHECK(stream_write_uint8_t(s_root, s, &block_type, stage, from_instance));
+	if (data->block_len == 1)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint8_t(s_root, s, &data->block_len, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		block_type = data->block_type;
-		CHECK(stream_write_uint8_t(s_root, s, &block_type, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		if (data->block_len == 1)
-		{
-			CHECK(stream_write_type_control_block_number_variable(s_root, s, &data->content_number, stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		if (data->block_len == 4)
-		{
-			CHECK(stream_write_type_control_block_number_long(s_root, s, &data->content_long, stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		CHECK(stream_write_type_control_block_number_variable(s_root, s, &data->content_number, stage, from_instance));
 	}
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_DATA)
+	if (data->block_len == 4)
 	{
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
-		{
-			data->content_number.id.id = data->id;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE_MIXED)
-		{
-			data->content_number.id.id = data->sizedefinition_labelvisible_mixed;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE)
-		{
-			data->content_long.value1 = data->sizedefinition_labelvisible;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGEVISIBLE)
-		{
-			data->content_long.value1 = data->sizedefinition_imagevisible;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE)
-		{
-			data->content_long.value1 = data->sizedefinition_imagesize;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE_MIXED)
-		{
-			data->content_number.id.id = data->sizedefinition_imagesize_mixed;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_AUTOCOMPLETE_ENABLED)
-		{
-			data->content_long.value1 = data->autocomplete_enabled;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
-		{
-			data->content_number.id.id = data->gallery_type;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
-		{
-			data->content_number.id.id = data->dropdowncolorpicker_colortemplate;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_CHIPSIZE)
-		{
-			data->content_number.id.id = data->dropdowncolorpicker_chipsize;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLUMNS)
-		{
-			data->content_number.id.id = data->dropdowncolorpicker_columns;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON)
-		{
-			data->content_long.value1 = data->dropdowncolorpicker_has_autocolor_button;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON)
-		{
-			data->content_long.value1 = data->dropdowncolorpicker_has_nocolor_button;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS)
-		{
-			data->content_number.id.id = data->dropdowncolorpicker_recent_color_rows;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS)
-		{
-			data->content_number.id.id = data->dropdowncolorpicker_standard_rows;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS)
-		{
-			data->content_number.id.id = data->dropdowncolorpicker_theme_color_rows;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
-		{
-			data->content_number.id.id = data->gallery_elements_type;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_HAS_LARGE_ITEMS)
-		{
-			data->content_long.value1 = data->gallery_has_large_items;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_HEIGHT)
-		{
-			data->content_number.id.id = data->gallery_item_height;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_WIDTH)
-		{
-			data->content_number.id.id = data->gallery_item_width;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TEXT_POSITION)
-		{
-			data->content_number.id.id = data->gallery_text_position;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MENULAYOUT)
-		{
-			data->content_number.id.id = data->gallery_menulayout;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_GRIPPER)
-		{
-			data->content_number.id.id = data->gallery_gripper;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ROWS)
-		{
-			data->content_number.id.id = data->gallery_rows;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_COLUMNS)
-		{
-			data->content_number.id.id = data->gallery_columns;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_ROWS)
-		{
-			data->content_number.id.id = data->gallery_max_rows;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS)
-		{
-			data->content_number.id.id = data->gallery_max_columns;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_LARGE)
-		{
-			data->content_number.id.id = data->gallery_min_columns_large;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS_MEDIUM)
-		{
-			data->content_number.id.id = data->gallery_max_columns_medium;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_MEDIUM)
-		{
-			data->content_number.id.id = data->gallery_min_columns_medium;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
-		{
-			data->content_long.value1 = data->is_checkbox;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
-		{
-			data->content_number.id.id = data->scalepolicy;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
-		{
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
-		{
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
-		{
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE)
-		{
-			data->content_number.id.id = data->id_reference;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING)
-		{
-			data->content_long.value1 = data->enable_pinning;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_STR)
-		{
-			data->content_number.id.id = data->fontcontrol_str;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MIN)
-		{
-			data->content_number.id.id = data->fontcontrol_fontsize_min;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MAX)
-		{
-			data->content_number.id.id = data->fontcontrol_fontsize_max;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_PARENT_COMMANDID)
-		{
-			data->content_number.id.id = data->fontcontrol_parent_commandid;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_TRUETYPEONLY)
-		{
-			data->content_long.value1 = data->fontcontrol_truetypeonly;
-		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_VERTICALFONTS)
-		{
-			data->content_long.value1 = data->fontcontrol_verticalfonts;
-		}
+		CHECK(stream_write_type_control_block_number_long(s_root, s, &data->content_long, stage, from_instance));
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
+	{
+		data->content_number.id.id = data->id;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE_MIXED)
+	{
+		data->content_number.id.id = data->sizedefinition_labelvisible_mixed;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE)
+	{
+		data->content_long.value1 = data->sizedefinition_labelvisible;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGEVISIBLE)
+	{
+		data->content_long.value1 = data->sizedefinition_imagevisible;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE)
+	{
+		data->content_long.value1 = data->sizedefinition_imagesize;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE_MIXED)
+	{
+		data->content_number.id.id = data->sizedefinition_imagesize_mixed;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_AUTOCOMPLETE_ENABLED)
+	{
+		data->content_long.value1 = data->autocomplete_enabled;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
+	{
+		data->content_number.id.id = data->gallery_type;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
+	{
+		data->content_number.id.id = data->dropdowncolorpicker_colortemplate;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_CHIPSIZE)
+	{
+		data->content_number.id.id = data->dropdowncolorpicker_chipsize;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLUMNS)
+	{
+		data->content_number.id.id = data->dropdowncolorpicker_columns;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON)
+	{
+		data->content_long.value1 = data->dropdowncolorpicker_has_autocolor_button;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON)
+	{
+		data->content_long.value1 = data->dropdowncolorpicker_has_nocolor_button;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS)
+	{
+		data->content_number.id.id = data->dropdowncolorpicker_recent_color_rows;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS)
+	{
+		data->content_number.id.id = data->dropdowncolorpicker_standard_rows;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS)
+	{
+		data->content_number.id.id = data->dropdowncolorpicker_theme_color_rows;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+		data->content_number.id.id = data->gallery_elements_type;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_HAS_LARGE_ITEMS)
+	{
+		data->content_long.value1 = data->gallery_has_large_items;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_HEIGHT)
+	{
+		data->content_number.id.id = data->gallery_item_height;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_WIDTH)
+	{
+		data->content_number.id.id = data->gallery_item_width;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TEXT_POSITION)
+	{
+		data->content_number.id.id = data->gallery_text_position;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MENULAYOUT)
+	{
+		data->content_number.id.id = data->gallery_menulayout;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_GRIPPER)
+	{
+		data->content_number.id.id = data->gallery_gripper;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ROWS)
+	{
+		data->content_number.id.id = data->gallery_rows;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_COLUMNS)
+	{
+		data->content_number.id.id = data->gallery_columns;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_ROWS)
+	{
+		data->content_number.id.id = data->gallery_max_rows;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS)
+	{
+		data->content_number.id.id = data->gallery_max_columns;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_LARGE)
+	{
+		data->content_number.id.id = data->gallery_min_columns_large;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS_MEDIUM)
+	{
+		data->content_number.id.id = data->gallery_max_columns_medium;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_MEDIUM)
+	{
+		data->content_number.id.id = data->gallery_min_columns_medium;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
+	{
+		data->content_long.value1 = data->is_checkbox;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+		data->content_number.id.id = data->scalepolicy;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE)
+	{
+		data->content_number.id.id = data->id_reference;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING)
+	{
+		data->content_long.value1 = data->enable_pinning;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_STR)
+	{
+		data->content_number.id.id = data->fontcontrol_str;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MIN)
+	{
+		data->content_number.id.id = data->fontcontrol_fontsize_min;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MAX)
+	{
+		data->content_number.id.id = data->fontcontrol_fontsize_max;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_PARENT_COMMANDID)
+	{
+		data->content_number.id.id = data->fontcontrol_parent_commandid;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_TRUETYPEONLY)
+	{
+		data->content_long.value1 = data->fontcontrol_truetypeonly;
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_VERTICALFONTS)
+	{
+		data->content_long.value1 = data->fontcontrol_verticalfonts;
 	}
 	return 0;
 }
@@ -838,28 +772,21 @@ int stream_read_type_control_block_special(stream *s_root, stream *s, type_contr
 	return 0;
 }
 
-int stream_write_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, stream_write_stage stage)
+int stream_write_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, stream_write_stage stage, BOOL from_instance)
 {
 	uint8_t block_type;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint8_t(s_root, s, &data->block_len, stage, from_instance));
+	block_type = data->block_type;
+	CHECK(stream_write_uint8_t(s_root, s, &block_type, stage, from_instance));
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_UNK73)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint8_t(s_root, s, &data->block_len, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		block_type = data->block_type;
-		CHECK(stream_write_uint8_t(s_root, s, &block_type, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_UNK73)
-		{
-			CHECK(stream_write_type_subcontrols(s_root, s, &data->content_subcontrols, stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL)
-		{
-			CHECK(stream_write_type_sizedefinition_order(s_root, s, &data->sizedefinition_order, stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		CHECK(stream_write_type_subcontrols(s_root, s, &data->content_subcontrols, stage, from_instance));
+	}
+	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL)
+	{
+		CHECK(stream_write_type_sizedefinition_order(s_root, s, &data->sizedefinition_order, stage, from_instance));
 	}
 	return 0;
 }
@@ -877,20 +804,15 @@ int stream_read_type_control_blocks(stream *s_root, stream *s, type_control_bloc
 	return 0;
 }
 
-int stream_write_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data, stream_write_stage stage)
+int stream_write_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data, stream_write_stage stage, BOOL from_instance)
 {
 	int i;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint8_t(s_root, s, &data->count_blocks, stage, from_instance));
+	for (i = 0; i < data->count_blocks; i++)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint8_t(s_root, s, &data->count_blocks, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		for (i = 0; i < data->count_blocks; i++)
-		{
-			CHECK(stream_write_type_control_block(s_root, s, &data->blocks[i], stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		CHECK(stream_write_type_control_block(s_root, s, &data->blocks[i], stage, from_instance));
 	}
 	return 0;
 }
@@ -906,25 +828,19 @@ int stream_read_type_block_inline(stream *s_root, stream *s, type_block_inline *
 	return 0;
 }
 
-int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline *data, stream_write_stage stage)
+int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline *data, stream_write_stage stage, BOOL from_instance)
 {
 	stream substream_quick_ribbon_info;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint32_t(s_root, s, &data->unk2, stage, from_instance));
+	CHECK(stream_write_uint16_t(s_root, s, &data->len4, stage, from_instance));
+	CHECK(stream_write_make_substream(s, &substream_quick_ribbon_info));
+	CHECK(stream_write_type_control_blocks(s_root, &substream_quick_ribbon_info, &data->quick_ribbon_info, stage, from_instance));
+	CHECK(stream_write_merge_substream(s, &substream_quick_ribbon_info));
+	if (stage == STREAM_WRITE_STAGE_DRYRUN_SEQUENCE)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint32_t(s_root, s, &data->unk2, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint16_t(s_root, s, &data->len4, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_make_substream(s, &substream_quick_ribbon_info));
-		CHECK(stream_write_type_control_blocks(s_root, &substream_quick_ribbon_info, &data->quick_ribbon_info, stage));
-		CHECK(stream_write_merge_substream(s, &substream_quick_ribbon_info));
-		if (stage == STREAM_WRITE_STAGE_DRYRUN_DATA)
-		{
-			data->len4 = stream_write_get_length(&substream_quick_ribbon_info) - (- 7);
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		data->len4 = stream_write_get_length(&substream_quick_ribbon_info) - (- 7);
 	}
 	return 0;
 }
@@ -961,48 +877,47 @@ int stream_read_type_control_block(stream *s_root, stream *s, type_control_block
 	return 0;
 }
 
-int stream_write_type_control_block(stream *s_root, stream *s, type_control_block *data, stream_write_stage stage)
+int stream_write_type_control_block(stream *s_root, stream *s, type_control_block *data, stream_write_stage stage, BOOL from_instance)
 {
 	uint8_t meta_type;
 	stream substream_instance_ext;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	meta_type = data->meta_type;
+	CHECK(stream_write_uint8_t(s_root, s, &meta_type, stage, from_instance));
+	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		meta_type = data->meta_type;
-		CHECK(stream_write_uint8_t(s_root, s, &meta_type, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
-		{
-			CHECK(stream_write_type_control_block_number(s_root, s, &data->content_number, stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
-		{
-			CHECK(stream_write_type_control_block_special(s_root, s, &data->content_special, stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_INLINE)
-		{
-			CHECK(stream_write_type_block_inline(s_root, s, &data->block_inline, stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_EXT)
-		{
-			CHECK(stream_write_uint32_t(s_root, s, &data->ext_pos, stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		CHECK(stream_write_type_control_block_number(s_root, s, &data->content_number, stage, from_instance));
 	}
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_DATA)
+	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
 	{
-		data->_stream_pos_instance_ext = stream_write_get_position_absolute(s);
+		CHECK(stream_write_type_control_block_special(s_root, s, &data->content_special, stage, from_instance));
+	}
+	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_INLINE)
+	{
+		CHECK(stream_write_type_block_inline(s_root, s, &data->block_inline, stage, from_instance));
+	}
+	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_EXT)
+	{
+		CHECK(stream_write_uint32_t(s_root, s, &data->ext_pos, stage, from_instance));
+	}
+	if (stage == STREAM_WRITE_STAGE_DRYRUN_INSTANCE)
+	{
+		data->_dryrun_pos_instance_ext = stream_write_get_position_absolute(s);
 		data->ext_pos = stream_write_get_position_absolute(s);
-		if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_EXT)
+	}
+	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_EXT)
+	{
+		if (stage == STREAM_WRITE_STAGE_WRITE)
+		{
+			CHECK(stream_write_make_substream_instance(s_root, &substream_instance_ext, data->_dryrun_pos_instance_ext));
+		}
+		else
 		{
 			CHECK(stream_write_make_substream(s_root, &substream_instance_ext));
-			data->ext = malloc(sizeof(type_control_block_ext));
-			CHECK(stream_write_type_control_block_ext(s_root, &substream_instance_ext, data->ext, stage));
 		}
+		data->ext = malloc(sizeof(type_control_block_ext));
+		CHECK(stream_write_type_control_block_ext(s_root, &substream_instance_ext, data->ext, stage, 1));
 	}
 	return 0;
 }
@@ -1014,16 +929,11 @@ int stream_read_type_control_block_ext(stream *s_root, stream *s, type_control_b
 	return 0;
 }
 
-int stream_write_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data, stream_write_stage stage)
+int stream_write_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data, stream_write_stage stage, BOOL from_instance)
 {
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
-	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint16_t(s_root, s, &data->len_ext, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_type_control_block(s_root, s, &data->block, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-	}
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint16_t(s_root, s, &data->len_ext, stage, from_instance));
+	CHECK(stream_write_type_control_block(s_root, s, &data->block, stage, from_instance));
 	return 0;
 }
 
@@ -1042,31 +952,23 @@ int stream_read_type_control(stream *s_root, stream *s, type_control *data)
 	return 0;
 }
 
-int stream_write_type_control(stream *s_root, stream *s, type_control *data, stream_write_stage stage)
+int stream_write_type_control(stream *s_root, stream *s, type_control *data, stream_write_stage stage, BOOL from_instance)
 {
 	uint16_t block_type;
 	stream substream_blocks;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint16_t(s_root, s, &data->unk1, stage, from_instance));
+	block_type = data->block_type;
+	CHECK(stream_write_uint16_t(s_root, s, &block_type, stage, from_instance));
+	CHECK(stream_write_uint8_t(s_root, s, &data->unk2, stage, from_instance));
+	CHECK(stream_write_uint16_t(s_root, s, &data->size_block, stage, from_instance));
+	CHECK(stream_write_make_substream(s, &substream_blocks));
+	CHECK(stream_write_type_control_blocks(s_root, &substream_blocks, &data->blocks, stage, from_instance));
+	CHECK(stream_write_merge_substream(s, &substream_blocks));
+	if (stage == STREAM_WRITE_STAGE_DRYRUN_SEQUENCE)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint16_t(s_root, s, &data->unk1, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		block_type = data->block_type;
-		CHECK(stream_write_uint16_t(s_root, s, &block_type, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint8_t(s_root, s, &data->unk2, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint16_t(s_root, s, &data->size_block, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_make_substream(s, &substream_blocks));
-		CHECK(stream_write_type_control_blocks(s_root, &substream_blocks, &data->blocks, stage));
-		CHECK(stream_write_merge_substream(s, &substream_blocks));
-		if (stage == STREAM_WRITE_STAGE_DRYRUN_DATA)
-		{
-			data->size_block = stream_write_get_length(&substream_blocks) - (- 7);
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		data->size_block = stream_write_get_length(&substream_blocks) - (- 7);
 	}
 	return 0;
 }
@@ -1083,26 +985,20 @@ int stream_read_application_views(stream *s_root, stream *s, application_views *
 	return 0;
 }
 
-int stream_write_application_views(stream *s_root, stream *s, application_views *data, stream_write_stage stage)
+int stream_write_application_views(stream *s_root, stream *s, application_views *data, stream_write_stage stage, BOOL from_instance)
 {
 	const char unk20[] = {0, 0, 22, 0, 36, 0, 16};
 	stream substream_ribbon;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_bytes(s, unk20, sizeof(unk20), stage, from_instance));
+	CHECK(stream_write_uint16_t(s_root, s, &data->ribbon_len, stage, from_instance));
+	CHECK(stream_write_make_substream(s, &substream_ribbon));
+	CHECK(stream_write_type_control_blocks(s_root, &substream_ribbon, &data->ribbon, stage, from_instance));
+	CHECK(stream_write_merge_substream(s, &substream_ribbon));
+	if (stage == STREAM_WRITE_STAGE_DRYRUN_SEQUENCE)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_bytes(s, unk20, sizeof(unk20), stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint16_t(s_root, s, &data->ribbon_len, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_make_substream(s, &substream_ribbon));
-		CHECK(stream_write_type_control_blocks(s_root, &substream_ribbon, &data->ribbon, stage));
-		CHECK(stream_write_merge_substream(s, &substream_ribbon));
-		if (stage == STREAM_WRITE_STAGE_DRYRUN_DATA)
-		{
-			data->ribbon_len = stream_write_get_length(&substream_ribbon);
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		data->ribbon_len = stream_write_get_length(&substream_ribbon);
 	}
 	return 0;
 }
@@ -1121,24 +1017,15 @@ int stream_read_type_command(stream *s_root, stream *s, type_command *data)
 	return 0;
 }
 
-int stream_write_type_command(stream *s_root, stream *s, type_command *data, stream_write_stage stage)
+int stream_write_type_command(stream *s_root, stream *s, type_command *data, stream_write_stage stage, BOOL from_instance)
 {
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
-	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_bytes(s, data->unk1, 3, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint8_t(s_root, s, &data->unk3b, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_bytes(s, data->unk4, 2, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint16_t(s_root, s, &data->size_str, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_bytes(s, data->str, data->size_str, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-	}
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage, from_instance));
+	CHECK(stream_write_bytes(s, data->unk1, 3, stage, from_instance));
+	CHECK(stream_write_uint8_t(s_root, s, &data->unk3b, stage, from_instance));
+	CHECK(stream_write_bytes(s, data->unk4, 2, stage, from_instance));
+	CHECK(stream_write_uint16_t(s_root, s, &data->size_str, stage, from_instance));
+	CHECK(stream_write_bytes(s, data->str, data->size_str, stage, from_instance));
 	return 0;
 }
 
@@ -1155,20 +1042,15 @@ int stream_read_type_command_container(stream *s_root, stream *s, type_command_c
 	return 0;
 }
 
-int stream_write_type_command_container(stream *s_root, stream *s, type_command_container *data, stream_write_stage stage)
+int stream_write_type_command_container(stream *s_root, stream *s, type_command_container *data, stream_write_stage stage, BOOL from_instance)
 {
 	int i;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint32_t(s_root, s, &data->commands_len, stage, from_instance));
+	for (i = 0; i < data->commands_len; i++)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint32_t(s_root, s, &data->commands_len, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		for (i = 0; i < data->commands_len; i++)
-		{
-			CHECK(stream_write_type_command(s_root, s, &data->commands[i], stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		CHECK(stream_write_type_command(s_root, s, &data->commands[i], stage, from_instance));
 	}
 	return 0;
 }
@@ -1186,25 +1068,17 @@ int stream_read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *
 	return 0;
 }
 
-int stream_write_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data, stream_write_stage stage)
+int stream_write_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data, stream_write_stage stage, BOOL from_instance)
 {
 	const char unk3[] = {0, 0};
 	const char unk5[] = {0, 0};
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
-	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint16_t(s_root, s, &data->count, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_bytes(s, unk3, sizeof(unk3), stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint16_t(s_root, s, &data->offset, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_bytes(s, unk5, sizeof(unk5), stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-	}
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage, from_instance));
+	CHECK(stream_write_uint16_t(s_root, s, &data->count, stage, from_instance));
+	CHECK(stream_write_bytes(s, unk3, sizeof(unk3), stage, from_instance));
+	CHECK(stream_write_uint16_t(s_root, s, &data->offset, stage, from_instance));
+	CHECK(stream_write_bytes(s, unk5, sizeof(unk5), stage, from_instance));
 	return 0;
 }
 
@@ -1214,14 +1088,10 @@ int stream_read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *
 	return 0;
 }
 
-int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, stream_write_stage stage)
+int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, stream_write_stage stage, BOOL from_instance)
 {
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
-	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_type_command_ext5(s_root, s, &data->blocks, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-	}
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_type_command_ext5(s_root, s, &data->blocks, stage, from_instance));
 	return 0;
 }
 
@@ -1236,25 +1106,19 @@ int stream_read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *
 	return 0;
 }
 
-int stream_write_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data, stream_write_stage stage)
+int stream_write_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data, stream_write_stage stage, BOOL from_instance)
 {
 	stream substream_unk3;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint16_t(s_root, s, &data->unk1, stage, from_instance));
+	CHECK(stream_write_uint16_t(s_root, s, &data->unk2, stage, from_instance));
+	CHECK(stream_write_make_substream(s, &substream_unk3));
+	CHECK(stream_write_type_command_ext4(s_root, &substream_unk3, &data->unk3, stage, from_instance));
+	CHECK(stream_write_merge_substream(s, &substream_unk3));
+	if (stage == STREAM_WRITE_STAGE_DRYRUN_SEQUENCE)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint16_t(s_root, s, &data->unk1, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint16_t(s_root, s, &data->unk2, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_make_substream(s, &substream_unk3));
-		CHECK(stream_write_type_command_ext4(s_root, &substream_unk3, &data->unk3, stage));
-		CHECK(stream_write_merge_substream(s, &substream_unk3));
-		if (stage == STREAM_WRITE_STAGE_DRYRUN_DATA)
-		{
-			data->unk1 = stream_write_get_length(&substream_unk3) - (- 4);
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		data->unk1 = stream_write_get_length(&substream_unk3) - (- 4);
 	}
 	return 0;
 }
@@ -1270,24 +1134,27 @@ int stream_read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *
 	return 0;
 }
 
-int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data, stream_write_stage stage)
+int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data, stream_write_stage stage, BOOL from_instance)
 {
 	stream substream_instance_ext;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_uint16_t(s_root, s, &data->pos, stage, from_instance));
+	if (stage == STREAM_WRITE_STAGE_DRYRUN_INSTANCE)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_uint16_t(s_root, s, &data->pos, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-	}
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_DATA)
-	{
-		data->_stream_pos_instance_ext = stream_write_get_position_absolute(s);
+		data->_dryrun_pos_instance_ext = stream_write_get_position_absolute(s);
 		data->pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_make_substream(s_root, &substream_instance_ext));
-		data->ext = malloc(sizeof(type_command_ext3));
-		CHECK(stream_write_type_command_ext3(s_root, &substream_instance_ext, data->ext, stage));
 	}
+	if (stage == STREAM_WRITE_STAGE_WRITE)
+	{
+		CHECK(stream_write_make_substream_instance(s_root, &substream_instance_ext, data->_dryrun_pos_instance_ext));
+	}
+	else
+	{
+		CHECK(stream_write_make_substream(s_root, &substream_instance_ext));
+	}
+	data->ext = malloc(sizeof(type_command_ext3));
+	CHECK(stream_write_type_command_ext3(s_root, &substream_instance_ext, data->ext, stage, 1));
 	return 0;
 }
 
@@ -1326,7 +1193,7 @@ int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data)
 	return 0;
 }
 
-int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, stream_write_stage stage)
+int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, stream_write_stage stage, BOOL from_instance)
 {
 	const char unknown1[] = {0, 18, 0, 0, 0, 0, 0, 1, 0};
 	const char magic[] = {83, 67, 66, 105, 110};
@@ -1337,55 +1204,39 @@ int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, s
 	stream substream_command_container;
 	int i;
 
-	if (stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCES)
+	s_root->pos = 0;
+
+	data->_dryrun_pos = stream_write_get_position_absolute(s);
+	CHECK(stream_write_bytes(s, unknown1, sizeof(unknown1), stage, from_instance));
+	CHECK(stream_write_bytes(s, magic, sizeof(magic), stage, from_instance));
+	CHECK(stream_write_uint32_t(s_root, s, &data->length_this_file, stage, from_instance));
+	CHECK(stream_write_bytes(s, unknown2, sizeof(unknown2), stage, from_instance));
+	CHECK(stream_write_uint16_t(s_root, s, &data->size_strings, stage, from_instance));
+	CHECK(stream_write_make_substream(s, &substream_strings));
+	CHECK(stream_write_type_strings(s_root, &substream_strings, &data->strings, stage, from_instance));
+	CHECK(stream_write_merge_substream(s, &substream_strings));
+	if (stage == STREAM_WRITE_STAGE_DRYRUN_SEQUENCE)
 	{
-		data->_stream_pos = stream_write_get_position_absolute(s);
-		CHECK(stream_write_bytes(s, unknown1, sizeof(unknown1), stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_bytes(s, magic, sizeof(magic), stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint32_t(s_root, s, &data->length_this_file, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_bytes(s, unknown2, sizeof(unknown2), stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint16_t(s_root, s, &data->size_strings, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_make_substream(s, &substream_strings));
-		CHECK(stream_write_type_strings(s_root, &substream_strings, &data->strings, stage));
-		CHECK(stream_write_merge_substream(s, &substream_strings));
-		if (stage == STREAM_WRITE_STAGE_DRYRUN_DATA)
-		{
-			data->size_strings = stream_write_get_length(&substream_strings) - (- 2);
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint16_t(s_root, s, &data->count_command_resources, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_bytes(s, unknown3, sizeof(unknown3), stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		for (i = 0; i < data->count_command_resources; i++)
-		{
-			CHECK(stream_write_type_resource(s_root, s, &data->command_resources[i], stage));
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_bytes(s, unk44, sizeof(unk44), stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint32_t(s_root, s, &data->size_command_container, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_make_substream(s, &substream_command_container));
-		CHECK(stream_write_type_command_container(s_root, &substream_command_container, &data->command_container, stage));
-		CHECK(stream_write_merge_substream(s, &substream_command_container));
-		if (stage == STREAM_WRITE_STAGE_DRYRUN_DATA)
-		{
-			data->size_command_container = stream_write_get_length(&substream_command_container) - (- 4);
-		}
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_uint16_t(s_root, s, &data->len_unk6, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_type_command_ext2(s_root, s, &data->command_ext, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
-		CHECK(stream_write_application_views(s_root, s, &data->unk6, stage));
-		data->_stream_size = stream_write_get_position_absolute(s) - data->_stream_pos;
+		data->size_strings = stream_write_get_length(&substream_strings) - (- 2);
 	}
+	CHECK(stream_write_uint16_t(s_root, s, &data->count_command_resources, stage, from_instance));
+	CHECK(stream_write_bytes(s, unknown3, sizeof(unknown3), stage, from_instance));
+	for (i = 0; i < data->count_command_resources; i++)
+	{
+		CHECK(stream_write_type_resource(s_root, s, &data->command_resources[i], stage, from_instance));
+	}
+	CHECK(stream_write_bytes(s, unk44, sizeof(unk44), stage, from_instance));
+	CHECK(stream_write_uint32_t(s_root, s, &data->size_command_container, stage, from_instance));
+	CHECK(stream_write_make_substream(s, &substream_command_container));
+	CHECK(stream_write_type_command_container(s_root, &substream_command_container, &data->command_container, stage, from_instance));
+	CHECK(stream_write_merge_substream(s, &substream_command_container));
+	if (stage == STREAM_WRITE_STAGE_DRYRUN_SEQUENCE)
+	{
+		data->size_command_container = stream_write_get_length(&substream_command_container) - (- 4);
+	}
+	CHECK(stream_write_uint16_t(s_root, s, &data->len_unk6, stage, from_instance));
+	CHECK(stream_write_type_command_ext2(s_root, s, &data->command_ext, stage, from_instance));
+	CHECK(stream_write_application_views(s_root, s, &data->unk6, stage, from_instance));
 	return 0;
 }
 
