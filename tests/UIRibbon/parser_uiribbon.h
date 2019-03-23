@@ -213,24 +213,32 @@ typedef enum
 
 typedef struct type_id_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint8_t flag;
 	int32_t id;
 } type_id;
 
 typedef struct type_string_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint16_t size_str;
 	char *str;
 } type_string;
 
 typedef struct type_strings_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint8_t count_strings;
 	struct type_string_ * strings;
 } type_strings;
 
 typedef struct type_resource_generic_
 {
+	int _stream_pos;
+	int _stream_size;
 	enum_resource_type resource_type;
 	uint32_t resource_id;
 	uint16_t mindpi;
@@ -238,6 +246,8 @@ typedef struct type_resource_generic_
 
 typedef struct type_resource_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint32_t command_id;
 	uint8_t count_resources;
 	struct type_resource_generic_ * resources;
@@ -245,6 +255,8 @@ typedef struct type_resource_
 
 typedef struct type_sizedefinitions_order_command_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint8_t unk1;
 	enum_sizedefinitions_command flags_command;
 	uint8_t string_id;
@@ -254,29 +266,39 @@ typedef struct type_sizedefinitions_order_command_
 
 typedef struct type_sizedefinition_order_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint16_t count_commands;
 	struct type_sizedefinitions_order_command_ * commands;
 } type_sizedefinition_order;
 
 typedef struct type_control_block_number_variable_
 {
+	int _stream_pos;
+	int _stream_size;
 	type_id id;
 } type_control_block_number_variable;
 
 typedef struct type_control_block_number_long_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint32_t unk1;
 	uint8_t value1;
 } type_control_block_number_long;
 
 typedef struct type_subcontrols_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint16_t count_subcontrols;
 	struct type_control_ * subcontrols;
 } type_subcontrols;
 
 typedef struct type_control_block_number_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint8_t block_len;
 	enum_control_block_type_number block_type;
 	type_control_block_number_variable content_number;
@@ -328,6 +350,8 @@ typedef struct type_control_block_number_
 
 typedef struct type_control_block_special_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint8_t block_len;
 	enum_control_block_type_special block_type;
 	type_subcontrols content_subcontrols;
@@ -336,12 +360,16 @@ typedef struct type_control_block_special_
 
 typedef struct type_control_blocks_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint8_t count_blocks;
 	struct type_control_block_ * blocks;
 } type_control_blocks;
 
 typedef struct type_block_inline_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint32_t unk2;
 	uint16_t len4;
 	type_control_blocks quick_ribbon_info;
@@ -349,22 +377,29 @@ typedef struct type_block_inline_
 
 typedef struct type_control_block_
 {
+	int _stream_pos;
+	int _stream_size;
 	enum_control_block_meta meta_type;
 	type_control_block_number content_number;
 	type_control_block_special content_special;
 	type_block_inline block_inline;
 	uint32_t ext_pos;
+	int _stream_pos_instance_ext;
 	struct type_control_block_ext_ *ext;
 } type_control_block;
 
 typedef struct type_control_block_ext_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint16_t len_ext;
 	type_control_block block;
 } type_control_block_ext;
 
 typedef struct type_control_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint16_t unk1;
 	enum_type_control block_type;
 	uint8_t unk2;
@@ -374,12 +409,16 @@ typedef struct type_control_
 
 typedef struct application_views_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint16_t ribbon_len;
 	type_control_blocks ribbon;
 } application_views;
 
 typedef struct type_command_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint16_t command_id;
 	char *unk1;
 	uint8_t unk3b;
@@ -390,12 +429,16 @@ typedef struct type_command_
 
 typedef struct type_command_container_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint32_t commands_len;
 	struct type_command_ * commands;
 } type_command_container;
 
 typedef struct type_command_ext5_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint16_t command_id;
 	uint16_t count;
 	uint16_t offset;
@@ -403,11 +446,15 @@ typedef struct type_command_ext5_
 
 typedef struct type_command_ext4_
 {
+	int _stream_pos;
+	int _stream_size;
 	type_command_ext5 blocks;
 } type_command_ext4;
 
 typedef struct type_command_ext3_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint16_t unk1;
 	uint16_t unk2;
 	type_command_ext4 unk3;
@@ -415,12 +462,17 @@ typedef struct type_command_ext3_
 
 typedef struct type_command_ext2_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint16_t pos;
+	int _stream_pos_instance_ext;
 	struct type_command_ext3_ *ext;
 } type_command_ext2;
 
 typedef struct type_uiribbon_
 {
+	int _stream_pos;
+	int _stream_size;
 	uint32_t length_this_file;
 	uint16_t size_strings;
 	type_strings strings;
@@ -433,4 +485,5 @@ typedef struct type_uiribbon_
 	application_views unk6;
 } type_uiribbon;
 
-int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *ret);
+int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data);
+int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, stream_write_stage stage);

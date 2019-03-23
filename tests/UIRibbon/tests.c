@@ -49,7 +49,7 @@ static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file
 
     s.start = s.pos = 0;
     s.max = test->bml_len;
-    s.data = test->bml_data;
+    s.data = (char *)test->bml_data;
 
     error = stream_read_type_uiribbon(&s, &s, &uiribbon);
     _ok(error == 0, "Failed to parse file", file, line);
@@ -1309,11 +1309,55 @@ static int test_fontcontrol(void)
     return 0;
 }
 
+static int copy_from_testdata(char *name)
+{
+    stream s_read, s_write;
+    int error;
+    type_uiribbon uiribbon;
+    FILE *file;
+    const test_data *test = get_test_data(name);
+
+    ok(test != NULL, "Failed to get test data");
+    if (!test)
+        return 1;
+
+    s_read.start = s_read.pos = 0;
+    s_read.max = test->bml_len;
+    s_read.data = (char *)test->bml_data;
+
+    error = stream_read_type_uiribbon(&s_read, &s_read, &uiribbon);
+    ok(error == 0, "Failed to parse file");
+    if (error)
+        return error;
+
+    s_write.start = s_write.pos = 0;
+    s_write.max = 100;
+    s_write.data = malloc(100);
+
+    error = stream_write_type_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN_DATA);
+    ok(error == 0, "Failed to write file");
+    error = stream_write_type_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN_INSTANCES);
+    ok(error == 0, "Failed to write file");
+    error = stream_write_type_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_WRITE);
+    ok(error == 0, "Failed to write file");
+
+    file = fopen("dump_write.bml", "wb");
+    ok(file != NULL, "Failed to open file");
+    fwrite(s_write.data, s_write.pos, 1, file);
+    fclose(file);
+    free(s_write.data);
+
+    return error;
+}
+
 int main()
 {
     /* run_visual_test("dropdowncolorpicker"); */
     /*write_test_data("scalingpolicy");
     return 0;*/
+    write_test_data("simple_tabs");
+    copy_from_testdata("simple_tabs");
+    return 0;
     CHECK(test_simple());
     CHECK(test_sizeinfo());
     CHECK(test_commands());
