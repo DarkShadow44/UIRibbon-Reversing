@@ -40,10 +40,7 @@ def split_expression(expr):
 
 def make_enum_name(type, name):
 	type = type.strip()
-
-	if type.startswith('enum_'):
-		type = type[5:]
-	ret = f'uiribbon_{type}_{name}'
+	ret = f'{type}_{name}'
 
 	return ret.upper()
 
@@ -554,7 +551,8 @@ def main():
 	root = yaml.safe_load(file_in)
 	file_in.close()
 
-	main_type = 'type_uiribbon'
+	meta_id = root['meta']['id']
+	main_type = f'type_{meta_id}'
 
 	enums = None
 	mainSeq = seq_info()
@@ -583,12 +581,13 @@ def main():
 
 	header.append('/* This file is generated - Do not edit manually */\n\n')
 	header.append('#include "parser_generic.h"\n\n')
-	for enum in enums:
-		header.append('typedef enum\n')
-		header.append('{\n')
-		for line in enum.lines_enum:
-			header.append(line + '\n')
-		header.append(f'}} {enum.name};\n\n')
+	if enums is not None:
+		for enum in enums:
+			header.append('typedef enum\n')
+			header.append('{\n')
+			for line in enum.lines_enum:
+				header.append(line + '\n')
+			header.append(f'}} {enum.name};\n\n')
 	for type in types:
 		write_struct(header, type.name, type.seq)
 	write_struct(header, main_type, mainSeq)

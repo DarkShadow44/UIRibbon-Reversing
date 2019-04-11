@@ -3,6 +3,7 @@
 /* FIXME: No macros, use methods */
 /* FIXME: Test all defaults */
 
+#if 1
 static void _ok(int expr, const char *message, const char *file, int line)
 {
     if (!expr)
@@ -33,7 +34,7 @@ static void _ok(int expr, const char *message, const char *file, int line)
 
 #define ASSERT_SUBCONTROL_GROUP(control, count) \
     ASSERT(control.count_subcontrols == 1); \
-    ASSERT(control.subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP); \
+    ASSERT(control.subcontrols[0].type == UIRIBBON_CONTROL_TYPE_GROUP); \
     ASSERT(control.subcontrols[0].count_subcontrols == count);
 
 static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file, int line)
@@ -85,8 +86,8 @@ static int test_simple(void)
 
             ASSERT(group->controls[0].id == id++);
             ASSERT(group->controls[1].id == id++);
-            ASSERT(group->controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
-            ASSERT(group->controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+            ASSERT(group->controls[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
+            ASSERT(group->controls[1].type == UIRIBBON_CONTROL_TYPE_BUTTON);
         }
     }
 
@@ -111,8 +112,8 @@ static int test_simple(void)
 
                 ASSERT(group->controls[0].id == id++);
                 ASSERT(group->controls[1].id == id++);
-                ASSERT(group->controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
-                ASSERT(group->controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+                ASSERT(group->controls[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
+                ASSERT(group->controls[1].type == UIRIBBON_CONTROL_TYPE_BUTTON);
             }
         }
     }
@@ -136,7 +137,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(control->type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.sizeLarge == 0);
     ASSERT(control->size_definitions->medium.sizeLarge == 0);
@@ -148,7 +149,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(control->type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.sizeLarge == 1);
     ASSERT(control->size_definitions->medium.sizeLarge == 0);
@@ -160,7 +161,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(control->type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.sizeLarge == 1);
     ASSERT(control->size_definitions->medium.sizeLarge == 1);
@@ -172,7 +173,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(control->type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.sizeLarge == 1);
     ASSERT(control->size_definitions->medium.sizeLarge == 1);
@@ -186,7 +187,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(control->type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.labelvisible == 0);
     ASSERT(control->size_definitions->medium.labelvisible == 0);
@@ -198,7 +199,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(control->type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.labelvisible == 1);
     ASSERT(control->size_definitions->medium.labelvisible == 0);
@@ -210,7 +211,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(control->type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.labelvisible == 1);
     ASSERT(control->size_definitions->medium.labelvisible == 1);
@@ -222,7 +223,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(control->type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.labelvisible == 1);
     ASSERT(control->size_definitions->medium.labelvisible == 1);
@@ -235,7 +236,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(control->type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.imagevisible == 0);
     ASSERT(control->size_definitions->medium.imagevisible == 0);
@@ -247,7 +248,7 @@ static int test_sizeinfo(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
     control = &uiribbon.tabs[0].groups[0].controls[0];
     ASSERT(control->id == 10003);
-    ASSERT(control->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(control->type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(control->size_definitions != NULL);
     ASSERT(control->size_definitions->large.imagevisible == 1);
     ASSERT(control->size_definitions->medium.imagevisible == 1);
@@ -261,52 +262,52 @@ static int test_sizeinfo(void)
 
     ASSERT(group->sizedefinition_orders->large.count_orders == 13);
     orders = group->sizedefinition_orders->large.orders;
-    ASSERT(orders[0].is_special && orders[0].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_OPEN_GROUP);
+    ASSERT(orders[0].is_special && orders[0].special_command == UIRIBBON_SIZEINFO_ORDER_OPEN_GROUP);
     ASSERT(!orders[1].is_special && orders[1].command_id == 10003);
-    ASSERT(orders[2].is_special && orders[2].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_CLOSE_GROUP);
-    ASSERT(orders[3].is_special && orders[3].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_VISIBLE_SEPARATOR);
-    ASSERT(orders[4].is_special && orders[4].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_OPEN_GROUP);
+    ASSERT(orders[2].is_special && orders[2].special_command == UIRIBBON_SIZEINFO_ORDER_CLOSE_GROUP);
+    ASSERT(orders[3].is_special && orders[3].special_command == UIRIBBON_SIZEINFO_ORDER_VISIBLE_SEPARATOR);
+    ASSERT(orders[4].is_special && orders[4].special_command == UIRIBBON_SIZEINFO_ORDER_OPEN_GROUP);
     ASSERT(!orders[5].is_special && orders[5].command_id == 10002);
     ASSERT(!orders[6].is_special && orders[6].command_id == 10001);
-    ASSERT(orders[7].is_special && orders[7].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_CLOSE_GROUP);
+    ASSERT(orders[7].is_special && orders[7].special_command == UIRIBBON_SIZEINFO_ORDER_CLOSE_GROUP);
     ASSERT(!orders[8].is_special && orders[8].special_command == 10004);
-    ASSERT(orders[9].is_special && orders[9].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[9].is_special && orders[9].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
     ASSERT(!orders[10].is_special && orders[10].command_id == 10005);
     ASSERT(!orders[11].is_special && orders[11].command_id == 10006);
-    ASSERT(orders[12].is_special && orders[12].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[12].is_special && orders[12].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
 
     ASSERT(group->sizedefinition_orders->medium.count_orders == 15);
     orders = group->sizedefinition_orders->medium.orders;
     ASSERT(!orders[0].is_special && orders[0].command_id == 10001);
     ASSERT(!orders[1].is_special && orders[1].command_id == 10002);
-    ASSERT(orders[2].is_special && orders[2].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[2].is_special && orders[2].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
     ASSERT(!orders[3].is_special && orders[3].command_id == 10005);
-    ASSERT(orders[4].is_special && orders[4].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
-    ASSERT(orders[5].is_special && orders[5].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_INVISIBLE_SEPARATOR);
+    ASSERT(orders[4].is_special && orders[4].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[5].is_special && orders[5].special_command == UIRIBBON_SIZEINFO_ORDER_INVISIBLE_SEPARATOR);
     ASSERT(!orders[6].is_special && orders[6].command_id == 10004);
-    ASSERT(orders[7].is_special && orders[7].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
-    ASSERT(orders[8].is_special && orders[8].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_VISIBLE_SEPARATOR);
-    ASSERT(orders[9].is_special && orders[9].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_VISIBLE_SEPARATOR);
+    ASSERT(orders[7].is_special && orders[7].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[8].is_special && orders[8].special_command == UIRIBBON_SIZEINFO_ORDER_VISIBLE_SEPARATOR);
+    ASSERT(orders[9].is_special && orders[9].special_command == UIRIBBON_SIZEINFO_ORDER_VISIBLE_SEPARATOR);
     ASSERT(!orders[10].is_special && orders[10].command_id == 10003);
-    ASSERT(orders[11].is_special && orders[11].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
-    ASSERT(orders[12].is_special && orders[12].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_INVISIBLE_SEPARATOR);
+    ASSERT(orders[11].is_special && orders[11].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[12].is_special && orders[12].special_command == UIRIBBON_SIZEINFO_ORDER_INVISIBLE_SEPARATOR);
     ASSERT(!orders[13].is_special && orders[13].command_id == 10006);
-    ASSERT(orders[14].is_special && orders[14].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[14].is_special && orders[14].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
 
     ASSERT(group->sizedefinition_orders->small.count_orders == 12);
     orders = group->sizedefinition_orders->small.orders;
     ASSERT(!orders[0].is_special && orders[0].command_id == 10001);
-    ASSERT(orders[1].is_special && orders[1].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[1].is_special && orders[1].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
     ASSERT(!orders[2].is_special && orders[2].command_id == 10006);
-    ASSERT(orders[3].is_special && orders[3].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[3].is_special && orders[3].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
     ASSERT(!orders[4].is_special && orders[4].command_id == 10003);
-    ASSERT(orders[5].is_special && orders[5].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[5].is_special && orders[5].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
     ASSERT(!orders[6].is_special && orders[6].command_id == 10004);
-    ASSERT(orders[7].is_special && orders[7].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[7].is_special && orders[7].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
     ASSERT(!orders[8].is_special && orders[8].command_id == 10005);
-    ASSERT(orders[9].is_special && orders[9].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[9].is_special && orders[9].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
     ASSERT(!orders[10].is_special && orders[10].command_id == 10002);
-    ASSERT(orders[11].is_special && orders[11].special_command == UIRIBBON_TRANSFORMED_SIZEINFO_ORDER_BREAK);
+    ASSERT(orders[11].is_special && orders[11].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
 
     return 0;
 }
@@ -372,36 +373,36 @@ static int test_scalingpolicy(void)
     ASSERT(uiribbon.tabs[3].count_groups == 1);
 
     ASSERT(uiribbon.tabs[0].count_scalepolicies == 3);
-    ASSERT_SCALING(uiribbon.tabs[0].scalepolicies[0], 10002, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
-    ASSERT_SCALING(uiribbon.tabs[0].scalepolicies[1], 10004, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
-    ASSERT_SCALING(uiribbon.tabs[0].scalepolicies[2], 10003, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[0].scalepolicies[0], 10002, UIRIBBON_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[0].scalepolicies[1], 10004, UIRIBBON_SCALE_TO_POPUP);
+    ASSERT_SCALING(uiribbon.tabs[0].scalepolicies[2], 10003, UIRIBBON_SCALE_TO_SMALL);
 
     ASSERT(uiribbon.tabs[1].count_scalepolicies == 9);
-    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[0], 10010, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
-    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[1], 10005, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
-    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[2], 10006, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
-    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[3], 10007, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
-    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[4], 10008, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
-    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[5], 10008, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
-    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[6], 10009, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
-    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[7], 10009, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
-    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[8], 10010, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[0], 10010, UIRIBBON_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[1], 10005, UIRIBBON_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[2], 10006, UIRIBBON_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[3], 10007, UIRIBBON_SCALE_TO_POPUP);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[4], 10008, UIRIBBON_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[5], 10008, UIRIBBON_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[6], 10009, UIRIBBON_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[7], 10009, UIRIBBON_SCALE_TO_POPUP);
+    ASSERT_SCALING(uiribbon.tabs[1].scalepolicies[8], 10010, UIRIBBON_SCALE_TO_POPUP);
 
     ASSERT(uiribbon.tabs[2].count_scalepolicies == 9);
-    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[0], 10011, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
-    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[1], 10011, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
-    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[2], 10012, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
-    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[3], 10012, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
-    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[4], 10013, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
-    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[5], 10013, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
-    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[6], 10014, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
-    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[7], 10014, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
-    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[8], 10014, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[0], 10011, UIRIBBON_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[1], 10011, UIRIBBON_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[2], 10012, UIRIBBON_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[3], 10012, UIRIBBON_SCALE_TO_POPUP);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[4], 10013, UIRIBBON_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[5], 10013, UIRIBBON_SCALE_TO_POPUP);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[6], 10014, UIRIBBON_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[7], 10014, UIRIBBON_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[2].scalepolicies[8], 10014, UIRIBBON_SCALE_TO_POPUP);
 
     ASSERT(uiribbon.tabs[3].count_scalepolicies == 3);
-    ASSERT_SCALING(uiribbon.tabs[3].scalepolicies[0], 10015, UIRIBBON_TRANSFORMED_SCALE_TO_MEDIUM);
-    ASSERT_SCALING(uiribbon.tabs[3].scalepolicies[1], 10015, UIRIBBON_TRANSFORMED_SCALE_TO_SMALL);
-    ASSERT_SCALING(uiribbon.tabs[3].scalepolicies[2], 10015, UIRIBBON_TRANSFORMED_SCALE_TO_POPUP);
+    ASSERT_SCALING(uiribbon.tabs[3].scalepolicies[0], 10015, UIRIBBON_SCALE_TO_MEDIUM);
+    ASSERT_SCALING(uiribbon.tabs[3].scalepolicies[1], 10015, UIRIBBON_SCALE_TO_SMALL);
+    ASSERT_SCALING(uiribbon.tabs[3].scalepolicies[2], 10015, UIRIBBON_SCALE_TO_POPUP);
 
     #undef ASSERT_SCALING
 
@@ -418,33 +419,33 @@ static int test_combobox(void)
     ASSERT(uiribbon.tabs[0].count_groups == 1);
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 7);
     controls = uiribbon.tabs[0].groups[0].controls;
-    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
-    ASSERT(controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT(controls[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[1].type == UIRIBBON_CONTROL_TYPE_COMBOBOX);
     ASSERT(controls[1].id == 10004);
     ASSERT(controls[1].control_info.combobox.is_editable == TRUE);
     ASSERT(controls[1].control_info.combobox.has_autocomplete == TRUE);
     ASSERT(controls[1].control_info.combobox.has_vertical_resize == FALSE);
-    ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT(controls[2].type == UIRIBBON_CONTROL_TYPE_COMBOBOX);
     ASSERT(controls[2].id == 10005);
     ASSERT(controls[2].control_info.combobox.is_editable == FALSE);
     ASSERT(controls[2].control_info.combobox.has_autocomplete == TRUE);
     ASSERT(controls[2].control_info.combobox.has_vertical_resize == FALSE);
-    ASSERT(controls[3].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT(controls[3].type == UIRIBBON_CONTROL_TYPE_COMBOBOX);
     ASSERT(controls[3].id == 10006);
     ASSERT(controls[3].control_info.combobox.is_editable == TRUE);
     ASSERT(controls[3].control_info.combobox.has_autocomplete == FALSE);
     ASSERT(controls[3].control_info.combobox.has_vertical_resize == FALSE);
-    ASSERT(controls[4].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT(controls[4].type == UIRIBBON_CONTROL_TYPE_COMBOBOX);
     ASSERT(controls[4].id == 10007);
     ASSERT(controls[4].control_info.combobox.is_editable == TRUE);
     ASSERT(controls[4].control_info.combobox.has_autocomplete == TRUE);
     ASSERT(controls[4].control_info.combobox.has_vertical_resize == TRUE);
-    ASSERT(controls[5].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
+    ASSERT(controls[5].type == UIRIBBON_CONTROL_TYPE_COMBOBOX);
     ASSERT(controls[5].id == 10008);
     ASSERT(controls[5].control_info.combobox.is_editable == FALSE);
     ASSERT(controls[5].control_info.combobox.has_autocomplete == FALSE);
     ASSERT(controls[5].control_info.combobox.has_vertical_resize == TRUE);
-    ASSERT(controls[6].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[6].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     return 0;
 }
 
@@ -458,12 +459,12 @@ static int test_checkbox_and_togglebutton(void)
     ASSERT(uiribbon.tabs[0].count_groups == 1);
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 4);
     controls = uiribbon.tabs[0].groups[0].controls;
-    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
-    ASSERT(controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX);
+    ASSERT(controls[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[1].type == UIRIBBON_CONTROL_TYPE_CHECKBOX);
     ASSERT(controls[1].id == 10002);
-    ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
+    ASSERT(controls[2].type == UIRIBBON_CONTROL_TYPE_TOGGLEBUTTON);
     ASSERT(controls[2].id == 10003);
-    ASSERT(controls[3].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[3].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     return 0;
 }
 
@@ -478,37 +479,37 @@ static int test_dropdownbutton(void)
     ASSERT(uiribbon.tabs[0].count_groups == 1);
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 3);
     controls = uiribbon.tabs[0].groups[0].controls;
-    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
-    ASSERT(controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON);
+    ASSERT(controls[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[1].type == UIRIBBON_CONTROL_TYPE_DROPDOWNBUTTON);
     ASSERT(controls[1].id == 10002);
-    ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[2].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(controls[0].count_subcontrols == 0);
 
     ASSERT(controls[1].count_subcontrols == 1);
     controls = controls[1].subcontrols;
-    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
+    ASSERT(controls[0].type == UIRIBBON_CONTROL_TYPE_GROUP);
     ASSERT(controls[0].count_subcontrols == 3);
     controls = controls[0].subcontrols;
 
-    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON);
+    ASSERT(controls[0].type == UIRIBBON_CONTROL_TYPE_DROPDOWNBUTTON);
     ASSERT(controls[0].id == 10003);
-    ASSERT(controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNBUTTON);
+    ASSERT(controls[1].type == UIRIBBON_CONTROL_TYPE_DROPDOWNBUTTON);
     ASSERT(controls[1].id == 10004);
-    ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[2].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(controls[2].id == 10006);
     ASSERT(controls[0].count_subcontrols == 1);
-    ASSERT(controls[0].subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
+    ASSERT(controls[0].subcontrols[0].type == UIRIBBON_CONTROL_TYPE_GROUP);
     ASSERT(controls[0].subcontrols[0].count_subcontrols == 0);
 
     ASSERT(controls[1].count_subcontrols == 1);
     controls = controls[1].subcontrols;
-    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
+    ASSERT(controls[0].type == UIRIBBON_CONTROL_TYPE_GROUP);
     ASSERT(controls[0].count_subcontrols == 4);
     controls = controls[0].subcontrols;
 
     for (i = 0; i < 4; i++)
     {
-        ASSERT(controls[i].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        ASSERT(controls[i].type == UIRIBBON_CONTROL_TYPE_BUTTON);
         ASSERT(controls[i].id == 10005);
     }
 
@@ -523,7 +524,7 @@ static int test_dropdowncolorpicker(void)
     /* FIXME: Missing id checks */
     #define ASSERT_COLORPICKER(control, _chipsize, _colortemplate, _columns, _has_autocolor_button, _has_nocolor_button, \
                                _recent_color_rows, _standard_color_rows, _theme_color_rows) \
-        ASSERT(control.type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNCOLORPICKER); \
+        ASSERT(control.type == UIRIBBON_CONTROL_TYPE_DROPDOWNCOLORPICKER); \
         ASSERT(control.control_info.dropdowncolorpicker.chipsize == _chipsize); \
         ASSERT(control.control_info.dropdowncolorpicker.colortemplate == _colortemplate); \
         ASSERT(control.control_info.dropdowncolorpicker.columns == _columns); \
@@ -539,34 +540,34 @@ static int test_dropdowncolorpicker(void)
 
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 16);
     controls = uiribbon.tabs[0].groups[0].controls;
-    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
-    ASSERT_COLORPICKER(controls[1], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[2], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[3], UIRIBBON_TRANSFORMED_CHIPSIZE_MEDIUM, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[4], UIRIBBON_TRANSFORMED_CHIPSIZE_LARGE, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[5], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[6], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_STANDARD, 10, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[7], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_HIGHLIGHT, 10, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[8], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 1, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[9], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 4, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[10], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 200, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[11], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[12], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, FALSE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[13], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[14], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 10, TRUE, FALSE, 1, 1, 6);
-    ASSERT(controls[15].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
+    ASSERT_COLORPICKER(controls[1], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[2], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[3], UIRIBBON_CHIPSIZE_MEDIUM, UIRIBBON_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[4], UIRIBBON_CHIPSIZE_LARGE, UIRIBBON_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[5], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[6], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_STANDARD, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[7], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_HIGHLIGHT, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[8], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 1, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[9], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 4, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[10], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 200, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[11], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[12], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 10, FALSE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[13], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 10, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[14], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 10, TRUE, FALSE, 1, 1, 6);
+    ASSERT(controls[15].type == UIRIBBON_CONTROL_TYPE_BUTTON);
 
     ASSERT(uiribbon.tabs[0].groups[1].count_controls == 9);
     controls = uiribbon.tabs[0].groups[1].controls;
-    ASSERT_COLORPICKER(controls[0], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[1], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 4, 1, 6);
-    ASSERT_COLORPICKER(controls[2], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 200, 1, 6);
-    ASSERT_COLORPICKER(controls[3], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 6);
-    ASSERT_COLORPICKER(controls[4], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 4, 6);
-    ASSERT_COLORPICKER(controls[5], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 200, 6);
-    ASSERT_COLORPICKER(controls[6], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 1);
-    ASSERT_COLORPICKER(controls[7], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 4);
-    ASSERT_COLORPICKER(controls[8], UIRIBBON_TRANSFORMED_CHIPSIZE_SMALL, UIRIBBON_TRANSFORMED_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 200);
+    ASSERT_COLORPICKER(controls[0], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[1], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 4, 1, 6);
+    ASSERT_COLORPICKER(controls[2], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 200, 1, 6);
+    ASSERT_COLORPICKER(controls[3], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 6);
+    ASSERT_COLORPICKER(controls[4], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 4, 6);
+    ASSERT_COLORPICKER(controls[5], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 200, 6);
+    ASSERT_COLORPICKER(controls[6], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 1);
+    ASSERT_COLORPICKER(controls[7], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 4);
+    ASSERT_COLORPICKER(controls[8], UIRIBBON_CHIPSIZE_SMALL, UIRIBBON_COLORTEMPLATE_THEME, 2, TRUE, TRUE, 1, 1, 200);
 
     #undef ASSERT_COLORPICKER
 
@@ -581,7 +582,7 @@ static int test_dropdowngallery(void)
     int i;
 
     #define ASSERT_GALLERY(control, _id, _elements_type, _text_position, _has_large_items, _item_height, _item_width, _menulayout, _gripper, _rows, _columns) \
-        ASSERT(control.type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_DROPDOWNGALLERY); \
+        ASSERT(control.type == UIRIBBON_CONTROL_TYPE_DROPDOWNGALLERY); \
         ASSERT(control.id == _id); \
         ASSERT(control.control_info.dropdowngallery.elements_type == _elements_type); \
         ASSERT(control.control_info.dropdowngallery.text_position == _text_position); \
@@ -599,94 +600,94 @@ static int test_dropdowngallery(void)
 
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 11);
     controls = uiribbon.tabs[0].groups[0].controls;
-    ASSERT_GALLERY(controls[0], 10005, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[1], 10006, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[2], 10007, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[3], 10008, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[4], 10009, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   FALSE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[5], 10010, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[6], 10011, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, 32, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[7], 10012, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, 100, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[8], 10013, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[9], 10014, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, 32, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[10], 10015, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, 100, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[0], 10005, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[1], 10006, UIRIBBON_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[2], 10007, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[3], 10008, UIRIBBON_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[4], 10009, UIRIBBON_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   FALSE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[5], 10010, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[6], 10011, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, 32, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[7], 10012, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, 100, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[8], 10013, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[9], 10014, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, 32, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[10], 10015, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, 100, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
 
     ASSERT(uiribbon.tabs[0].groups[1].count_controls == 6);
     controls = uiribbon.tabs[0].groups[1].controls;
-    ASSERT_GALLERY(controls[0], 10016, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[1], 10017, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_RIGHT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[2], 10018, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_BOTTOM,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[3], 10019, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_TOP,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[4], 10020, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_HIDE,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[5], 10021, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_OVERLAY,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[0], 10016, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[1], 10017, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_RIGHT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[2], 10018, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_BOTTOM,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[3], 10019, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_TOP,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[4], 10020, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_HIDE,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[5], 10021, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_OVERLAY,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
 
     ASSERT(uiribbon.tabs[0].groups[2].count_controls == 10);
     controls = uiribbon.tabs[0].groups[2].controls;
 
-    ASSERT_GALLERY(controls[0], 10022, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[0], 10022, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
     ASSERT_SUBCONTROL_GROUP(controls[0], 2);
     subcontrols = controls[0].subcontrols[0].subcontrols;
-    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(subcontrols[0].id == 10023);
-    ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(subcontrols[1].type == UIRIBBON_CONTROL_TYPE_SPLITBUTTON);
     ASSERT(subcontrols[1].id == 10024);
     ASSERT_SUBCONTROL_GROUP(subcontrols[1], 1);
     subcontrols = subcontrols[1].subcontrols[0].subcontrols;
-    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(subcontrols[0].id == 10025);
 
-    ASSERT_GALLERY(controls[1], 10026, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[1], 10026, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
     ASSERT(controls[1].count_subcontrols == 2);
     for (i = 0; i < 2; i++)
     {
-        ASSERT(controls[1].subcontrols[i].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
+        ASSERT(controls[1].subcontrols[i].type == UIRIBBON_CONTROL_TYPE_GROUP);
         ASSERT(controls[1].subcontrols[i].count_subcontrols == 2);
         subcontrols = controls[1].subcontrols[i].subcontrols;
-        ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
         ASSERT(subcontrols[0].id == 10028);
-        ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+        ASSERT(subcontrols[1].type == UIRIBBON_CONTROL_TYPE_SPLITBUTTON);
         ASSERT(subcontrols[1].id == 10029);
         ASSERT_SUBCONTROL_GROUP(subcontrols[1], 1);
         subcontrols = subcontrols[1].subcontrols[0].subcontrols;
-        ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
         ASSERT(subcontrols[0].id == 10028);
     }
 
-    ASSERT_GALLERY(controls[2], 10032, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[3], 10033, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_VERTICAL, -1, 1);
-    ASSERT_GALLERY(controls[4], 10035, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_NONE, -1, 4);
-    ASSERT_GALLERY(controls[5], 10036, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_VERTICAL, 40, 40);
-    ASSERT_GALLERY(controls[6], 10037, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, 40, 40);
-    ASSERT_GALLERY(controls[7], 10038, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_VERTICAL, -1, 1);
-    ASSERT_GALLERY(controls[8], 10039, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_NONE, -1, 1);
-    ASSERT_GALLERY(controls[9], 10040, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_VERTICAL, 4, 1);
+    ASSERT_GALLERY(controls[2], 10032, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[3], 10033, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_GALLERY_GRIPPER_VERTICAL, -1, 1);
+    ASSERT_GALLERY(controls[4], 10035, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_NONE, -1, 4);
+    ASSERT_GALLERY(controls[5], 10036, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_VERTICAL, 40, 40);
+    ASSERT_GALLERY(controls[6], 10037, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, 40, 40);
+    ASSERT_GALLERY(controls[7], 10038, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_GALLERY_GRIPPER_VERTICAL, -1, 1);
+    ASSERT_GALLERY(controls[8], 10039, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_GALLERY_GRIPPER_NONE, -1, 1);
+    ASSERT_GALLERY(controls[9], 10040, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_GALLERY_GRIPPER_VERTICAL, 4, 1);
 
     #undef ASSERT_GALLERY
 
@@ -702,7 +703,7 @@ static int test_inribbongallery(void)
 
     #define ASSERT_GALLERY(control, _id, _elements_type, _text_position, _has_large_items, _item_height, _item_width, _menulayout, _gripper, _rows, _columns, \
                            _max_columns, _max_rows, _max_columns_medium, _min_columns_medium, _min_columns_large) \
-        ASSERT(control.type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_INRIBBONGALLERY); \
+        ASSERT(control.type == UIRIBBON_CONTROL_TYPE_INRIBBONGALLERY); \
         ASSERT(control.id == _id); \
         ASSERT(control.control_info.inribbongallery.generic.elements_type == _elements_type); \
         ASSERT(control.control_info.inribbongallery.generic.text_position == _text_position); \
@@ -725,106 +726,106 @@ static int test_inribbongallery(void)
 
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 11);
     controls = uiribbon.tabs[0].groups[0].controls;
-    ASSERT_GALLERY(controls[0], 10005, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[1], 10006, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[2], 10007, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[3], 10008, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[4], 10009, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   FALSE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[5], 10010, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[6], 10011, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, 32, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[7], 10012, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, 100, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[8], 10013, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[9], 10014, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, 32, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[10], 10015, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, 100, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[0], 10005, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[1], 10006, UIRIBBON_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[2], 10007, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[3], 10008, UIRIBBON_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[4], 10009, UIRIBBON_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   FALSE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[5], 10010, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[6], 10011, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, 32, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[7], 10012, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, 100, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[8], 10013, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[9], 10014, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, 32, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[10], 10015, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, 100, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
 
     ASSERT(uiribbon.tabs[0].groups[1].count_controls == 12);
     controls = uiribbon.tabs[0].groups[1].controls;
-    ASSERT_GALLERY(controls[0], 10016, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[1], 10017, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_RIGHT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[2], 10018, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_BOTTOM,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[3], 10019, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_TOP,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[4], 10020, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_HIDE,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[5], 10021, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_OVERLAY,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[0], 10016, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[1], 10017, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_RIGHT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[2], 10018, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_BOTTOM,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[3], 10019, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_TOP,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[4], 10020, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_HIDE,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[5], 10021, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_OVERLAY,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
 
-    ASSERT_GALLERY(controls[6], 10022, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 44, 33, 20, 10, 30);
-    ASSERT_GALLERY(controls[7], 10023, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 45, 34, 21, 11, 31);
-    ASSERT_GALLERY(controls[8], 10028, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 9, 1, 9, 9, 9);
-    ASSERT_GALLERY(controls[9], 10029, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 8, 1, 8, 8, 8);
-    ASSERT_GALLERY(controls[10], 10030, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 7, 1, 7, 7, 7);
-    ASSERT_GALLERY(controls[11], 10031, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 6, 1, 6, 6, 6);
+    ASSERT_GALLERY(controls[6], 10022, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 44, 33, 20, 10, 30);
+    ASSERT_GALLERY(controls[7], 10023, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 45, 34, 21, 11, 31);
+    ASSERT_GALLERY(controls[8], 10028, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 9, 1, 9, 9, 9);
+    ASSERT_GALLERY(controls[9], 10029, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 8, 1, 8, 8, 8);
+    ASSERT_GALLERY(controls[10], 10030, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 7, 1, 7, 7, 7);
+    ASSERT_GALLERY(controls[11], 10031, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 6, 1, 6, 6, 6);
 
     ASSERT(uiribbon.tabs[0].groups[2].count_controls == 9);
     controls = uiribbon.tabs[0].groups[2].controls;
 
-    ASSERT_GALLERY(controls[0], 10034, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[0], 10034, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
     ASSERT_SUBCONTROL_GROUP(controls[0], 2);
     subcontrols = controls[0].subcontrols[0].subcontrols;
-    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(subcontrols[0].id == 10032);
-    ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(subcontrols[1].type == UIRIBBON_CONTROL_TYPE_SPLITBUTTON);
     ASSERT(subcontrols[1].id == 10033);
     ASSERT_SUBCONTROL_GROUP(subcontrols[1], 1);
     subcontrols = subcontrols[1].subcontrols[0].subcontrols;
-    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(subcontrols[0].id == 10032);
 
-    ASSERT_GALLERY(controls[1], 10035, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[1], 10035, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2, 1, 1, 1, 1, 1);
     ASSERT(controls[1].count_subcontrols == 2);
     for (i = 0; i < 2; i++)
     {
-        ASSERT(controls[1].subcontrols[i].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
+        ASSERT(controls[1].subcontrols[i].type == UIRIBBON_CONTROL_TYPE_GROUP);
         ASSERT(controls[1].subcontrols[i].count_subcontrols == 2);
         ASSERT(controls[1].subcontrols[i].id == 10036 + i);
         subcontrols = controls[1].subcontrols[i].subcontrols;
-        ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
         ASSERT(subcontrols[0].id == 10032);
-        ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+        ASSERT(subcontrols[1].type == UIRIBBON_CONTROL_TYPE_SPLITBUTTON);
         ASSERT(subcontrols[1].id == 10033);
         ASSERT_SUBCONTROL_GROUP(subcontrols[1], 1);
         subcontrols = subcontrols[1].subcontrols[0].subcontrols;
-        ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
         ASSERT(subcontrols[0].id == 10032);
     }
 
-    ASSERT_GALLERY(controls[2], 10038, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 1, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[3], 10039, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_NONE, -1, 1, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[4], 10040, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_VERTICAL, 40, 1, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[5], 10041, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, 40, 1, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[6], 10042, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_VERTICAL, -1, 1, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[7], 10043, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_NONE, -1, 1, 1, 1, 1, 1, 1);
-    ASSERT_GALLERY(controls[8], 10044, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_VERTICAL, 4, 1, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[2], 10038, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 1, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[3], 10039, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_NONE, -1, 1, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[4], 10040, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_VERTICAL, 40, 1, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[5], 10041, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_SPECIAL, UIRIBBON_GALLERY_GRIPPER_CORNER, 40, 1, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[6], 10042, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_GALLERY_GRIPPER_VERTICAL, -1, 1, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[7], 10043, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_GALLERY_GRIPPER_NONE, -1, 1, 1, 1, 1, 1, 1);
+    ASSERT_GALLERY(controls[8], 10044, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_GALLERY_GRIPPER_VERTICAL, 4, 1, 1, 1, 1, 1, 1);
 
     #undef ASSERT_GALLERY
 
@@ -839,7 +840,7 @@ static int test_splitbuttongallery(void)
     int i;
 
     #define ASSERT_GALLERY(control, _id, _elements_type, _text_position, _has_large_items, _item_height, _item_width, _menulayout, _gripper, _rows, _columns) \
-        ASSERT(control.type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTONGALLERY); \
+        ASSERT(control.type == UIRIBBON_CONTROL_TYPE_SPLITBUTTONGALLERY); \
         ASSERT(control.id == _id); \
         ASSERT(control.control_info.splitbuttongallery.elements_type == _elements_type); \
         ASSERT(control.control_info.splitbuttongallery.text_position == _text_position); \
@@ -857,92 +858,92 @@ static int test_splitbuttongallery(void)
 
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 11);
     controls = uiribbon.tabs[0].groups[0].controls;
-    ASSERT_GALLERY(controls[0], 10005, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[1], 10006, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[2], 10007, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[3], 10008, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[4], 10009, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   FALSE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[5], 10010, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[6], 10011, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, 32, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[7], 10012, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, 100, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[8], 10013, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[9], 10014, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, 32, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[10], 10015, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, 100, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[0], 10005, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[1], 10006, UIRIBBON_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[2], 10007, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[3], 10008, UIRIBBON_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[4], 10009, UIRIBBON_GALLERY_ELEMENTS_TYPE_COMMANDS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   FALSE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[5], 10010, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[6], 10011, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, 32, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[7], 10012, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, 100, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[8], 10013, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[9], 10014, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, 32, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[10], 10015, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, 100, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
 
     ASSERT(uiribbon.tabs[0].groups[1].count_controls == 6);
     controls = uiribbon.tabs[0].groups[1].controls;
-    ASSERT_GALLERY(controls[0], 10016, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[1], 10017, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_RIGHT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[2], 10018, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_BOTTOM,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[3], 10019, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_TOP,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[4], 10020, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_HIDE,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[5], 10021, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_OVERLAY,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[0], 10016, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[1], 10017, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_RIGHT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[2], 10018, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_BOTTOM,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[3], 10019, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_TOP,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[4], 10020, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_HIDE,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[5], 10021, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_OVERLAY,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
 
     ASSERT(uiribbon.tabs[0].groups[2].count_controls == 9);
     controls = uiribbon.tabs[0].groups[2].controls;
 
-    ASSERT_GALLERY(controls[0], 10034, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[0], 10034, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
     ASSERT_SUBCONTROL_GROUP(controls[0], 2);
     subcontrols = controls[0].subcontrols[0].subcontrols;
-    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(subcontrols[0].id == 10032);
-    ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(subcontrols[1].type == UIRIBBON_CONTROL_TYPE_SPLITBUTTON);
     ASSERT(subcontrols[1].id == 10033);
     ASSERT_SUBCONTROL_GROUP(subcontrols[1], 1);
     subcontrols = subcontrols[1].subcontrols[0].subcontrols;
-    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(subcontrols[0].id == 10032);
 
-    ASSERT_GALLERY(controls[1], 10035, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[1], 10035, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
     ASSERT(controls[1].count_subcontrols == 2);
     for (i = 0; i < 2; i++)
     {
-        ASSERT(controls[1].subcontrols[i].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
+        ASSERT(controls[1].subcontrols[i].type == UIRIBBON_CONTROL_TYPE_GROUP);
         ASSERT(controls[1].subcontrols[i].count_subcontrols == 2);
         subcontrols = controls[1].subcontrols[i].subcontrols;
-        ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
         ASSERT(subcontrols[0].id == 10032);
-        ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+        ASSERT(subcontrols[1].type == UIRIBBON_CONTROL_TYPE_SPLITBUTTON);
         ASSERT(subcontrols[1].id == 10033);
         ASSERT_SUBCONTROL_GROUP(subcontrols[1], 1);
         subcontrols = subcontrols[1].subcontrols[0].subcontrols;
-        ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
         ASSERT(subcontrols[0].id == 10032);
     }
 
-    ASSERT_GALLERY(controls[2], 10038, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, -1, 2);
-    ASSERT_GALLERY(controls[3], 10039, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_NONE, -1, 4);
-    ASSERT_GALLERY(controls[4], 10040, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_VERTICAL, 40, 40);
-    ASSERT_GALLERY(controls[5], 10041, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_FLOW, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_CORNER, 40, 40);
-    ASSERT_GALLERY(controls[6], 10042, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_VERTICAL, -1, 1);
-    ASSERT_GALLERY(controls[7], 10043, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_NONE, -1, 1);
-    ASSERT_GALLERY(controls[8], 10044, UIRIBBON_TRANSFORMED_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_TRANSFORMED_GALLERY_TEXT_POSITION_LEFT,
-                   TRUE, -1, -1, UIRIBBON_TRANSFORMED_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_TRANSFORMED_GALLERY_GRIPPER_VERTICAL, 4, 1);
+    ASSERT_GALLERY(controls[2], 10038, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, -1, 2);
+    ASSERT_GALLERY(controls[3], 10039, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_NONE, -1, 4);
+    ASSERT_GALLERY(controls[4], 10040, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_VERTICAL, 40, 40);
+    ASSERT_GALLERY(controls[5], 10041, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_FLOW, UIRIBBON_GALLERY_GRIPPER_CORNER, 40, 40);
+    ASSERT_GALLERY(controls[6], 10042, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_GALLERY_GRIPPER_VERTICAL, -1, 1);
+    ASSERT_GALLERY(controls[7], 10043, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_GALLERY_GRIPPER_NONE, -1, 1);
+    ASSERT_GALLERY(controls[8], 10044, UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS, UIRIBBON_GALLERY_TEXT_POSITION_LEFT,
+                   TRUE, -1, -1, UIRIBBON_GALLERY_MENULAYOUT_VERTICAL, UIRIBBON_GALLERY_GRIPPER_VERTICAL, 4, 1);
 
     #undef ASSERT_GALLERY
 
@@ -959,10 +960,10 @@ static int test_spinner(void)
     ASSERT(uiribbon.tabs[0].count_groups == 1);
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 3);
     controls = uiribbon.tabs[0].groups[0].controls;
-    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
-    ASSERT(controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPINNER);
+    ASSERT(controls[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[1].type == UIRIBBON_CONTROL_TYPE_SPINNER);
     ASSERT(controls[1].id == 10002);
-    ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[2].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     return 0;
 }
 
@@ -978,66 +979,66 @@ static int test_splitbutton(void)
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 5);
     controls = uiribbon.tabs[0].groups[0].controls;
 
-    ASSERT(controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(controls[0].type == UIRIBBON_CONTROL_TYPE_SPLITBUTTON);
     ASSERT(controls[0].id == 10003);
     ASSERT_SUBCONTROL_GROUP(controls[0], 2);
     subcontrols = controls[0].subcontrols[0].subcontrols;
-    ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[1].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(subcontrols[1].id == 10006);
-    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_SPLITBUTTON);
     ASSERT(subcontrols[0].id == 10004);
     ASSERT_SUBCONTROL_GROUP(subcontrols[0], 1);
     subcontrols = subcontrols[0].subcontrols[0].subcontrols;
-    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(subcontrols[0].id == 10005);
     ASSERT(controls[0].control_info.splitbutton.buttonitem->id == 10006);
-    ASSERT(controls[0].control_info.splitbutton.buttonitem->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[0].control_info.splitbutton.buttonitem->type == UIRIBBON_CONTROL_TYPE_BUTTON);
 
-    ASSERT(controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(controls[1].type == UIRIBBON_CONTROL_TYPE_SPLITBUTTON);
     ASSERT(controls[1].id == 10007);
     ASSERT(controls[1].count_subcontrols == 2);
     subcontrols = controls[1].subcontrols;
-    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
+    ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_GROUP);
     ASSERT(subcontrols[0].count_subcontrols == 0);
-    ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
+    ASSERT(subcontrols[1].type == UIRIBBON_CONTROL_TYPE_GROUP);
     ASSERT(subcontrols[1].count_subcontrols == 2);
-    ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_GROUP);
+    ASSERT(subcontrols[1].type == UIRIBBON_CONTROL_TYPE_GROUP);
     ASSERT(subcontrols[1].count_subcontrols == 2);
-    ASSERT(subcontrols[1].subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[1].subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(subcontrols[1].subcontrols[0].id == 10009);
-    ASSERT(subcontrols[1].subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[1].subcontrols[1].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(subcontrols[1].subcontrols[1].id == 10010);
     ASSERT(controls[1].control_info.splitbutton.buttonitem->id == 10009);
-    ASSERT(controls[1].control_info.splitbutton.buttonitem->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[1].control_info.splitbutton.buttonitem->type == UIRIBBON_CONTROL_TYPE_BUTTON);
 
-    ASSERT(controls[2].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(controls[2].type == UIRIBBON_CONTROL_TYPE_SPLITBUTTON);
     ASSERT(controls[2].id == 10012);
     ASSERT_SUBCONTROL_GROUP(controls[2], 1);
     subcontrols = controls[2].subcontrols[0].subcontrols;
-    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(subcontrols[0].id == 10006);
     ASSERT(controls[2].control_info.splitbutton.buttonitem->id == 10013);
-    ASSERT(controls[2].control_info.splitbutton.buttonitem->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(controls[2].control_info.splitbutton.buttonitem->type == UIRIBBON_CONTROL_TYPE_BUTTON);
 
-    ASSERT(controls[3].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(controls[3].type == UIRIBBON_CONTROL_TYPE_SPLITBUTTON);
     ASSERT(controls[3].id == 10014);
     ASSERT_SUBCONTROL_GROUP(controls[3], 1);
     subcontrols = controls[3].subcontrols[0].subcontrols;
-    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(subcontrols[0].id == 10006);
     ASSERT(controls[3].control_info.splitbutton.buttonitem->id == 10015);
-    ASSERT(controls[3].control_info.splitbutton.buttonitem->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
+    ASSERT(controls[3].control_info.splitbutton.buttonitem->type == UIRIBBON_CONTROL_TYPE_TOGGLEBUTTON);
 
-    ASSERT(controls[4].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTON);
+    ASSERT(controls[4].type == UIRIBBON_CONTROL_TYPE_SPLITBUTTON);
     ASSERT(controls[4].id == 10016);
     ASSERT_SUBCONTROL_GROUP(controls[4], 2);
     subcontrols = controls[4].subcontrols[0].subcontrols;
-    ASSERT(subcontrols[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX);
+    ASSERT(subcontrols[0].type == UIRIBBON_CONTROL_TYPE_CHECKBOX);
     ASSERT(subcontrols[0].id == 10017);
-    ASSERT(subcontrols[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+    ASSERT(subcontrols[1].type == UIRIBBON_CONTROL_TYPE_BUTTON);
     ASSERT(subcontrols[1].id == 10006);
     ASSERT(controls[4].control_info.splitbutton.buttonitem->id == 10017);
-    ASSERT(controls[4].control_info.splitbutton.buttonitem->type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_CHECKBOX);
+    ASSERT(controls[4].control_info.splitbutton.buttonitem->type == UIRIBBON_CONTROL_TYPE_CHECKBOX);
 
     return 0;
 }
@@ -1052,9 +1053,9 @@ static int test_contextpopups(void)
         ASSERT(menugroup.item_class == _item_class); \
         ASSERT(menugroup.count_controls == 2); \
         ASSERT(menugroup.controls[0].id == 10004); \
-        ASSERT(menugroup.controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON); \
+        ASSERT(menugroup.controls[0].type == UIRIBBON_CONTROL_TYPE_BUTTON); \
         ASSERT(menugroup.controls[1].id == 10005); \
-        ASSERT(menugroup.controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        ASSERT(menugroup.controls[1].type == UIRIBBON_CONTROL_TYPE_BUTTON);
 
     CHECK(parse_from_testdata("contextpopups", &uiribbon));
 
@@ -1074,32 +1075,32 @@ static int test_contextpopups(void)
     ASSERT(uiribbon.count_contextmaps == 4);
     ASSERT(uiribbon.contextmaps[0].id == 10006);
     ASSERT(uiribbon.contextmaps[0].minitoolbar.count_menugroups == 2);
-    ASSERT_MENUGROUP(uiribbon.contextmaps[0].minitoolbar.menugroups[0], 10010, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
-    ASSERT_MENUGROUP(uiribbon.contextmaps[0].minitoolbar.menugroups[1], 10011, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[0].minitoolbar.menugroups[0], 10010, UIRIBBON_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[0].minitoolbar.menugroups[1], 10011, UIRIBBON_MENU_ITEM_CLASS_STANDARD_ITEMS);
     ASSERT(uiribbon.contextmaps[0].contextpopup.count_menugroups == 2);
-    ASSERT_MENUGROUP(uiribbon.contextmaps[0].contextpopup.menugroups[0], 10012, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
-    ASSERT_MENUGROUP(uiribbon.contextmaps[0].contextpopup.menugroups[1], 10013, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[0].contextpopup.menugroups[0], 10012, UIRIBBON_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[0].contextpopup.menugroups[1], 10013, UIRIBBON_MENU_ITEM_CLASS_STANDARD_ITEMS);
 
     ASSERT(uiribbon.contextmaps[1].id == 10007);
     ASSERT(uiribbon.contextmaps[1].minitoolbar.count_menugroups == 2);
-    ASSERT_MENUGROUP(uiribbon.contextmaps[1].minitoolbar.menugroups[0], 10008, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
-    ASSERT_MENUGROUP(uiribbon.contextmaps[1].minitoolbar.menugroups[1], 10009, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_MAJOR_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[1].minitoolbar.menugroups[0], 10008, UIRIBBON_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[1].minitoolbar.menugroups[1], 10009, UIRIBBON_MENU_ITEM_CLASS_MAJOR_ITEMS);
     ASSERT(uiribbon.contextmaps[1].contextpopup.count_menugroups == 2);
-    ASSERT_MENUGROUP(uiribbon.contextmaps[1].contextpopup.menugroups[0], 10014, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_MAJOR_ITEMS);
-    ASSERT_MENUGROUP(uiribbon.contextmaps[1].contextpopup.menugroups[1], 10015, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[1].contextpopup.menugroups[0], 10014, UIRIBBON_MENU_ITEM_CLASS_MAJOR_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[1].contextpopup.menugroups[1], 10015, UIRIBBON_MENU_ITEM_CLASS_STANDARD_ITEMS);
 
 
     ASSERT(uiribbon.contextmaps[2].id == 10016);
     ASSERT(uiribbon.contextmaps[2].minitoolbar.count_menugroups == 2);
-    ASSERT_MENUGROUP(uiribbon.contextmaps[2].minitoolbar.menugroups[0], 10010, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
-    ASSERT_MENUGROUP(uiribbon.contextmaps[2].minitoolbar.menugroups[1], 10011, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[2].minitoolbar.menugroups[0], 10010, UIRIBBON_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[2].minitoolbar.menugroups[1], 10011, UIRIBBON_MENU_ITEM_CLASS_STANDARD_ITEMS);
     ASSERT(uiribbon.contextmaps[2].contextpopup.count_menugroups == 0);
 
     ASSERT(uiribbon.contextmaps[3].id == 10017);
     ASSERT(uiribbon.contextmaps[3].minitoolbar.count_menugroups == 0);
     ASSERT(uiribbon.contextmaps[3].contextpopup.count_menugroups == 2);
-    ASSERT_MENUGROUP(uiribbon.contextmaps[3].contextpopup.menugroups[0], 10014, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_MAJOR_ITEMS);
-    ASSERT_MENUGROUP(uiribbon.contextmaps[3].contextpopup.menugroups[1], 10015, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_STANDARD_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[3].contextpopup.menugroups[0], 10014, UIRIBBON_MENU_ITEM_CLASS_MAJOR_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.contextmaps[3].contextpopup.menugroups[1], 10015, UIRIBBON_MENU_ITEM_CLASS_STANDARD_ITEMS);
 
     #undef ASSERT_MENUGROUP
 
@@ -1118,9 +1119,9 @@ static int test_applicationmenu_single(char *name, int recent_count, bool enable
         ASSERT(menugroup.item_class == _item_class); \
         ASSERT(menugroup.count_controls == 2); \
         ASSERT(menugroup.controls[0].id == 10004); \
-        ASSERT(menugroup.controls[0].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON); \
+        ASSERT(menugroup.controls[0].type == UIRIBBON_CONTROL_TYPE_BUTTON); \
         ASSERT(menugroup.controls[1].id == 10005); \
-        ASSERT(menugroup.controls[1].type == UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
+        ASSERT(menugroup.controls[1].type == UIRIBBON_CONTROL_TYPE_BUTTON);
 
     ASSERT(uiribbon.count_tabs == 1);
     ASSERT(uiribbon.tabs[0].id == 10001);
@@ -1140,8 +1141,8 @@ static int test_applicationmenu_single(char *name, int recent_count, bool enable
     ASSERT(uiribbon.applicationmenu.recent.count == recent_count);
     ASSERT(uiribbon.applicationmenu.recent.enable_pinning == enable_pinning);
     ASSERT(uiribbon.applicationmenu.menugroups.count_menugroups == 2);
-    ASSERT_MENUGROUP(uiribbon.applicationmenu.menugroups.menugroups[0], 10009, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_MAJOR_ITEMS);
-    ASSERT_MENUGROUP(uiribbon.applicationmenu.menugroups.menugroups[1], 10010, UIRIBBON_TRANSFORMED_MENU_ITEM_CLASS_MAJOR_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.applicationmenu.menugroups.menugroups[0], 10009, UIRIBBON_MENU_ITEM_CLASS_MAJOR_ITEMS);
+    ASSERT_MENUGROUP(uiribbon.applicationmenu.menugroups.menugroups[1], 10010, UIRIBBON_MENU_ITEM_CLASS_MAJOR_ITEMS);
 
     #undef ASSERT_MENUGROUP
 
@@ -1181,8 +1182,8 @@ static int assert_fontcontrol(uiribbon_group *group, int id, int id_type, int id
         ASSERT_INT(control->parent_id, id);
     }
 
-    ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
-    ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_TYPE);
+    ASSERT_INT(controls[pos].type, UIRIBBON_CONTROL_TYPE_COMBOBOX);
+    ASSERT_INT(controls[pos].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_TYPE);
     ASSERT_INT(controls[pos].id, id_type);
     ASSERT_INT(controls[pos].control_info.combobox.fontcontrol_fontsize_min, fontsize_min);
     ASSERT_INT(controls[pos].control_info.combobox.fontcontrol_fontsize_max, fontsize_max);
@@ -1190,71 +1191,71 @@ static int assert_fontcontrol(uiribbon_group *group, int id, int id_type, int id
     ASSERT_INT(controls[pos].control_info.combobox.fontcontrol_show_truetype_only, truetype_only);
     ASSERT_STR(controls[pos].control_info.combobox.fontcontrol_string_for_width, string_for_width);
     pos++;
-    ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
-    ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SIZE);
+    ASSERT_INT(controls[pos].type, UIRIBBON_CONTROL_TYPE_COMBOBOX);
+    ASSERT_INT(controls[pos].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_SIZE);
     ASSERT_INT(controls[pos].id, id_size);
     pos++;
     if (id_bigger != -1)
     {
-        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
-        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_BIGGER);
+        ASSERT_INT(controls[pos].type, UIRIBBON_CONTROL_TYPE_BUTTON);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_BIGGER);
         ASSERT_INT(controls[pos].id, id_bigger);
         pos++;
     }
     if (id_smaller != -1)
     {
-        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_BUTTON);
-        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SMALLER);
+        ASSERT_INT(controls[pos].type, UIRIBBON_CONTROL_TYPE_BUTTON);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_SMALLER);
         ASSERT_INT(controls[pos].id, id_smaller);
         pos++;
     }
-    ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
-    ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_BOLD);
+    ASSERT_INT(controls[pos].type, UIRIBBON_CONTROL_TYPE_TOGGLEBUTTON);
+    ASSERT_INT(controls[pos].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_BOLD);
     ASSERT_INT(controls[pos].id, id_bold);
     pos++;
-    ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
-    ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_ITALIC);
+    ASSERT_INT(controls[pos].type, UIRIBBON_CONTROL_TYPE_TOGGLEBUTTON);
+    ASSERT_INT(controls[pos].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_ITALIC);
     ASSERT_INT(controls[pos].id, id_italic);
     pos++;
     if (id_underline != -1)
     {
-        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
-        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_UNDERLINE);
+        ASSERT_INT(controls[pos].type, UIRIBBON_CONTROL_TYPE_TOGGLEBUTTON);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_UNDERLINE);
         ASSERT_INT(controls[pos].id, id_underline);
         pos++;
     }
     if (id_strikethrough != -1)
     {
-        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
-        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_STRIKETHROUGH);
+        ASSERT_INT(controls[pos].type, UIRIBBON_CONTROL_TYPE_TOGGLEBUTTON);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_STRIKETHROUGH);
         ASSERT_INT(controls[pos].id, id_strikethrough);
         pos++;
     }
     if (id_subscript != -1)
     {
-        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
-        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SUBSCRIPT);
+        ASSERT_INT(controls[pos].type, UIRIBBON_CONTROL_TYPE_TOGGLEBUTTON);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_SUBSCRIPT);
         ASSERT_INT(controls[pos].id, id_subscript);
         pos++;
     }
     if (id_superscript != -1)
     {
-        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
-        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SUPERSCRIPT);
+        ASSERT_INT(controls[pos].type, UIRIBBON_CONTROL_TYPE_TOGGLEBUTTON);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_SUPERSCRIPT);
         ASSERT_INT(controls[pos].id, id_superscript);
         pos++;
     }
     if (id_color != -1)
     {
-        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTONGALLERY);
-        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_COLOR);
+        ASSERT_INT(controls[pos].type, UIRIBBON_CONTROL_TYPE_SPLITBUTTONGALLERY);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_COLOR);
         ASSERT_INT(controls[pos].id, id_color);
         pos++;
     }
     if (id_highlight != -1)
     {
-        ASSERT_INT(controls[pos].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_SPLITBUTTONGALLERY);
-        ASSERT_INT(controls[pos].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_HIGHLIGHT);
+        ASSERT_INT(controls[pos].type, UIRIBBON_CONTROL_TYPE_SPLITBUTTONGALLERY);
+        ASSERT_INT(controls[pos].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_HIGHLIGHT);
         ASSERT_INT(controls[pos].id, id_highlight);
         pos++;
     }
@@ -1293,17 +1294,17 @@ static int test_fontcontrol(void)
     menugroup = &uiribbon.contextmaps[0].minitoolbar.menugroups[0];
     ASSERT_INT(menugroup->count_controls, 4);
     controls = menugroup->controls;
-    ASSERT_INT(controls[0].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
-    ASSERT_INT(controls[0].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_TYPE);
+    ASSERT_INT(controls[0].type, UIRIBBON_CONTROL_TYPE_COMBOBOX);
+    ASSERT_INT(controls[0].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_TYPE);
     ASSERT_INT(controls[0].id, 62000);
-    ASSERT_INT(controls[1].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_COMBOBOX);
-    ASSERT_INT(controls[1].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_SIZE);
+    ASSERT_INT(controls[1].type, UIRIBBON_CONTROL_TYPE_COMBOBOX);
+    ASSERT_INT(controls[1].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_SIZE);
     ASSERT_INT(controls[1].id, 62300);
-    ASSERT_INT(controls[2].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
-    ASSERT_INT(controls[2].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_BOLD);
+    ASSERT_INT(controls[2].type, UIRIBBON_CONTROL_TYPE_TOGGLEBUTTON);
+    ASSERT_INT(controls[2].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_BOLD);
     ASSERT_INT(controls[2].id, 62400);
-    ASSERT_INT(controls[3].type, UIRIBBON_TRANSFORMED_CONTROL_TYPE_TOGGLEBUTTON);
-    ASSERT_INT(controls[3].subtype, UIRIBBON_TRANSFORMED_SUBCONTROL_TYPE_FONT_ITALIC);
+    ASSERT_INT(controls[3].type, UIRIBBON_CONTROL_TYPE_TOGGLEBUTTON);
+    ASSERT_INT(controls[3].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_ITALIC);
     ASSERT_INT(controls[3].id, 62100);
 
     return 0;
@@ -1377,3 +1378,11 @@ int main()
 
     return 0;
 }
+
+#else
+int main()
+{
+    return 0;
+}
+
+#endif

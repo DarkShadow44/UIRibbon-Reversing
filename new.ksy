@@ -19,7 +19,7 @@ doc-ref: https://docs.microsoft.com/en-us/windows/desktop/windowsribbon/windowsr
 
 
 meta:
-  id: ribbon
+  id: uiribbon
   file-extension: bml
   endian: le
   encoding: ASCII

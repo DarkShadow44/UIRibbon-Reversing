@@ -212,7 +212,7 @@ int stream_read_type_resource_generic(stream *s_root, stream *s, type_resource_g
 	CHECK(stream_read_uint8_t(s_root, s, &resource_type));
 	data->resource_type = resource_type;
 	CHECK(stream_read_uint32_t(s_root, s, &data->resource_id));
-	if (data->resource_type == UIRIBBON_RESOURCE_TYPE_LARGEIMAGE || data->resource_type == UIRIBBON_RESOURCE_TYPE_SMALLIMAGE || data->resource_type == UIRIBBON_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE || data->resource_type == UIRIBBON_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
+	if (data->resource_type == ENUM_RESOURCE_TYPE_LARGEIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_SMALLIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
 	{
 		CHECK(stream_read_uint16_t(s_root, s, &data->mindpi));
 	}
@@ -230,7 +230,7 @@ int stream_write_type_resource_generic(stream *s_root, stream *s, type_resource_
 	resource_type = data->resource_type;
 	CHECK(stream_write_uint8_t(s_root, s, &resource_type, stage, from_instance));
 	CHECK(stream_write_uint32_t(s_root, s, &data->resource_id, stage, from_instance));
-	if (data->resource_type == UIRIBBON_RESOURCE_TYPE_LARGEIMAGE || data->resource_type == UIRIBBON_RESOURCE_TYPE_SMALLIMAGE || data->resource_type == UIRIBBON_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE || data->resource_type == UIRIBBON_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
+	if (data->resource_type == ENUM_RESOURCE_TYPE_LARGEIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_SMALLIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
 	{
 		CHECK(stream_write_uint16_t(s_root, s, &data->mindpi, stage, from_instance));
 	}
@@ -275,15 +275,15 @@ int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, ty
 	CHECK(stream_read_uint8_t(s_root, s, &data->unk1));
 	CHECK(stream_read_uint8_t(s_root, s, &flags_command));
 	data->flags_command = flags_command;
-	if (data->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_SPECIAL)
+	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_SPECIAL)
 	{
 		CHECK(stream_read_uint8_t(s_root, s, &data->string_id));
 	}
-	if (data->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND)
+	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_COMMAND)
 	{
 		CHECK(stream_read_uint16_t(s_root, s, &data->command_id));
 	}
-	if (data->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND_INTERNAL)
+	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_COMMAND_INTERNAL)
 	{
 		CHECK(stream_read_uint32_t(s_root, s, &data->unk2));
 	}
@@ -301,15 +301,15 @@ int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, t
 	CHECK(stream_write_uint8_t(s_root, s, &data->unk1, stage, from_instance));
 	flags_command = data->flags_command;
 	CHECK(stream_write_uint8_t(s_root, s, &flags_command, stage, from_instance));
-	if (data->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_SPECIAL)
+	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_SPECIAL)
 	{
 		CHECK(stream_write_uint8_t(s_root, s, &data->string_id, stage, from_instance));
 	}
-	if (data->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND)
+	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_COMMAND)
 	{
 		CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage, from_instance));
 	}
-	if (data->flags_command == UIRIBBON_SIZEDEFINITIONS_COMMAND_COMMAND_INTERNAL)
+	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_COMMAND_INTERNAL)
 	{
 		CHECK(stream_write_uint32_t(s_root, s, &data->unk2, stage, from_instance));
 	}
@@ -423,175 +423,175 @@ int stream_read_type_control_block_number(stream *s_root, stream *s, type_contro
 	{
 		CHECK(stream_read_type_control_block_number_long(s_root, s, &data->content_long));
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
 	{
 		data->id = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE_MIXED)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE_MIXED)
 	{
 		data->sizedefinition_labelvisible_mixed = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE)
 	{
 		data->sizedefinition_labelvisible = data->content_long.value1;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGEVISIBLE)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGEVISIBLE)
 	{
 		data->sizedefinition_imagevisible = data->content_long.value1;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE)
 	{
 		data->sizedefinition_imagesize = data->content_long.value1;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE_MIXED)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE_MIXED)
 	{
 		data->sizedefinition_imagesize_mixed = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_AUTOCOMPLETE_ENABLED)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_AUTOCOMPLETE_ENABLED)
 	{
 		data->autocomplete_enabled = data->content_long.value1;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
 	{
 		data->gallery_type = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
 	{
 		data->dropdowncolorpicker_colortemplate = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_CHIPSIZE)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_CHIPSIZE)
 	{
 		data->dropdowncolorpicker_chipsize = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLUMNS)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLUMNS)
 	{
 		data->dropdowncolorpicker_columns = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON)
 	{
 		data->dropdowncolorpicker_has_autocolor_button = data->content_long.value1;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON)
 	{
 		data->dropdowncolorpicker_has_nocolor_button = data->content_long.value1;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS)
 	{
 		data->dropdowncolorpicker_recent_color_rows = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS)
 	{
 		data->dropdowncolorpicker_standard_rows = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS)
 	{
 		data->dropdowncolorpicker_theme_color_rows = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
 	{
 		data->gallery_elements_type = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_HAS_LARGE_ITEMS)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_HAS_LARGE_ITEMS)
 	{
 		data->gallery_has_large_items = data->content_long.value1;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_HEIGHT)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_HEIGHT)
 	{
 		data->gallery_item_height = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_WIDTH)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_WIDTH)
 	{
 		data->gallery_item_width = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TEXT_POSITION)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TEXT_POSITION)
 	{
 		data->gallery_text_position = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MENULAYOUT)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MENULAYOUT)
 	{
 		data->gallery_menulayout = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_GRIPPER)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_GRIPPER)
 	{
 		data->gallery_gripper = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ROWS)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ROWS)
 	{
 		data->gallery_rows = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_COLUMNS)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_COLUMNS)
 	{
 		data->gallery_columns = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_ROWS)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_ROWS)
 	{
 		data->gallery_max_rows = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS)
 	{
 		data->gallery_max_columns = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_LARGE)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_LARGE)
 	{
 		data->gallery_min_columns_large = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS_MEDIUM)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS_MEDIUM)
 	{
 		data->gallery_max_columns_medium = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_MEDIUM)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_MEDIUM)
 	{
 		data->gallery_min_columns_medium = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
 	{
 		data->is_checkbox = data->content_long.value1;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
 	{
 		data->scalepolicy = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
 	{
 		data->scalepolicy_medium = data->scalepolicy / 256;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
 	{
 		data->scalepolicy_small = (data->scalepolicy % 256) / 16;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
 	{
 		data->scalepolicy_popup = (data->scalepolicy % 16) / 1;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE)
 	{
 		data->id_reference = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING)
 	{
 		data->enable_pinning = data->content_long.value1;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_STR)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_STR)
 	{
 		data->fontcontrol_str = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MIN)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MIN)
 	{
 		data->fontcontrol_fontsize_min = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MAX)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MAX)
 	{
 		data->fontcontrol_fontsize_max = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_PARENT_COMMANDID)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_PARENT_COMMANDID)
 	{
 		data->fontcontrol_parent_commandid = data->content_number.id.id;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_TRUETYPEONLY)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_TRUETYPEONLY)
 	{
 		data->fontcontrol_truetypeonly = data->content_long.value1;
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_VERTICALFONTS)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_VERTICALFONTS)
 	{
 		data->fontcontrol_verticalfonts = data->content_long.value1;
 	}
@@ -620,172 +620,172 @@ int stream_write_type_control_block_number(stream *s_root, stream *s, type_contr
 	/* Start writing instance data */
 	if (stage != STREAM_WRITE_STAGE_DRYRUN_SEQUENCE)
 	{
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
 		{
 			data->content_number.id.id = data->id;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE_MIXED)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE_MIXED)
 		{
 			data->content_number.id.id = data->sizedefinition_labelvisible_mixed;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE)
 		{
 			data->content_long.value1 = data->sizedefinition_labelvisible;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGEVISIBLE)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGEVISIBLE)
 		{
 			data->content_long.value1 = data->sizedefinition_imagevisible;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE)
 		{
 			data->content_long.value1 = data->sizedefinition_imagesize;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE_MIXED)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE_MIXED)
 		{
 			data->content_number.id.id = data->sizedefinition_imagesize_mixed;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_AUTOCOMPLETE_ENABLED)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_AUTOCOMPLETE_ENABLED)
 		{
 			data->content_long.value1 = data->autocomplete_enabled;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
 		{
 			data->content_number.id.id = data->gallery_type;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
 		{
 			data->content_number.id.id = data->dropdowncolorpicker_colortemplate;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_CHIPSIZE)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_CHIPSIZE)
 		{
 			data->content_number.id.id = data->dropdowncolorpicker_chipsize;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLUMNS)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLUMNS)
 		{
 			data->content_number.id.id = data->dropdowncolorpicker_columns;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON)
 		{
 			data->content_long.value1 = data->dropdowncolorpicker_has_autocolor_button;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON)
 		{
 			data->content_long.value1 = data->dropdowncolorpicker_has_nocolor_button;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS)
 		{
 			data->content_number.id.id = data->dropdowncolorpicker_recent_color_rows;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS)
 		{
 			data->content_number.id.id = data->dropdowncolorpicker_standard_rows;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS)
 		{
 			data->content_number.id.id = data->dropdowncolorpicker_theme_color_rows;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
 		{
 			data->content_number.id.id = data->gallery_elements_type;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_HAS_LARGE_ITEMS)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_HAS_LARGE_ITEMS)
 		{
 			data->content_long.value1 = data->gallery_has_large_items;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_HEIGHT)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_HEIGHT)
 		{
 			data->content_number.id.id = data->gallery_item_height;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_WIDTH)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_WIDTH)
 		{
 			data->content_number.id.id = data->gallery_item_width;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TEXT_POSITION)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TEXT_POSITION)
 		{
 			data->content_number.id.id = data->gallery_text_position;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MENULAYOUT)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MENULAYOUT)
 		{
 			data->content_number.id.id = data->gallery_menulayout;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_GRIPPER)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_GRIPPER)
 		{
 			data->content_number.id.id = data->gallery_gripper;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ROWS)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ROWS)
 		{
 			data->content_number.id.id = data->gallery_rows;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_COLUMNS)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_COLUMNS)
 		{
 			data->content_number.id.id = data->gallery_columns;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_ROWS)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_ROWS)
 		{
 			data->content_number.id.id = data->gallery_max_rows;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS)
 		{
 			data->content_number.id.id = data->gallery_max_columns;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_LARGE)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_LARGE)
 		{
 			data->content_number.id.id = data->gallery_min_columns_large;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS_MEDIUM)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS_MEDIUM)
 		{
 			data->content_number.id.id = data->gallery_max_columns_medium;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_MEDIUM)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_MEDIUM)
 		{
 			data->content_number.id.id = data->gallery_min_columns_medium;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
 		{
 			data->content_long.value1 = data->is_checkbox;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
 		{
 			data->content_number.id.id = data->scalepolicy;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
 		{
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
 		{
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
 		{
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE)
 		{
 			data->content_number.id.id = data->id_reference;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING)
 		{
 			data->content_long.value1 = data->enable_pinning;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_STR)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_STR)
 		{
 			data->content_number.id.id = data->fontcontrol_str;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MIN)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MIN)
 		{
 			data->content_number.id.id = data->fontcontrol_fontsize_min;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MAX)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MAX)
 		{
 			data->content_number.id.id = data->fontcontrol_fontsize_max;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_PARENT_COMMANDID)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_PARENT_COMMANDID)
 		{
 			data->content_number.id.id = data->fontcontrol_parent_commandid;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_TRUETYPEONLY)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_TRUETYPEONLY)
 		{
 			data->content_long.value1 = data->fontcontrol_truetypeonly;
 		}
-		if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_VERTICALFONTS)
+		if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_VERTICALFONTS)
 		{
 			data->content_long.value1 = data->fontcontrol_verticalfonts;
 		}
@@ -800,11 +800,11 @@ int stream_read_type_control_block_special(stream *s_root, stream *s, type_contr
 	CHECK(stream_read_uint8_t(s_root, s, &data->block_len));
 	CHECK(stream_read_uint8_t(s_root, s, &block_type));
 	data->block_type = block_type;
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_UNK73)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_UNK73)
 	{
 		CHECK(stream_read_type_subcontrols(s_root, s, &data->content_subcontrols));
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL)
 	{
 		CHECK(stream_read_type_sizedefinition_order(s_root, s, &data->sizedefinition_order));
 	}
@@ -822,11 +822,11 @@ int stream_write_type_control_block_special(stream *s_root, stream *s, type_cont
 	CHECK(stream_write_uint8_t(s_root, s, &data->block_len, stage, from_instance));
 	block_type = data->block_type;
 	CHECK(stream_write_uint8_t(s_root, s, &block_type, stage, from_instance));
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_UNK73)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_UNK73)
 	{
 		CHECK(stream_write_type_subcontrols(s_root, s, &data->content_subcontrols, stage, from_instance));
 	}
-	if (data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM || data->block_type == UIRIBBON_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL)
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL)
 	{
 		CHECK(stream_write_type_sizedefinition_order(s_root, s, &data->sizedefinition_order, stage, from_instance));
 	}
@@ -899,23 +899,23 @@ int stream_read_type_control_block(stream *s_root, stream *s, type_control_block
 
 	CHECK(stream_read_uint8_t(s_root, s, &meta_type));
 	data->meta_type = meta_type;
-	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
 	{
 		CHECK(stream_read_type_control_block_number(s_root, s, &data->content_number));
 	}
-	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
 	{
 		CHECK(stream_read_type_control_block_special(s_root, s, &data->content_special));
 	}
-	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_INLINE)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_INLINE)
 	{
 		CHECK(stream_read_type_block_inline(s_root, s, &data->block_inline));
 	}
-	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_EXT)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_EXT)
 	{
 		CHECK(stream_read_uint32_t(s_root, s, &data->ext_pos));
 	}
-	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_EXT)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_EXT)
 	{
 		CHECK(stream_read_make_substream_instance(s_root, &substream_instance_ext, (data->ext_pos), s_root->max - (data->ext_pos)));
 		data->ext = malloc(sizeof(type_control_block_ext));
@@ -935,19 +935,19 @@ int stream_write_type_control_block(stream *s_root, stream *s, type_control_bloc
 	}
 	meta_type = data->meta_type;
 	CHECK(stream_write_uint8_t(s_root, s, &meta_type, stage, from_instance));
-	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_NUMBER)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
 	{
 		CHECK(stream_write_type_control_block_number(s_root, s, &data->content_number, stage, from_instance));
 	}
-	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_SPECIAL)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
 	{
 		CHECK(stream_write_type_control_block_special(s_root, s, &data->content_special, stage, from_instance));
 	}
-	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_INLINE)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_INLINE)
 	{
 		CHECK(stream_write_type_block_inline(s_root, s, &data->block_inline, stage, from_instance));
 	}
-	if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_EXT)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_EXT)
 	{
 		CHECK(stream_write_uint32_t(s_root, s, &data->ext_pos, stage, from_instance));
 	}
@@ -959,7 +959,7 @@ int stream_write_type_control_block(stream *s_root, stream *s, type_control_bloc
 			data->_dryrun_pos_instance_ext = stream_write_get_position_absolute(s_root);
 			data->ext_pos = stream_write_get_position_absolute(s_root);
 		}
-		if (data->meta_type == UIRIBBON_CONTROL_BLOCK_META_EXT)
+		if (data->meta_type == ENUM_CONTROL_BLOCK_META_EXT)
 		{
 			if (stage == STREAM_WRITE_STAGE_WRITE)
 			{
