@@ -3,7 +3,6 @@
 /* FIXME: No macros, use methods */
 /* FIXME: Test all defaults */
 
-#if 1
 static void _ok(int expr, const char *message, const char *file, int line)
 {
     if (!expr)
@@ -37,6 +36,7 @@ static void _ok(int expr, const char *message, const char *file, int line)
     ASSERT(control.subcontrols[0].type == UIRIBBON_CONTROL_TYPE_GROUP); \
     ASSERT(control.subcontrols[0].count_subcontrols == count);
 
+#if 0
 static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file, int line)
 {
     stream s;
@@ -1382,6 +1382,48 @@ int main()
 #else
 int main()
 {
+    stream s_read = {0};
+    stream s_write = {0};
+    int error;
+    type_test test;
+    FILE *file;
+    int size;
+    char *data;
+
+    file = fopen("test.dat", "rb");
+    ASSERT(file != NULL);
+    fseek(file, 0, SEEK_END);
+    size = ftell(file);
+    fseek(file, 0, SEEK_SET);
+    data = malloc(size);
+    fread(data, size, 1, file);
+    fclose(file);
+
+
+    s_read.max = size;
+    s_read.data = data;
+
+    error = stream_read_type_test(&s_read, &s_read, &test);
+    ASSERT(error == 0);
+
+    free(data);
+
+    s_write.allocated = 100;
+    s_write.data = malloc(100);
+
+    error = stream_write_type_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_DRYRUN_SEQUENCE, 0);
+    ok(error == 0, "Failed to write file");
+    error = stream_write_type_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_DRYRUN_INSTANCE, 0);
+    ok(error == 0, "Failed to write file");
+    error = stream_write_type_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_WRITE, 0);
+    ok(error == 0, "Failed to write file");
+
+    file = fopen("dump_write.bml", "wb");
+    ok(file != NULL, "Failed to open file");
+    fwrite(s_write.data, s_write.max, 1, file);
+    fclose(file);
+    free(s_write.data);
+
     return 0;
 }
 
