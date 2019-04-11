@@ -36,7 +36,7 @@ static void _ok(int expr, const char *message, const char *file, int line)
     ASSERT(control.subcontrols[0].type == UIRIBBON_CONTROL_TYPE_GROUP); \
     ASSERT(control.subcontrols[0].count_subcontrols == count);
 
-#if 0
+#if 1
 static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file, int line)
 {
     stream s;
@@ -52,7 +52,7 @@ static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file
     s.max = test->bml_len;
     s.data = (char *)test->bml_data;
 
-    error = stream_read_type_uiribbon(&s, &s, &uiribbon);
+    error = stream_read_uiribbon(&s, &s, &uiribbon);
     _ok(error == 0, "Failed to parse file", file, line);
     if (error)
         return error;
@@ -1326,7 +1326,7 @@ static int copy_from_testdata(char *name)
     s_read.max = test->bml_len;
     s_read.data = (char *)test->bml_data;
 
-    error = stream_read_type_uiribbon(&s_read, &s_read, &uiribbon);
+    error = stream_read_uiribbon(&s_read, &s_read, &uiribbon);
     ok(error == 0, "Failed to parse file");
     if (error)
         return error;
@@ -1334,11 +1334,9 @@ static int copy_from_testdata(char *name)
     s_write.allocated = 100;
     s_write.data = malloc(100);
 
-    error = stream_write_type_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN_SEQUENCE, 0);
+    error = stream_write_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN);
     ok(error == 0, "Failed to write file");
-    error = stream_write_type_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN_INSTANCE, 0);
-    ok(error == 0, "Failed to write file");
-    error = stream_write_type_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_WRITE, 0);
+    error = stream_write_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_WRITE);
     ok(error == 0, "Failed to write file");
 
     file = fopen("dump_write.bml", "wb");
@@ -1372,9 +1370,7 @@ int main()
     CHECK(test_applicationmenu());
     CHECK(test_fontcontrol());
 
-    write_test_data("simple_tabs");
     copy_from_testdata("simple_tabs");
-    return 0;
 
     return 0;
 }

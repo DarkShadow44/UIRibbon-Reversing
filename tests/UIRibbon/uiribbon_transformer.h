@@ -1,5 +1,5 @@
 #include "parser_uiribbon.h"
-#if 0
+#if 1
 typedef int bool;
 #define FALSE 0
 #define TRUE 1

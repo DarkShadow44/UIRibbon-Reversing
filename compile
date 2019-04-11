@@ -502,7 +502,7 @@ class seq_info:
 			if node_size is not None and node_type != None and node_type != 'str':
 				expr = make_expression_for_setting_size(node_size, f'stream_write_get_length(&substream_{node_id})')
 				if expr != None:
-					self.write.add_code('if (stage == STREAM_WRITE_STAGE_DRYRUN && !do_sequence)')
+					self.write.add_code('if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)')
 					self.write.indent_code_plus()
 					self.write.add_code(expr)
 					self.write.indent_code_minus()
@@ -548,7 +548,7 @@ def build_types(node):
 	return ret
 
 def main():
-	file_in = open('test_instances.ksy', 'r')
+	file_in = open('new.ksy', 'r')
 	root = yaml.safe_load(file_in)
 	file_in.close()
 
