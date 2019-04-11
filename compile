@@ -5,6 +5,7 @@
 # more comments
 
 #handle commands with repeat:eof somehow
+#comment and format generated code better
 
 import yaml
 
@@ -151,7 +152,7 @@ class type_info:
 		self.seq = seq_info()
 
 	def load(self, node):
-		self.seq.write.add_code('if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;')
+		self.seq.write.add_code('if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */')
 		for k, v in node.items():
 			if k == 'seq':
 				self.seq.load_sequences(v)
@@ -336,7 +337,7 @@ class seq_info:
 	def load_instances(self, node):
 		if len(node) > 0:
 			self.write.add_code('/* Start writing instance data */')
-			self.write.add_code('if (stage == STREAM_WRITE_STAGE_WRITE || !do_sequence)')
+			self.write.add_code('if (!do_sequence)')
 			self.write.indent_code_plus()
 		for name, value in node.items():
 			self.load_instance(name, value)
