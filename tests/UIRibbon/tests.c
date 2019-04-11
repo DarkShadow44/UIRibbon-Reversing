@@ -1403,7 +1403,7 @@ int main()
     s_read.max = size;
     s_read.data = data;
 
-    error = stream_read_type_test(&s_read, &s_read, &test);
+    error = stream_read_test(&s_read, &s_read, &test);
     ASSERT(error == 0);
 
     free(data);
@@ -1411,11 +1411,9 @@ int main()
     s_write.allocated = 100;
     s_write.data = malloc(100);
 
-    error = stream_write_type_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_DRYRUN_SEQUENCE, 0);
+    error = stream_write_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_DRYRUN);
     ok(error == 0, "Failed to write file");
-    error = stream_write_type_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_DRYRUN_INSTANCE, 0);
-    ok(error == 0, "Failed to write file");
-    error = stream_write_type_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_WRITE, 0);
+    error = stream_write_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_WRITE);
     ok(error == 0, "Failed to write file");
 
     file = fopen("dump_write.bml", "wb");

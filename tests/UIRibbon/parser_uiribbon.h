@@ -28,12 +28,32 @@ typedef struct type_t2_
 	uint8_t unk2;
 } type_t2;
 
+typedef struct type_t5_
+{
+	int _dryrun_pos;
+	uint8_t unk1;
+	uint16_t pos1;
+	uint16_t pos2;
+	int _dryrun_pos_instance_i3;
+	struct type_t6_ *i3;
+	int _dryrun_pos_instance_i4;
+	struct type_t6_ *i4;
+} type_t5;
+
 typedef struct type_t4_
 {
 	int _dryrun_pos;
 	uint8_t unk1;
+	type_t5 sub3;
 	uint8_t unk2;
 } type_t4;
+
+typedef struct type_t6_
+{
+	int _dryrun_pos;
+	uint8_t unk1;
+	uint8_t unk2;
+} type_t6;
 
 typedef struct type_test_
 {
@@ -43,5 +63,5 @@ typedef struct type_test_
 	uint8_t unk2;
 } type_test;
 
-int stream_read_type_test(stream *s_root, stream *s, type_test *data);
-int stream_write_type_test(stream *s_root, stream *s, type_test *data, stream_write_stage stage, BOOL from_instance);
+int stream_read_test(stream *s_root, stream *s, type_test *data);
+int stream_write_test(stream *s_root, stream *s, type_test *data, stream_write_stage stage);

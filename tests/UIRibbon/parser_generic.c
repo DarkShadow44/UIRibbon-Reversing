@@ -136,7 +136,7 @@ static void stream_update_pos(stream *s, int offset_pos)
     }
 }
 
-int stream_write_bytes(stream *s, const void *data, int length, stream_write_stage stage, BOOL from_instance)
+int stream_write_bytes(stream *s, const void *data, int length, stream_write_stage stage, BOOL do_sequence)
 {
     if (stage == STREAM_WRITE_STAGE_WRITE)
     {
@@ -150,7 +150,7 @@ int stream_write_bytes(stream *s, const void *data, int length, stream_write_sta
         memcpy(s->data + s->start + s->pos, data, length);
     }
 
-    if ((from_instance && stage != STREAM_WRITE_STAGE_DRYRUN_SEQUENCE) || (!from_instance && stage != STREAM_WRITE_STAGE_DRYRUN_INSTANCE))
+    if (stage == STREAM_WRITE_STAGE_WRITE || do_sequence)
     {
          stream_update_pos(s, length);
     }
@@ -158,32 +158,32 @@ int stream_write_bytes(stream *s, const void *data, int length, stream_write_sta
     return 0;
 }
 
-int stream_write_uint32_t(stream *s_root, stream *s, uint32_t *data, stream_write_stage stage, BOOL from_instance)
+int stream_write_uint32_t(stream *s_root, stream *s, uint32_t *data, stream_write_stage stage, BOOL do_sequence)
 {
-    return stream_write_bytes(s, data, 4, stage, from_instance);
+    return stream_write_bytes(s, data, 4, stage, do_sequence);
 }
 
-int stream_write_uint16_t(stream *s_root, stream *s, uint16_t *data, stream_write_stage stage, BOOL from_instance)
+int stream_write_uint16_t(stream *s_root, stream *s, uint16_t *data, stream_write_stage stage, BOOL do_sequence)
 {
-     return stream_write_bytes(s, data, 2, stage, from_instance);
+     return stream_write_bytes(s, data, 2, stage, do_sequence);
 }
 
-int stream_write_uint8_t(stream *s_root, stream *s, uint8_t *data, stream_write_stage stage, BOOL from_instance)
+int stream_write_uint8_t(stream *s_root, stream *s, uint8_t *data, stream_write_stage stage, BOOL do_sequence)
 {
-     return stream_write_bytes(s, data, 1, stage, from_instance);
+     return stream_write_bytes(s, data, 1, stage, do_sequence);
 }
 
-int stream_write_int32_t(stream *s_root, stream *s, int32_t *data, stream_write_stage stage, BOOL from_instance)
+int stream_write_int32_t(stream *s_root, stream *s, int32_t *data, stream_write_stage stage, BOOL do_sequence)
 {
-     return stream_write_bytes(s, data, 4, stage, from_instance);
+     return stream_write_bytes(s, data, 4, stage, do_sequence);
 }
 
-int stream_write_int16_t(stream *s_root, stream *s, int16_t *data, stream_write_stage stage, BOOL from_instance)
+int stream_write_int16_t(stream *s_root, stream *s, int16_t *data, stream_write_stage stage, BOOL do_sequence)
 {
-     return stream_write_bytes(s, data, 2, stage, from_instance);
+     return stream_write_bytes(s, data, 2, stage, do_sequence);
 }
 
-int stream_write_int8_t(stream *s_root, stream *s, int8_t *data, stream_write_stage stage, BOOL from_instance)
+int stream_write_int8_t(stream *s_root, stream *s, int8_t *data, stream_write_stage stage, BOOL do_sequence)
 {
-     return stream_write_bytes(s, data, 1, stage, from_instance);
+     return stream_write_bytes(s, data, 1, stage, do_sequence);
 }
