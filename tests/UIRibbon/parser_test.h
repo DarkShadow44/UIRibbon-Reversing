@@ -63,5 +63,5 @@ typedef struct type_test_
 	uint8_t unk2;
 } type_test;
 
-int stream_read_test(stream *s_root, stream *s, type_test *data);
-int stream_write_test(stream *s_root, stream *s, type_test *data, stream_write_stage stage);
+int stream_read_test(stream *s, type_test *data);
+int stream_write_test(stream *s, type_test *data, stream_write_stage stage);

@@ -50,7 +50,7 @@ static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file
 
     s = create_read_stream(test->bml_data, test->bml_len);
 
-    error = stream_read_uiribbon(s, s, &uiribbon);
+    error = stream_read_uiribbon(s, &uiribbon);
     destroy_read_stream(s);
     _ok(error == 0, "Failed to parse file", file, line);
     if (error)
@@ -1324,7 +1324,7 @@ static int copy_from_testdata(char *name)
 
     s_read = create_read_stream(test->bml_data, test->bml_len);
 
-    error = stream_read_uiribbon(s_read, s_read, &uiribbon);
+    error = stream_read_uiribbon(s_read, &uiribbon);
     destroy_read_stream(s_read);
     ok(error == 0, "Failed to parse file");
     if (error)
@@ -1332,9 +1332,9 @@ static int copy_from_testdata(char *name)
 
     s_write = create_write_stream();
 
-    error = stream_write_uiribbon(s_write, s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN);
+    error = stream_write_uiribbon(s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN);
     ok(error == 0, "Failed to write file");
-    error = stream_write_uiribbon(s_write, s_write, &uiribbon, STREAM_WRITE_STAGE_WRITE);
+    error = stream_write_uiribbon(s_write, &uiribbon, STREAM_WRITE_STAGE_WRITE);
     ok(error == 0, "Failed to write file");
 
     file = fopen("dump_write.bml", "wb");
@@ -1357,15 +1357,15 @@ int instance_test()
     FILE *file;
 
     s_read = create_read_stream(data_test, sizeof(data_test));
-    error = stream_read_test(s_read, s_read, &test);
+    error = stream_read_test(s_read, &test);
     destroy_read_stream(s_read);
     ASSERT(error == 0);
 
     s_write = create_write_stream();
 
-    error = stream_write_test(s_write, s_write, &test, STREAM_WRITE_STAGE_DRYRUN);
+    error = stream_write_test(s_write, &test, STREAM_WRITE_STAGE_DRYRUN);
     ok(error == 0, "Failed to write file");
-    error = stream_write_test(s_write, s_write, &test, STREAM_WRITE_STAGE_WRITE);
+    error = stream_write_test(s_write, &test, STREAM_WRITE_STAGE_WRITE);
     ok(error == 0, "Failed to write file");
 
     file = fopen("dump_test_instance.bml", "wb");

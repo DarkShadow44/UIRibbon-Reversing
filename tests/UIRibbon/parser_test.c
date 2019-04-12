@@ -312,13 +312,13 @@ int stream_write_type_test(stream *s_root, stream *s, type_test *data, stream_wr
 	return 0;
 }
 
-int stream_read_test(stream *s_root, stream *s, type_test *data)
+int stream_read_test(stream *s, type_test *data)
 {
-	return stream_read_type_test(s_root, s, data);
+	return stream_read_type_test(s, s, data);
 }
-int stream_write_test(stream *s_root, stream *s, type_test *data, stream_write_stage stage)
+int stream_write_test(stream *s, type_test *data, stream_write_stage stage)
 {
-	CHECK(stream_write_type_test(s_root, s, data, stage, TRUE));
-	CHECK(stream_write_type_test(s_root, s, data, stage, FALSE));
+	CHECK(stream_write_type_test(s, s, data, stage, TRUE));
+	CHECK(stream_write_type_test(s, s, data, stage, FALSE));
 	return 0;
 }

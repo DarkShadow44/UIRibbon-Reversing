@@ -618,8 +618,8 @@ def main():
 			header.append(f'}} {enum.name};\n\n')
 	for type in types:
 		write_struct(header, type.name, type.seq)
-	header.append(f'int stream_read_{meta_id}(stream *s_root, stream *s, {main_type} *data);\n')
-	header.append(f'int stream_write_{meta_id}(stream *s_root, stream *s, {main_type} *data, stream_write_stage stage);\n')
+	header.append(f'int stream_read_{meta_id}(stream *s, {main_type} *data);\n')
+	header.append(f'int stream_write_{meta_id}(stream *s, {main_type} *data, stream_write_stage stage);\n')
 
 
 	source.append('/* This file is generated - Do not edit manually */\n\n')
@@ -632,14 +632,14 @@ def main():
 		write_method(source, type.name, type.seq.read, True)
 		write_method(source, type.name, type.seq.write, False)
 
-	source.append(f'int stream_read_{meta_id}(stream *s_root, stream *s, {main_type} *data)\n')
+	source.append(f'int stream_read_{meta_id}(stream *s, {main_type} *data)\n')
 	source.append('{\n')
-	source.append(f'\treturn stream_read_{main_type}(s_root, s, data);\n')
+	source.append(f'\treturn stream_read_{main_type}(s, s, data);\n')
 	source.append('}\n')
-	source.append(f'int stream_write_{meta_id}(stream *s_root, stream *s, { type.name} *data, stream_write_stage stage)\n')
+	source.append(f'int stream_write_{meta_id}(stream *s, { type.name} *data, stream_write_stage stage)\n')
 	source.append('{\n')
-	source.append(f'\tCHECK(stream_write_{main_type}(s_root, s, data, stage, TRUE));\n')
-	source.append(f'\tCHECK(stream_write_{main_type}(s_root, s, data, stage, FALSE));\n')
+	source.append(f'\tCHECK(stream_write_{main_type}(s, s, data, stage, TRUE));\n')
+	source.append(f'\tCHECK(stream_write_{main_type}(s, s, data, stage, FALSE));\n')
 	source.append('\treturn 0;\n')
 	source.append('}\n')
 

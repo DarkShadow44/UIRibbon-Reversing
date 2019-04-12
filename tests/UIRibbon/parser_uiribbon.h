@@ -463,5 +463,5 @@ typedef struct type_uiribbon_
 	application_views unk6;
 } type_uiribbon;
 
-int stream_read_uiribbon(stream *s_root, stream *s, type_uiribbon *data);
-int stream_write_uiribbon(stream *s_root, stream *s, type_uiribbon *data, stream_write_stage stage);
+int stream_read_uiribbon(stream *s, type_uiribbon *data);
+int stream_write_uiribbon(stream *s, type_uiribbon *data, stream_write_stage stage);

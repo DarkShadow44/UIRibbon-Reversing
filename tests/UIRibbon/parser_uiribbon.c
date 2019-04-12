@@ -1468,13 +1468,13 @@ int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, s
 	return 0;
 }
 
-int stream_read_uiribbon(stream *s_root, stream *s, type_uiribbon *data)
+int stream_read_uiribbon(stream *s, type_uiribbon *data)
 {
-	return stream_read_type_uiribbon(s_root, s, data);
+	return stream_read_type_uiribbon(s, s, data);
 }
-int stream_write_uiribbon(stream *s_root, stream *s, type_uiribbon *data, stream_write_stage stage)
+int stream_write_uiribbon(stream *s, type_uiribbon *data, stream_write_stage stage)
 {
-	CHECK(stream_write_type_uiribbon(s_root, s, data, stage, TRUE));
-	CHECK(stream_write_type_uiribbon(s_root, s, data, stage, FALSE));
+	CHECK(stream_write_type_uiribbon(s, s, data, stage, TRUE));
+	CHECK(stream_write_type_uiribbon(s, s, data, stage, FALSE));
 	return 0;
 }
