@@ -6,9 +6,11 @@
 
 #handle commands with repeat:eof somehow
 #comment and format generated code better
+#free generator
 
 import yaml
 import sys
+from enum import Enum
 
 def get_type_identifier(type):
 	switch = {
@@ -130,11 +132,18 @@ def write_struct(sb, name, seq):
 		sb.append(line + '\n')
 	sb.append(f'}} {name};\n\n')
 
-def write_method(sb, name, code, is_read):
-	if is_read:
+class method_type(Enum):
+	READ = 1
+	WRITE = 2
+	FREE = 3
+
+def write_method(sb, name, code, type):
+	if type == method_type.READ:
 		sb.append(f'int stream_read_{name}(stream *s_root, stream *s, {name} *data)\n')
-	else:
+	elif type == method_type.WRITE:
 		sb.append(f'int stream_write_{name}(stream *s_root, stream *s, {name} *data, stream_write_stage stage, BOOL do_sequence)\n')
+	elif type == method_type.FREE:
+		sb.append(f'void stream_free_{name}({name} *data)\n')
 	sb.append('{\n')
 	for line in code.lines_var:
 		sb.append(line + '\n')
@@ -144,7 +153,8 @@ def write_method(sb, name, code, is_read):
 		sb.append('\n')
 	for line in code.lines_code:
 		sb.append(line + '\n')
-	sb.append('\treturn 0;\n')
+	if type != method_type.FREE:
+		sb.append('\treturn 0;\n')
 	sb.append('}\n\n')
 
 class type_info:
@@ -215,6 +225,7 @@ class seq_info:
 	def __init__(self):
 		self.read = code_info()
 		self.write = code_info()
+		self.free = code_info()
 		self.lines_struct = []
 		self.dependencies = []
 		self.indent_struct = 1
@@ -222,10 +233,12 @@ class seq_info:
 	def add_code(self, str):
 		self.read.add_code(str)
 		self.write.add_code(str)
+		self.free.add_code(str)
 
 	def add_var(self, str):
 		self.read.add_var(str)
 		self.write.add_var(str)
+		self.free.add_var(str)
 
 	def add_struct(self, str):
 		tabs = '\t' * self.indent_struct
@@ -242,14 +255,17 @@ class seq_info:
 	def indent_code_plus(self):
 		self.read.indent_code_plus();
 		self.write.indent_code_plus();
+		self.free.indent_code_plus();
 
 	def indent_code_minus(self):
 		self.read.indent_code_minus();
 		self.write.indent_code_minus();
+		self.free.indent_code_minus();
 
 	def add_i(self):
 		self.read.add_i()
 		self.write.add_i()
+		self.free.add_i()
 
 	def indent_struct_plus(self):
 		self.add_struct('{')
@@ -322,7 +338,8 @@ class seq_info:
 			self.indent_code_plus()
 
 		self.add_struct(f'struct {node_type}_ *{instance_name};')
-		self.add_var(f'stream substream_instance_{instance_name};')
+		self.read.add_var(f'stream substream_instance_{instance_name};')
+		self.write.add_var(f'stream substream_instance_{instance_name};')
 		self.read.add_code(f'CHECK(stream_read_make_substream_instance(s_root, &substream_instance_{instance_name}, ({node_pos}), s_root->max - ({node_pos})));')
 
 		if node_condition == None:
@@ -620,6 +637,7 @@ def main():
 		write_struct(header, type.name, type.seq)
 	header.append(f'int stream_read_{meta_id}(stream *s, {main_type} *data);\n')
 	header.append(f'int stream_write_{meta_id}(stream *s, {main_type} *data, stream_write_stage stage);\n')
+	header.append(f'void stream_free_{meta_id}({main_type} *data);\n')
 
 
 	source.append('/* This file is generated - Do not edit manually */\n\n')
@@ -627,20 +645,25 @@ def main():
 	for type in types:
 		source.append(f'int stream_read_{type.name}(stream *s_root, stream *s, { type.name} *data);\n')
 		source.append(f'int stream_write_{type.name}(stream *s_root, stream *s, { type.name} *data, stream_write_stage stage, BOOL do_sequence);\n')
+		source.append(f'void stream_free_{type.name}({ type.name} *data);\n')
 	source.append('\n')
 	for type in types:
-		write_method(source, type.name, type.seq.read, True)
-		write_method(source, type.name, type.seq.write, False)
-
+		write_method(source, type.name, type.seq.read, method_type.READ)
+		write_method(source, type.name, type.seq.write, method_type.WRITE)
+		write_method(source, type.name, type.seq.free, method_type.FREE)
 	source.append(f'int stream_read_{meta_id}(stream *s, {main_type} *data)\n')
 	source.append('{\n')
 	source.append(f'\treturn stream_read_{main_type}(s, s, data);\n')
-	source.append('}\n')
+	source.append('}\n\n')
 	source.append(f'int stream_write_{meta_id}(stream *s, { type.name} *data, stream_write_stage stage)\n')
 	source.append('{\n')
 	source.append(f'\tCHECK(stream_write_{main_type}(s, s, data, stage, TRUE));\n')
 	source.append(f'\tCHECK(stream_write_{main_type}(s, s, data, stage, FALSE));\n')
 	source.append('\treturn 0;\n')
+	source.append('}\n\n')
+	source.append(f'void stream_free_{meta_id}({ type.name} *data)\n')
+	source.append('{\n')
+	source.append(f'\tstream_free_{main_type}(data);\n')
 	source.append('}\n')
 
 	file_header = open(f'./tests/UIRibbon/parser_{meta_id}.h', 'w')

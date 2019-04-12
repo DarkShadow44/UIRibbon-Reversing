@@ -1374,6 +1374,8 @@ int instance_test()
     fclose(file);
     destroy_write_stream(s_write);
 
+    stream_free_test(&test);
+
     return 0;
 }
 

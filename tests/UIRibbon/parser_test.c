@@ -4,18 +4,25 @@
 
 int stream_read_type_t1(stream *s_root, stream *s, type_t1 *data);
 int stream_write_type_t1(stream *s_root, stream *s, type_t1 *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_t1(type_t1 *data);
 int stream_read_type_t3(stream *s_root, stream *s, type_t3 *data);
 int stream_write_type_t3(stream *s_root, stream *s, type_t3 *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_t3(type_t3 *data);
 int stream_read_type_t2(stream *s_root, stream *s, type_t2 *data);
 int stream_write_type_t2(stream *s_root, stream *s, type_t2 *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_t2(type_t2 *data);
 int stream_read_type_t5(stream *s_root, stream *s, type_t5 *data);
 int stream_write_type_t5(stream *s_root, stream *s, type_t5 *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_t5(type_t5 *data);
 int stream_read_type_t4(stream *s_root, stream *s, type_t4 *data);
 int stream_write_type_t4(stream *s_root, stream *s, type_t4 *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_t4(type_t4 *data);
 int stream_read_type_t6(stream *s_root, stream *s, type_t6 *data);
 int stream_write_type_t6(stream *s_root, stream *s, type_t6 *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_t6(type_t6 *data);
 int stream_read_type_test(stream *s_root, stream *s, type_test *data);
 int stream_write_type_test(stream *s_root, stream *s, type_test *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_test(type_test *data);
 
 int stream_read_type_t1(stream *s_root, stream *s, type_t1 *data)
 {
@@ -70,6 +77,10 @@ int stream_write_type_t1(stream *s_root, stream *s, type_t1 *data, stream_write_
 		CHECK(stream_write_type_t2(s_root, &substream_instance_i1, data->i1, stage, FALSE));
 	}
 	return 0;
+}
+
+void stream_free_type_t1(type_t1 *data)
+{
 }
 
 int stream_read_type_t3(stream *s_root, stream *s, type_t3 *data)
@@ -127,6 +138,10 @@ int stream_write_type_t3(stream *s_root, stream *s, type_t3 *data, stream_write_
 	return 0;
 }
 
+void stream_free_type_t3(type_t3 *data)
+{
+}
+
 int stream_read_type_t2(stream *s_root, stream *s, type_t2 *data)
 {
 	CHECK(stream_read_uint8_t(s_root, s, &data->unk1));
@@ -150,6 +165,10 @@ int stream_write_type_t2(stream *s_root, stream *s, type_t2 *data, stream_write_
 	CHECK(stream_write_type_t3(s_root, s, &data->sub2, stage, do_sequence));
 	CHECK(stream_write_uint8_t(s_root, s, &data->unk2, stage, do_sequence));
 	return 0;
+}
+
+void stream_free_type_t2(type_t2 *data)
+{
 }
 
 int stream_read_type_t5(stream *s_root, stream *s, type_t5 *data)
@@ -235,6 +254,10 @@ int stream_write_type_t5(stream *s_root, stream *s, type_t5 *data, stream_write_
 	return 0;
 }
 
+void stream_free_type_t5(type_t5 *data)
+{
+}
+
 int stream_read_type_t4(stream *s_root, stream *s, type_t4 *data)
 {
 	CHECK(stream_read_uint8_t(s_root, s, &data->unk1));
@@ -260,6 +283,10 @@ int stream_write_type_t4(stream *s_root, stream *s, type_t4 *data, stream_write_
 	return 0;
 }
 
+void stream_free_type_t4(type_t4 *data)
+{
+}
+
 int stream_read_type_t6(stream *s_root, stream *s, type_t6 *data)
 {
 	CHECK(stream_read_uint8_t(s_root, s, &data->unk1));
@@ -281,6 +308,10 @@ int stream_write_type_t6(stream *s_root, stream *s, type_t6 *data, stream_write_
 	CHECK(stream_write_uint8_t(s_root, s, &data->unk1, stage, do_sequence));
 	CHECK(stream_write_uint8_t(s_root, s, &data->unk2, stage, do_sequence));
 	return 0;
+}
+
+void stream_free_type_t6(type_t6 *data)
+{
 }
 
 int stream_read_type_test(stream *s_root, stream *s, type_test *data)
@@ -312,13 +343,23 @@ int stream_write_type_test(stream *s_root, stream *s, type_test *data, stream_wr
 	return 0;
 }
 
+void stream_free_type_test(type_test *data)
+{
+}
+
 int stream_read_test(stream *s, type_test *data)
 {
 	return stream_read_type_test(s, s, data);
 }
+
 int stream_write_test(stream *s, type_test *data, stream_write_stage stage)
 {
 	CHECK(stream_write_type_test(s, s, data, stage, TRUE));
 	CHECK(stream_write_type_test(s, s, data, stage, FALSE));
 	return 0;
+}
+
+void stream_free_test(type_test *data)
+{
+	stream_free_type_test(data);
 }

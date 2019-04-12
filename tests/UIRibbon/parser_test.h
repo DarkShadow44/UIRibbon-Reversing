@@ -65,3 +65,4 @@ typedef struct type_test_
 
 int stream_read_test(stream *s, type_test *data);
 int stream_write_test(stream *s, type_test *data, stream_write_stage stage);
+void stream_free_test(type_test *data);
