@@ -318,4 +318,5 @@ typedef struct
     uiribbon_applicationmenu applicationmenu;
 } uiribbon_main;
 
-void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret);
+void uiribbon_transform(type_uiribbon *src, uiribbon_main *ret);
+void uiribbon_free(uiribbon_main *src);

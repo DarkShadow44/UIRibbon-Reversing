@@ -6,7 +6,6 @@
 
 #handle commands with repeat:eof somehow
 #comment and format generated code better
-#free generator
 
 import yaml
 import sys

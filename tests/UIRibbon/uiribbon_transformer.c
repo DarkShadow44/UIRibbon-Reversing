@@ -634,6 +634,31 @@ void transform_sizedefinition_order(type_uiribbon *root, type_sizedefinition_ord
     }
 }
 
+
+void transform_sizedefinition_orders(type_uiribbon *root, enum_control_block_type_special type, type_sizedefinition_order *src, uiribbon_group *ret_group)
+{
+    if (!ret_group->sizedefinition_orders)
+    {
+        ret_group->sizedefinition_orders = malloc(sizeof(uiribbon_sizedefinitions_orders));
+        memset(ret_group->sizedefinition_orders, 0, sizeof(uiribbon_sizedefinitions_orders));
+    }
+
+    switch (type)
+    {
+    case ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE:
+        transform_sizedefinition_order(root, src, &ret_group->sizedefinition_orders->large);
+        break;
+    case ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM:
+        transform_sizedefinition_order(root, src, &ret_group->sizedefinition_orders->medium);
+        break;
+    case ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL:
+       transform_sizedefinition_order(root, src, &ret_group->sizedefinition_orders->small);
+        break;
+    default:
+        break;
+    }
+}
+
 /* Skip over useless group inside tab group */
 void transform_subcontrols_group(type_uiribbon *root, type_subcontrols *src_block, uiribbon_group *ret_group)
 {
@@ -647,25 +672,15 @@ void transform_subcontrols_group(type_uiribbon *root, type_subcontrols *src_bloc
         int meta_type = src_block->subcontrols[0].blocks.blocks[i].meta_type;
         if (meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
         {
-             switch (src_block_special->block_type)
+            switch (src_block_special->block_type)
             {
             case ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS:
                 transform_subcontrols(root, &src_block_special->content_subcontrols, &ret_group->count_controls, &ret_group->controls);
                 break;
             case ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE:
-                if (!ret_group->sizedefinition_orders)
-                    ret_group->sizedefinition_orders = malloc(sizeof(uiribbon_sizedefinitions_orders));
-                transform_sizedefinition_order (root, &src_block_special->sizedefinition_order, &ret_group->sizedefinition_orders->large);
-                break;
             case ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM:
-                if (!ret_group->sizedefinition_orders)
-                    ret_group->sizedefinition_orders = malloc(sizeof(uiribbon_sizedefinitions_orders));
-                transform_sizedefinition_order (root, &src_block_special->sizedefinition_order, &ret_group->sizedefinition_orders->medium);
-                break;
             case ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL:
-                if (!ret_group->sizedefinition_orders)
-                    ret_group->sizedefinition_orders = malloc(sizeof(uiribbon_sizedefinitions_orders));
-                transform_sizedefinition_order (root, &src_block_special->sizedefinition_order, &ret_group->sizedefinition_orders->small);
+                transform_sizedefinition_orders(root, src_block_special->block_type, &src_block_special->sizedefinition_order, ret_group);
                 break;
             default:
                 break;
@@ -922,6 +937,10 @@ void transform_command_resources(int command_id, type_uiribbon *src, uiribbon_co
     ret_command->count_images_small = 0;
     ret_command->count_images_large_high_contrast = 0;
     ret_command->count_images_small_high_contrast = 0;
+    ret_command->images_small = NULL;
+    ret_command->images_large = NULL;
+    ret_command->images_small_high_contrast = NULL;
+    ret_command->images_large_high_contrast = NULL;
 
     for (i = 0; i < src->count_command_resources; i++)
     {
@@ -1233,9 +1252,11 @@ static void transform_applicationmenu(type_uiribbon *root, type_subcontrols *src
 
 }
 
-void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
+void uiribbon_transform(type_uiribbon *src, uiribbon_main *ret)
 {
     int i;
+
+    memset(ret, 0, sizeof(uiribbon_main));
 
     transform_commands(src, ret);
 
@@ -1265,4 +1286,136 @@ void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
             }
         }
     }
+}
+
+void free_command(uiribbon_command *src)
+{
+    free(src->images_small);
+    free(src->images_large);
+    free(src->images_small_high_contrast);
+    free(src->images_large_high_contrast);
+}
+
+void free_control(uiribbon_control *src)
+{
+    int i;
+
+    free(src->size_definitions);
+
+    for (i = 0; i < src->count_subcontrols; i++)
+    {
+        free_control(&src->subcontrols[i]);
+    }
+    free(src->subcontrols);
+
+    if (src->type == UIRIBBON_CONTROL_TYPE_SPLITBUTTON)
+    {
+        free_control(src->control_info.splitbutton.buttonitem);
+        free(src->control_info.splitbutton.buttonitem);
+    }
+}
+
+void free_sizedefinition_orders(uiribbon_sizedefinitions_orders *src)
+{
+    if (!src)
+        return;
+    free(src->small.orders);
+    free(src->medium.orders);
+    free(src->large.orders);
+}
+
+void free_group(uiribbon_group *src)
+{
+    int i;
+
+    for(i = 0; i < src->count_controls; i++)
+    {
+        free_control(&src->controls[i]);
+    }
+    free(src->controls);
+
+    free_sizedefinition_orders(src->sizedefinition_orders);
+    free(src->sizedefinition_orders);
+}
+
+void free_tab(uiribbon_tab *src)
+{
+    int i;
+
+    for (i = 0; i < src->count_groups; i++)
+    {
+        free_group(&src->groups[i]);
+    }
+    free(src->groups);
+    free(src->scalepolicies);
+}
+
+void free_tabgroup(uiribbon_tabgroup *src)
+{
+    int i;
+
+    for (i = 0; i < src->count_tabs; i++)
+    {
+        free_tab(&src->tabs[i]);
+    }
+    free(src->tabs);
+}
+
+void free_menugroup(uiribbon_menugroup *src)
+{
+    int i;
+
+    for (i = 0; i < src->count_controls; i++)
+    {
+        free_control(&src->controls[i]);
+    }
+    free(src->controls);
+}
+
+void free_menugroup_container(uiribbon_menugroup_container *src)
+{
+    int i;
+
+    for (i = 0; i < src->count_menugroups; i++)
+    {
+        free_menugroup(&src->menugroups[i]);
+    }
+    free(src->menugroups);
+}
+
+void free_contextmap(uiribbon_contextmap *src)
+{
+    free_menugroup_container(&src->contextpopup);
+    free_menugroup_container(&src->minitoolbar);
+}
+
+void uiribbon_free(uiribbon_main *src)
+{
+    int i;
+
+    for (i = 0; i < src->count_commands; i++)
+    {
+        free_command(&src->commands[i]);
+    }
+    free(src->commands);
+
+    for (i = 0; i < src->count_tabs; i++)
+    {
+        free_tab(&src->tabs[i]);
+    }
+    free(src->tabs);
+
+    for (i = 0; i < src->count_contexttabgroups; i++)
+    {
+        free_tabgroup(&src->contexttabgroups[i]);
+    }
+    free(src->contexttabgroups);
+
+    for (i = 0; i < src->count_contextmaps; i++)
+    {
+        free_contextmap(&src->contextmaps[i]);
+    }
+    free(src->contextmaps);
+
+    free_menugroup_container(&src->applicationmenu.menugroups);
 }

@@ -56,7 +56,7 @@ static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file
     if (error)
         return error;
 
-    transform_uiribbon(&uiribbon, ret);
+    uiribbon_transform(&uiribbon, ret);
     stream_free_uiribbon(&uiribbon);
     return error;
 }
@@ -90,6 +90,7 @@ static int test_simple(void)
             ASSERT(group->controls[1].type == UIRIBBON_CONTROL_TYPE_BUTTON);
         }
     }
+    uiribbon_free(&uiribbon);
 
     CHECK(parse_from_testdata("simple_contexttabs", &uiribbon));
     ASSERT(uiribbon.count_contexttabgroups == 2);
@@ -118,6 +119,7 @@ static int test_simple(void)
         }
     }
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -131,7 +133,6 @@ static int test_sizeinfo(void)
     /* Size */
 
     CHECK(parse_from_testdata("sizeinfo_size_largetosmall__small_small_small", &uiribbon));
-
     ASSERT(uiribbon.count_tabs == 1);
     ASSERT(uiribbon.tabs[0].count_groups == 1);
     ASSERT(uiribbon.tabs[0].groups[0].count_controls == 1);
@@ -142,6 +143,7 @@ static int test_sizeinfo(void)
     ASSERT(control->size_definitions->large.sizeLarge == 0);
     ASSERT(control->size_definitions->medium.sizeLarge == 0);
     ASSERT(control->size_definitions->small.sizeLarge == 0);
+    uiribbon_free(&uiribbon);
 
     CHECK(parse_from_testdata("sizeinfo_size_largetosmall__large_small_small", &uiribbon));
     ASSERT(uiribbon.count_tabs == 1);
@@ -154,6 +156,7 @@ static int test_sizeinfo(void)
     ASSERT(control->size_definitions->large.sizeLarge == 1);
     ASSERT(control->size_definitions->medium.sizeLarge == 0);
     ASSERT(control->size_definitions->small.sizeLarge == 0);
+    uiribbon_free(&uiribbon);
 
     CHECK(parse_from_testdata("sizeinfo_size_largetosmall__large_large_small", &uiribbon));
     ASSERT(uiribbon.count_tabs == 1);
@@ -166,6 +169,7 @@ static int test_sizeinfo(void)
     ASSERT(control->size_definitions->large.sizeLarge == 1);
     ASSERT(control->size_definitions->medium.sizeLarge == 1);
     ASSERT(control->size_definitions->small.sizeLarge == 0);
+    uiribbon_free(&uiribbon);
 
     CHECK(parse_from_testdata("sizeinfo_size_largetosmall__large_large_large", &uiribbon));
     ASSERT(uiribbon.count_tabs == 1);
@@ -178,6 +182,7 @@ static int test_sizeinfo(void)
     ASSERT(control->size_definitions->large.sizeLarge == 1);
     ASSERT(control->size_definitions->medium.sizeLarge == 1);
     ASSERT(control->size_definitions->small.sizeLarge == 1);
+    uiribbon_free(&uiribbon);
 
     /* LabelVisible */
 
@@ -192,6 +197,7 @@ static int test_sizeinfo(void)
     ASSERT(control->size_definitions->large.labelvisible == 0);
     ASSERT(control->size_definitions->medium.labelvisible == 0);
     ASSERT(control->size_definitions->small.labelvisible == 0);
+    uiribbon_free(&uiribbon);
 
     CHECK(parse_from_testdata("sizeinfo_label_largetosmall__labelvisible_labelhidden_labelhidden", &uiribbon));
     ASSERT(uiribbon.count_tabs == 1);
@@ -204,6 +210,7 @@ static int test_sizeinfo(void)
     ASSERT(control->size_definitions->large.labelvisible == 1);
     ASSERT(control->size_definitions->medium.labelvisible == 0);
     ASSERT(control->size_definitions->small.labelvisible == 0);
+    uiribbon_free(&uiribbon);
 
     CHECK(parse_from_testdata("sizeinfo_label_largetosmall__labelvisible_labelvisible_labelhidden", &uiribbon));
     ASSERT(uiribbon.count_tabs == 1);
@@ -216,6 +223,7 @@ static int test_sizeinfo(void)
     ASSERT(control->size_definitions->large.labelvisible == 1);
     ASSERT(control->size_definitions->medium.labelvisible == 1);
     ASSERT(control->size_definitions->small.labelvisible == 0);
+    uiribbon_free(&uiribbon);
 
     CHECK(parse_from_testdata("sizeinfo_label_largetosmall__labelvisible_labelvisible_labelvisible", &uiribbon));
     ASSERT(uiribbon.count_tabs == 1);
@@ -228,6 +236,7 @@ static int test_sizeinfo(void)
     ASSERT(control->size_definitions->large.labelvisible == 1);
     ASSERT(control->size_definitions->medium.labelvisible == 1);
     ASSERT(control->size_definitions->small.labelvisible == 1);
+    uiribbon_free(&uiribbon);
 
     /* ImageVisible */
     CHECK(parse_from_testdata("sizeinfo_image_largetosmall__imagehidden_imagehidden_imagehidden", &uiribbon));
@@ -241,6 +250,7 @@ static int test_sizeinfo(void)
     ASSERT(control->size_definitions->large.imagevisible == 0);
     ASSERT(control->size_definitions->medium.imagevisible == 0);
     ASSERT(control->size_definitions->small.imagevisible == 0);
+    uiribbon_free(&uiribbon);
 
     CHECK(parse_from_testdata("sizeinfo_image_largetosmall__imagevisible_imagevisible_imagevisible", &uiribbon));
     ASSERT(uiribbon.count_tabs == 1);
@@ -253,6 +263,7 @@ static int test_sizeinfo(void)
     ASSERT(control->size_definitions->large.imagevisible == 1);
     ASSERT(control->size_definitions->medium.imagevisible == 1);
     ASSERT(control->size_definitions->small.imagevisible == 1);
+    uiribbon_free(&uiribbon);
 
     /* Order */
 
@@ -309,6 +320,7 @@ static int test_sizeinfo(void)
     ASSERT(!orders[10].is_special && orders[10].command_id == 10002);
     ASSERT(orders[11].is_special && orders[11].special_command == UIRIBBON_SIZEINFO_ORDER_BREAK);
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -354,6 +366,7 @@ static int test_commands(void)
     ASSERT(command->images_small_high_contrast[0].id_image == 20006);
     ASSERT(command->images_small_high_contrast[0].min_dpi == 96);
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -406,6 +419,7 @@ static int test_scalingpolicy(void)
 
     #undef ASSERT_SCALING
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -446,6 +460,8 @@ static int test_combobox(void)
     ASSERT(controls[5].control_info.combobox.has_autocomplete == FALSE);
     ASSERT(controls[5].control_info.combobox.has_vertical_resize == TRUE);
     ASSERT(controls[6].type == UIRIBBON_CONTROL_TYPE_BUTTON);
+
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -465,6 +481,8 @@ static int test_checkbox_and_togglebutton(void)
     ASSERT(controls[2].type == UIRIBBON_CONTROL_TYPE_TOGGLEBUTTON);
     ASSERT(controls[2].id == 10003);
     ASSERT(controls[3].type == UIRIBBON_CONTROL_TYPE_BUTTON);
+
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -513,6 +531,7 @@ static int test_dropdownbutton(void)
         ASSERT(controls[i].id == 10005);
     }
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -571,6 +590,7 @@ static int test_dropdowncolorpicker(void)
 
     #undef ASSERT_COLORPICKER
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -691,6 +711,7 @@ static int test_dropdowngallery(void)
 
     #undef ASSERT_GALLERY
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -829,6 +850,7 @@ static int test_inribbongallery(void)
 
     #undef ASSERT_GALLERY
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -947,6 +969,7 @@ static int test_splitbuttongallery(void)
 
     #undef ASSERT_GALLERY
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -964,6 +987,8 @@ static int test_spinner(void)
     ASSERT(controls[1].type == UIRIBBON_CONTROL_TYPE_SPINNER);
     ASSERT(controls[1].id == 10002);
     ASSERT(controls[2].type == UIRIBBON_CONTROL_TYPE_BUTTON);
+
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -1040,6 +1065,7 @@ static int test_splitbutton(void)
     ASSERT(controls[4].control_info.splitbutton.buttonitem->id == 10017);
     ASSERT(controls[4].control_info.splitbutton.buttonitem->type == UIRIBBON_CONTROL_TYPE_CHECKBOX);
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -1104,6 +1130,7 @@ static int test_contextpopups(void)
 
     #undef ASSERT_MENUGROUP
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -1146,6 +1173,7 @@ static int test_applicationmenu_single(char *name, int recent_count, bool enable
 
     #undef ASSERT_MENUGROUP
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -1163,6 +1191,7 @@ static int test_applicationmenu(void)
     ASSERT(uiribbon.applicationmenu.recent.enable_pinning == TRUE);
     ASSERT(uiribbon.applicationmenu.menugroups.count_menugroups == 0);
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
@@ -1260,7 +1289,6 @@ static int assert_fontcontrol(uiribbon_group *group, int id, int id_type, int id
         pos++;
     }
 
-
     ASSERT_INT(pos, group->count_controls);
 
     return 0;
@@ -1307,6 +1335,7 @@ static int test_fontcontrol(void)
     ASSERT_INT(controls[3].subtype, UIRIBBON_SUBCONTROL_TYPE_FONT_ITALIC);
     ASSERT_INT(controls[3].id, 62100);
 
+    uiribbon_free(&uiribbon);
     return 0;
 }
 
