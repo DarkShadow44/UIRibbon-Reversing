@@ -1,4 +1,5 @@
 #include "uiribbon_transformer.h"
+#include "parser_test.h"
 
 /* FIXME: No macros, use methods */
 /* FIXME: Test all defaults */
@@ -36,7 +37,6 @@ static void _ok(int expr, const char *message, const char *file, int line)
     ASSERT(control.subcontrols[0].type == UIRIBBON_CONTROL_TYPE_GROUP); \
     ASSERT(control.subcontrols[0].count_subcontrols == count);
 
-#if 1
 static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file, int line)
 {
     stream s;
@@ -1348,6 +1348,39 @@ static int copy_from_testdata(char *name)
     return error;
 }
 
+int instance_test()
+{
+    static char data_test[] = {0xab, 0x11, 0x06, 0x00, 0xcd, 0x13, 0xbc, 0x22, 0x0b, 0x00, 0xde, 0x33, 0x44, 0x20, 0x00, 0x30, 0x00, 0x55, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xde, 0xad, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xbe, 0xef};
+
+    stream s_read = {0};
+    stream s_write = {0};
+    int error;
+    type_test test;
+    FILE *file;
+
+    s_read.max = sizeof(data_test);
+    s_read.data = data_test;
+
+    error = stream_read_test(&s_read, &s_read, &test);
+    ASSERT(error == 0);
+
+    s_write.allocated = 100;
+    s_write.data = malloc(100);
+
+    error = stream_write_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_DRYRUN);
+    ok(error == 0, "Failed to write file");
+    error = stream_write_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_WRITE);
+    ok(error == 0, "Failed to write file");
+
+    file = fopen("dump_test_instance.bml", "wb");
+    ok(file != NULL, "Failed to open file");
+    fwrite(s_write.data, s_write.max, 1, file);
+    fclose(file);
+    free(s_write.data);
+
+    return 0;
+}
+
 int main()
 {
     /* run_visual_test("dropdowncolorpicker"); */
@@ -1370,55 +1403,9 @@ int main()
     CHECK(test_applicationmenu());
     CHECK(test_fontcontrol());
 
+    CHECK(instance_test());
+
     copy_from_testdata("simple_tabs");
 
     return 0;
 }
-
-#else
-int main()
-{
-    stream s_read = {0};
-    stream s_write = {0};
-    int error;
-    type_test test;
-    FILE *file;
-    int size;
-    char *data;
-
-    file = fopen("test.dat", "rb");
-    ASSERT(file != NULL);
-    fseek(file, 0, SEEK_END);
-    size = ftell(file);
-    fseek(file, 0, SEEK_SET);
-    data = malloc(size);
-    fread(data, size, 1, file);
-    fclose(file);
-
-
-    s_read.max = size;
-    s_read.data = data;
-
-    error = stream_read_test(&s_read, &s_read, &test);
-    ASSERT(error == 0);
-
-    free(data);
-
-    s_write.allocated = 100;
-    s_write.data = malloc(100);
-
-    error = stream_write_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_DRYRUN);
-    ok(error == 0, "Failed to write file");
-    error = stream_write_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_WRITE);
-    ok(error == 0, "Failed to write file");
-
-    file = fopen("dump_write.bml", "wb");
-    ok(file != NULL, "Failed to open file");
-    fwrite(s_write.data, s_write.max, 1, file);
-    fclose(file);
-    free(s_write.data);
-
-    return 0;
-}
-
-#endif

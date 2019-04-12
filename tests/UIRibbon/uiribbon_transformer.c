@@ -12,7 +12,7 @@
         printf("Assert failed: %s, %d\n", __FILE__, __LINE__); \
         return; \
     }
-#if 1
+
 uiribbon_control_type transform_control_type(type_control *src_control)
 {
     int i, j;
@@ -1266,4 +1266,3 @@ void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret)
         }
     }
 }
-#endif

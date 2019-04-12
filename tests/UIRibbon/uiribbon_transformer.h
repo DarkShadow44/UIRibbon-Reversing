@@ -1,5 +1,5 @@
 #include "parser_uiribbon.h"
-#if 1
+
 typedef int bool;
 #define FALSE 0
 #define TRUE 1
@@ -319,4 +319,3 @@ typedef struct
 } uiribbon_main;
 
 void transform_uiribbon(type_uiribbon *src, uiribbon_main *ret);
-#endif

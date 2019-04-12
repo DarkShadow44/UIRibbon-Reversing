@@ -8,6 +8,7 @@
 #comment and format generated code better
 
 import yaml
+import sys
 
 def get_type_identifier(type):
 	switch = {
@@ -549,7 +550,11 @@ def build_types(node):
 	return ret
 
 def main():
-	file_in = open('new.ksy', 'r')
+	if len(sys.argv) != 2:
+		print(f'Usage: {sys.argv[0]} file.ksy')
+		return
+
+	file_in = open(sys.argv[1], 'r')
 	root = yaml.safe_load(file_in)
 	file_in.close()
 
@@ -600,7 +605,7 @@ def main():
 
 
 	source.append('/* This file is generated - Do not edit manually */\n\n')
-	source.append('#include "parser_uiribbon.h"\n\n')
+	source.append(f'#include "parser_{meta_id}.h"\n\n')
 	for type in types:
 		source.append(f'int stream_read_{type.name}(stream *s_root, stream *s, { type.name} *data);\n')
 		source.append(f'int stream_write_{type.name}(stream *s_root, stream *s, { type.name} *data, stream_write_stage stage, BOOL do_sequence);\n')
@@ -620,10 +625,10 @@ def main():
 	source.append('\treturn 0;\n')
 	source.append('}\n')
 
-	file_header = open('./tests/UIRibbon/parser_uiribbon.h', 'w')
+	file_header = open(f'./tests/UIRibbon/parser_{meta_id}.h', 'w')
 	file_header.write(''.join(header))
 	file_header.close()
-	file_source = open('./tests/UIRibbon/parser_uiribbon.c', 'w')
+	file_source = open(f'./tests/UIRibbon/parser_{meta_id}.c', 'w')
 	file_source.write(''.join(source))
 	file_source.close()
 
