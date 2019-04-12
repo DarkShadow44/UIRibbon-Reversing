@@ -1,8 +1,8 @@
 #!/bin/python3
 
-# tabs -> spaces
 # no empty lines with whitespace
 # more comments
+# simplify
 
 #handle commands with repeat:eof somehow
 #comment and format generated code better

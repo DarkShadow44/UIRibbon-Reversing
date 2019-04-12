@@ -1146,7 +1146,7 @@ static void transform_applicationmenu_ext(type_uiribbon *root, type_control_bloc
         {
             transform_menugroups(root, &ext->block.content_special.content_subcontrols, &ret->menugroups);
 
-            /* Enforce major items for appliationmenu */
+            /* Enforce major items for applicationmenu */
             for (j = 0; j < ret->menugroups.count_menugroups; j++)
             {
                 ret->menugroups.menugroups[j].item_class = UIRIBBON_MENU_ITEM_CLASS_MAJOR_ITEMS;
