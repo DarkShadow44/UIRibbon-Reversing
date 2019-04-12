@@ -57,6 +57,7 @@ static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file
         return error;
 
     transform_uiribbon(&uiribbon, ret);
+    stream_free_uiribbon(&uiribbon);
     return error;
 }
 
@@ -1342,6 +1343,7 @@ static int copy_from_testdata(char *name)
     fwrite(s_write->contents->data, s_write->max, 1, file);
     fclose(file);
     destroy_write_stream(s_write);
+    stream_free_uiribbon(&uiribbon);
 
     return error;
 }

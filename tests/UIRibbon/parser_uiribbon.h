@@ -465,3 +465,4 @@ typedef struct type_uiribbon_
 
 int stream_read_uiribbon(stream *s, type_uiribbon *data);
 int stream_write_uiribbon(stream *s, type_uiribbon *data, stream_write_stage stage);
+void stream_free_uiribbon(type_uiribbon *data);

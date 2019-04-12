@@ -4,54 +4,79 @@
 
 int stream_read_type_id(stream *s_root, stream *s, type_id *data);
 int stream_write_type_id(stream *s_root, stream *s, type_id *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_id(type_id *data);
 int stream_read_type_string(stream *s_root, stream *s, type_string *data);
 int stream_write_type_string(stream *s_root, stream *s, type_string *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_string(type_string *data);
 int stream_read_type_strings(stream *s_root, stream *s, type_strings *data);
 int stream_write_type_strings(stream *s_root, stream *s, type_strings *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_strings(type_strings *data);
 int stream_read_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data);
 int stream_write_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_resource_generic(type_resource_generic *data);
 int stream_read_type_resource(stream *s_root, stream *s, type_resource *data);
 int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_resource(type_resource *data);
 int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data);
 int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_sizedefinitions_order_command(type_sizedefinitions_order_command *data);
 int stream_read_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data);
 int stream_write_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_sizedefinition_order(type_sizedefinition_order *data);
 int stream_read_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data);
 int stream_write_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_control_block_number_variable(type_control_block_number_variable *data);
 int stream_read_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data);
 int stream_write_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_control_block_number_long(type_control_block_number_long *data);
 int stream_read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data);
 int stream_write_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_subcontrols(type_subcontrols *data);
 int stream_read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data);
 int stream_write_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_control_block_number(type_control_block_number *data);
 int stream_read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data);
 int stream_write_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_control_block_special(type_control_block_special *data);
 int stream_read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data);
 int stream_write_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_control_blocks(type_control_blocks *data);
 int stream_read_type_block_inline(stream *s_root, stream *s, type_block_inline *data);
 int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_block_inline(type_block_inline *data);
 int stream_read_type_control_block(stream *s_root, stream *s, type_control_block *data);
 int stream_write_type_control_block(stream *s_root, stream *s, type_control_block *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_control_block(type_control_block *data);
 int stream_read_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data);
 int stream_write_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_control_block_ext(type_control_block_ext *data);
 int stream_read_type_control(stream *s_root, stream *s, type_control *data);
 int stream_write_type_control(stream *s_root, stream *s, type_control *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_control(type_control *data);
 int stream_read_application_views(stream *s_root, stream *s, application_views *data);
 int stream_write_application_views(stream *s_root, stream *s, application_views *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_application_views(application_views *data);
 int stream_read_type_command(stream *s_root, stream *s, type_command *data);
 int stream_write_type_command(stream *s_root, stream *s, type_command *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_command(type_command *data);
 int stream_read_type_command_container(stream *s_root, stream *s, type_command_container *data);
 int stream_write_type_command_container(stream *s_root, stream *s, type_command_container *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_command_container(type_command_container *data);
 int stream_read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data);
 int stream_write_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_command_ext5(type_command_ext5 *data);
 int stream_read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data);
 int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_command_ext4(type_command_ext4 *data);
 int stream_read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data);
 int stream_write_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_command_ext3(type_command_ext3 *data);
 int stream_read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data);
 int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_command_ext2(type_command_ext2 *data);
 int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data);
 int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, stream_write_stage stage, BOOL do_sequence);
+void stream_free_type_uiribbon(type_uiribbon *data);
 
 int stream_read_type_id(stream *s_root, stream *s, type_id *data)
 {
@@ -152,6 +177,33 @@ int stream_write_type_id(stream *s_root, stream *s, type_id *data, stream_write_
 	return 0;
 }
 
+void stream_free_type_id(type_id *data)
+{
+	switch(data->flag)
+	{
+		case 2:
+		{
+			break;
+		}
+		case 3:
+		{
+			break;
+		}
+		case 4:
+		{
+			break;
+		}
+		case 9:
+		{
+			break;
+		}
+		case 43:
+		{
+			break;
+		}
+	}
+}
+
 int stream_read_type_string(stream *s_root, stream *s, type_string *data)
 {
 	const char unk1[] = {1};
@@ -180,6 +232,11 @@ int stream_write_type_string(stream *s_root, stream *s, type_string *data, strea
 	CHECK(stream_write_uint16_t(s_root, s, &data->size_str, stage, do_sequence));
 	CHECK(stream_write_bytes(s, data->str, data->size_str, stage, do_sequence));
 	return 0;
+}
+
+void stream_free_type_string(type_string *data)
+{
+	free(data->str);
 }
 
 int stream_read_type_strings(stream *s_root, stream *s, type_strings *data)
@@ -222,6 +279,17 @@ int stream_write_type_strings(stream *s_root, stream *s, type_strings *data, str
 	return 0;
 }
 
+void stream_free_type_strings(type_strings *data)
+{
+	int i;
+
+	for (i = 0; i < data->count_strings; i++)
+	{
+		stream_free_type_string(&data->strings[i]);
+	}
+	free(data->strings);
+}
+
 int stream_read_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data)
 {
 	uint8_t resource_type;
@@ -259,6 +327,13 @@ int stream_write_type_resource_generic(stream *s_root, stream *s, type_resource_
 	return 0;
 }
 
+void stream_free_type_resource_generic(type_resource_generic *data)
+{
+	if (data->resource_type == ENUM_RESOURCE_TYPE_LARGEIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_SMALLIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
+	{
+	}
+}
+
 int stream_read_type_resource(stream *s_root, stream *s, type_resource *data)
 {
 	int i;
@@ -293,6 +368,17 @@ int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, s
 		CHECK(stream_write_type_resource_generic(s_root, s, &data->resources[i], stage, do_sequence));
 	}
 	return 0;
+}
+
+void stream_free_type_resource(type_resource *data)
+{
+	int i;
+
+	for (i = 0; i < data->count_resources; i++)
+	{
+		stream_free_type_resource_generic(&data->resources[i]);
+	}
+	free(data->resources);
 }
 
 int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data)
@@ -348,6 +434,19 @@ int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, t
 	return 0;
 }
 
+void stream_free_type_sizedefinitions_order_command(type_sizedefinitions_order_command *data)
+{
+	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_SPECIAL)
+	{
+	}
+	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_COMMAND)
+	{
+	}
+	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_COMMAND_INTERNAL)
+	{
+	}
+}
+
 int stream_read_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data)
 {
 	int i;
@@ -382,6 +481,17 @@ int stream_write_type_sizedefinition_order(stream *s_root, stream *s, type_sized
 	return 0;
 }
 
+void stream_free_type_sizedefinition_order(type_sizedefinition_order *data)
+{
+	int i;
+
+	for (i = 0; i < data->count_commands; i++)
+	{
+		stream_free_type_sizedefinitions_order_command(&data->commands[i]);
+	}
+	free(data->commands);
+}
+
 int stream_read_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data)
 {
 	CHECK(stream_read_type_id(s_root, s, &data->id));
@@ -401,6 +511,11 @@ int stream_write_type_control_block_number_variable(stream *s_root, stream *s, t
 
 	CHECK(stream_write_type_id(s_root, s, &data->id, stage, do_sequence));
 	return 0;
+}
+
+void stream_free_type_control_block_number_variable(type_control_block_number_variable *data)
+{
+	stream_free_type_id(&data->id);
 }
 
 int stream_read_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data)
@@ -424,6 +539,10 @@ int stream_write_type_control_block_number_long(stream *s_root, stream *s, type_
 	CHECK(stream_write_uint32_t(s_root, s, &data->unk1, stage, do_sequence));
 	CHECK(stream_write_uint8_t(s_root, s, &data->value1, stage, do_sequence));
 	return 0;
+}
+
+void stream_free_type_control_block_number_long(type_control_block_number_long *data)
+{
 }
 
 int stream_read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data)
@@ -458,6 +577,17 @@ int stream_write_type_subcontrols(stream *s_root, stream *s, type_subcontrols *d
 		CHECK(stream_write_type_control(s_root, s, &data->subcontrols[i], stage, do_sequence));
 	}
 	return 0;
+}
+
+void stream_free_type_subcontrols(type_subcontrols *data)
+{
+	int i;
+
+	for (i = 0; i < data->count_subcontrols; i++)
+	{
+		stream_free_type_control(&data->subcontrols[i]);
+	}
+	free(data->subcontrols);
 }
 
 int stream_read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data)
@@ -851,6 +981,147 @@ int stream_write_type_control_block_number(stream *s_root, stream *s, type_contr
 	return 0;
 }
 
+void stream_free_type_control_block_number(type_control_block_number *data)
+{
+	if (data->block_len == 1)
+	{
+		stream_free_type_control_block_number_variable(&data->content_number);
+	}
+	if (data->block_len == 4)
+	{
+		stream_free_type_control_block_number_long(&data->content_long);
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE_MIXED)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_LABELVISIBLE)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGEVISIBLE)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_SIZEDEFINITION_IMAGESIZE_MIXED)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_AUTOCOMPLETE_ENABLED)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_CHIPSIZE)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLUMNS)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_AUTOCOLOR_BUTTON)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_HAS_NOCOLOR_BUTTON)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_RECENT_COLOR_ROWS)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_STANDARD_COLOR_ROWS)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_THEME_COLOR_ROWS)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_HAS_LARGE_ITEMS)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_HEIGHT)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ITEM_WIDTH)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TEXT_POSITION)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MENULAYOUT)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_GRIPPER)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_ROWS)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_COLUMNS)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_ROWS)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_LARGE)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MAX_COLUMNS_MEDIUM)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MIN_COLUMNS_MEDIUM)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_STR)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MIN)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_FONTSIZE_MAX)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_PARENT_COMMANDID)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_TRUETYPEONLY)
+	{
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_FONTCONTROL_VERTICALFONTS)
+	{
+	}
+}
+
 int stream_read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data)
 {
 	uint8_t block_type;
@@ -896,6 +1167,18 @@ int stream_write_type_control_block_special(stream *s_root, stream *s, type_cont
 	return 0;
 }
 
+void stream_free_type_control_block_special(type_control_block_special *data)
+{
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_UNK73)
+	{
+		stream_free_type_subcontrols(&data->content_subcontrols);
+	}
+	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL)
+	{
+		stream_free_type_sizedefinition_order(&data->sizedefinition_order);
+	}
+}
+
 int stream_read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data)
 {
 	int i;
@@ -928,6 +1211,17 @@ int stream_write_type_control_blocks(stream *s_root, stream *s, type_control_blo
 		CHECK(stream_write_type_control_block(s_root, s, &data->blocks[i], stage, do_sequence));
 	}
 	return 0;
+}
+
+void stream_free_type_control_blocks(type_control_blocks *data)
+{
+	int i;
+
+	for (i = 0; i < data->count_blocks; i++)
+	{
+		stream_free_type_control_block(&data->blocks[i]);
+	}
+	free(data->blocks);
 }
 
 int stream_read_type_block_inline(stream *s_root, stream *s, type_block_inline *data)
@@ -963,6 +1257,11 @@ int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline 
 		data->len4 = stream_write_get_length(&substream_quick_ribbon_info) - (- 7);
 	}
 	return 0;
+}
+
+void stream_free_type_block_inline(type_block_inline *data)
+{
+	stream_free_type_control_blocks(&data->quick_ribbon_info);
 }
 
 int stream_read_type_control_block(stream *s_root, stream *s, type_control_block *data)
@@ -1059,6 +1358,30 @@ int stream_write_type_control_block(stream *s_root, stream *s, type_control_bloc
 	return 0;
 }
 
+void stream_free_type_control_block(type_control_block *data)
+{
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+	{
+		stream_free_type_control_block_number(&data->content_number);
+	}
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
+	{
+		stream_free_type_control_block_special(&data->content_special);
+	}
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_INLINE)
+	{
+		stream_free_type_block_inline(&data->block_inline);
+	}
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_EXT)
+	{
+	}
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_EXT)
+	{
+		stream_free_type_control_block_ext(data->ext);
+		free(data->ext);
+	}
+}
+
 int stream_read_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data)
 {
 	CHECK(stream_read_uint16_t(s_root, s, &data->len_ext));
@@ -1080,6 +1403,11 @@ int stream_write_type_control_block_ext(stream *s_root, stream *s, type_control_
 	CHECK(stream_write_uint16_t(s_root, s, &data->len_ext, stage, do_sequence));
 	CHECK(stream_write_type_control_block(s_root, s, &data->block, stage, do_sequence));
 	return 0;
+}
+
+void stream_free_type_control_block_ext(type_control_block_ext *data)
+{
+	stream_free_type_control_block(&data->block);
 }
 
 int stream_read_type_control(stream *s_root, stream *s, type_control *data)
@@ -1125,6 +1453,11 @@ int stream_write_type_control(stream *s_root, stream *s, type_control *data, str
 	return 0;
 }
 
+void stream_free_type_control(type_control *data)
+{
+	stream_free_type_control_blocks(&data->blocks);
+}
+
 int stream_read_application_views(stream *s_root, stream *s, application_views *data)
 {
 	const char unk20[] = {0, 0, 22, 0, 36, 0, 16};
@@ -1164,6 +1497,11 @@ int stream_write_application_views(stream *s_root, stream *s, application_views 
 	return 0;
 }
 
+void stream_free_application_views(application_views *data)
+{
+	stream_free_type_control_blocks(&data->ribbon);
+}
+
 int stream_read_type_command(stream *s_root, stream *s, type_command *data)
 {
 	CHECK(stream_read_uint16_t(s_root, s, &data->command_id));
@@ -1196,6 +1534,13 @@ int stream_write_type_command(stream *s_root, stream *s, type_command *data, str
 	CHECK(stream_write_uint16_t(s_root, s, &data->size_str, stage, do_sequence));
 	CHECK(stream_write_bytes(s, data->str, data->size_str, stage, do_sequence));
 	return 0;
+}
+
+void stream_free_type_command(type_command *data)
+{
+	free(data->unk1);
+	free(data->unk4);
+	free(data->str);
 }
 
 int stream_read_type_command_container(stream *s_root, stream *s, type_command_container *data)
@@ -1234,6 +1579,17 @@ int stream_write_type_command_container(stream *s_root, stream *s, type_command_
 	return 0;
 }
 
+void stream_free_type_command_container(type_command_container *data)
+{
+	int i;
+
+	for (i = 0; i < data->commands_len; i++)
+	{
+		stream_free_type_command(&data->commands[i]);
+	}
+	free(data->commands);
+}
+
 int stream_read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data)
 {
 	const char unk3[] = {0, 0};
@@ -1269,6 +1625,10 @@ int stream_write_type_command_ext5(stream *s_root, stream *s, type_command_ext5 
 	return 0;
 }
 
+void stream_free_type_command_ext5(type_command_ext5 *data)
+{
+}
+
 int stream_read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data)
 {
 	CHECK(stream_read_type_command_ext5(s_root, s, &data->blocks));
@@ -1288,6 +1648,11 @@ int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 
 
 	CHECK(stream_write_type_command_ext5(s_root, s, &data->blocks, stage, do_sequence));
 	return 0;
+}
+
+void stream_free_type_command_ext4(type_command_ext4 *data)
+{
+	stream_free_type_command_ext5(&data->blocks);
 }
 
 int stream_read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data)
@@ -1323,6 +1688,11 @@ int stream_write_type_command_ext3(stream *s_root, stream *s, type_command_ext3 
 		data->unk1 = stream_write_get_length(&substream_unk3) - (- 4);
 	}
 	return 0;
+}
+
+void stream_free_type_command_ext3(type_command_ext3 *data)
+{
+	stream_free_type_command_ext4(&data->unk3);
 }
 
 int stream_read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data)
@@ -1376,6 +1746,12 @@ int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 
 		CHECK(stream_write_type_command_ext3(s_root, &substream_instance_ext, data->ext, stage, FALSE));
 	}
 	return 0;
+}
+
+void stream_free_type_command_ext2(type_command_ext2 *data)
+{
+	stream_free_type_command_ext3(data->ext);
+	free(data->ext);
 }
 
 int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data)
@@ -1468,13 +1844,34 @@ int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, s
 	return 0;
 }
 
+void stream_free_type_uiribbon(type_uiribbon *data)
+{
+	int i;
+
+	stream_free_type_strings(&data->strings);
+	for (i = 0; i < data->count_command_resources; i++)
+	{
+		stream_free_type_resource(&data->command_resources[i]);
+	}
+	free(data->command_resources);
+	stream_free_type_command_container(&data->command_container);
+	stream_free_type_command_ext2(&data->command_ext);
+	stream_free_application_views(&data->unk6);
+}
+
 int stream_read_uiribbon(stream *s, type_uiribbon *data)
 {
 	return stream_read_type_uiribbon(s, s, data);
 }
+
 int stream_write_uiribbon(stream *s, type_uiribbon *data, stream_write_stage stage)
 {
 	CHECK(stream_write_type_uiribbon(s, s, data, stage, TRUE));
 	CHECK(stream_write_type_uiribbon(s, s, data, stage, FALSE));
 	return 0;
+}
+
+void stream_free_uiribbon(type_uiribbon *data)
+{
+	stream_free_type_uiribbon(data);
 }

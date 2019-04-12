@@ -81,6 +81,8 @@ int stream_write_type_t1(stream *s_root, stream *s, type_t1 *data, stream_write_
 
 void stream_free_type_t1(type_t1 *data)
 {
+	stream_free_type_t2(data->i1);
+	free(data->i1);
 }
 
 int stream_read_type_t3(stream *s_root, stream *s, type_t3 *data)
@@ -140,6 +142,8 @@ int stream_write_type_t3(stream *s_root, stream *s, type_t3 *data, stream_write_
 
 void stream_free_type_t3(type_t3 *data)
 {
+	stream_free_type_t4(data->i2);
+	free(data->i2);
 }
 
 int stream_read_type_t2(stream *s_root, stream *s, type_t2 *data)
@@ -169,6 +173,7 @@ int stream_write_type_t2(stream *s_root, stream *s, type_t2 *data, stream_write_
 
 void stream_free_type_t2(type_t2 *data)
 {
+	stream_free_type_t3(&data->sub2);
 }
 
 int stream_read_type_t5(stream *s_root, stream *s, type_t5 *data)
@@ -256,6 +261,10 @@ int stream_write_type_t5(stream *s_root, stream *s, type_t5 *data, stream_write_
 
 void stream_free_type_t5(type_t5 *data)
 {
+	stream_free_type_t6(data->i3);
+	free(data->i3);
+	stream_free_type_t6(data->i4);
+	free(data->i4);
 }
 
 int stream_read_type_t4(stream *s_root, stream *s, type_t4 *data)
@@ -285,6 +294,7 @@ int stream_write_type_t4(stream *s_root, stream *s, type_t4 *data, stream_write_
 
 void stream_free_type_t4(type_t4 *data)
 {
+	stream_free_type_t5(&data->sub3);
 }
 
 int stream_read_type_t6(stream *s_root, stream *s, type_t6 *data)
@@ -345,6 +355,7 @@ int stream_write_type_test(stream *s_root, stream *s, type_test *data, stream_wr
 
 void stream_free_type_test(type_test *data)
 {
+	stream_free_type_t1(&data->sub1);
 }
 
 int stream_read_test(stream *s, type_test *data)
