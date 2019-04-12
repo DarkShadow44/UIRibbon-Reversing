@@ -106,11 +106,15 @@ int stream_write_type_id(stream *s_root, stream *s, type_id *data, stream_write_
 	int8_t id_block_9;
 	int8_t id_block_43;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint8_t(s_root, s, &data->flag, stage, do_sequence));
 	switch(data->flag)
 	{
@@ -163,11 +167,15 @@ int stream_write_type_string(stream *s_root, stream *s, type_string *data, strea
 {
 	const char unk1[] = {1};
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_bytes(s, unk1, sizeof(unk1), stage, do_sequence));
 	CHECK(stream_write_uint16_t(s_root, s, &data->size_str, stage, do_sequence));
 	CHECK(stream_write_bytes(s, data->str, data->size_str, stage, do_sequence));
@@ -195,11 +203,15 @@ int stream_write_type_strings(stream *s_root, stream *s, type_strings *data, str
 	const char unk1[] = {0, 0, 1};
 	int i;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_bytes(s, unk1, sizeof(unk1), stage, do_sequence));
 	CHECK(stream_write_uint8_t(s_root, s, &data->count_strings, stage, do_sequence));
 	for (i = 0; i < data->count_strings; i++)
@@ -228,11 +240,15 @@ int stream_write_type_resource_generic(stream *s_root, stream *s, type_resource_
 {
 	uint8_t resource_type;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	resource_type = data->resource_type;
 	CHECK(stream_write_uint8_t(s_root, s, &resource_type, stage, do_sequence));
 	CHECK(stream_write_uint32_t(s_root, s, &data->resource_id, stage, do_sequence));
@@ -261,11 +277,15 @@ int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, s
 {
 	int i;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint32_t(s_root, s, &data->command_id, stage, do_sequence));
 	CHECK(stream_write_uint8_t(s_root, s, &data->count_resources, stage, do_sequence));
 	for (i = 0; i < data->count_resources; i++)
@@ -301,11 +321,15 @@ int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, t
 {
 	uint8_t flags_command;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint8_t(s_root, s, &data->unk1, stage, do_sequence));
 	flags_command = data->flags_command;
 	CHECK(stream_write_uint8_t(s_root, s, &flags_command, stage, do_sequence));
@@ -341,11 +365,15 @@ int stream_write_type_sizedefinition_order(stream *s_root, stream *s, type_sized
 {
 	int i;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint16_t(s_root, s, &data->count_commands, stage, do_sequence));
 	for (i = 0; i < data->count_commands; i++)
 	{
@@ -362,11 +390,15 @@ int stream_read_type_control_block_number_variable(stream *s_root, stream *s, ty
 
 int stream_write_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data, stream_write_stage stage, BOOL do_sequence)
 {
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_type_id(s_root, s, &data->id, stage, do_sequence));
 	return 0;
 }
@@ -380,11 +412,15 @@ int stream_read_type_control_block_number_long(stream *s_root, stream *s, type_c
 
 int stream_write_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data, stream_write_stage stage, BOOL do_sequence)
 {
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint32_t(s_root, s, &data->unk1, stage, do_sequence));
 	CHECK(stream_write_uint8_t(s_root, s, &data->value1, stage, do_sequence));
 	return 0;
@@ -407,11 +443,15 @@ int stream_write_type_subcontrols(stream *s_root, stream *s, type_subcontrols *d
 {
 	int i;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint16_t(s_root, s, &data->count_subcontrols, stage, do_sequence));
 	for (i = 0; i < data->count_subcontrols; i++)
 	{
@@ -614,11 +654,15 @@ int stream_write_type_control_block_number(stream *s_root, stream *s, type_contr
 {
 	uint8_t block_type;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint8_t(s_root, s, &data->block_len, stage, do_sequence));
 	block_type = data->block_type;
 	CHECK(stream_write_uint8_t(s_root, s, &block_type, stage, do_sequence));
@@ -630,6 +674,7 @@ int stream_write_type_control_block_number(stream *s_root, stream *s, type_contr
 	{
 		CHECK(stream_write_type_control_block_number_long(s_root, s, &data->content_long, stage, do_sequence));
 	}
+
 	/* Start writing instance data */
 	if (!do_sequence)
 	{
@@ -828,11 +873,15 @@ int stream_write_type_control_block_special(stream *s_root, stream *s, type_cont
 {
 	uint8_t block_type;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint8_t(s_root, s, &data->block_len, stage, do_sequence));
 	block_type = data->block_type;
 	CHECK(stream_write_uint8_t(s_root, s, &block_type, stage, do_sequence));
@@ -864,11 +913,15 @@ int stream_write_type_control_blocks(stream *s_root, stream *s, type_control_blo
 {
 	int i;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint8_t(s_root, s, &data->count_blocks, stage, do_sequence));
 	for (i = 0; i < data->count_blocks; i++)
 	{
@@ -892,11 +945,15 @@ int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline 
 {
 	stream substream_quick_ribbon_info;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint32_t(s_root, s, &data->unk2, stage, do_sequence));
 	CHECK(stream_write_uint16_t(s_root, s, &data->len4, stage, do_sequence));
 	CHECK(stream_write_make_substream(s, &substream_quick_ribbon_info));
@@ -945,11 +1002,15 @@ int stream_write_type_control_block(stream *s_root, stream *s, type_control_bloc
 	uint8_t meta_type;
 	stream substream_instance_ext;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	meta_type = data->meta_type;
 	CHECK(stream_write_uint8_t(s_root, s, &meta_type, stage, do_sequence));
 	if (data->meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
@@ -968,9 +1029,11 @@ int stream_write_type_control_block(stream *s_root, stream *s, type_control_bloc
 	{
 		CHECK(stream_write_uint32_t(s_root, s, &data->ext_pos, stage, do_sequence));
 	}
+
 	/* Start writing instance data */
 	if (!do_sequence)
 	{
+		/* Store position for instance */
 		if (stage == STREAM_WRITE_STAGE_DRYRUN)
 		{
 			data->_dryrun_pos_instance_ext = stream_write_get_position_absolute(s_root);
@@ -978,6 +1041,7 @@ int stream_write_type_control_block(stream *s_root, stream *s, type_control_bloc
 		}
 		if (data->meta_type == ENUM_CONTROL_BLOCK_META_EXT)
 		{
+			/* Make substream for instance */
 			if (stage == STREAM_WRITE_STAGE_WRITE)
 			{
 				CHECK(stream_write_make_substream_instance(s_root, &substream_instance_ext, data->_dryrun_pos_instance_ext));
@@ -986,6 +1050,8 @@ int stream_write_type_control_block(stream *s_root, stream *s, type_control_bloc
 			{
 				CHECK(stream_write_make_substream(s_root, &substream_instance_ext));
 			}
+
+			/* Write instance */
 			CHECK(stream_write_type_control_block_ext(s_root, &substream_instance_ext, data->ext, stage, TRUE));
 			CHECK(stream_write_type_control_block_ext(s_root, &substream_instance_ext, data->ext, stage, FALSE));
 		}
@@ -1002,11 +1068,15 @@ int stream_read_type_control_block_ext(stream *s_root, stream *s, type_control_b
 
 int stream_write_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data, stream_write_stage stage, BOOL do_sequence)
 {
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint16_t(s_root, s, &data->len_ext, stage, do_sequence));
 	CHECK(stream_write_type_control_block(s_root, s, &data->block, stage, do_sequence));
 	return 0;
@@ -1032,11 +1102,15 @@ int stream_write_type_control(stream *s_root, stream *s, type_control *data, str
 	uint16_t block_type;
 	stream substream_blocks;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint16_t(s_root, s, &data->unk1, stage, do_sequence));
 	block_type = data->block_type;
 	CHECK(stream_write_uint16_t(s_root, s, &block_type, stage, do_sequence));
@@ -1069,11 +1143,15 @@ int stream_write_application_views(stream *s_root, stream *s, application_views 
 	const char unk20[] = {0, 0, 22, 0, 36, 0, 16};
 	stream substream_ribbon;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_bytes(s, unk20, sizeof(unk20), stage, do_sequence));
 	CHECK(stream_write_uint16_t(s_root, s, &data->ribbon_len, stage, do_sequence));
 	CHECK(stream_write_make_substream(s, &substream_ribbon));
@@ -1102,11 +1180,15 @@ int stream_read_type_command(stream *s_root, stream *s, type_command *data)
 
 int stream_write_type_command(stream *s_root, stream *s, type_command *data, stream_write_stage stage, BOOL do_sequence)
 {
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage, do_sequence));
 	CHECK(stream_write_bytes(s, data->unk1, 3, stage, do_sequence));
 	CHECK(stream_write_uint8_t(s_root, s, &data->unk3b, stage, do_sequence));
@@ -1134,11 +1216,15 @@ int stream_write_type_command_container(stream *s_root, stream *s, type_command_
 {
 	int i;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint32_t(s_root, s, &data->commands_len, stage, do_sequence));
 	for (i = 0; i < data->commands_len; i++)
 	{
@@ -1166,11 +1252,15 @@ int stream_write_type_command_ext5(stream *s_root, stream *s, type_command_ext5 
 	const char unk3[] = {0, 0};
 	const char unk5[] = {0, 0};
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage, do_sequence));
 	CHECK(stream_write_uint16_t(s_root, s, &data->count, stage, do_sequence));
 	CHECK(stream_write_bytes(s, unk3, sizeof(unk3), stage, do_sequence));
@@ -1187,11 +1277,15 @@ int stream_read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *
 
 int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, stream_write_stage stage, BOOL do_sequence)
 {
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_type_command_ext5(s_root, s, &data->blocks, stage, do_sequence));
 	return 0;
 }
@@ -1211,11 +1305,15 @@ int stream_write_type_command_ext3(stream *s_root, stream *s, type_command_ext3 
 {
 	stream substream_unk3;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint16_t(s_root, s, &data->unk1, stage, do_sequence));
 	CHECK(stream_write_uint16_t(s_root, s, &data->unk2, stage, do_sequence));
 	CHECK(stream_write_make_substream(s, &substream_unk3));
@@ -1242,20 +1340,28 @@ int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 
 {
 	stream substream_instance_ext;
 
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_uint16_t(s_root, s, &data->pos, stage, do_sequence));
+
 	/* Start writing instance data */
 	if (!do_sequence)
 	{
+		/* Store position for instance */
 		if (stage == STREAM_WRITE_STAGE_DRYRUN)
 		{
 			data->_dryrun_pos_instance_ext = stream_write_get_position_absolute(s_root);
 			data->pos = stream_write_get_position_absolute(s_root);
 		}
+
+		/* Make substream for instance */
 		if (stage == STREAM_WRITE_STAGE_WRITE)
 		{
 			CHECK(stream_write_make_substream_instance(s_root, &substream_instance_ext, data->_dryrun_pos_instance_ext));
@@ -1264,6 +1370,8 @@ int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 
 		{
 			CHECK(stream_write_make_substream(s_root, &substream_instance_ext));
 		}
+
+		/* Write instance */
 		CHECK(stream_write_type_command_ext3(s_root, &substream_instance_ext, data->ext, stage, TRUE));
 		CHECK(stream_write_type_command_ext3(s_root, &substream_instance_ext, data->ext, stage, FALSE));
 	}
@@ -1320,11 +1428,15 @@ int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, s
 	{
 		s_root->pos = 0;
 	}
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
+
 	CHECK(stream_write_bytes(s, unknown1, sizeof(unknown1), stage, do_sequence));
 	CHECK(stream_write_bytes(s, magic, sizeof(magic), stage, do_sequence));
 	CHECK(stream_write_uint32_t(s_root, s, &data->length_this_file, stage, do_sequence));

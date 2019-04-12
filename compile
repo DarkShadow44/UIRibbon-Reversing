@@ -153,7 +153,9 @@ class type_info:
 		self.seq = seq_info()
 
 	def load(self, node):
-		self.seq.write.add_code('if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0; /* Only do instance run during write */')
+		self.seq.write.add_code('/* No separate sequence run during write */')
+		self.seq.write.add_code('if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;')
+		self.seq.write.add_line()
 		for k, v in node.items():
 			if k == 'seq':
 				self.seq.load_sequences(v)
@@ -206,6 +208,9 @@ class code_info:
 	def add_i(self):
 		self.has_i = True
 
+	def add_line(self):
+		self.lines_code.append('')
+
 class seq_info:
 	def __init__(self):
 		self.read = code_info()
@@ -254,7 +259,7 @@ class seq_info:
 		self.indent_struct -= 1
 		self.add_struct(str)
 
-	def load_instance(self, instance_name, node):
+	def load_instance(self, instance_name, node, first):
 		node_io = None
 		node_pos = None
 		node_type = None
@@ -300,6 +305,9 @@ class seq_info:
 		if node_io != '_root._io':
 			raise Exception('Unsupported')
 
+		if not first:
+			self.write.add_line()
+		self.write.add_code('/* Store position for instance */')
 		self.write.add_code('if (stage == STREAM_WRITE_STAGE_DRYRUN)')
 		self.write.indent_code_plus()
 		self.add_struct(f'int _dryrun_pos_instance_{instance_name};')
@@ -317,6 +325,9 @@ class seq_info:
 		self.add_var(f'stream substream_instance_{instance_name};')
 		self.read.add_code(f'CHECK(stream_read_make_substream_instance(s_root, &substream_instance_{instance_name}, ({node_pos}), s_root->max - ({node_pos})));')
 
+		if node_condition == None:
+			self.write.add_line()
+		self.write.add_code('/* Make substream for instance */')
 		self.write.add_code(f'if (stage == STREAM_WRITE_STAGE_WRITE)');
 		self.write.indent_code_plus()
 		self.write.add_code(f'CHECK(stream_write_make_substream_instance(s_root, &substream_instance_{instance_name}, data->_dryrun_pos_instance_{instance_name}));')
@@ -326,6 +337,8 @@ class seq_info:
 		self.write.add_code(f'CHECK(stream_write_make_substream(s_root, &substream_instance_{instance_name}));')
 		self.write.indent_code_minus()
 
+		self.write.add_line()
+		self.write.add_code('/* Write instance */')
 		if not node_type.startswith('uint') and not node_type.startswith('int'):
 			self.read.add_code(f'data->{instance_name} = malloc(sizeof({node_type}));')
 		self.read.add_code(f'CHECK(stream_read_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}));')
@@ -337,11 +350,14 @@ class seq_info:
 
 	def load_instances(self, node):
 		if len(node) > 0:
+			self.write.add_line()
 			self.write.add_code('/* Start writing instance data */')
 			self.write.add_code('if (!do_sequence)')
 			self.write.indent_code_plus()
+		first = True
 		for name, value in node.items():
-			self.load_instance(name, value)
+			self.load_instance(name, value, first)
+			first = False
 		if len(node) > 0:
 			self.write.indent_code_minus()
 
@@ -522,11 +538,13 @@ class seq_info:
 			self.indent_code_minus()
 
 	def load_sequences(self, seq):
+		self.write.add_code('/* Store position for current type */')
 		self.write.add_code('if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)')
 		self.write.indent_code_plus()
 		self.add_struct('int _dryrun_pos;')
 		self.write.add_code('data->_dryrun_pos = stream_write_get_position_absolute(s);')
 		self.write.indent_code_minus()
+		self.write.add_line()
 		for child in seq:
 			self.load_sequence(child)
 
