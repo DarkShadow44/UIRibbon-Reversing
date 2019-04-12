@@ -36,15 +36,19 @@ int run_visual_test(const char *name);
 
 /* Stream generic */
 
+typedef struct _stream_data
+{
+    int allocated;
+    char *data;
+} stream_data;
+
 typedef struct _stream
 {
     int start;
     int pos;
     int max;
-    int allocated;
-    char *data;
+    stream_data *contents;
     struct _stream *parent;
-    BOOL is_instance;
 } stream;
 
 int stream_read_make_substream(stream *s, stream *ret, int len);
@@ -71,3 +75,7 @@ int stream_write_int8_t(stream *s_root, stream *s, int8_t *data, stream_write_st
 int stream_write_bytes(stream *s, const void *data, int length, stream_write_stage stage, BOOL do_sequence);
 int stream_write_make_substream(stream *s, stream *ret);
 int stream_write_make_substream_instance(stream *s_root, stream *ret, int pos);
+stream *create_read_stream(const char *data, int len);
+stream *create_write_stream();
+void destroy_read_stream(stream *s);
+void destroy_write_stream(stream *s);

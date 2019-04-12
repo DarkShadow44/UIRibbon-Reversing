@@ -7,7 +7,7 @@ int stream_read_make_substream(stream *s, stream *ret, int len)
     ret->start = s->start + s->pos;
     ret->pos = 0;
     ret->max = ret->start + len;
-    ret->data = s->data;
+    ret->contents = s->contents;
 
     s->pos += len;
     return 0;
@@ -21,14 +21,14 @@ int stream_read_make_substream_instance(stream *s_root, stream *ret, int pos, in
     ret->start = pos;
     ret->pos = 0;
     ret->max = pos + len;
-    ret->data = s_root->data;
+    ret->contents = s_root->contents;
     return 0;
 }
 
 int stream_read_bytes(stream *s, void *data, int len)
 {
     CHECK2(s->start + s->pos + len > s->max, "End of stream");
-    memcpy(data, s->data + s->start + s->pos, len);
+    memcpy(data, s->contents->data + s->start + s->pos, len);
     s->pos += len;
     return 0;
 }
@@ -95,10 +95,8 @@ int stream_write_make_substream(stream *s, stream *ret)
     ret->start = s->start + s->pos;
     ret->pos = 0;
     ret->max = s->max;
-    ret->allocated = s->allocated;
-    ret->data = s->data;
+    ret->contents = s->contents;
     ret->parent = s;
-    ret->is_instance = 0;
     return 0;
 }
 
@@ -107,10 +105,8 @@ int stream_write_make_substream_instance(stream *s_root, stream *ret, int pos)
     ret->start = pos;
     ret->pos = 0;
     ret->max = s_root->max;
-    ret->allocated = s_root->allocated;
-    ret->data = s_root->data;
-    ret->parent = s_root;
-    ret->is_instance = 1;
+    ret->contents = s_root->contents;
+    ret->parent = NULL;
 
     return 0;
 }
@@ -121,17 +117,9 @@ static void stream_update_pos(stream *s, int offset_pos)
     stream *current = s;
     while (current != NULL)
     {
-        current->pos += offset_pos;
-        current->data = s->data;
-        current->allocated = s->allocated;
-
         if (new_max > current->max)
             current->max = new_max;
-
-         /* Don't relay pos offset from instance stream up*/
-        if (current->is_instance)
-            offset_pos = 0;
-
+        current->pos += offset_pos;
         current = current->parent;
     }
 }
@@ -140,14 +128,15 @@ int stream_write_bytes(stream *s, const void *data, int length, stream_write_sta
 {
     if (stage == STREAM_WRITE_STAGE_WRITE)
     {
-        if (s->start + s->pos + length >= s->allocated)
+        stream_data *contents= s->contents;
+        if (s->start + s->pos + length >= contents->allocated)
         {
-            int new_len = (s->allocated + length) * 2;
-            s->data = realloc(s->data, new_len);
-            s->allocated = new_len;
+            int new_len = (contents->allocated + length) * 2;
+            contents->data= realloc(contents->data, new_len);
+            contents->allocated = new_len;
         }
 
-        memcpy(s->data + s->start + s->pos, data, length);
+        memcpy(contents->data + s->start + s->pos, data, length);
     }
 
     if (stage == STREAM_WRITE_STAGE_WRITE || do_sequence)
@@ -186,4 +175,40 @@ int stream_write_int16_t(stream *s_root, stream *s, int16_t *data, stream_write_
 int stream_write_int8_t(stream *s_root, stream *s, int8_t *data, stream_write_stage stage, BOOL do_sequence)
 {
      return stream_write_bytes(s, data, 1, stage, do_sequence);
+}
+
+stream *create_read_stream(const char *data, int len)
+{
+    stream *s = malloc(sizeof(stream));
+    memset(s, 0, sizeof(stream));
+    s->contents = malloc(sizeof(stream_data));
+    s->contents->data = (char *)data;
+    s->contents->allocated = len;
+    s->max = len;
+
+    return s;
+}
+
+stream *create_write_stream()
+{
+    stream *s = malloc(sizeof(stream));
+    memset(s, 0, sizeof(stream));
+    s->contents = malloc(sizeof(stream_data));
+    s->contents->data = malloc(100);
+    s->contents->allocated = 100;
+
+    return s;
+}
+
+void destroy_read_stream(stream *s)
+{
+    free(s->contents);
+    free(s);
+}
+
+void destroy_write_stream(stream *s)
+{
+    free(s->contents->data);
+    free(s->contents);
+    free(s);
 }

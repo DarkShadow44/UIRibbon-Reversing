@@ -39,7 +39,7 @@ static void _ok(int expr, const char *message, const char *file, int line)
 
 static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file, int line)
 {
-    stream s;
+    stream *s;
     int error;
     type_uiribbon uiribbon;
     const test_data *test = get_test_data(name);
@@ -48,11 +48,10 @@ static int _parse_from_testdata(char *name, uiribbon_main *ret, const char *file
     if (!test)
         return 1;
 
-    s.start = s.pos = 0;
-    s.max = test->bml_len;
-    s.data = (char *)test->bml_data;
+    s = create_read_stream(test->bml_data, test->bml_len);
 
-    error = stream_read_uiribbon(&s, &s, &uiribbon);
+    error = stream_read_uiribbon(s, s, &uiribbon);
+    destroy_read_stream(s);
     _ok(error == 0, "Failed to parse file", file, line);
     if (error)
         return error;
@@ -1312,8 +1311,8 @@ static int test_fontcontrol(void)
 
 static int copy_from_testdata(char *name)
 {
-    stream s_read = {0};
-    stream s_write = {0};
+    stream *s_read;
+    stream *s_write;
     int error;
     type_uiribbon uiribbon;
     FILE *file;
@@ -1323,27 +1322,26 @@ static int copy_from_testdata(char *name)
     if (!test)
         return 1;
 
-    s_read.max = test->bml_len;
-    s_read.data = (char *)test->bml_data;
+    s_read = create_read_stream(test->bml_data, test->bml_len);
 
-    error = stream_read_uiribbon(&s_read, &s_read, &uiribbon);
+    error = stream_read_uiribbon(s_read, s_read, &uiribbon);
+    destroy_read_stream(s_read);
     ok(error == 0, "Failed to parse file");
     if (error)
         return error;
 
-    s_write.allocated = 100;
-    s_write.data = malloc(100);
+    s_write = create_write_stream();
 
-    error = stream_write_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN);
+    error = stream_write_uiribbon(s_write, s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN);
     ok(error == 0, "Failed to write file");
-    error = stream_write_uiribbon(&s_write, &s_write, &uiribbon, STREAM_WRITE_STAGE_WRITE);
+    error = stream_write_uiribbon(s_write, s_write, &uiribbon, STREAM_WRITE_STAGE_WRITE);
     ok(error == 0, "Failed to write file");
 
     file = fopen("dump_write.bml", "wb");
     ok(file != NULL, "Failed to open file");
-    fwrite(s_write.data, s_write.max, 1, file);
+    fwrite(s_write->contents->data, s_write->max, 1, file);
     fclose(file);
-    free(s_write.data);
+    destroy_write_stream(s_write);
 
     return error;
 }
@@ -1352,31 +1350,29 @@ int instance_test()
 {
     static char data_test[] = {0xab, 0x11, 0x06, 0x00, 0xcd, 0x13, 0xbc, 0x22, 0x0b, 0x00, 0xde, 0x33, 0x44, 0x20, 0x00, 0x30, 0x00, 0x55, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xde, 0xad, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xbe, 0xef};
 
-    stream s_read = {0};
-    stream s_write = {0};
+    stream *s_read;
+    stream *s_write;
     int error;
     type_test test;
     FILE *file;
 
-    s_read.max = sizeof(data_test);
-    s_read.data = data_test;
-
-    error = stream_read_test(&s_read, &s_read, &test);
+    s_read = create_read_stream(data_test, sizeof(data_test));
+    error = stream_read_test(s_read, s_read, &test);
+    destroy_read_stream(s_read);
     ASSERT(error == 0);
 
-    s_write.allocated = 100;
-    s_write.data = malloc(100);
+    s_write = create_write_stream();
 
-    error = stream_write_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_DRYRUN);
+    error = stream_write_test(s_write, s_write, &test, STREAM_WRITE_STAGE_DRYRUN);
     ok(error == 0, "Failed to write file");
-    error = stream_write_test(&s_write, &s_write, &test, STREAM_WRITE_STAGE_WRITE);
+    error = stream_write_test(s_write, s_write, &test, STREAM_WRITE_STAGE_WRITE);
     ok(error == 0, "Failed to write file");
 
     file = fopen("dump_test_instance.bml", "wb");
     ok(file != NULL, "Failed to open file");
-    fwrite(s_write.data, s_write.max, 1, file);
+    fwrite(s_write->contents->data, s_write->max, 1, file);
     fclose(file);
-    free(s_write.data);
+    destroy_write_stream(s_write);
 
     return 0;
 }
