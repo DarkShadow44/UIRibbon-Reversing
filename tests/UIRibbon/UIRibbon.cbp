@@ -39,6 +39,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="parser_generic.h" />
+		<Unit filename="parser_test.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="parser_test.h" />
 		<Unit filename="parser_uiribbon.c">
 			<Option compilerVar="CC" />
 		</Unit>
