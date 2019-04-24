@@ -2,83 +2,83 @@
 
 #include "parser_uiribbon.h"
 
-int stream_read_type_id(stream *s_root, stream *s, type_id *data);
-int stream_write_type_id(stream *s_root, stream *s, type_id *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_id(stream *s_root, stream *s, type_id *data, type_uiribbon *_root);
+int stream_write_type_id(stream *s_root, stream *s, type_id *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_id(type_id *data);
-int stream_read_type_string(stream *s_root, stream *s, type_string *data);
-int stream_write_type_string(stream *s_root, stream *s, type_string *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_string(stream *s_root, stream *s, type_string *data, type_uiribbon *_root);
+int stream_write_type_string(stream *s_root, stream *s, type_string *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_string(type_string *data);
-int stream_read_type_strings(stream *s_root, stream *s, type_strings *data);
-int stream_write_type_strings(stream *s_root, stream *s, type_strings *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_strings(stream *s_root, stream *s, type_strings *data, type_uiribbon *_root);
+int stream_write_type_strings(stream *s_root, stream *s, type_strings *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_strings(type_strings *data);
-int stream_read_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data);
-int stream_write_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data, type_uiribbon *_root);
+int stream_write_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_resource_generic(type_resource_generic *data);
-int stream_read_type_resource(stream *s_root, stream *s, type_resource *data);
-int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_resource(stream *s_root, stream *s, type_resource *data, type_uiribbon *_root);
+int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_resource(type_resource *data);
-int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data);
-int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, type_uiribbon *_root);
+int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_sizedefinitions_order_command(type_sizedefinitions_order_command *data);
-int stream_read_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data);
-int stream_write_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data, type_uiribbon *_root);
+int stream_write_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_sizedefinition_order(type_sizedefinition_order *data);
-int stream_read_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data);
-int stream_write_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data, type_uiribbon *_root);
+int stream_write_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_control_block_number_variable(type_control_block_number_variable *data);
-int stream_read_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data);
-int stream_write_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data, type_uiribbon *_root);
+int stream_write_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_control_block_number_long(type_control_block_number_long *data);
-int stream_read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data);
-int stream_write_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data, type_uiribbon *_root);
+int stream_write_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_subcontrols(type_subcontrols *data);
-int stream_read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data);
-int stream_write_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data, type_uiribbon *_root);
+int stream_write_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_control_block_number(type_control_block_number *data);
-int stream_read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data);
-int stream_write_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, type_uiribbon *_root);
+int stream_write_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_control_block_special(type_control_block_special *data);
-int stream_read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data);
-int stream_write_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data, type_uiribbon *_root);
+int stream_write_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_control_blocks(type_control_blocks *data);
-int stream_read_type_block_inline(stream *s_root, stream *s, type_block_inline *data);
-int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_block_inline(stream *s_root, stream *s, type_block_inline *data, type_uiribbon *_root);
+int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_block_inline(type_block_inline *data);
-int stream_read_type_control_block(stream *s_root, stream *s, type_control_block *data);
-int stream_write_type_control_block(stream *s_root, stream *s, type_control_block *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_control_block(stream *s_root, stream *s, type_control_block *data, type_uiribbon *_root);
+int stream_write_type_control_block(stream *s_root, stream *s, type_control_block *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_control_block(type_control_block *data);
-int stream_read_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data);
-int stream_write_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data, type_uiribbon *_root);
+int stream_write_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_control_block_ext(type_control_block_ext *data);
-int stream_read_type_control(stream *s_root, stream *s, type_control *data);
-int stream_write_type_control(stream *s_root, stream *s, type_control *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_control(stream *s_root, stream *s, type_control *data, type_uiribbon *_root);
+int stream_write_type_control(stream *s_root, stream *s, type_control *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_control(type_control *data);
-int stream_read_application_views(stream *s_root, stream *s, application_views *data);
-int stream_write_application_views(stream *s_root, stream *s, application_views *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_application_views(stream *s_root, stream *s, application_views *data, type_uiribbon *_root);
+int stream_write_application_views(stream *s_root, stream *s, application_views *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_application_views(application_views *data);
-int stream_read_type_command(stream *s_root, stream *s, type_command *data);
-int stream_write_type_command(stream *s_root, stream *s, type_command *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_command(stream *s_root, stream *s, type_command *data, type_uiribbon *_root);
+int stream_write_type_command(stream *s_root, stream *s, type_command *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_command(type_command *data);
-int stream_read_type_command_container(stream *s_root, stream *s, type_command_container *data);
-int stream_write_type_command_container(stream *s_root, stream *s, type_command_container *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_command_container(stream *s_root, stream *s, type_command_container *data, type_uiribbon *_root);
+int stream_write_type_command_container(stream *s_root, stream *s, type_command_container *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_command_container(type_command_container *data);
-int stream_read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data);
-int stream_write_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data, type_uiribbon *_root);
+int stream_write_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_command_ext5(type_command_ext5 *data);
-int stream_read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data);
-int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, type_uiribbon *_root);
+int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_command_ext4(type_command_ext4 *data);
-int stream_read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data);
-int stream_write_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data, type_uiribbon *_root);
+int stream_write_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_command_ext3(type_command_ext3 *data);
-int stream_read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data);
-int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data, type_uiribbon *_root);
+int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_command_ext2(type_command_ext2 *data);
-int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data);
-int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, stream_write_stage stage, BOOL do_sequence);
+int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, type_uiribbon *_root);
+int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_uiribbon(type_uiribbon *data);
 
-int stream_read_type_id(stream *s_root, stream *s, type_id *data)
+int stream_read_type_id(stream *s_root, stream *s, type_id *data, type_uiribbon *_root)
 {
 	int32_t id_block_2;
 	int16_t id_block_3;
@@ -86,36 +86,36 @@ int stream_read_type_id(stream *s_root, stream *s, type_id *data)
 	int8_t id_block_9;
 	int8_t id_block_43;
 
-	CHECK(stream_read_uint8_t(s_root, s, &data->flag));
+	CHECK(stream_read_uint8_t(s_root, s, &data->flag, _root));
 	switch(data->flag)
 	{
 		case 2:
 		{
-			CHECK(stream_read_int32_t(s_root, s, &id_block_2));
+			CHECK(stream_read_int32_t(s_root, s, &id_block_2, _root));
 			data->id = id_block_2;
 			break;
 		}
 		case 3:
 		{
-			CHECK(stream_read_int16_t(s_root, s, &id_block_3));
+			CHECK(stream_read_int16_t(s_root, s, &id_block_3, _root));
 			data->id = id_block_3;
 			break;
 		}
 		case 4:
 		{
-			CHECK(stream_read_int8_t(s_root, s, &id_block_4));
+			CHECK(stream_read_int8_t(s_root, s, &id_block_4, _root));
 			data->id = id_block_4;
 			break;
 		}
 		case 9:
 		{
-			CHECK(stream_read_int8_t(s_root, s, &id_block_9));
+			CHECK(stream_read_int8_t(s_root, s, &id_block_9, _root));
 			data->id = id_block_9;
 			break;
 		}
 		case 43:
 		{
-			CHECK(stream_read_int8_t(s_root, s, &id_block_43));
+			CHECK(stream_read_int8_t(s_root, s, &id_block_43, _root));
 			data->id = id_block_43;
 			break;
 		}
@@ -123,7 +123,7 @@ int stream_read_type_id(stream *s_root, stream *s, type_id *data)
 	return 0;
 }
 
-int stream_write_type_id(stream *s_root, stream *s, type_id *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_id(stream *s_root, stream *s, type_id *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	int32_t id_block_2;
 	int16_t id_block_3;
@@ -140,37 +140,37 @@ int stream_write_type_id(stream *s_root, stream *s, type_id *data, stream_write_
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint8_t(s_root, s, &data->flag, stage, do_sequence));
+	CHECK(stream_write_uint8_t(s_root, s, &data->flag, stage, do_sequence, _root));
 	switch(data->flag)
 	{
 		case 2:
 		{
 			id_block_2 = data->id;
-			CHECK(stream_write_int32_t(s_root, s, &id_block_2, stage, do_sequence));
+			CHECK(stream_write_int32_t(s_root, s, &id_block_2, stage, do_sequence, _root));
 			break;
 		}
 		case 3:
 		{
 			id_block_3 = data->id;
-			CHECK(stream_write_int16_t(s_root, s, &id_block_3, stage, do_sequence));
+			CHECK(stream_write_int16_t(s_root, s, &id_block_3, stage, do_sequence, _root));
 			break;
 		}
 		case 4:
 		{
 			id_block_4 = data->id;
-			CHECK(stream_write_int8_t(s_root, s, &id_block_4, stage, do_sequence));
+			CHECK(stream_write_int8_t(s_root, s, &id_block_4, stage, do_sequence, _root));
 			break;
 		}
 		case 9:
 		{
 			id_block_9 = data->id;
-			CHECK(stream_write_int8_t(s_root, s, &id_block_9, stage, do_sequence));
+			CHECK(stream_write_int8_t(s_root, s, &id_block_9, stage, do_sequence, _root));
 			break;
 		}
 		case 43:
 		{
 			id_block_43 = data->id;
-			CHECK(stream_write_int8_t(s_root, s, &id_block_43, stage, do_sequence));
+			CHECK(stream_write_int8_t(s_root, s, &id_block_43, stage, do_sequence, _root));
 			break;
 		}
 	}
@@ -204,18 +204,18 @@ void stream_free_type_id(type_id *data)
 	}
 }
 
-int stream_read_type_string(stream *s_root, stream *s, type_string *data)
+int stream_read_type_string(stream *s_root, stream *s, type_string *data, type_uiribbon *_root)
 {
 	const char unk1[] = {1};
 
 	CHECK(stream_read_expect_bytes(s, unk1));
-	CHECK(stream_read_uint16_t(s_root, s, &data->size_str));
+	CHECK(stream_read_uint16_t(s_root, s, &data->size_str, _root));
 	data->str = malloc(data->size_str);
 	CHECK(stream_read_bytes(s, data->str, data->size_str));
 	return 0;
 }
 
-int stream_write_type_string(stream *s_root, stream *s, type_string *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_string(stream *s_root, stream *s, type_string *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	const char unk1[] = {1};
 
@@ -228,9 +228,9 @@ int stream_write_type_string(stream *s_root, stream *s, type_string *data, strea
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_bytes(s, unk1, sizeof(unk1), stage, do_sequence));
-	CHECK(stream_write_uint16_t(s_root, s, &data->size_str, stage, do_sequence));
-	CHECK(stream_write_bytes(s, data->str, data->size_str, stage, do_sequence));
+	CHECK(stream_write_bytes(s, unk1, sizeof(unk1), stage, do_sequence, _root));
+	CHECK(stream_write_uint16_t(s_root, s, &data->size_str, stage, do_sequence, _root));
+	CHECK(stream_write_bytes(s, data->str, data->size_str, stage, do_sequence, _root));
 	return 0;
 }
 
@@ -239,23 +239,23 @@ void stream_free_type_string(type_string *data)
 	free(data->str);
 }
 
-int stream_read_type_strings(stream *s_root, stream *s, type_strings *data)
+int stream_read_type_strings(stream *s_root, stream *s, type_strings *data, type_uiribbon *_root)
 {
 	const char unk1[] = {0, 0, 1};
 	int i;
 
 	CHECK(stream_read_expect_bytes(s, unk1));
-	CHECK(stream_read_uint8_t(s_root, s, &data->count_strings));
+	CHECK(stream_read_uint8_t(s_root, s, &data->count_strings, _root));
 	data->strings = malloc(sizeof(type_string) * data->count_strings);
 	for (i = 0; i < data->count_strings; i++)
 	{
-		CHECK(stream_read_type_string(s_root, s, &data->strings[i]));
+		CHECK(stream_read_type_string(s_root, s, &data->strings[i], _root));
 	}
-	CHECK(stream_read_uint8_t(s_root, s, &data->unk2));
+	CHECK(stream_read_uint8_t(s_root, s, &data->unk2, _root));
 	return 0;
 }
 
-int stream_write_type_strings(stream *s_root, stream *s, type_strings *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_strings(stream *s_root, stream *s, type_strings *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	const char unk1[] = {0, 0, 1};
 	int i;
@@ -269,13 +269,13 @@ int stream_write_type_strings(stream *s_root, stream *s, type_strings *data, str
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_bytes(s, unk1, sizeof(unk1), stage, do_sequence));
-	CHECK(stream_write_uint8_t(s_root, s, &data->count_strings, stage, do_sequence));
+	CHECK(stream_write_bytes(s, unk1, sizeof(unk1), stage, do_sequence, _root));
+	CHECK(stream_write_uint8_t(s_root, s, &data->count_strings, stage, do_sequence, _root));
 	for (i = 0; i < data->count_strings; i++)
 	{
-		CHECK(stream_write_type_string(s_root, s, &data->strings[i], stage, do_sequence));
+		CHECK(stream_write_type_string(s_root, s, &data->strings[i], stage, do_sequence, _root));
 	}
-	CHECK(stream_write_uint8_t(s_root, s, &data->unk2, stage, do_sequence));
+	CHECK(stream_write_uint8_t(s_root, s, &data->unk2, stage, do_sequence, _root));
 	return 0;
 }
 
@@ -290,21 +290,21 @@ void stream_free_type_strings(type_strings *data)
 	free(data->strings);
 }
 
-int stream_read_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data)
+int stream_read_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data, type_uiribbon *_root)
 {
 	uint8_t resource_type;
 
-	CHECK(stream_read_uint8_t(s_root, s, &resource_type));
+	CHECK(stream_read_uint8_t(s_root, s, &resource_type, _root));
 	data->resource_type = resource_type;
-	CHECK(stream_read_uint32_t(s_root, s, &data->resource_id));
+	CHECK(stream_read_uint32_t(s_root, s, &data->resource_id, _root));
 	if (data->resource_type == ENUM_RESOURCE_TYPE_LARGEIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_SMALLIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
 	{
-		CHECK(stream_read_uint16_t(s_root, s, &data->mindpi));
+		CHECK(stream_read_uint16_t(s_root, s, &data->mindpi, _root));
 	}
 	return 0;
 }
 
-int stream_write_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_resource_generic(stream *s_root, stream *s, type_resource_generic *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	uint8_t resource_type;
 
@@ -318,11 +318,11 @@ int stream_write_type_resource_generic(stream *s_root, stream *s, type_resource_
 	}
 
 	resource_type = data->resource_type;
-	CHECK(stream_write_uint8_t(s_root, s, &resource_type, stage, do_sequence));
-	CHECK(stream_write_uint32_t(s_root, s, &data->resource_id, stage, do_sequence));
+	CHECK(stream_write_uint8_t(s_root, s, &resource_type, stage, do_sequence, _root));
+	CHECK(stream_write_uint32_t(s_root, s, &data->resource_id, stage, do_sequence, _root));
 	if (data->resource_type == ENUM_RESOURCE_TYPE_LARGEIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_SMALLIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_LARGEHIGHCONTRASTIMAGE || data->resource_type == ENUM_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE)
 	{
-		CHECK(stream_write_uint16_t(s_root, s, &data->mindpi, stage, do_sequence));
+		CHECK(stream_write_uint16_t(s_root, s, &data->mindpi, stage, do_sequence, _root));
 	}
 	return 0;
 }
@@ -334,21 +334,21 @@ void stream_free_type_resource_generic(type_resource_generic *data)
 	}
 }
 
-int stream_read_type_resource(stream *s_root, stream *s, type_resource *data)
+int stream_read_type_resource(stream *s_root, stream *s, type_resource *data, type_uiribbon *_root)
 {
 	int i;
 
-	CHECK(stream_read_uint32_t(s_root, s, &data->command_id));
-	CHECK(stream_read_uint8_t(s_root, s, &data->count_resources));
+	CHECK(stream_read_uint32_t(s_root, s, &data->command_id, _root));
+	CHECK(stream_read_uint8_t(s_root, s, &data->count_resources, _root));
 	data->resources = malloc(sizeof(type_resource_generic) * data->count_resources);
 	for (i = 0; i < data->count_resources; i++)
 	{
-		CHECK(stream_read_type_resource_generic(s_root, s, &data->resources[i]));
+		CHECK(stream_read_type_resource_generic(s_root, s, &data->resources[i], _root));
 	}
 	return 0;
 }
 
-int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	int i;
 
@@ -361,11 +361,11 @@ int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, s
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint32_t(s_root, s, &data->command_id, stage, do_sequence));
-	CHECK(stream_write_uint8_t(s_root, s, &data->count_resources, stage, do_sequence));
+	CHECK(stream_write_uint32_t(s_root, s, &data->command_id, stage, do_sequence, _root));
+	CHECK(stream_write_uint8_t(s_root, s, &data->count_resources, stage, do_sequence, _root));
 	for (i = 0; i < data->count_resources; i++)
 	{
-		CHECK(stream_write_type_resource_generic(s_root, s, &data->resources[i], stage, do_sequence));
+		CHECK(stream_write_type_resource_generic(s_root, s, &data->resources[i], stage, do_sequence, _root));
 	}
 	return 0;
 }
@@ -381,29 +381,29 @@ void stream_free_type_resource(type_resource *data)
 	free(data->resources);
 }
 
-int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data)
+int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, type_uiribbon *_root)
 {
 	uint8_t flags_command;
 
-	CHECK(stream_read_uint8_t(s_root, s, &data->unk1));
-	CHECK(stream_read_uint8_t(s_root, s, &flags_command));
+	CHECK(stream_read_uint8_t(s_root, s, &data->unk1, _root));
+	CHECK(stream_read_uint8_t(s_root, s, &flags_command, _root));
 	data->flags_command = flags_command;
 	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_SPECIAL)
 	{
-		CHECK(stream_read_uint8_t(s_root, s, &data->string_id));
+		CHECK(stream_read_uint8_t(s_root, s, &data->string_id, _root));
 	}
 	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_COMMAND)
 	{
-		CHECK(stream_read_uint16_t(s_root, s, &data->command_id));
+		CHECK(stream_read_uint16_t(s_root, s, &data->command_id, _root));
 	}
 	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_COMMAND_INTERNAL)
 	{
-		CHECK(stream_read_uint32_t(s_root, s, &data->unk2));
+		CHECK(stream_read_uint32_t(s_root, s, &data->unk2, _root));
 	}
 	return 0;
 }
 
-int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	uint8_t flags_command;
 
@@ -416,20 +416,20 @@ int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, t
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint8_t(s_root, s, &data->unk1, stage, do_sequence));
+	CHECK(stream_write_uint8_t(s_root, s, &data->unk1, stage, do_sequence, _root));
 	flags_command = data->flags_command;
-	CHECK(stream_write_uint8_t(s_root, s, &flags_command, stage, do_sequence));
+	CHECK(stream_write_uint8_t(s_root, s, &flags_command, stage, do_sequence, _root));
 	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_SPECIAL)
 	{
-		CHECK(stream_write_uint8_t(s_root, s, &data->string_id, stage, do_sequence));
+		CHECK(stream_write_uint8_t(s_root, s, &data->string_id, stage, do_sequence, _root));
 	}
 	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_COMMAND)
 	{
-		CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage, do_sequence));
+		CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage, do_sequence, _root));
 	}
 	if (data->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_COMMAND_INTERNAL)
 	{
-		CHECK(stream_write_uint32_t(s_root, s, &data->unk2, stage, do_sequence));
+		CHECK(stream_write_uint32_t(s_root, s, &data->unk2, stage, do_sequence, _root));
 	}
 	return 0;
 }
@@ -447,20 +447,20 @@ void stream_free_type_sizedefinitions_order_command(type_sizedefinitions_order_c
 	}
 }
 
-int stream_read_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data)
+int stream_read_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data, type_uiribbon *_root)
 {
 	int i;
 
-	CHECK(stream_read_uint16_t(s_root, s, &data->count_commands));
+	CHECK(stream_read_uint16_t(s_root, s, &data->count_commands, _root));
 	data->commands = malloc(sizeof(type_sizedefinitions_order_command) * data->count_commands);
 	for (i = 0; i < data->count_commands; i++)
 	{
-		CHECK(stream_read_type_sizedefinitions_order_command(s_root, s, &data->commands[i]));
+		CHECK(stream_read_type_sizedefinitions_order_command(s_root, s, &data->commands[i], _root));
 	}
 	return 0;
 }
 
-int stream_write_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_sizedefinition_order(stream *s_root, stream *s, type_sizedefinition_order *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	int i;
 
@@ -473,10 +473,10 @@ int stream_write_type_sizedefinition_order(stream *s_root, stream *s, type_sized
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint16_t(s_root, s, &data->count_commands, stage, do_sequence));
+	CHECK(stream_write_uint16_t(s_root, s, &data->count_commands, stage, do_sequence, _root));
 	for (i = 0; i < data->count_commands; i++)
 	{
-		CHECK(stream_write_type_sizedefinitions_order_command(s_root, s, &data->commands[i], stage, do_sequence));
+		CHECK(stream_write_type_sizedefinitions_order_command(s_root, s, &data->commands[i], stage, do_sequence, _root));
 	}
 	return 0;
 }
@@ -492,13 +492,13 @@ void stream_free_type_sizedefinition_order(type_sizedefinition_order *data)
 	free(data->commands);
 }
 
-int stream_read_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data)
+int stream_read_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data, type_uiribbon *_root)
 {
-	CHECK(stream_read_type_id(s_root, s, &data->id));
+	CHECK(stream_read_type_id(s_root, s, &data->id, _root));
 	return 0;
 }
 
-int stream_write_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_control_block_number_variable(stream *s_root, stream *s, type_control_block_number_variable *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	/* No separate sequence run during write */
 	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
@@ -509,7 +509,7 @@ int stream_write_type_control_block_number_variable(stream *s_root, stream *s, t
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_type_id(s_root, s, &data->id, stage, do_sequence));
+	CHECK(stream_write_type_id(s_root, s, &data->id, stage, do_sequence, _root));
 	return 0;
 }
 
@@ -518,14 +518,14 @@ void stream_free_type_control_block_number_variable(type_control_block_number_va
 	stream_free_type_id(&data->id);
 }
 
-int stream_read_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data)
+int stream_read_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data, type_uiribbon *_root)
 {
-	CHECK(stream_read_uint32_t(s_root, s, &data->unk1));
-	CHECK(stream_read_uint8_t(s_root, s, &data->value1));
+	CHECK(stream_read_uint32_t(s_root, s, &data->unk1, _root));
+	CHECK(stream_read_uint8_t(s_root, s, &data->value1, _root));
 	return 0;
 }
 
-int stream_write_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_control_block_number_long(stream *s_root, stream *s, type_control_block_number_long *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	/* No separate sequence run during write */
 	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
@@ -536,8 +536,8 @@ int stream_write_type_control_block_number_long(stream *s_root, stream *s, type_
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint32_t(s_root, s, &data->unk1, stage, do_sequence));
-	CHECK(stream_write_uint8_t(s_root, s, &data->value1, stage, do_sequence));
+	CHECK(stream_write_uint32_t(s_root, s, &data->unk1, stage, do_sequence, _root));
+	CHECK(stream_write_uint8_t(s_root, s, &data->value1, stage, do_sequence, _root));
 	return 0;
 }
 
@@ -545,20 +545,20 @@ void stream_free_type_control_block_number_long(type_control_block_number_long *
 {
 }
 
-int stream_read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data)
+int stream_read_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data, type_uiribbon *_root)
 {
 	int i;
 
-	CHECK(stream_read_uint16_t(s_root, s, &data->count_subcontrols));
+	CHECK(stream_read_uint16_t(s_root, s, &data->count_subcontrols, _root));
 	data->subcontrols = malloc(sizeof(type_control) * data->count_subcontrols);
 	for (i = 0; i < data->count_subcontrols; i++)
 	{
-		CHECK(stream_read_type_control(s_root, s, &data->subcontrols[i]));
+		CHECK(stream_read_type_control(s_root, s, &data->subcontrols[i], _root));
 	}
 	return 0;
 }
 
-int stream_write_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_subcontrols(stream *s_root, stream *s, type_subcontrols *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	int i;
 
@@ -571,10 +571,10 @@ int stream_write_type_subcontrols(stream *s_root, stream *s, type_subcontrols *d
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint16_t(s_root, s, &data->count_subcontrols, stage, do_sequence));
+	CHECK(stream_write_uint16_t(s_root, s, &data->count_subcontrols, stage, do_sequence, _root));
 	for (i = 0; i < data->count_subcontrols; i++)
 	{
-		CHECK(stream_write_type_control(s_root, s, &data->subcontrols[i], stage, do_sequence));
+		CHECK(stream_write_type_control(s_root, s, &data->subcontrols[i], stage, do_sequence, _root));
 	}
 	return 0;
 }
@@ -590,20 +590,20 @@ void stream_free_type_subcontrols(type_subcontrols *data)
 	free(data->subcontrols);
 }
 
-int stream_read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data)
+int stream_read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data, type_uiribbon *_root)
 {
 	uint8_t block_type;
 
-	CHECK(stream_read_uint8_t(s_root, s, &data->block_len));
-	CHECK(stream_read_uint8_t(s_root, s, &block_type));
+	CHECK(stream_read_uint8_t(s_root, s, &data->block_len, _root));
+	CHECK(stream_read_uint8_t(s_root, s, &block_type, _root));
 	data->block_type = block_type;
 	if (data->block_len == 1)
 	{
-		CHECK(stream_read_type_control_block_number_variable(s_root, s, &data->content_number));
+		CHECK(stream_read_type_control_block_number_variable(s_root, s, &data->content_number, _root));
 	}
 	if (data->block_len == 4)
 	{
-		CHECK(stream_read_type_control_block_number_long(s_root, s, &data->content_long));
+		CHECK(stream_read_type_control_block_number_long(s_root, s, &data->content_long, _root));
 	}
 	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
 	{
@@ -780,7 +780,7 @@ int stream_read_type_control_block_number(stream *s_root, stream *s, type_contro
 	return 0;
 }
 
-int stream_write_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	uint8_t block_type;
 
@@ -793,16 +793,16 @@ int stream_write_type_control_block_number(stream *s_root, stream *s, type_contr
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint8_t(s_root, s, &data->block_len, stage, do_sequence));
+	CHECK(stream_write_uint8_t(s_root, s, &data->block_len, stage, do_sequence, _root));
 	block_type = data->block_type;
-	CHECK(stream_write_uint8_t(s_root, s, &block_type, stage, do_sequence));
+	CHECK(stream_write_uint8_t(s_root, s, &block_type, stage, do_sequence, _root));
 	if (data->block_len == 1)
 	{
-		CHECK(stream_write_type_control_block_number_variable(s_root, s, &data->content_number, stage, do_sequence));
+		CHECK(stream_write_type_control_block_number_variable(s_root, s, &data->content_number, stage, do_sequence, _root));
 	}
 	if (data->block_len == 4)
 	{
-		CHECK(stream_write_type_control_block_number_long(s_root, s, &data->content_long, stage, do_sequence));
+		CHECK(stream_write_type_control_block_number_long(s_root, s, &data->content_long, stage, do_sequence, _root));
 	}
 
 	/* Start writing instance data */
@@ -1122,25 +1122,25 @@ void stream_free_type_control_block_number(type_control_block_number *data)
 	}
 }
 
-int stream_read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data)
+int stream_read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, type_uiribbon *_root)
 {
 	uint8_t block_type;
 
-	CHECK(stream_read_uint8_t(s_root, s, &data->block_len));
-	CHECK(stream_read_uint8_t(s_root, s, &block_type));
+	CHECK(stream_read_uint8_t(s_root, s, &data->block_len, _root));
+	CHECK(stream_read_uint8_t(s_root, s, &block_type, _root));
 	data->block_type = block_type;
 	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_UNK73)
 	{
-		CHECK(stream_read_type_subcontrols(s_root, s, &data->content_subcontrols));
+		CHECK(stream_read_type_subcontrols(s_root, s, &data->content_subcontrols, _root));
 	}
 	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL)
 	{
-		CHECK(stream_read_type_sizedefinition_order(s_root, s, &data->sizedefinition_order));
+		CHECK(stream_read_type_sizedefinition_order(s_root, s, &data->sizedefinition_order, _root));
 	}
 	return 0;
 }
 
-int stream_write_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	uint8_t block_type;
 
@@ -1153,16 +1153,16 @@ int stream_write_type_control_block_special(stream *s_root, stream *s, type_cont
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint8_t(s_root, s, &data->block_len, stage, do_sequence));
+	CHECK(stream_write_uint8_t(s_root, s, &data->block_len, stage, do_sequence, _root));
 	block_type = data->block_type;
-	CHECK(stream_write_uint8_t(s_root, s, &block_type, stage, do_sequence));
+	CHECK(stream_write_uint8_t(s_root, s, &block_type, stage, do_sequence, _root));
 	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_UNK73)
 	{
-		CHECK(stream_write_type_subcontrols(s_root, s, &data->content_subcontrols, stage, do_sequence));
+		CHECK(stream_write_type_subcontrols(s_root, s, &data->content_subcontrols, stage, do_sequence, _root));
 	}
 	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL)
 	{
-		CHECK(stream_write_type_sizedefinition_order(s_root, s, &data->sizedefinition_order, stage, do_sequence));
+		CHECK(stream_write_type_sizedefinition_order(s_root, s, &data->sizedefinition_order, stage, do_sequence, _root));
 	}
 	return 0;
 }
@@ -1179,20 +1179,20 @@ void stream_free_type_control_block_special(type_control_block_special *data)
 	}
 }
 
-int stream_read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data)
+int stream_read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data, type_uiribbon *_root)
 {
 	int i;
 
-	CHECK(stream_read_uint8_t(s_root, s, &data->count_blocks));
+	CHECK(stream_read_uint8_t(s_root, s, &data->count_blocks, _root));
 	data->blocks = malloc(sizeof(type_control_block) * data->count_blocks);
 	for (i = 0; i < data->count_blocks; i++)
 	{
-		CHECK(stream_read_type_control_block(s_root, s, &data->blocks[i]));
+		CHECK(stream_read_type_control_block(s_root, s, &data->blocks[i], _root));
 	}
 	return 0;
 }
 
-int stream_write_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	int i;
 
@@ -1205,10 +1205,10 @@ int stream_write_type_control_blocks(stream *s_root, stream *s, type_control_blo
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint8_t(s_root, s, &data->count_blocks, stage, do_sequence));
+	CHECK(stream_write_uint8_t(s_root, s, &data->count_blocks, stage, do_sequence, _root));
 	for (i = 0; i < data->count_blocks; i++)
 	{
-		CHECK(stream_write_type_control_block(s_root, s, &data->blocks[i], stage, do_sequence));
+		CHECK(stream_write_type_control_block(s_root, s, &data->blocks[i], stage, do_sequence, _root));
 	}
 	return 0;
 }
@@ -1224,18 +1224,18 @@ void stream_free_type_control_blocks(type_control_blocks *data)
 	free(data->blocks);
 }
 
-int stream_read_type_block_inline(stream *s_root, stream *s, type_block_inline *data)
+int stream_read_type_block_inline(stream *s_root, stream *s, type_block_inline *data, type_uiribbon *_root)
 {
 	stream substream_quick_ribbon_info;
 
-	CHECK(stream_read_uint32_t(s_root, s, &data->unk2));
-	CHECK(stream_read_uint16_t(s_root, s, &data->len4));
+	CHECK(stream_read_uint32_t(s_root, s, &data->unk2, _root));
+	CHECK(stream_read_uint16_t(s_root, s, &data->len4, _root));
 	CHECK(stream_read_make_substream(s, &substream_quick_ribbon_info, data->len4 - 7));
-	CHECK(stream_read_type_control_blocks(s_root, &substream_quick_ribbon_info, &data->quick_ribbon_info));
+	CHECK(stream_read_type_control_blocks(s_root, &substream_quick_ribbon_info, &data->quick_ribbon_info, _root));
 	return 0;
 }
 
-int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	stream substream_quick_ribbon_info;
 
@@ -1248,10 +1248,10 @@ int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline 
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint32_t(s_root, s, &data->unk2, stage, do_sequence));
-	CHECK(stream_write_uint16_t(s_root, s, &data->len4, stage, do_sequence));
+	CHECK(stream_write_uint32_t(s_root, s, &data->unk2, stage, do_sequence, _root));
+	CHECK(stream_write_uint16_t(s_root, s, &data->len4, stage, do_sequence, _root));
 	CHECK(stream_write_make_substream(s, &substream_quick_ribbon_info));
-	CHECK(stream_write_type_control_blocks(s_root, &substream_quick_ribbon_info, &data->quick_ribbon_info, stage, do_sequence));
+	CHECK(stream_write_type_control_blocks(s_root, &substream_quick_ribbon_info, &data->quick_ribbon_info, stage, do_sequence, _root));
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->len4 = stream_write_get_length(&substream_quick_ribbon_info) - (- 7);
@@ -1264,39 +1264,39 @@ void stream_free_type_block_inline(type_block_inline *data)
 	stream_free_type_control_blocks(&data->quick_ribbon_info);
 }
 
-int stream_read_type_control_block(stream *s_root, stream *s, type_control_block *data)
+int stream_read_type_control_block(stream *s_root, stream *s, type_control_block *data, type_uiribbon *_root)
 {
 	uint8_t meta_type;
 	stream substream_instance_ext;
 
-	CHECK(stream_read_uint8_t(s_root, s, &meta_type));
+	CHECK(stream_read_uint8_t(s_root, s, &meta_type, _root));
 	data->meta_type = meta_type;
 	if (data->meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
 	{
-		CHECK(stream_read_type_control_block_number(s_root, s, &data->content_number));
+		CHECK(stream_read_type_control_block_number(s_root, s, &data->content_number, _root));
 	}
 	if (data->meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
 	{
-		CHECK(stream_read_type_control_block_special(s_root, s, &data->content_special));
+		CHECK(stream_read_type_control_block_special(s_root, s, &data->content_special, _root));
 	}
 	if (data->meta_type == ENUM_CONTROL_BLOCK_META_INLINE)
 	{
-		CHECK(stream_read_type_block_inline(s_root, s, &data->block_inline));
+		CHECK(stream_read_type_block_inline(s_root, s, &data->block_inline, _root));
 	}
 	if (data->meta_type == ENUM_CONTROL_BLOCK_META_EXT)
 	{
-		CHECK(stream_read_uint32_t(s_root, s, &data->ext_pos));
+		CHECK(stream_read_uint32_t(s_root, s, &data->ext_pos, _root));
 	}
 	if (data->meta_type == ENUM_CONTROL_BLOCK_META_EXT)
 	{
 		CHECK(stream_read_make_substream_instance(s_root, &substream_instance_ext, (data->ext_pos), s_root->max - (data->ext_pos)));
 		data->ext = malloc(sizeof(type_control_block_ext));
-		CHECK(stream_read_type_control_block_ext(s_root, &substream_instance_ext, data->ext));
+		CHECK(stream_read_type_control_block_ext(s_root, &substream_instance_ext, data->ext, _root));
 	}
 	return 0;
 }
 
-int stream_write_type_control_block(stream *s_root, stream *s, type_control_block *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_control_block(stream *s_root, stream *s, type_control_block *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	uint8_t meta_type;
 	stream substream_instance_ext;
@@ -1311,22 +1311,22 @@ int stream_write_type_control_block(stream *s_root, stream *s, type_control_bloc
 	}
 
 	meta_type = data->meta_type;
-	CHECK(stream_write_uint8_t(s_root, s, &meta_type, stage, do_sequence));
+	CHECK(stream_write_uint8_t(s_root, s, &meta_type, stage, do_sequence, _root));
 	if (data->meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
 	{
-		CHECK(stream_write_type_control_block_number(s_root, s, &data->content_number, stage, do_sequence));
+		CHECK(stream_write_type_control_block_number(s_root, s, &data->content_number, stage, do_sequence, _root));
 	}
 	if (data->meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
 	{
-		CHECK(stream_write_type_control_block_special(s_root, s, &data->content_special, stage, do_sequence));
+		CHECK(stream_write_type_control_block_special(s_root, s, &data->content_special, stage, do_sequence, _root));
 	}
 	if (data->meta_type == ENUM_CONTROL_BLOCK_META_INLINE)
 	{
-		CHECK(stream_write_type_block_inline(s_root, s, &data->block_inline, stage, do_sequence));
+		CHECK(stream_write_type_block_inline(s_root, s, &data->block_inline, stage, do_sequence, _root));
 	}
 	if (data->meta_type == ENUM_CONTROL_BLOCK_META_EXT)
 	{
-		CHECK(stream_write_uint32_t(s_root, s, &data->ext_pos, stage, do_sequence));
+		CHECK(stream_write_uint32_t(s_root, s, &data->ext_pos, stage, do_sequence, _root));
 	}
 
 	/* Start writing instance data */
@@ -1351,8 +1351,8 @@ int stream_write_type_control_block(stream *s_root, stream *s, type_control_bloc
 			}
 
 			/* Write instance */
-			CHECK(stream_write_type_control_block_ext(s_root, &substream_instance_ext, data->ext, stage, TRUE));
-			CHECK(stream_write_type_control_block_ext(s_root, &substream_instance_ext, data->ext, stage, FALSE));
+			CHECK(stream_write_type_control_block_ext(s_root, &substream_instance_ext, data->ext, stage, TRUE, _root));
+			CHECK(stream_write_type_control_block_ext(s_root, &substream_instance_ext, data->ext, stage, FALSE, _root));
 		}
 	}
 	return 0;
@@ -1382,14 +1382,14 @@ void stream_free_type_control_block(type_control_block *data)
 	}
 }
 
-int stream_read_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data)
+int stream_read_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data, type_uiribbon *_root)
 {
-	CHECK(stream_read_uint16_t(s_root, s, &data->len_ext));
-	CHECK(stream_read_type_control_block(s_root, s, &data->block));
+	CHECK(stream_read_uint16_t(s_root, s, &data->len_ext, _root));
+	CHECK(stream_read_type_control_block(s_root, s, &data->block, _root));
 	return 0;
 }
 
-int stream_write_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_control_block_ext(stream *s_root, stream *s, type_control_block_ext *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	/* No separate sequence run during write */
 	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
@@ -1400,8 +1400,8 @@ int stream_write_type_control_block_ext(stream *s_root, stream *s, type_control_
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint16_t(s_root, s, &data->len_ext, stage, do_sequence));
-	CHECK(stream_write_type_control_block(s_root, s, &data->block, stage, do_sequence));
+	CHECK(stream_write_uint16_t(s_root, s, &data->len_ext, stage, do_sequence, _root));
+	CHECK(stream_write_type_control_block(s_root, s, &data->block, stage, do_sequence, _root));
 	return 0;
 }
 
@@ -1410,22 +1410,22 @@ void stream_free_type_control_block_ext(type_control_block_ext *data)
 	stream_free_type_control_block(&data->block);
 }
 
-int stream_read_type_control(stream *s_root, stream *s, type_control *data)
+int stream_read_type_control(stream *s_root, stream *s, type_control *data, type_uiribbon *_root)
 {
 	uint16_t block_type;
 	stream substream_blocks;
 
-	CHECK(stream_read_uint16_t(s_root, s, &data->unk1));
-	CHECK(stream_read_uint16_t(s_root, s, &block_type));
+	CHECK(stream_read_uint16_t(s_root, s, &data->unk1, _root));
+	CHECK(stream_read_uint16_t(s_root, s, &block_type, _root));
 	data->block_type = block_type;
-	CHECK(stream_read_uint8_t(s_root, s, &data->unk2));
-	CHECK(stream_read_uint16_t(s_root, s, &data->size_block));
+	CHECK(stream_read_uint8_t(s_root, s, &data->unk2, _root));
+	CHECK(stream_read_uint16_t(s_root, s, &data->size_block, _root));
 	CHECK(stream_read_make_substream(s, &substream_blocks, data->size_block - 7));
-	CHECK(stream_read_type_control_blocks(s_root, &substream_blocks, &data->blocks));
+	CHECK(stream_read_type_control_blocks(s_root, &substream_blocks, &data->blocks, _root));
 	return 0;
 }
 
-int stream_write_type_control(stream *s_root, stream *s, type_control *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_control(stream *s_root, stream *s, type_control *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	uint16_t block_type;
 	stream substream_blocks;
@@ -1439,13 +1439,13 @@ int stream_write_type_control(stream *s_root, stream *s, type_control *data, str
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint16_t(s_root, s, &data->unk1, stage, do_sequence));
+	CHECK(stream_write_uint16_t(s_root, s, &data->unk1, stage, do_sequence, _root));
 	block_type = data->block_type;
-	CHECK(stream_write_uint16_t(s_root, s, &block_type, stage, do_sequence));
-	CHECK(stream_write_uint8_t(s_root, s, &data->unk2, stage, do_sequence));
-	CHECK(stream_write_uint16_t(s_root, s, &data->size_block, stage, do_sequence));
+	CHECK(stream_write_uint16_t(s_root, s, &block_type, stage, do_sequence, _root));
+	CHECK(stream_write_uint8_t(s_root, s, &data->unk2, stage, do_sequence, _root));
+	CHECK(stream_write_uint16_t(s_root, s, &data->size_block, stage, do_sequence, _root));
 	CHECK(stream_write_make_substream(s, &substream_blocks));
-	CHECK(stream_write_type_control_blocks(s_root, &substream_blocks, &data->blocks, stage, do_sequence));
+	CHECK(stream_write_type_control_blocks(s_root, &substream_blocks, &data->blocks, stage, do_sequence, _root));
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->size_block = stream_write_get_length(&substream_blocks) - (- 7);
@@ -1458,20 +1458,20 @@ void stream_free_type_control(type_control *data)
 	stream_free_type_control_blocks(&data->blocks);
 }
 
-int stream_read_application_views(stream *s_root, stream *s, application_views *data)
+int stream_read_application_views(stream *s_root, stream *s, application_views *data, type_uiribbon *_root)
 {
 	const char unk20[] = {0, 0, 22, 0, 36, 0, 16};
 	stream substream_ribbon;
 
 	CHECK(stream_read_expect_bytes(s, unk20));
-	CHECK(stream_read_uint16_t(s_root, s, &data->ribbon_len));
+	CHECK(stream_read_uint16_t(s_root, s, &data->ribbon_len, _root));
 	CHECK(stream_read_make_substream(s, &substream_ribbon, data->ribbon_len - 7));
-	CHECK(stream_read_type_control_blocks(s_root, &substream_ribbon, &data->ribbon));
-	CHECK(stream_read_uint32_t(s_root, s, &data->unk1));
+	CHECK(stream_read_type_control_blocks(s_root, &substream_ribbon, &data->ribbon, _root));
+	CHECK(stream_read_uint32_t(s_root, s, &data->unk1, _root));
 	return 0;
 }
 
-int stream_write_application_views(stream *s_root, stream *s, application_views *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_application_views(stream *s_root, stream *s, application_views *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	const char unk20[] = {0, 0, 22, 0, 36, 0, 16};
 	stream substream_ribbon;
@@ -1485,15 +1485,15 @@ int stream_write_application_views(stream *s_root, stream *s, application_views 
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_bytes(s, unk20, sizeof(unk20), stage, do_sequence));
-	CHECK(stream_write_uint16_t(s_root, s, &data->ribbon_len, stage, do_sequence));
+	CHECK(stream_write_bytes(s, unk20, sizeof(unk20), stage, do_sequence, _root));
+	CHECK(stream_write_uint16_t(s_root, s, &data->ribbon_len, stage, do_sequence, _root));
 	CHECK(stream_write_make_substream(s, &substream_ribbon));
-	CHECK(stream_write_type_control_blocks(s_root, &substream_ribbon, &data->ribbon, stage, do_sequence));
+	CHECK(stream_write_type_control_blocks(s_root, &substream_ribbon, &data->ribbon, stage, do_sequence, _root));
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->ribbon_len = stream_write_get_length(&substream_ribbon) - (- 7);
 	}
-	CHECK(stream_write_uint32_t(s_root, s, &data->unk1, stage, do_sequence));
+	CHECK(stream_write_uint32_t(s_root, s, &data->unk1, stage, do_sequence, _root));
 	return 0;
 }
 
@@ -1502,21 +1502,21 @@ void stream_free_application_views(application_views *data)
 	stream_free_type_control_blocks(&data->ribbon);
 }
 
-int stream_read_type_command(stream *s_root, stream *s, type_command *data)
+int stream_read_type_command(stream *s_root, stream *s, type_command *data, type_uiribbon *_root)
 {
-	CHECK(stream_read_uint16_t(s_root, s, &data->command_id));
+	CHECK(stream_read_uint16_t(s_root, s, &data->command_id, _root));
 	data->unk1 = malloc(3);
 	CHECK(stream_read_bytes(s, data->unk1, 3));
-	CHECK(stream_read_uint8_t(s_root, s, &data->unk3b));
+	CHECK(stream_read_uint8_t(s_root, s, &data->unk3b, _root));
 	data->unk4 = malloc(2);
 	CHECK(stream_read_bytes(s, data->unk4, 2));
-	CHECK(stream_read_uint16_t(s_root, s, &data->size_str));
+	CHECK(stream_read_uint16_t(s_root, s, &data->size_str, _root));
 	data->str = malloc(data->size_str);
 	CHECK(stream_read_bytes(s, data->str, data->size_str));
 	return 0;
 }
 
-int stream_write_type_command(stream *s_root, stream *s, type_command *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_command(stream *s_root, stream *s, type_command *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	/* No separate sequence run during write */
 	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
@@ -1527,12 +1527,12 @@ int stream_write_type_command(stream *s_root, stream *s, type_command *data, str
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage, do_sequence));
-	CHECK(stream_write_bytes(s, data->unk1, 3, stage, do_sequence));
-	CHECK(stream_write_uint8_t(s_root, s, &data->unk3b, stage, do_sequence));
-	CHECK(stream_write_bytes(s, data->unk4, 2, stage, do_sequence));
-	CHECK(stream_write_uint16_t(s_root, s, &data->size_str, stage, do_sequence));
-	CHECK(stream_write_bytes(s, data->str, data->size_str, stage, do_sequence));
+	CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage, do_sequence, _root));
+	CHECK(stream_write_bytes(s, data->unk1, 3, stage, do_sequence, _root));
+	CHECK(stream_write_uint8_t(s_root, s, &data->unk3b, stage, do_sequence, _root));
+	CHECK(stream_write_bytes(s, data->unk4, 2, stage, do_sequence, _root));
+	CHECK(stream_write_uint16_t(s_root, s, &data->size_str, stage, do_sequence, _root));
+	CHECK(stream_write_bytes(s, data->str, data->size_str, stage, do_sequence, _root));
 	return 0;
 }
 
@@ -1543,21 +1543,21 @@ void stream_free_type_command(type_command *data)
 	free(data->str);
 }
 
-int stream_read_type_command_container(stream *s_root, stream *s, type_command_container *data)
+int stream_read_type_command_container(stream *s_root, stream *s, type_command_container *data, type_uiribbon *_root)
 {
 	int i;
 
-	CHECK(stream_read_uint32_t(s_root, s, &data->commands_len));
+	CHECK(stream_read_uint32_t(s_root, s, &data->commands_len, _root));
 	data->commands = malloc(sizeof(type_command) * data->commands_len);
 	for (i = 0; i < data->commands_len; i++)
 	{
-		CHECK(stream_read_type_command(s_root, s, &data->commands[i]));
+		CHECK(stream_read_type_command(s_root, s, &data->commands[i], _root));
 	}
-	CHECK(stream_read_uint8_t(s_root, s, &data->unk1));
+	CHECK(stream_read_uint8_t(s_root, s, &data->unk1, _root));
 	return 0;
 }
 
-int stream_write_type_command_container(stream *s_root, stream *s, type_command_container *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_command_container(stream *s_root, stream *s, type_command_container *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	int i;
 
@@ -1570,12 +1570,12 @@ int stream_write_type_command_container(stream *s_root, stream *s, type_command_
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint32_t(s_root, s, &data->commands_len, stage, do_sequence));
+	CHECK(stream_write_uint32_t(s_root, s, &data->commands_len, stage, do_sequence, _root));
 	for (i = 0; i < data->commands_len; i++)
 	{
-		CHECK(stream_write_type_command(s_root, s, &data->commands[i], stage, do_sequence));
+		CHECK(stream_write_type_command(s_root, s, &data->commands[i], stage, do_sequence, _root));
 	}
-	CHECK(stream_write_uint8_t(s_root, s, &data->unk1, stage, do_sequence));
+	CHECK(stream_write_uint8_t(s_root, s, &data->unk1, stage, do_sequence, _root));
 	return 0;
 }
 
@@ -1590,20 +1590,20 @@ void stream_free_type_command_container(type_command_container *data)
 	free(data->commands);
 }
 
-int stream_read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data)
+int stream_read_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data, type_uiribbon *_root)
 {
 	const char unk3[] = {0, 0};
 	const char unk5[] = {0, 0};
 
-	CHECK(stream_read_uint16_t(s_root, s, &data->command_id));
-	CHECK(stream_read_uint16_t(s_root, s, &data->count));
+	CHECK(stream_read_uint16_t(s_root, s, &data->command_id, _root));
+	CHECK(stream_read_uint16_t(s_root, s, &data->count, _root));
 	CHECK(stream_read_expect_bytes(s, unk3));
-	CHECK(stream_read_uint16_t(s_root, s, &data->offset));
+	CHECK(stream_read_uint16_t(s_root, s, &data->offset, _root));
 	CHECK(stream_read_expect_bytes(s, unk5));
 	return 0;
 }
 
-int stream_write_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_command_ext5(stream *s_root, stream *s, type_command_ext5 *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	const char unk3[] = {0, 0};
 	const char unk5[] = {0, 0};
@@ -1617,11 +1617,11 @@ int stream_write_type_command_ext5(stream *s_root, stream *s, type_command_ext5 
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage, do_sequence));
-	CHECK(stream_write_uint16_t(s_root, s, &data->count, stage, do_sequence));
-	CHECK(stream_write_bytes(s, unk3, sizeof(unk3), stage, do_sequence));
-	CHECK(stream_write_uint16_t(s_root, s, &data->offset, stage, do_sequence));
-	CHECK(stream_write_bytes(s, unk5, sizeof(unk5), stage, do_sequence));
+	CHECK(stream_write_uint16_t(s_root, s, &data->command_id, stage, do_sequence, _root));
+	CHECK(stream_write_uint16_t(s_root, s, &data->count, stage, do_sequence, _root));
+	CHECK(stream_write_bytes(s, unk3, sizeof(unk3), stage, do_sequence, _root));
+	CHECK(stream_write_uint16_t(s_root, s, &data->offset, stage, do_sequence, _root));
+	CHECK(stream_write_bytes(s, unk5, sizeof(unk5), stage, do_sequence, _root));
 	return 0;
 }
 
@@ -1629,13 +1629,13 @@ void stream_free_type_command_ext5(type_command_ext5 *data)
 {
 }
 
-int stream_read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data)
+int stream_read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, type_uiribbon *_root)
 {
-	CHECK(stream_read_type_command_ext5(s_root, s, &data->blocks));
+	CHECK(stream_read_type_command_ext5(s_root, s, &data->blocks, _root));
 	return 0;
 }
 
-int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	/* No separate sequence run during write */
 	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
@@ -1646,7 +1646,7 @@ int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_type_command_ext5(s_root, s, &data->blocks, stage, do_sequence));
+	CHECK(stream_write_type_command_ext5(s_root, s, &data->blocks, stage, do_sequence, _root));
 	return 0;
 }
 
@@ -1655,18 +1655,18 @@ void stream_free_type_command_ext4(type_command_ext4 *data)
 	stream_free_type_command_ext5(&data->blocks);
 }
 
-int stream_read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data)
+int stream_read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data, type_uiribbon *_root)
 {
 	stream substream_unk3;
 
-	CHECK(stream_read_uint16_t(s_root, s, &data->unk1));
-	CHECK(stream_read_uint16_t(s_root, s, &data->unk2));
+	CHECK(stream_read_uint16_t(s_root, s, &data->unk1, _root));
+	CHECK(stream_read_uint16_t(s_root, s, &data->unk2, _root));
 	CHECK(stream_read_make_substream(s, &substream_unk3, data->unk1 - 4));
-	CHECK(stream_read_type_command_ext4(s_root, &substream_unk3, &data->unk3));
+	CHECK(stream_read_type_command_ext4(s_root, &substream_unk3, &data->unk3, _root));
 	return 0;
 }
 
-int stream_write_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	stream substream_unk3;
 
@@ -1679,10 +1679,10 @@ int stream_write_type_command_ext3(stream *s_root, stream *s, type_command_ext3 
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint16_t(s_root, s, &data->unk1, stage, do_sequence));
-	CHECK(stream_write_uint16_t(s_root, s, &data->unk2, stage, do_sequence));
+	CHECK(stream_write_uint16_t(s_root, s, &data->unk1, stage, do_sequence, _root));
+	CHECK(stream_write_uint16_t(s_root, s, &data->unk2, stage, do_sequence, _root));
 	CHECK(stream_write_make_substream(s, &substream_unk3));
-	CHECK(stream_write_type_command_ext4(s_root, &substream_unk3, &data->unk3, stage, do_sequence));
+	CHECK(stream_write_type_command_ext4(s_root, &substream_unk3, &data->unk3, stage, do_sequence, _root));
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->unk1 = stream_write_get_length(&substream_unk3) - (- 4);
@@ -1695,31 +1695,23 @@ void stream_free_type_command_ext3(type_command_ext3 *data)
 	stream_free_type_command_ext4(&data->unk3);
 }
 
-int stream_read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data)
+int stream_read_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data, type_uiribbon *_root)
 {
 	stream substream_instance_ext;
 
-	CHECK(stream_read_uint16_t(s_root, s, &data->pos));
-	CHECK(stream_read_make_substream_instance(s_root, &substream_instance_ext, (data->pos), s_root->max - (data->pos)));
+	CHECK(stream_read_make_substream_instance(s_root, &substream_instance_ext, (_root->command_ext_pos), s_root->max - (_root->command_ext_pos)));
 	data->ext = malloc(sizeof(type_command_ext3));
-	CHECK(stream_read_type_command_ext3(s_root, &substream_instance_ext, data->ext));
+	CHECK(stream_read_type_command_ext3(s_root, &substream_instance_ext, data->ext, _root));
 	return 0;
 }
 
-int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	stream substream_instance_ext;
 
 	/* No separate sequence run during write */
 	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
 
-	/* Store position for current type */
-	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
-	{
-		data->_dryrun_pos = stream_write_get_position_absolute(s);
-	}
-
-	CHECK(stream_write_uint16_t(s_root, s, &data->pos, stage, do_sequence));
 
 	/* Start writing instance data */
 	if (!do_sequence)
@@ -1728,7 +1720,7 @@ int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 
 		if (stage == STREAM_WRITE_STAGE_DRYRUN)
 		{
 			data->_dryrun_pos_instance_ext = stream_write_get_position_absolute(s_root);
-			data->pos = stream_write_get_position_absolute(s_root);
+			_root->command_ext_pos = stream_write_get_position_absolute(s_root);
 		}
 
 		/* Make substream for instance */
@@ -1742,8 +1734,8 @@ int stream_write_type_command_ext2(stream *s_root, stream *s, type_command_ext2 
 		}
 
 		/* Write instance */
-		CHECK(stream_write_type_command_ext3(s_root, &substream_instance_ext, data->ext, stage, TRUE));
-		CHECK(stream_write_type_command_ext3(s_root, &substream_instance_ext, data->ext, stage, FALSE));
+		CHECK(stream_write_type_command_ext3(s_root, &substream_instance_ext, data->ext, stage, TRUE, _root));
+		CHECK(stream_write_type_command_ext3(s_root, &substream_instance_ext, data->ext, stage, FALSE, _root));
 	}
 	return 0;
 }
@@ -1754,7 +1746,7 @@ void stream_free_type_command_ext2(type_command_ext2 *data)
 	free(data->ext);
 }
 
-int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data)
+int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, type_uiribbon *_root)
 {
 	const char unknown1[] = {0, 18, 0, 0, 0, 0, 0, 1, 0};
 	const char magic[] = {83, 67, 66, 105, 110};
@@ -1767,29 +1759,30 @@ int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data)
 
 	CHECK(stream_read_expect_bytes(s, unknown1));
 	CHECK(stream_read_expect_bytes(s, magic));
-	CHECK(stream_read_uint32_t(s_root, s, &data->length_this_file));
+	CHECK(stream_read_uint32_t(s_root, s, &data->length_this_file, _root));
 	CHECK(stream_read_expect_bytes(s, unknown2));
-	CHECK(stream_read_uint16_t(s_root, s, &data->size_strings));
+	CHECK(stream_read_uint16_t(s_root, s, &data->size_strings, _root));
 	CHECK(stream_read_make_substream(s, &substream_strings, data->size_strings - 2));
-	CHECK(stream_read_type_strings(s_root, &substream_strings, &data->strings));
-	CHECK(stream_read_uint16_t(s_root, s, &data->count_command_resources));
+	CHECK(stream_read_type_strings(s_root, &substream_strings, &data->strings, _root));
+	CHECK(stream_read_uint16_t(s_root, s, &data->count_command_resources, _root));
 	CHECK(stream_read_expect_bytes(s, unknown3));
 	data->command_resources = malloc(sizeof(type_resource) * data->count_command_resources);
 	for (i = 0; i < data->count_command_resources; i++)
 	{
-		CHECK(stream_read_type_resource(s_root, s, &data->command_resources[i]));
+		CHECK(stream_read_type_resource(s_root, s, &data->command_resources[i], _root));
 	}
 	CHECK(stream_read_expect_bytes(s, unk44));
-	CHECK(stream_read_uint32_t(s_root, s, &data->size_command_container));
+	CHECK(stream_read_uint32_t(s_root, s, &data->size_command_container, _root));
 	CHECK(stream_read_make_substream(s, &substream_command_container, data->size_command_container - 4));
-	CHECK(stream_read_type_command_container(s_root, &substream_command_container, &data->command_container));
-	CHECK(stream_read_uint16_t(s_root, s, &data->len_unk6));
-	CHECK(stream_read_type_command_ext2(s_root, s, &data->command_ext));
-	CHECK(stream_read_application_views(s_root, s, &data->unk6));
+	CHECK(stream_read_type_command_container(s_root, &substream_command_container, &data->command_container, _root));
+	CHECK(stream_read_uint16_t(s_root, s, &data->len_unk6, _root));
+	CHECK(stream_read_uint16_t(s_root, s, &data->command_ext_pos, _root));
+	CHECK(stream_read_application_views(s_root, s, &data->unk6, _root));
+	CHECK(stream_read_type_command_ext2(s_root, s, &data->command_ext2, _root));
 	return 0;
 }
 
-int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, stream_write_stage stage, BOOL do_sequence)
+int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	const char unknown1[] = {0, 18, 0, 0, 0, 0, 0, 1, 0};
 	const char magic[] = {83, 67, 66, 105, 110};
@@ -1813,34 +1806,35 @@ int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, s
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_bytes(s, unknown1, sizeof(unknown1), stage, do_sequence));
-	CHECK(stream_write_bytes(s, magic, sizeof(magic), stage, do_sequence));
-	CHECK(stream_write_uint32_t(s_root, s, &data->length_this_file, stage, do_sequence));
-	CHECK(stream_write_bytes(s, unknown2, sizeof(unknown2), stage, do_sequence));
-	CHECK(stream_write_uint16_t(s_root, s, &data->size_strings, stage, do_sequence));
+	CHECK(stream_write_bytes(s, unknown1, sizeof(unknown1), stage, do_sequence, _root));
+	CHECK(stream_write_bytes(s, magic, sizeof(magic), stage, do_sequence, _root));
+	CHECK(stream_write_uint32_t(s_root, s, &data->length_this_file, stage, do_sequence, _root));
+	CHECK(stream_write_bytes(s, unknown2, sizeof(unknown2), stage, do_sequence, _root));
+	CHECK(stream_write_uint16_t(s_root, s, &data->size_strings, stage, do_sequence, _root));
 	CHECK(stream_write_make_substream(s, &substream_strings));
-	CHECK(stream_write_type_strings(s_root, &substream_strings, &data->strings, stage, do_sequence));
+	CHECK(stream_write_type_strings(s_root, &substream_strings, &data->strings, stage, do_sequence, _root));
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->size_strings = stream_write_get_length(&substream_strings) - (- 2);
 	}
-	CHECK(stream_write_uint16_t(s_root, s, &data->count_command_resources, stage, do_sequence));
-	CHECK(stream_write_bytes(s, unknown3, sizeof(unknown3), stage, do_sequence));
+	CHECK(stream_write_uint16_t(s_root, s, &data->count_command_resources, stage, do_sequence, _root));
+	CHECK(stream_write_bytes(s, unknown3, sizeof(unknown3), stage, do_sequence, _root));
 	for (i = 0; i < data->count_command_resources; i++)
 	{
-		CHECK(stream_write_type_resource(s_root, s, &data->command_resources[i], stage, do_sequence));
+		CHECK(stream_write_type_resource(s_root, s, &data->command_resources[i], stage, do_sequence, _root));
 	}
-	CHECK(stream_write_bytes(s, unk44, sizeof(unk44), stage, do_sequence));
-	CHECK(stream_write_uint32_t(s_root, s, &data->size_command_container, stage, do_sequence));
+	CHECK(stream_write_bytes(s, unk44, sizeof(unk44), stage, do_sequence, _root));
+	CHECK(stream_write_uint32_t(s_root, s, &data->size_command_container, stage, do_sequence, _root));
 	CHECK(stream_write_make_substream(s, &substream_command_container));
-	CHECK(stream_write_type_command_container(s_root, &substream_command_container, &data->command_container, stage, do_sequence));
+	CHECK(stream_write_type_command_container(s_root, &substream_command_container, &data->command_container, stage, do_sequence, _root));
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
 		data->size_command_container = stream_write_get_length(&substream_command_container) - (- 4);
 	}
-	CHECK(stream_write_uint16_t(s_root, s, &data->len_unk6, stage, do_sequence));
-	CHECK(stream_write_type_command_ext2(s_root, s, &data->command_ext, stage, do_sequence));
-	CHECK(stream_write_application_views(s_root, s, &data->unk6, stage, do_sequence));
+	CHECK(stream_write_uint16_t(s_root, s, &data->len_unk6, stage, do_sequence, _root));
+	CHECK(stream_write_uint16_t(s_root, s, &data->command_ext_pos, stage, do_sequence, _root));
+	CHECK(stream_write_application_views(s_root, s, &data->unk6, stage, do_sequence, _root));
+	CHECK(stream_write_type_command_ext2(s_root, s, &data->command_ext2, stage, do_sequence, _root));
 	return 0;
 }
 
@@ -1855,19 +1849,19 @@ void stream_free_type_uiribbon(type_uiribbon *data)
 	}
 	free(data->command_resources);
 	stream_free_type_command_container(&data->command_container);
-	stream_free_type_command_ext2(&data->command_ext);
 	stream_free_application_views(&data->unk6);
+	stream_free_type_command_ext2(&data->command_ext2);
 }
 
 int stream_read_uiribbon(stream *s, type_uiribbon *data)
 {
-	return stream_read_type_uiribbon(s, s, data);
+	return stream_read_type_uiribbon(s, s, data, data);
 }
 
 int stream_write_uiribbon(stream *s, type_uiribbon *data, stream_write_stage stage)
 {
-	CHECK(stream_write_type_uiribbon(s, s, data, stage, TRUE));
-	CHECK(stream_write_type_uiribbon(s, s, data, stage, FALSE));
+	CHECK(stream_write_type_uiribbon(s, s, data, stage, TRUE, data));
+	CHECK(stream_write_type_uiribbon(s, s, data, stage, FALSE, data));
 	return 0;
 }
 

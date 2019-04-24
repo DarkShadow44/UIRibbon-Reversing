@@ -442,8 +442,6 @@ typedef struct type_command_ext3_
 
 typedef struct type_command_ext2_
 {
-	int _dryrun_pos;
-	uint16_t pos;
 	int _dryrun_pos_instance_ext;
 	struct type_command_ext3_ *ext;
 } type_command_ext2;
@@ -459,8 +457,9 @@ typedef struct type_uiribbon_
 	uint32_t size_command_container;
 	type_command_container command_container;
 	uint16_t len_unk6;
-	type_command_ext2 command_ext;
+	uint16_t command_ext_pos;
 	application_views unk6;
+	type_command_ext2 command_ext2;
 } type_uiribbon;
 
 int stream_read_uiribbon(stream *s, type_uiribbon *data);

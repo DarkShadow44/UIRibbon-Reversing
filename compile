@@ -71,6 +71,7 @@ def prefix_expression(expr):
 				parts[i] = make_enum_name(split[0], split[1])
 	expr = ' '.join(parts)
 	expr = expr.replace('_.', '##current##->')
+	expr = expr.replace('_root.', '_root->')
 	expr = expr.replace('( ', '(')
 	expr = expr.replace(' )', ')')
 	return expr
@@ -136,11 +137,11 @@ class method_type(Enum):
 	WRITE = 2
 	FREE = 3
 
-def write_method(sb, name, code, type):
+def write_method(sb, name, code, type, type_root):
 	if type == method_type.READ:
-		sb.append(f'int stream_read_{name}(stream *s_root, stream *s, {name} *data)\n')
+		sb.append(f'int stream_read_{name}(stream *s_root, stream *s, {name} *data, {type_root} *_root)\n')
 	elif type == method_type.WRITE:
-		sb.append(f'int stream_write_{name}(stream *s_root, stream *s, {name} *data, stream_write_stage stage, BOOL do_sequence)\n')
+		sb.append(f'int stream_write_{name}(stream *s_root, stream *s, {name} *data, stream_write_stage stage, BOOL do_sequence, {type_root} *_root)\n')
 	elif type == method_type.FREE:
 		sb.append(f'void stream_free_{name}({name} *data)\n')
 	sb.append('{\n')
@@ -373,9 +374,9 @@ class seq_info:
 		self.write.add_code('/* Write instance */')
 		if not node_type.startswith('uint') and not node_type.startswith('int'):
 			self.read.add_code(f'data->{instance_name} = malloc(sizeof({node_type}));')
-		self.read.add_code(f'CHECK(stream_read_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}));')
-		self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}, stage, TRUE));')
-		self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}, stage, FALSE));')
+		self.read.add_code(f'CHECK(stream_read_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}, _root));')
+		self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}, stage, TRUE, _root));')
+		self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}, stage, FALSE, _root));')
 		self.free.add_code(f'stream_free_{node_type}(data->{instance_name});')
 		self.free.add_code(f'free(data->{instance_name});')
 
@@ -487,13 +488,13 @@ class seq_info:
 			bytes = ', '.join(map(str, node_contents))
 			self.add_var_readwrite(f'const char {node_id}[] = {{{bytes}}};')
 			self.read.add_code(f'CHECK(stream_read_expect_bytes(s, {node_id}));')
-			self.write.add_code(f'CHECK(stream_write_bytes(s, {node_id}, sizeof({node_id}), stage, do_sequence));')
+			self.write.add_code(f'CHECK(stream_write_bytes(s, {node_id}, sizeof({node_id}), stage, do_sequence, _root));')
 		elif node_size is not None and (node_type == None or node_type == 'str'):
 			# Load dynamic, untyped data
 			self.add_struct(f'char *{node_id};')
 			self.read.add_code(f'data->{node_id} = malloc({node_size});')
 			self.read.add_code(f'CHECK(stream_read_bytes(s, data->{node_id}, {node_size}));')
-			self.write.add_code(f'CHECK(stream_write_bytes(s, data->{node_id}, {node_size}, stage, do_sequence));')
+			self.write.add_code(f'CHECK(stream_write_bytes(s, data->{node_id}, {node_size}, stage, do_sequence, _root));')
 			self.free.add_code(f'free(data->{node_id});')
 		else:
 
@@ -523,13 +524,13 @@ class seq_info:
 					self.indent_code_plus_all()
 					if is_int:
 						self.add_var_readwrite(f'{info.type} {node_id}_{info.unionname};')
-						self.read.add_code(f'CHECK(stream_read_{info.type}(s_root, s, &{node_id}_{info.unionname}));')
+						self.read.add_code(f'CHECK(stream_read_{info.type}(s_root, s, &{node_id}_{info.unionname}, _root));')
 						self.read.add_code(f'data->{node_id} = {node_id}_{info.unionname};')
 						self.write.add_code(f'{node_id}_{info.unionname} = data->{node_id};')
-						self.write.add_code(f'CHECK(stream_write_{info.type}(s_root, s, &{node_id}_{info.unionname}, stage, do_sequence));')
+						self.write.add_code(f'CHECK(stream_write_{info.type}(s_root, s, &{node_id}_{info.unionname}, stage, do_sequence, _root));')
 					else:
 						self.read.add_code(f'CHECK(stream_read_{info.type}(s_root, s, &data->{info.unionname}));')
-						self.write.add_code(f'CHECK(stream_write_{info.type}(s_root, s, &data->{info.unionname}, stage, do_sequence));')
+						self.write.add_code(f'CHECK(stream_write_{info.type}(s_root, s, &data->{info.unionname}, stage, do_sequence, _root));')
 						self.free.add_code(f'stream_free_{info.type}(&data->{info.unionname}));')
 					self.add_code_all('break;')
 					self.indent_code_minus_all()
@@ -544,13 +545,13 @@ class seq_info:
 				if node_enum_type is not None:
 					# For enums we need to make a copy, since not all enums are the same size (could read only an int8, but enum is int32)
 					self.add_var_readwrite(f'{node_type} {node_id};')
-					self.read.add_code(f'CHECK(stream_read_{node_type}(s_root, {substream}, &{node_id}));')
+					self.read.add_code(f'CHECK(stream_read_{node_type}(s_root, {substream}, &{node_id}, _root));')
 					self.read.add_code(f'data->{node_id}{multi} = {node_id};')
 					self.write.add_code(f'{node_id} = data->{node_id}{multi};')
-					self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, {substream}, &{node_id}, stage, do_sequence));')
+					self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, {substream}, &{node_id}, stage, do_sequence, _root));')
 				else:
-					self.read.add_code(f'CHECK(stream_read_{node_type}(s_root, {substream}, &data->{node_id}{multi}));')
-					self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, {substream}, &data->{node_id}{multi}, stage, do_sequence));')
+					self.read.add_code(f'CHECK(stream_read_{node_type}(s_root, {substream}, &data->{node_id}{multi}, _root));')
+					self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, {substream}, &data->{node_id}{multi}, stage, do_sequence, _root));')
 					if not (node_type.startswith('int') or node_type.startswith('uint')):
 						self.free.add_code(f'stream_free_{node_type}(&data->{node_id}{multi});')
 
@@ -666,22 +667,22 @@ def main():
 	source.append('/* This file is generated - Do not edit manually */\n\n')
 	source.append(f'#include "parser_{meta_id}.h"\n\n')
 	for type in types:
-		source.append(f'int stream_read_{type.name}(stream *s_root, stream *s, { type.name} *data);\n')
-		source.append(f'int stream_write_{type.name}(stream *s_root, stream *s, { type.name} *data, stream_write_stage stage, BOOL do_sequence);\n')
+		source.append(f'int stream_read_{type.name}(stream *s_root, stream *s, { type.name} *data, {main_type} *_root);\n')
+		source.append(f'int stream_write_{type.name}(stream *s_root, stream *s, { type.name} *data, stream_write_stage stage, BOOL do_sequence, {main_type} *_root);\n')
 		source.append(f'void stream_free_{type.name}({ type.name} *data);\n')
 	source.append('\n')
 	for type in types:
-		write_method(source, type.name, type.seq.read, method_type.READ)
-		write_method(source, type.name, type.seq.write, method_type.WRITE)
-		write_method(source, type.name, type.seq.free, method_type.FREE)
+		write_method(source, type.name, type.seq.read, method_type.READ, main_type)
+		write_method(source, type.name, type.seq.write, method_type.WRITE, main_type)
+		write_method(source, type.name, type.seq.free, method_type.FREE, main_type)
 	source.append(f'int stream_read_{meta_id}(stream *s, {main_type} *data)\n')
 	source.append('{\n')
-	source.append(f'\treturn stream_read_{main_type}(s, s, data);\n')
+	source.append(f'\treturn stream_read_{main_type}(s, s, data, data);\n')
 	source.append('}\n\n')
 	source.append(f'int stream_write_{meta_id}(stream *s, { type.name} *data, stream_write_stage stage)\n')
 	source.append('{\n')
-	source.append(f'\tCHECK(stream_write_{main_type}(s, s, data, stage, TRUE));\n')
-	source.append(f'\tCHECK(stream_write_{main_type}(s, s, data, stage, FALSE));\n')
+	source.append(f'\tCHECK(stream_write_{main_type}(s, s, data, stage, TRUE, data));\n')
+	source.append(f'\tCHECK(stream_write_{main_type}(s, s, data, stage, FALSE, data));\n')
 	source.append('\treturn 0;\n')
 	source.append('}\n\n')
 	source.append(f'void stream_free_{meta_id}({ type.name} *data)\n')

@@ -55,10 +55,12 @@ seq:
     size: size_command_container - 4
   - id: len_unk6
     type: u2
-  - id: command_ext
-    type: type_command_ext2
+  - id: command_ext_pos
+    type: u2
   - id: unk6
     type: application_views
+  - id: command_ext2
+    type: type_command_ext2
 
 enums:
 
@@ -655,7 +657,7 @@ types:
   type_command_ext4:
     seq:
     - id: blocks
-      #repeat: eos
+      # repeat: eos
       type: type_command_ext5
 
   type_command_ext3:
@@ -669,11 +671,8 @@ types:
       type: type_command_ext4
 
   type_command_ext2:
-    seq:
-    - id: pos
-      type: u2
     instances:
       ext:
         io: _root._io
-        pos: pos
+        pos: _root.command_ext_pos
         type: type_command_ext3

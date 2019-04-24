@@ -1341,6 +1341,9 @@ static int test_fontcontrol(void)
 
 static stream* copy_from_testdata(char *name)
 {
+    int i;
+    int m_a_x = 0;
+    int8_t dummy = 0xff;
     stream *s_read;
     stream *s_write;
     int error;
@@ -1363,18 +1366,22 @@ static stream* copy_from_testdata(char *name)
     s_write = create_write_stream();
 
     /* ###### */
-    uiribbon.unk6.ribbon.blocks[2].content_special.content_subcontrols.subcontrols[0].blocks.count_blocks = 4;
+
     /* ###### */
 
     error = stream_write_uiribbon(s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN);
     ok(error == 0, "Failed to write file");
 
     /* Update internal data structures */
-    uiribbon.length_this_file = s_write->max;
+    uiribbon.length_this_file = s_write->max + m_a_x;
 
     /* Do write */
     error = stream_write_uiribbon(s_write, &uiribbon, STREAM_WRITE_STAGE_WRITE);
     ok(error == 0, "Failed to write file");
+    s_write->pos = s_write->max;
+    for(i = 0; i < m_a_x; i++)
+        stream_write_int8_t(s_write, s_write, &dummy, STREAM_WRITE_STAGE_WRITE, TRUE, NULL);
+
 
     file = fopen("dump_write.bml", "wb");
     ok(file != NULL, "Failed to open file");
@@ -1445,12 +1452,12 @@ int main()
 
     CHECK(instance_test());
 
-    s_write = copy_from_testdata("simple_tabs");
+    s_write = copy_from_testdata("applicationmenu2");
 
-    /*write_test_data("simple_tabs");
-    testdata = get_test_data("simple_tabs");
-    run_visual_test(testdata->bml_data, testdata->bml_len);*/
-    run_visual_test(s_write->contents->data, s_write->max);
+    write_test_data("simple_tabs");
+    testdata = get_test_data("applicationmenu2");
+    run_visual_test(testdata->bml_data, testdata->bml_len);
+    /*run_visual_test(s_write->contents->data, s_write->max);*/
 
     destroy_write_stream(s_write);
 
