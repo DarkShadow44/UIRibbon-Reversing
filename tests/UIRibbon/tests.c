@@ -1362,8 +1362,17 @@ static stream* copy_from_testdata(char *name)
 
     s_write = create_write_stream();
 
+    /* ###### */
+    uiribbon.unk6.ribbon.blocks[2].content_special.content_subcontrols.subcontrols[0].blocks.count_blocks = 4;
+    /* ###### */
+
     error = stream_write_uiribbon(s_write, &uiribbon, STREAM_WRITE_STAGE_DRYRUN);
     ok(error == 0, "Failed to write file");
+
+    /* Update internal data structures */
+    uiribbon.length_this_file = s_write->max;
+
+    /* Do write */
     error = stream_write_uiribbon(s_write, &uiribbon, STREAM_WRITE_STAGE_WRITE);
     ok(error == 0, "Failed to write file");
 
@@ -1438,11 +1447,12 @@ int main()
 
     s_write = copy_from_testdata("simple_tabs");
 
+    /*write_test_data("simple_tabs");
+    testdata = get_test_data("simple_tabs");
+    run_visual_test(testdata->bml_data, testdata->bml_len);*/
+    run_visual_test(s_write->contents->data, s_write->max);
+
     destroy_write_stream(s_write);
-
-
-    testdata = get_test_data("dropdowncolorpicker");
-    run_visual_test(testdata->bml_data, testdata->bml_len);
 
     return 0;
 }
