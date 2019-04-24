@@ -105,6 +105,7 @@ enums:
     5: minitoolbar
     4: contextpopup
     19: applicationmenu
+    38: subgroup
 
   enum_sizedefinition_imagesize:
     0: small
@@ -587,7 +588,7 @@ types:
   type_control:
     seq:
     - id: unk1
-      type: u2
+      contents: [22, 0]
     - id: block_type
       type: u2
       enum: enum_type_control

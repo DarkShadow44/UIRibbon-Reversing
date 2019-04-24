@@ -1114,10 +1114,11 @@ void stream_free_type_control_block_ext(type_control_block_ext *data)
 
 int stream_read_type_control(stream *s_root, stream *s, type_control *data, type_uiribbon *_root)
 {
+	const char unk1[] = {22, 0};
 	uint16_t block_type;
 	stream substream_blocks;
 
-	CHECK(stream_read_uint16_t(s_root, s, &data->unk1, _root));
+	CHECK(stream_read_expect_bytes(s, unk1));
 	CHECK(stream_read_uint16_t(s_root, s, &block_type, _root));
 	data->block_type = block_type;
 	CHECK(stream_read_uint8_t(s_root, s, &data->unk2, _root));
@@ -1129,6 +1130,7 @@ int stream_read_type_control(stream *s_root, stream *s, type_control *data, type
 
 int stream_write_type_control(stream *s_root, stream *s, type_control *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
+	const char unk1[] = {22, 0};
 	uint16_t block_type;
 	stream substream_blocks;
 
@@ -1141,7 +1143,7 @@ int stream_write_type_control(stream *s_root, stream *s, type_control *data, str
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint16_t(s_root, s, &data->unk1, stage, do_sequence, _root));
+	CHECK(stream_write_bytes(s, unk1, sizeof(unk1), stage, do_sequence, _root));
 	block_type = data->block_type;
 	CHECK(stream_write_uint16_t(s_root, s, &block_type, stage, do_sequence, _root));
 	CHECK(stream_write_uint8_t(s_root, s, &data->unk2, stage, do_sequence, _root));

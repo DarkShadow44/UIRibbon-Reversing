@@ -52,6 +52,7 @@ typedef enum
 	ENUM_TYPE_CONTROL_MINITOOLBAR = 5,
 	ENUM_TYPE_CONTROL_CONTEXTPOPUP = 4,
 	ENUM_TYPE_CONTROL_APPLICATIONMENU = 19,
+	ENUM_TYPE_CONTROL_SUBGROUP = 38,
 } enum_type_control;
 
 typedef enum
@@ -384,7 +385,6 @@ typedef struct type_control_block_ext_
 typedef struct type_control_
 {
 	int _dryrun_pos;
-	uint16_t unk1;
 	enum_type_control block_type;
 	uint8_t unk2;
 	uint16_t size_block;
