@@ -317,19 +317,16 @@ class seq_info:
 
 		if node_value is not None:
 			if node_condition is not None:
-				self.add_code_all(f'if ({node_condition})', )
-				self.indent_code_plus_all()
+				self.read.add_code(f'if ({node_condition})', )
+				self.read.indent_code_plus()
 
 			struct_type = node_enum if node_enum is not None else 'int32_t'
 
 			self.add_struct(f'{struct_type} {instance_name};')
 			self.read.add_code(f'data->{instance_name} = {node_value};')
-			expr_write = make_expression_for_setting_size(node_value, f'data->{instance_name}')
-			if expr_write is not None:
-				self.write.add_code(expr_write)
 
 			if node_condition is not None:
-				self.indent_code_minus_all()
+				self.read.indent_code_minus()
 
 			return
 

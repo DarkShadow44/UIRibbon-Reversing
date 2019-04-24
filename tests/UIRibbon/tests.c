@@ -1339,6 +1339,8 @@ static int test_fontcontrol(void)
     return 0;
 }
 
+void patch_ribbon(type_uiribbon *uiribbon);
+
 static stream* copy_from_testdata(char *name)
 {
     stream *s_read;
@@ -1363,6 +1365,8 @@ static stream* copy_from_testdata(char *name)
     s_write = create_write_stream();
 
     /* ### manipulate structure ### */
+     uiribbon.unk6.ribbon.count_blocks = 3; /* Drop Quick access bar */
+     patch_ribbon(&uiribbon);
 
     /* ###### */
 
@@ -1444,7 +1448,8 @@ int main()
 
     CHECK(instance_test());
 
-    s_write = copy_from_testdata("applicationmenu3");
+    write_test_data("simple_tabs");
+    s_write = copy_from_testdata("simple_tabs");
 
 #if __MINGW32__
     run_visual_test(s_write->contents->data, s_write->max);

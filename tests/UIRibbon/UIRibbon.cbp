@@ -50,6 +50,9 @@
 		<Unit filename="tests.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="uiribbon_creator.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="uiribbon_transformer.c">
 			<Option compilerVar="CC" />
 		</Unit>
