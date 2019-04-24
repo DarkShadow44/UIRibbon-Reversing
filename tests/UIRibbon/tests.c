@@ -1339,7 +1339,7 @@ static int test_fontcontrol(void)
     return 0;
 }
 
-static int copy_from_testdata(char *name)
+static stream* copy_from_testdata(char *name)
 {
     stream *s_read;
     stream *s_write;
@@ -1350,7 +1350,7 @@ static int copy_from_testdata(char *name)
 
     ok(test != NULL, "Failed to get test data");
     if (!test)
-        return 1;
+        return NULL;
 
     s_read = create_read_stream(test->bml_data, test->bml_len);
 
@@ -1358,7 +1358,7 @@ static int copy_from_testdata(char *name)
     destroy_read_stream(s_read);
     ok(error == 0, "Failed to parse file");
     if (error)
-        return error;
+        return NULL;
 
     s_write = create_write_stream();
 
@@ -1371,10 +1371,10 @@ static int copy_from_testdata(char *name)
     ok(file != NULL, "Failed to open file");
     fwrite(s_write->contents->data, s_write->max, 1, file);
     fclose(file);
-    destroy_write_stream(s_write);
+    /*destroy_write_stream(s_write);*/
     stream_free_uiribbon(&uiribbon);
 
-    return error;
+    return s_write;
 }
 
 int instance_test()
@@ -1412,6 +1412,8 @@ int instance_test()
 
 int main()
 {
+    stream *s_write;
+    const test_data *testdata;
     /* run_visual_test("dropdowncolorpicker"); */
     /*write_test_data("scalingpolicy");
     return 0;*/
@@ -1434,7 +1436,13 @@ int main()
 
     CHECK(instance_test());
 
-    copy_from_testdata("simple_tabs");
+    s_write = copy_from_testdata("simple_tabs");
+
+    destroy_write_stream(s_write);
+
+
+    testdata = get_test_data("dropdowncolorpicker");
+    run_visual_test(testdata->bml_data, testdata->bml_len);
 
     return 0;
 }

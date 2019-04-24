@@ -110,32 +110,24 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
     return 0;
 }
 
-int patch_file(const char *name)
+int patch_file(const char *data, int len)
 {
     HANDLE handle;
-    const test_data *test;
 
-    handle = BeginUpdateResource("../../_DLL/dll.dll", FALSE);
+    handle = BeginUpdateResource("uiribbon_dll.dll", FALSE);
     if (!handle)
     {
         printf("Failed to load test dll: %d\n", (int)GetLastError());
         return 1;
     }
 
-    test = get_test_data(name);
-    if (!test)
-    {
-        printf("Failed to load test data\n");
-        return 1;
-    }
-
-    UpdateResourceA(handle, "UIFILE", "APPLICATION_RIBBON", MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL), (void *)test->bml_data, test->bml_len);
+    UpdateResourceA(handle, "UIFILE", "APPLICATION_RIBBON", MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL), (void *)data, len);
 
     EndUpdateResourceA(handle, FALSE);
     return 0;
 }
 
-int run_visual_test(const char *name)
+int run_visual_test(const char *data, int len)
 {
     WNDCLASSA wc = {0};
     HWND handle_window;
@@ -147,9 +139,9 @@ int run_visual_test(const char *name)
 	HINSTANCE instance;
     static const WCHAR str_ribbonres[] = {'A','P','P','L','I','C','A','T','I','O','N','_','R','I','B','B','O','N',0};
 
-    patch_file(name);
+    patch_file(data, len);
 
-	instance = LoadLibraryA("../../_DLL/dll.dll");
+	instance = LoadLibraryA("uiribbon_dll.dll");
 	if (!instance)
     {
         MessageBoxA(NULL, "Failed to load test dll!", "", 0);

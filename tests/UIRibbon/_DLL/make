@@ -2,4 +2,4 @@
 
 i686-w64-mingw32-windres resources.rc resources.o
 i686-w64-mingw32-gcc -c dll.c -o dll.o
-i686-w64-mingw32-gcc -shared dll.o resources.o -o dll.dll -l ole32
+i686-w64-mingw32-gcc -shared dll.o resources.o -o uiribbon_dll.dll -l ole32
