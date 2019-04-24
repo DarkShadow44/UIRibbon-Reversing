@@ -429,13 +429,14 @@ typedef struct type_command_ext5_
 typedef struct type_command_ext4_
 {
 	int _dryrun_pos;
-	type_command_ext5 blocks;
+	int blocks_count;
+	struct type_command_ext5_ * blocks;
 } type_command_ext4;
 
 typedef struct type_command_ext3_
 {
 	int _dryrun_pos;
-	uint16_t unk1;
+	uint16_t size_commands;
 	uint16_t unk2;
 	type_command_ext4 unk3;
 } type_command_ext3;
@@ -459,7 +460,7 @@ typedef struct type_uiribbon_
 	uint16_t len_unk6;
 	uint16_t command_ext_pos;
 	application_views unk6;
-	type_command_ext2 command_ext2;
+	type_command_ext2 command_ext;
 } type_uiribbon;
 
 int stream_read_uiribbon(stream *s, type_uiribbon *data);

@@ -1631,12 +1631,25 @@ void stream_free_type_command_ext5(type_command_ext5 *data)
 
 int stream_read_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, type_uiribbon *_root)
 {
-	CHECK(stream_read_type_command_ext5(s_root, s, &data->blocks, _root));
+	int i;
+
+	data->blocks = NULL;
+	i = -1;
+	do
+	{
+		i += 1;
+		data->blocks = realloc(data->blocks, sizeof(type_command_ext5) * (i + 1));
+		CHECK(stream_read_type_command_ext5(s_root, s, &data->blocks[i], _root));
+	}
+	while(s->start + s->pos < s->max);
+	data->blocks_count = i;
 	return 0;
 }
 
 int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
+	int i;
+
 	/* No separate sequence run during write */
 	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
 
@@ -1646,22 +1659,37 @@ int stream_write_type_command_ext4(stream *s_root, stream *s, type_command_ext4 
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_type_command_ext5(s_root, s, &data->blocks, stage, do_sequence, _root));
+	i = -1;
+	do
+	{
+		i += 1;
+		CHECK(stream_write_type_command_ext5(s_root, s, &data->blocks[i], stage, do_sequence, _root));
+	}
+	while(i + 1 < data->blocks_count);
 	return 0;
 }
 
 void stream_free_type_command_ext4(type_command_ext4 *data)
 {
-	stream_free_type_command_ext5(&data->blocks);
+	int i;
+
+	i = -1;
+	do
+	{
+		i += 1;
+		stream_free_type_command_ext5(&data->blocks[i]);
+	}
+	while(i + 1 < data->blocks_count);
+	free(data->blocks);
 }
 
 int stream_read_type_command_ext3(stream *s_root, stream *s, type_command_ext3 *data, type_uiribbon *_root)
 {
 	stream substream_unk3;
 
-	CHECK(stream_read_uint16_t(s_root, s, &data->unk1, _root));
+	CHECK(stream_read_uint16_t(s_root, s, &data->size_commands, _root));
 	CHECK(stream_read_uint16_t(s_root, s, &data->unk2, _root));
-	CHECK(stream_read_make_substream(s, &substream_unk3, data->unk1 - 4));
+	CHECK(stream_read_make_substream(s, &substream_unk3, data->size_commands - 4));
 	CHECK(stream_read_type_command_ext4(s_root, &substream_unk3, &data->unk3, _root));
 	return 0;
 }
@@ -1679,13 +1707,13 @@ int stream_write_type_command_ext3(stream *s_root, stream *s, type_command_ext3 
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint16_t(s_root, s, &data->unk1, stage, do_sequence, _root));
+	CHECK(stream_write_uint16_t(s_root, s, &data->size_commands, stage, do_sequence, _root));
 	CHECK(stream_write_uint16_t(s_root, s, &data->unk2, stage, do_sequence, _root));
 	CHECK(stream_write_make_substream(s, &substream_unk3));
 	CHECK(stream_write_type_command_ext4(s_root, &substream_unk3, &data->unk3, stage, do_sequence, _root));
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
-		data->unk1 = stream_write_get_length(&substream_unk3) - (- 4);
+		data->size_commands = stream_write_get_length(&substream_unk3) - (- 4);
 	}
 	return 0;
 }
@@ -1778,7 +1806,7 @@ int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, ty
 	CHECK(stream_read_uint16_t(s_root, s, &data->len_unk6, _root));
 	CHECK(stream_read_uint16_t(s_root, s, &data->command_ext_pos, _root));
 	CHECK(stream_read_application_views(s_root, s, &data->unk6, _root));
-	CHECK(stream_read_type_command_ext2(s_root, s, &data->command_ext2, _root));
+	CHECK(stream_read_type_command_ext2(s_root, s, &data->command_ext, _root));
 	return 0;
 }
 
@@ -1834,7 +1862,7 @@ int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, s
 	CHECK(stream_write_uint16_t(s_root, s, &data->len_unk6, stage, do_sequence, _root));
 	CHECK(stream_write_uint16_t(s_root, s, &data->command_ext_pos, stage, do_sequence, _root));
 	CHECK(stream_write_application_views(s_root, s, &data->unk6, stage, do_sequence, _root));
-	CHECK(stream_write_type_command_ext2(s_root, s, &data->command_ext2, stage, do_sequence, _root));
+	CHECK(stream_write_type_command_ext2(s_root, s, &data->command_ext, stage, do_sequence, _root));
 	return 0;
 }
 
@@ -1850,7 +1878,7 @@ void stream_free_type_uiribbon(type_uiribbon *data)
 	free(data->command_resources);
 	stream_free_type_command_container(&data->command_container);
 	stream_free_application_views(&data->unk6);
-	stream_free_type_command_ext2(&data->command_ext2);
+	stream_free_type_command_ext2(&data->command_ext);
 }
 
 int stream_read_uiribbon(stream *s, type_uiribbon *data)

@@ -4,7 +4,6 @@
 # more comments
 # simplify
 
-#handle commands with repeat:eof somehow
 #comment and format generated code better
 
 import yaml
@@ -470,13 +469,14 @@ class seq_info:
 				self.read.add_code(f'data->{node_id} = malloc(sizeof({node_type}) * {node_repeat_expr});')
 				self.add_code_all(f'for (i = 0; i < {node_repeat_expr}; i++)')
 				self.indent_code_plus_all()
-			elif node_repeat == 'until':
+			elif node_repeat == 'until' or node_repeat == 'eos':
 				self.read.add_code(f'data->{node_id} = NULL;')
 				self.add_code_all('i = -1;')
 				self.add_code_all('do')
 				self.indent_code_plus_all()
 				self.add_code_all('i += 1;')
 				self.read.add_code(f'data->{node_id} = realloc(data->{node_id}, sizeof({node_type}) * (i + 1));')
+				self.add_struct(f'int {node_id}_count;')
 
 
 		if node_enum_type is not None:
@@ -569,10 +569,17 @@ class seq_info:
 			self.indent_code_minus_all()
 			self.free.add_code(f'free(data->{node_id});')
 		elif node_repeat == 'until':
-			self.indent_code_minus()
+			self.indent_code_minus_all()
 			repeat_cond = node_repeat_until.replace(f'##current##->', 'data->{node_id}[i].')
-			self.add_code_all(f'while(!({repeat_cond}))')
-			self.free.add_code(f'free(data->{node_id};')
+			self.add_code_all(f'while(!({repeat_cond}));')
+			self.free.add_code(f'free(data->{node_id});')
+		elif node_repeat == 'eos':
+			self.indent_code_minus_all()
+			self.read.add_code(f'while(s->start + s->pos < s->max);')
+			self.read.add_code(f'data->{node_id}_count = i;')
+			self.write.add_code(f'while(i + 1 < data->{node_id}_count);')
+			self.free.add_code(f'while(i + 1 < data->{node_id}_count);')
+			self.free.add_code(f'free(data->{node_id});')
 
 		# Close condition block
 		if node_condition is not None:

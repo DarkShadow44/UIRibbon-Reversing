@@ -59,7 +59,7 @@ seq:
     type: u2
   - id: unk6
     type: application_views
-  - id: command_ext2
+  - id: command_ext
     type: type_command_ext2
 
 enums:
@@ -657,17 +657,17 @@ types:
   type_command_ext4:
     seq:
     - id: blocks
-      # repeat: eos
+      repeat: eos
       type: type_command_ext5
 
   type_command_ext3:
     seq:
-    - id: unk1
+    - id: size_commands
       type: u2
     - id: unk2
       type: u2
     - id: unk3
-      size: unk1 - 4
+      size: size_commands - 4
       type: type_command_ext4
 
   type_command_ext2:

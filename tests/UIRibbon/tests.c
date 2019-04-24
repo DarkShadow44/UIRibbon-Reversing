@@ -1341,9 +1341,6 @@ static int test_fontcontrol(void)
 
 static stream* copy_from_testdata(char *name)
 {
-    int i;
-    int m_a_x = 0;
-    int8_t dummy = 0xff;
     stream *s_read;
     stream *s_write;
     int error;
@@ -1365,7 +1362,7 @@ static stream* copy_from_testdata(char *name)
 
     s_write = create_write_stream();
 
-    /* ###### */
+    /* ### manipulate structure ### */
 
     /* ###### */
 
@@ -1373,21 +1370,17 @@ static stream* copy_from_testdata(char *name)
     ok(error == 0, "Failed to write file");
 
     /* Update internal data structures */
-    uiribbon.length_this_file = s_write->max + m_a_x;
+    uiribbon.length_this_file = s_write->max;
 
     /* Do write */
     error = stream_write_uiribbon(s_write, &uiribbon, STREAM_WRITE_STAGE_WRITE);
     ok(error == 0, "Failed to write file");
-    s_write->pos = s_write->max;
-    for(i = 0; i < m_a_x; i++)
-        stream_write_int8_t(s_write, s_write, &dummy, STREAM_WRITE_STAGE_WRITE, TRUE, NULL);
-
 
     file = fopen("dump_write.bml", "wb");
     ok(file != NULL, "Failed to open file");
     fwrite(s_write->contents->data, s_write->max, 1, file);
     fclose(file);
-    /*destroy_write_stream(s_write);*/
+
     stream_free_uiribbon(&uiribbon);
 
     return s_write;
@@ -1429,7 +1422,6 @@ int instance_test()
 int main()
 {
     stream *s_write;
-    const test_data *testdata;
     /* run_visual_test("dropdowncolorpicker"); */
     /*write_test_data("scalingpolicy");
     return 0;*/
@@ -1452,12 +1444,11 @@ int main()
 
     CHECK(instance_test());
 
-    s_write = copy_from_testdata("applicationmenu2");
+    s_write = copy_from_testdata("applicationmenu3");
 
-    write_test_data("simple_tabs");
-    testdata = get_test_data("applicationmenu2");
-    run_visual_test(testdata->bml_data, testdata->bml_len);
-    /*run_visual_test(s_write->contents->data, s_write->max);*/
+#if __MINGW32__
+    run_visual_test(s_write->contents->data, s_write->max);
+#endif
 
     destroy_write_stream(s_write);
 
