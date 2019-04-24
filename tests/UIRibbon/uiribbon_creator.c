@@ -59,9 +59,15 @@ static void transform_group(uiribbon_group *group, type_control *ret)
 
     ret->unk2 = 16;
     ret->block_type = ENUM_TYPE_CONTROL_SUBGROUP;
-    ret->blocks.count_blocks = 1;
-    ret->blocks.blocks = alloc_zero(sizeof(type_control_block));
+    ret->blocks.count_blocks = 2;
+    ret->blocks.blocks = alloc_zero(sizeof(type_control_block) * 2);
     make_block_subcontrols(group->controls, group->count_controls, &ret->blocks.blocks[0]);
+
+    ret->blocks.blocks[1].meta_type = ENUM_CONTROL_BLOCK_META_NUMBER;
+    ret->blocks.blocks[1].content_number.block_len = 1;
+    ret->blocks.blocks[1].content_number.block_type = ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE;
+    ret->blocks.blocks[1].content_number.content_number.id.flag = 4;
+    ret->blocks.blocks[1].content_number.content_number.id.id = 9; /* FIXME: Unknown why, but changes layout */
 }
 
 void patch_ribbon(type_uiribbon *uiribbon)

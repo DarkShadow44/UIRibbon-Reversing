@@ -1448,7 +1448,7 @@ int main()
 
     CHECK(instance_test());
 
-    write_test_data("simple_tabs");
+    write_test_data("test_splitbutton");
     s_write = copy_from_testdata("simple_tabs");
 
 #if __MINGW32__
