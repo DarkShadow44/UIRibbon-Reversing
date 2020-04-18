@@ -56,7 +56,7 @@ seq:
   - id: command_ext_pos
     type: u4
   - id: root_block
-    type: type_control_block
+    type: type_tree_entry
   - id: command_ext
     type: type_command_ext2
 
@@ -135,7 +135,7 @@ enums:
     2: medium
     3: large
 
-  enum_control_block_meta:
+  enum_tree_entry_type:
     1:  property
     24: array
     22: node
@@ -302,7 +302,7 @@ types:
     - id: len4
       type: u2
     - id: quick_ribbon_info
-      type: type_control_blocks
+      type: type_tree_entries
       size: len4 - 7
 
   type_sizedefinitions_order_command:
@@ -332,12 +332,12 @@ types:
       repeat: expr
       repeat-expr: count_commands
 
-  type_control_block_number_variable:
+  type_tree_entry_number_variable:
     seq:
     - id: id
       type: type_id
 
-  type_control_block_number_long:
+  type_tree_entry_number_long:
     seq:
     - id: unk1
       type: u4
@@ -353,7 +353,7 @@ types:
       repeat: expr
       repeat-expr: count_subcontrols
 
-  type_control_block_number:
+  type_tree_entry_number:
     seq:
     - id: block_len
       type: u1
@@ -361,10 +361,10 @@ types:
       enum: enum_control_block_type_number
       type: u1
     - id: content_number
-      type: type_control_block_number_variable
+      type: type_tree_entry_number_variable
       if: block_len == 1
     - id: content_long
-      type: type_control_block_number_long
+      type: type_tree_entry_number_long
       if: block_len == 4
     instances:
       id:
@@ -518,7 +518,7 @@ types:
         value: content_long.value1
         if: block_type == enum_control_block_type_number::fontcontrol_verticalfonts
 
-  type_control_block_array:
+  type_tree_entry_array:
     seq:
     - id: block_len
       type: u1
@@ -543,45 +543,45 @@ types:
         or block_type == enum_control_block_type_special::sizedefinition_order_medium
         or block_type == enum_control_block_type_special::sizedefinition_order_small
 
-  type_control_block:
+  type_tree_entry:
     seq:
-    - id: meta_type
+    - id: entry_type
       type: u1
-      enum: enum_control_block_meta
+      enum: enum_tree_entry_type
     - id: content_number
-      type: type_control_block_number
-      if: meta_type == enum_control_block_meta::property
+      type: type_tree_entry_number
+      if: entry_type == enum_tree_entry_type::property
     - id: content_special
-      type: type_control_block_array
-      if: meta_type == enum_control_block_meta::array
+      type: type_tree_entry_array
+      if: entry_type == enum_tree_entry_type::array
     - id: block_inline
       type: type_block_node
-      if: meta_type == enum_control_block_meta::node
+      if: entry_type == enum_tree_entry_type::node
     - id: ext_pos
       type: u4
-      if: meta_type == enum_control_block_meta::ext
+      if: entry_type == enum_tree_entry_type::ext
     instances:
      ext:
        io: _root._io
-       type: type_control_block_ext
+       type: type_tree_entry_ext
        pos: ext_pos
-       if: meta_type == enum_control_block_meta::ext
+       if: entry_type == enum_tree_entry_type::ext
 
-  type_control_blocks:
+  type_tree_entries:
     seq:
     - id: count_blocks
       type: u1
     - id: blocks
-      type: type_control_block
+      type: type_tree_entry
       repeat: expr
       repeat-expr: count_blocks
 
-  type_control_block_ext:
+  type_tree_entry_ext:
     seq:
     - id: len_ext
       type: u2
     - id: block
-      type: type_control_block
+      type: type_tree_entry
 
   type_control:
     seq:
@@ -596,7 +596,7 @@ types:
       type: u2
     - id: blocks
       size: size_block - 7
-      type: type_control_blocks
+      type: type_tree_entries
 
   type_command:
     seq:

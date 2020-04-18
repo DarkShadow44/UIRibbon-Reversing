@@ -101,11 +101,11 @@ typedef enum
 
 typedef enum
 {
-	ENUM_CONTROL_BLOCK_META_PROPERTY = 1,
-	ENUM_CONTROL_BLOCK_META_ARRAY = 24,
-	ENUM_CONTROL_BLOCK_META_NODE = 22,
-	ENUM_CONTROL_BLOCK_META_EXT = 62,
-} enum_control_block_meta;
+	ENUM_TREE_ENTRY_TYPE_PROPERTY = 1,
+	ENUM_TREE_ENTRY_TYPE_ARRAY = 24,
+	ENUM_TREE_ENTRY_TYPE_NODE = 22,
+	ENUM_TREE_ENTRY_TYPE_EXT = 62,
+} enum_tree_entry_type;
 
 typedef enum
 {
@@ -267,18 +267,18 @@ typedef struct type_sizedefinition_order_
 	struct type_sizedefinitions_order_command_ * commands;
 } type_sizedefinition_order;
 
-typedef struct type_control_block_number_variable_
+typedef struct type_tree_entry_number_variable_
 {
 	int _dryrun_pos;
 	type_id id;
-} type_control_block_number_variable;
+} type_tree_entry_number_variable;
 
-typedef struct type_control_block_number_long_
+typedef struct type_tree_entry_number_long_
 {
 	int _dryrun_pos;
 	uint32_t unk1;
 	uint8_t value1;
-} type_control_block_number_long;
+} type_tree_entry_number_long;
 
 typedef struct type_subcontrols_
 {
@@ -287,13 +287,13 @@ typedef struct type_subcontrols_
 	struct type_control_ * subcontrols;
 } type_subcontrols;
 
-typedef struct type_control_block_number_
+typedef struct type_tree_entry_number_
 {
 	int _dryrun_pos;
 	uint8_t block_len;
 	enum_control_block_type_number block_type;
-	type_control_block_number_variable content_number;
-	type_control_block_number_long content_long;
+	type_tree_entry_number_variable content_number;
+	type_tree_entry_number_long content_long;
 	int32_t id;
 	enum_sizedefinition_labelvisible_mixed sizedefinition_labelvisible_mixed;
 	enum_sizedefinition_labelvisible sizedefinition_labelvisible;
@@ -337,50 +337,50 @@ typedef struct type_control_block_number_
 	int32_t fontcontrol_parent_commandid;
 	int32_t fontcontrol_truetypeonly;
 	int32_t fontcontrol_verticalfonts;
-} type_control_block_number;
+} type_tree_entry_number;
 
-typedef struct type_control_block_array_
+typedef struct type_tree_entry_array_
 {
 	int _dryrun_pos;
 	uint8_t block_len;
 	enum_control_block_type_special block_type;
 	type_subcontrols content_subcontrols;
 	type_sizedefinition_order sizedefinition_order;
-} type_control_block_array;
+} type_tree_entry_array;
 
-typedef struct type_control_blocks_
+typedef struct type_tree_entries_
 {
 	int _dryrun_pos;
 	uint8_t count_blocks;
-	struct type_control_block_ * blocks;
-} type_control_blocks;
+	struct type_tree_entry_ * blocks;
+} type_tree_entries;
 
 typedef struct type_block_node_
 {
 	int _dryrun_pos;
 	uint32_t unk2;
 	uint16_t len4;
-	type_control_blocks quick_ribbon_info;
+	type_tree_entries quick_ribbon_info;
 } type_block_node;
 
-typedef struct type_control_block_
+typedef struct type_tree_entry_
 {
 	int _dryrun_pos;
-	enum_control_block_meta meta_type;
-	type_control_block_number content_number;
-	type_control_block_array content_special;
+	enum_tree_entry_type entry_type;
+	type_tree_entry_number content_number;
+	type_tree_entry_array content_special;
 	type_block_node block_inline;
 	uint32_t ext_pos;
 	int _dryrun_pos_instance_ext;
-	struct type_control_block_ext_ *ext;
-} type_control_block;
+	struct type_tree_entry_ext_ *ext;
+} type_tree_entry;
 
-typedef struct type_control_block_ext_
+typedef struct type_tree_entry_ext_
 {
 	int _dryrun_pos;
 	uint16_t len_ext;
-	type_control_block block;
-} type_control_block_ext;
+	type_tree_entry block;
+} type_tree_entry_ext;
 
 typedef struct type_control_
 {
@@ -388,7 +388,7 @@ typedef struct type_control_
 	enum_type_control block_type;
 	uint8_t unk2;
 	uint16_t size_block;
-	type_control_blocks blocks;
+	type_tree_entries blocks;
 } type_control;
 
 typedef struct type_command_
@@ -451,7 +451,7 @@ typedef struct type_uiribbon_
 	type_command_container command_container;
 	uint16_t len_unk6;
 	uint32_t command_ext_pos;
-	type_control_block root_block;
+	type_tree_entry root_block;
 	type_command_ext2 command_ext;
 } type_uiribbon;
 

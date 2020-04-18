@@ -5,9 +5,9 @@ static void *alloc_zero(int size)
     return calloc(size, 1);
 }
 
-static void make_block_id(int id, type_control_block *ret)
+static void make_block_id(int id, type_tree_entry *ret)
 {
-    ret->meta_type = ENUM_CONTROL_BLOCK_META_PROPERTY;
+    ret->entry_type = ENUM_TREE_ENTRY_TYPE_PROPERTY;
     ret->content_number.block_len = 1;
     ret->content_number.block_type = ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID;
     ret->content_number.content_number.id.flag = 3;
@@ -22,17 +22,17 @@ static void transform_control(uiribbon_control *control, type_control *ret)
     case UIRIBBON_CONTROL_TYPE_BUTTON:
         ret->block_type = ENUM_TYPE_CONTROL_BUTTON;
         ret->blocks.count_blocks = 1;
-        ret->blocks.blocks = alloc_zero(sizeof(type_control_block) * ret->blocks.count_blocks);
+        ret->blocks.blocks = alloc_zero(sizeof(type_tree_entry) * ret->blocks.count_blocks);
         make_block_id(control->id, &ret->blocks.blocks[0]);
         break;
     }
 }
 
-static void make_block_subcontrols(uiribbon_control *controls, int controls_count, type_control_block *ret)
+static void make_block_subcontrols(uiribbon_control *controls, int controls_count, type_tree_entry *ret)
 {
     int i;
 
-    ret->meta_type = ENUM_CONTROL_BLOCK_META_ARRAY;
+    ret->entry_type = ENUM_TREE_ENTRY_TYPE_ARRAY;
     ret->content_special.block_len = 1;
     ret->content_special.block_type = ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS;
     ret->content_special.content_subcontrols.count_subcontrols = controls_count;
@@ -47,9 +47,9 @@ static void transform_group(uiribbon_group *group, type_control *ret)
 {
     ret->block_type = ENUM_TYPE_CONTROL_GROUP;
     ret->blocks.count_blocks = 2;
-    ret->blocks.blocks = alloc_zero(sizeof(type_control_block) * ret->blocks.count_blocks);
+    ret->blocks.blocks = alloc_zero(sizeof(type_tree_entry) * ret->blocks.count_blocks);
     make_block_id(group->id, &ret->blocks.blocks[0]);
-    ret->blocks.blocks[1].meta_type = ENUM_CONTROL_BLOCK_META_ARRAY;
+    ret->blocks.blocks[1].entry_type = ENUM_TREE_ENTRY_TYPE_ARRAY;
     ret->blocks.blocks[1].content_special.block_len = 1;
     ret->blocks.blocks[1].content_special.block_type = ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS;
     ret->blocks.blocks[1].content_special.content_subcontrols.count_subcontrols = 1;
@@ -60,10 +60,10 @@ static void transform_group(uiribbon_group *group, type_control *ret)
     ret->unk2 = 16;
     ret->block_type = ENUM_TYPE_CONTROL_SUBGROUP;
     ret->blocks.count_blocks = 2;
-    ret->blocks.blocks = alloc_zero(sizeof(type_control_block) * 2);
+    ret->blocks.blocks = alloc_zero(sizeof(type_tree_entry) * 2);
     make_block_subcontrols(group->controls, group->count_controls, &ret->blocks.blocks[0]);
 
-    ret->blocks.blocks[1].meta_type = ENUM_CONTROL_BLOCK_META_PROPERTY;
+    ret->blocks.blocks[1].entry_type = ENUM_TREE_ENTRY_TYPE_PROPERTY;
     ret->blocks.blocks[1].content_number.block_len = 1;
     ret->blocks.blocks[1].content_number.block_type = ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE;
     ret->blocks.blocks[1].content_number.content_number.id.flag = 4;
