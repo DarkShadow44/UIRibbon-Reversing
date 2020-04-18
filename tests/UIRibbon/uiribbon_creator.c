@@ -84,11 +84,11 @@ void patch_ribbon(type_uiribbon *uiribbon)
     new_group.count_controls = 2;
 
     /* tabs */
-    uiribbon->unk6.ribbon.blocks[1].content_special.content_subcontrols.count_subcontrols = 1;
+    uiribbon->root_block.block_inline.quick_ribbon_info.blocks[1].content_special.content_subcontrols.count_subcontrols = 1;
     /* groups */
-    uiribbon->unk6.ribbon.blocks[1].content_special.content_subcontrols.subcontrols[0].blocks.blocks[1].ext->block.content_special.content_subcontrols.count_subcontrols = 1;
+    uiribbon->root_block.block_inline.quick_ribbon_info.blocks[1].content_special.content_subcontrols.subcontrols[0].blocks.blocks[1].ext->block.content_special.content_subcontrols.count_subcontrols = 1;
 
-    transform_group(&new_group, &uiribbon->unk6.ribbon.blocks[1].content_special.content_subcontrols.subcontrols[0].blocks.blocks[1].ext->block.content_special.content_subcontrols.subcontrols[0]);
+    transform_group(&new_group, &uiribbon->root_block.block_inline.quick_ribbon_info.blocks[1].content_special.content_subcontrols.subcontrols[0].blocks.blocks[1].ext->block.content_special.content_subcontrols.subcontrols[0]);
 
 
     uiribbon->command_ext.ext->unk3.blocks_count = 1;

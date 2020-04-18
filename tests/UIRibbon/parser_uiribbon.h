@@ -391,14 +391,6 @@ typedef struct type_control_
 	type_control_blocks blocks;
 } type_control;
 
-typedef struct application_views_
-{
-	int _dryrun_pos;
-	uint16_t ribbon_len;
-	type_control_blocks ribbon;
-	uint32_t unk1;
-} application_views;
-
 typedef struct type_command_
 {
 	int _dryrun_pos;
@@ -459,7 +451,7 @@ typedef struct type_uiribbon_
 	type_command_container command_container;
 	uint16_t len_unk6;
 	uint32_t command_ext_pos;
-	application_views unk6;
+	type_control_block root_block;
 	type_command_ext2 command_ext;
 } type_uiribbon;
 

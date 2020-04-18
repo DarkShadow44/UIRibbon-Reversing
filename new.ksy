@@ -55,8 +55,8 @@ seq:
     type: u2
   - id: command_ext_pos
     type: u4
-  - id: unk6
-    type: application_views
+  - id: root_block
+    type: type_control_block
   - id: command_ext
     type: type_command_ext2
 
@@ -597,18 +597,6 @@ types:
     - id: blocks
       size: size_block - 7
       type: type_control_blocks
-
-  application_views:
-    seq:
-    - id: unk20
-      contents: [0x16, 0x00, 0x24, 0x00, 0x10]
-    - id: ribbon_len
-      type: u2
-    - id: ribbon
-      type: type_control_blocks
-      size: ribbon_len -7
-    - id: unk1
-      type: u4
 
   type_command:
     seq:

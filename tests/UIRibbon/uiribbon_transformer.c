@@ -1260,9 +1260,9 @@ void uiribbon_transform(type_uiribbon *src, uiribbon_main *ret)
 
     transform_commands(src, ret);
 
-    for (i = 0; i < src->unk6.ribbon.count_blocks; i++)
+    for (i = 0; i < src->root_block.block_inline.quick_ribbon_info.count_blocks; i++)
     {
-        type_control_block *src_block = &src->unk6.ribbon.blocks[i];
+        type_control_block *src_block = &src->root_block.block_inline.quick_ribbon_info.blocks[i];
         if (src_block->meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
         {
             if (src_block->content_special.block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL)

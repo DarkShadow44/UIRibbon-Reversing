@@ -53,9 +53,6 @@ void stream_free_type_control_block_ext(type_control_block_ext *data);
 int stream_read_type_control(stream *s_root, stream *s, type_control *data, type_uiribbon *_root);
 int stream_write_type_control(stream *s_root, stream *s, type_control *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_control(type_control *data);
-int stream_read_application_views(stream *s_root, stream *s, application_views *data, type_uiribbon *_root);
-int stream_write_application_views(stream *s_root, stream *s, application_views *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
-void stream_free_application_views(application_views *data);
 int stream_read_type_command(stream *s_root, stream *s, type_command *data, type_uiribbon *_root);
 int stream_write_type_command(stream *s_root, stream *s, type_command *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_command(type_command *data);
@@ -1162,50 +1159,6 @@ void stream_free_type_control(type_control *data)
 	stream_free_type_control_blocks(&data->blocks);
 }
 
-int stream_read_application_views(stream *s_root, stream *s, application_views *data, type_uiribbon *_root)
-{
-	const char unk20[] = {22, 0, 36, 0, 16};
-	stream substream_ribbon;
-
-	CHECK(stream_read_expect_bytes(s, unk20));
-	CHECK(stream_read_uint16_t(s_root, s, &data->ribbon_len, _root));
-	CHECK(stream_read_make_substream(s, &substream_ribbon, data->ribbon_len - 7));
-	CHECK(stream_read_type_control_blocks(s_root, &substream_ribbon, &data->ribbon, _root));
-	CHECK(stream_read_uint32_t(s_root, s, &data->unk1, _root));
-	return 0;
-}
-
-int stream_write_application_views(stream *s_root, stream *s, application_views *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
-{
-	const char unk20[] = {22, 0, 36, 0, 16};
-	stream substream_ribbon;
-
-	/* No separate sequence run during write */
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
-
-	/* Store position for current type */
-	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
-	{
-		data->_dryrun_pos = stream_write_get_position_absolute(s);
-	}
-
-	CHECK(stream_write_bytes(s, unk20, sizeof(unk20), stage, do_sequence, _root));
-	CHECK(stream_write_uint16_t(s_root, s, &data->ribbon_len, stage, do_sequence, _root));
-	CHECK(stream_write_make_substream(s, &substream_ribbon));
-	CHECK(stream_write_type_control_blocks(s_root, &substream_ribbon, &data->ribbon, stage, do_sequence, _root));
-	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
-	{
-		data->ribbon_len = stream_write_get_length(&substream_ribbon) - (- 7);
-	}
-	CHECK(stream_write_uint32_t(s_root, s, &data->unk1, stage, do_sequence, _root));
-	return 0;
-}
-
-void stream_free_application_views(application_views *data)
-{
-	stream_free_type_control_blocks(&data->ribbon);
-}
-
 int stream_read_type_command(stream *s_root, stream *s, type_command *data, type_uiribbon *_root)
 {
 	CHECK(stream_read_uint16_t(s_root, s, &data->command_id, _root));
@@ -1507,7 +1460,7 @@ int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, ty
 	CHECK(stream_read_type_command_container(s_root, &substream_command_container, &data->command_container, _root));
 	CHECK(stream_read_uint16_t(s_root, s, &data->len_unk6, _root));
 	CHECK(stream_read_uint32_t(s_root, s, &data->command_ext_pos, _root));
-	CHECK(stream_read_application_views(s_root, s, &data->unk6, _root));
+	CHECK(stream_read_type_control_block(s_root, s, &data->root_block, _root));
 	CHECK(stream_read_type_command_ext2(s_root, s, &data->command_ext, _root));
 	return 0;
 }
@@ -1561,7 +1514,7 @@ int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, s
 	}
 	CHECK(stream_write_uint16_t(s_root, s, &data->len_unk6, stage, do_sequence, _root));
 	CHECK(stream_write_uint32_t(s_root, s, &data->command_ext_pos, stage, do_sequence, _root));
-	CHECK(stream_write_application_views(s_root, s, &data->unk6, stage, do_sequence, _root));
+	CHECK(stream_write_type_control_block(s_root, s, &data->root_block, stage, do_sequence, _root));
 	CHECK(stream_write_type_command_ext2(s_root, s, &data->command_ext, stage, do_sequence, _root));
 	return 0;
 }
@@ -1577,7 +1530,7 @@ void stream_free_type_uiribbon(type_uiribbon *data)
 	}
 	free(data->command_resources);
 	stream_free_type_command_container(&data->command_container);
-	stream_free_application_views(&data->unk6);
+	stream_free_type_control_block(&data->root_block);
 	stream_free_type_command_ext2(&data->command_ext);
 }
 
