@@ -17,6 +17,9 @@ void stream_free_type_resource_generic(type_resource_generic *data);
 int stream_read_type_resource(stream *s_root, stream *s, type_resource *data, type_uiribbon *_root);
 int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_resource(type_resource *data);
+int stream_read_type_block_node(stream *s_root, stream *s, type_block_node *data, type_uiribbon *_root);
+int stream_write_type_block_node(stream *s_root, stream *s, type_block_node *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
+void stream_free_type_block_node(type_block_node *data);
 int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, type_uiribbon *_root);
 int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_sizedefinitions_order_command(type_sizedefinitions_order_command *data);
@@ -38,12 +41,6 @@ void stream_free_type_tree_entry_number(type_tree_entry_number *data);
 int stream_read_type_tree_entry_array(stream *s_root, stream *s, type_tree_entry_array *data, type_uiribbon *_root);
 int stream_write_type_tree_entry_array(stream *s_root, stream *s, type_tree_entry_array *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_tree_entry_array(type_tree_entry_array *data);
-int stream_read_type_tree_entries(stream *s_root, stream *s, type_tree_entries *data, type_uiribbon *_root);
-int stream_write_type_tree_entries(stream *s_root, stream *s, type_tree_entries *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
-void stream_free_type_tree_entries(type_tree_entries *data);
-int stream_read_type_block_node(stream *s_root, stream *s, type_block_node *data, type_uiribbon *_root);
-int stream_write_type_block_node(stream *s_root, stream *s, type_block_node *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
-void stream_free_type_block_node(type_block_node *data);
 int stream_read_type_tree_entry(stream *s_root, stream *s, type_tree_entry *data, type_uiribbon *_root);
 int stream_write_type_tree_entry(stream *s_root, stream *s, type_tree_entry *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_tree_entry(type_tree_entry *data);
@@ -376,6 +373,63 @@ void stream_free_type_resource(type_resource *data)
 		stream_free_type_resource_generic(&data->resources[i]);
 	}
 	free(data->resources);
+}
+
+int stream_read_type_block_node(stream *s_root, stream *s, type_block_node *data, type_uiribbon *_root)
+{
+	uint16_t type;
+	int i;
+
+	CHECK(stream_read_uint8_t(s_root, s, &data->unk56, _root));
+	CHECK(stream_read_uint16_t(s_root, s, &type, _root));
+	data->type = type;
+	CHECK(stream_read_uint8_t(s_root, s, &data->unk3, _root));
+	CHECK(stream_read_uint16_t(s_root, s, &data->size_node, _root));
+	CHECK(stream_read_uint8_t(s_root, s, &data->count_children, _root));
+	data->children = malloc(sizeof(type_tree_entry) * data->count_children);
+	for (i = 0; i < data->count_children; i++)
+	{
+		CHECK(stream_read_type_tree_entry(s_root, s, &data->children[i], _root));
+	}
+	return 0;
+}
+
+int stream_write_type_block_node(stream *s_root, stream *s, type_block_node *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
+{
+	uint16_t type;
+	int i;
+
+	/* No separate sequence run during write */
+	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
+
+	/* Store position for current type */
+	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
+	{
+		data->_dryrun_pos = stream_write_get_position_absolute(s);
+	}
+
+	CHECK(stream_write_uint8_t(s_root, s, &data->unk56, stage, do_sequence, _root));
+	type = data->type;
+	CHECK(stream_write_uint16_t(s_root, s, &type, stage, do_sequence, _root));
+	CHECK(stream_write_uint8_t(s_root, s, &data->unk3, stage, do_sequence, _root));
+	CHECK(stream_write_uint16_t(s_root, s, &data->size_node, stage, do_sequence, _root));
+	CHECK(stream_write_uint8_t(s_root, s, &data->count_children, stage, do_sequence, _root));
+	for (i = 0; i < data->count_children; i++)
+	{
+		CHECK(stream_write_type_tree_entry(s_root, s, &data->children[i], stage, do_sequence, _root));
+	}
+	return 0;
+}
+
+void stream_free_type_block_node(type_block_node *data)
+{
+	int i;
+
+	for (i = 0; i < data->count_children; i++)
+	{
+		stream_free_type_tree_entry(&data->children[i]);
+	}
+	free(data->children);
 }
 
 int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, type_uiribbon *_root)
@@ -878,99 +932,6 @@ void stream_free_type_tree_entry_array(type_tree_entry_array *data)
 	}
 }
 
-int stream_read_type_tree_entries(stream *s_root, stream *s, type_tree_entries *data, type_uiribbon *_root)
-{
-	int i;
-
-	CHECK(stream_read_uint8_t(s_root, s, &data->count_blocks, _root));
-	data->blocks = malloc(sizeof(type_tree_entry) * data->count_blocks);
-	for (i = 0; i < data->count_blocks; i++)
-	{
-		CHECK(stream_read_type_tree_entry(s_root, s, &data->blocks[i], _root));
-	}
-	return 0;
-}
-
-int stream_write_type_tree_entries(stream *s_root, stream *s, type_tree_entries *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
-{
-	int i;
-
-	/* No separate sequence run during write */
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
-
-	/* Store position for current type */
-	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
-	{
-		data->_dryrun_pos = stream_write_get_position_absolute(s);
-	}
-
-	CHECK(stream_write_uint8_t(s_root, s, &data->count_blocks, stage, do_sequence, _root));
-	for (i = 0; i < data->count_blocks; i++)
-	{
-		CHECK(stream_write_type_tree_entry(s_root, s, &data->blocks[i], stage, do_sequence, _root));
-	}
-	return 0;
-}
-
-void stream_free_type_tree_entries(type_tree_entries *data)
-{
-	int i;
-
-	for (i = 0; i < data->count_blocks; i++)
-	{
-		stream_free_type_tree_entry(&data->blocks[i]);
-	}
-	free(data->blocks);
-}
-
-int stream_read_type_block_node(stream *s_root, stream *s, type_block_node *data, type_uiribbon *_root)
-{
-	uint16_t type;
-	stream substream_children;
-
-	CHECK(stream_read_uint8_t(s_root, s, &data->unk56, _root));
-	CHECK(stream_read_uint16_t(s_root, s, &type, _root));
-	data->type = type;
-	CHECK(stream_read_uint8_t(s_root, s, &data->unk3, _root));
-	CHECK(stream_read_uint16_t(s_root, s, &data->len4, _root));
-	CHECK(stream_read_make_substream(s, &substream_children, data->len4 - 7));
-	CHECK(stream_read_type_tree_entries(s_root, &substream_children, &data->children, _root));
-	return 0;
-}
-
-int stream_write_type_block_node(stream *s_root, stream *s, type_block_node *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
-{
-	uint16_t type;
-	stream substream_children;
-
-	/* No separate sequence run during write */
-	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
-
-	/* Store position for current type */
-	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
-	{
-		data->_dryrun_pos = stream_write_get_position_absolute(s);
-	}
-
-	CHECK(stream_write_uint8_t(s_root, s, &data->unk56, stage, do_sequence, _root));
-	type = data->type;
-	CHECK(stream_write_uint16_t(s_root, s, &type, stage, do_sequence, _root));
-	CHECK(stream_write_uint8_t(s_root, s, &data->unk3, stage, do_sequence, _root));
-	CHECK(stream_write_uint16_t(s_root, s, &data->len4, stage, do_sequence, _root));
-	CHECK(stream_write_make_substream(s, &substream_children));
-	CHECK(stream_write_type_tree_entries(s_root, &substream_children, &data->children, stage, do_sequence, _root));
-	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
-	{
-		data->len4 = stream_write_get_length(&substream_children) - (- 7);
-	}
-	return 0;
-}
-
-void stream_free_type_block_node(type_block_node *data)
-{
-	stream_free_type_tree_entries(&data->children);
-}
-
 int stream_read_type_tree_entry(stream *s_root, stream *s, type_tree_entry *data, type_uiribbon *_root)
 {
 	uint8_t entry_type;
@@ -1121,15 +1082,19 @@ int stream_read_type_control(stream *s_root, stream *s, type_control *data, type
 {
 	const char unk1[] = {22, 0};
 	uint16_t block_type;
-	stream substream_blocks;
+	int i;
 
 	CHECK(stream_read_expect_bytes(s, unk1));
 	CHECK(stream_read_uint16_t(s_root, s, &block_type, _root));
 	data->block_type = block_type;
 	CHECK(stream_read_uint8_t(s_root, s, &data->unk2, _root));
-	CHECK(stream_read_uint16_t(s_root, s, &data->size_block, _root));
-	CHECK(stream_read_make_substream(s, &substream_blocks, data->size_block - 7));
-	CHECK(stream_read_type_tree_entries(s_root, &substream_blocks, &data->blocks, _root));
+	CHECK(stream_read_uint16_t(s_root, s, &data->size_node, _root));
+	CHECK(stream_read_uint8_t(s_root, s, &data->count_children, _root));
+	data->children = malloc(sizeof(type_tree_entry) * data->count_children);
+	for (i = 0; i < data->count_children; i++)
+	{
+		CHECK(stream_read_type_tree_entry(s_root, s, &data->children[i], _root));
+	}
 	return 0;
 }
 
@@ -1137,7 +1102,7 @@ int stream_write_type_control(stream *s_root, stream *s, type_control *data, str
 {
 	const char unk1[] = {22, 0};
 	uint16_t block_type;
-	stream substream_blocks;
+	int i;
 
 	/* No separate sequence run during write */
 	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
@@ -1152,19 +1117,24 @@ int stream_write_type_control(stream *s_root, stream *s, type_control *data, str
 	block_type = data->block_type;
 	CHECK(stream_write_uint16_t(s_root, s, &block_type, stage, do_sequence, _root));
 	CHECK(stream_write_uint8_t(s_root, s, &data->unk2, stage, do_sequence, _root));
-	CHECK(stream_write_uint16_t(s_root, s, &data->size_block, stage, do_sequence, _root));
-	CHECK(stream_write_make_substream(s, &substream_blocks));
-	CHECK(stream_write_type_tree_entries(s_root, &substream_blocks, &data->blocks, stage, do_sequence, _root));
-	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
+	CHECK(stream_write_uint16_t(s_root, s, &data->size_node, stage, do_sequence, _root));
+	CHECK(stream_write_uint8_t(s_root, s, &data->count_children, stage, do_sequence, _root));
+	for (i = 0; i < data->count_children; i++)
 	{
-		data->size_block = stream_write_get_length(&substream_blocks) - (- 7);
+		CHECK(stream_write_type_tree_entry(s_root, s, &data->children[i], stage, do_sequence, _root));
 	}
 	return 0;
 }
 
 void stream_free_type_control(type_control *data)
 {
-	stream_free_type_tree_entries(&data->blocks);
+	int i;
+
+	for (i = 0; i < data->count_children; i++)
+	{
+		stream_free_type_tree_entry(&data->children[i]);
+	}
+	free(data->children);
 }
 
 int stream_read_type_command(stream *s_root, stream *s, type_command *data, type_uiribbon *_root)

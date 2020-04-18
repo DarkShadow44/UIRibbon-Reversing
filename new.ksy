@@ -300,11 +300,15 @@ types:
       enum: enum_type_control
     - id: unk3
       type: u1
-    - id: len4
+    - id: size_node
       type: u2
+    - id: count_children
+      type: u1
     - id: children
-      type: type_tree_entries
-      size: len4 - 7
+      type: type_tree_entry
+      repeat: expr
+      repeat-expr: count_children
+
 
   type_sizedefinitions_order_command:
     seq:
@@ -568,15 +572,6 @@ types:
        pos: ext_pos
        if: entry_type == enum_tree_entry_type::ext
 
-  type_tree_entries:
-    seq:
-    - id: count_blocks
-      type: u1
-    - id: blocks
-      type: type_tree_entry
-      repeat: expr
-      repeat-expr: count_blocks
-
   type_tree_entry_ext:
     seq:
     - id: len_ext
@@ -593,11 +588,14 @@ types:
       enum: enum_type_control
     - id: unk2
       type: u1
-    - id: size_block
+    - id: size_node
       type: u2
-    - id: blocks
-      size: size_block - 7
-      type: type_tree_entries
+    - id: count_children
+      type: u1
+    - id: children
+      type: type_tree_entry
+      repeat: expr
+      repeat-expr: count_children
 
   type_command:
     seq:

@@ -24,9 +24,9 @@ uiribbon_control_type transform_control_type(type_control *src_control)
     case ENUM_TYPE_CONTROL_BUTTON:
         return UIRIBBON_CONTROL_TYPE_BUTTON;
     case ENUM_TYPE_CONTROL_CHECKBOX:
-        for (i = 0; i < src_control->blocks.count_blocks; i++)
+        for (i = 0; i < src_control->count_children; i++)
         {
-            type_tree_entry *src_block = &src_control->blocks.blocks[i];
+            type_tree_entry *src_block = &src_control->children[i];
             if (src_block->entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY && src_block->property.block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
             {
                 is_checkbox = src_block->property.is_checkbox;
@@ -38,9 +38,9 @@ uiribbon_control_type transform_control_type(type_control *src_control)
     case ENUM_TYPE_CONTROL_DROPDOWNBUTTON:
         return UIRIBBON_CONTROL_TYPE_DROPDOWNBUTTON;
     case ENUM_TYPE_CONTROL_GALLERY:
-        for (i = 0; i < src_control->blocks.count_blocks; i++)
+        for (i = 0; i < src_control->count_children; i++)
         {
-            type_tree_entry *src_block = &src_control->blocks.blocks[i];
+            type_tree_entry *src_block = &src_control->children[i];
             if (src_block->entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY && src_block->property.block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
             {
                 switch(src_block->property.gallery_type)
@@ -49,9 +49,9 @@ uiribbon_control_type transform_control_type(type_control *src_control)
                 case ENUM_GALLERY_TYPE_DROPDOWNLIST:
                     return UIRIBBON_CONTROL_TYPE_COMBOBOX;
                 case ENUM_GALLERY_TYPE_DROPDOWNSPLIT:
-                    for (j = 0; j < src_control->blocks.count_blocks; j++)
+                    for (j = 0; j < src_control->count_children; j++)
                     {
-                        if (src_control->blocks.blocks[j].entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY && src_control->blocks.blocks[j].property.block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
+                        if (src_control->children[j].entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY && src_control->children[j].property.block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
                             is_colorpicker = TRUE;
                     }
                     if (is_colorpicker)
@@ -86,11 +86,11 @@ void transform_control_combobox(type_uiribbon *root, type_control *src_control, 
     ret_control->fontcontrol_show_vertical = 0;
 
     ret_control->is_editable = FALSE;
-    for (i = 0; i < src_control->blocks.count_blocks; i++)
+    for (i = 0; i < src_control->count_children; i++)
     {
-        type_tree_entry_number *src_block = &src_control->blocks.blocks[i].property;
+        type_tree_entry_number *src_block = &src_control->children[i].property;
 
-        if (src_control->blocks.blocks[i].entry_type != ENUM_TREE_ENTRY_TYPE_PROPERTY)
+        if (src_control->children[i].entry_type != ENUM_TREE_ENTRY_TYPE_PROPERTY)
             continue;
 
         switch(src_block->block_type)
@@ -170,11 +170,11 @@ void transform_control_dropdowncolorpicker(type_control *src_control, uiribbon_c
     ret_control->recent_color_rows = 1;
     ret_control->standard_color_rows = 1;
     ret_control->theme_color_rows = 6;
-    for (i = 0; i < src_control->blocks.count_blocks; i++)
+    for (i = 0; i < src_control->count_children; i++)
     {
-        type_tree_entry_number *src_block = &src_control->blocks.blocks[i].property;
+        type_tree_entry_number *src_block = &src_control->children[i].property;
 
-        if (src_control->blocks.blocks[i].entry_type != ENUM_TREE_ENTRY_TYPE_PROPERTY)
+        if (src_control->children[i].entry_type != ENUM_TREE_ENTRY_TYPE_PROPERTY)
             continue;
 
         switch(src_block->block_type)
@@ -276,11 +276,11 @@ void transform_control_gallery_generic(type_control *src_control, uiribbon_contr
     ret_control->elements_type = UIRIBBON_GALLERY_ELEMENTS_TYPE_ITEMS; /* FIXME: is this the correct default? */
     ret_control->text_position = UIRIBBON_GALLERY_TEXT_POSITION_LEFT; /* FIXME: is this the correct default? */
 
-    for (i = 0; i < src_control->blocks.count_blocks; i++)
+    for (i = 0; i < src_control->count_children; i++)
     {
-        type_tree_entry_number *src_block = &src_control->blocks.blocks[i].property;
+        type_tree_entry_number *src_block = &src_control->children[i].property;
 
-        if (src_control->blocks.blocks[i].entry_type != ENUM_TREE_ENTRY_TYPE_PROPERTY)
+        if (src_control->children[i].entry_type != ENUM_TREE_ENTRY_TYPE_PROPERTY)
             continue;
 
         switch(src_block->block_type)
@@ -324,11 +324,11 @@ void transform_control_inribbongallery(type_control *src_control, uiribbon_contr
 
     ret_control->max_rows = 1;
 
-    for (i = 0; i < src_control->blocks.count_blocks; i++)
+    for (i = 0; i < src_control->count_children; i++)
     {
-        type_tree_entry_number *src_block = &src_control->blocks.blocks[i].property;
+        type_tree_entry_number *src_block = &src_control->children[i].property;
 
-        if (src_control->blocks.blocks[i].entry_type != ENUM_TREE_ENTRY_TYPE_PROPERTY)
+        if (src_control->children[i].entry_type != ENUM_TREE_ENTRY_TYPE_PROPERTY)
             continue;
 
         switch(src_block->block_type)
@@ -386,11 +386,11 @@ void transform_control_splitbutton(type_uiribbon *root, type_control *src_contro
 
     ret_control->control_info.splitbutton.buttonitem = malloc(sizeof(uiribbon_control));
 
-    for (i = 0; i < src_control->blocks.count_blocks; i++)
+    for (i = 0; i < src_control->count_children; i++)
     {
-        type_tree_entry_array *src_block = &src_control->blocks.blocks[i].array;
+        type_tree_entry_array *src_block = &src_control->children[i].array;
 
-        if (src_control->blocks.blocks[i].entry_type != ENUM_TREE_ENTRY_TYPE_ARRAY)
+        if (src_control->children[i].entry_type != ENUM_TREE_ENTRY_TYPE_ARRAY)
             continue;
 
         if (src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM)
@@ -476,11 +476,11 @@ void transform_control(type_uiribbon *root, type_control *src_control, uiribbon_
     ret_control->size_definitions = NULL;
     ret_control->count_subcontrols = 0;
     ret_control->subcontrols = NULL;
-    for (i = 0; i < src_control->blocks.count_blocks; i++)
+    for (i = 0; i < src_control->count_children; i++)
     {
-        type_tree_entry_number *src_block = &src_control->blocks.blocks[i].property;
-        type_tree_entry_array *src_block_special = &src_control->blocks.blocks[i].array;
-        int entry_type = src_control->blocks.blocks[i].entry_type;
+        type_tree_entry_number *src_block = &src_control->children[i].property;
+        type_tree_entry_array *src_block_special = &src_control->children[i].array;
+        int entry_type = src_control->children[i].entry_type;
         if (entry_type == ENUM_TREE_ENTRY_TYPE_ARRAY)
         {
             if (src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS
@@ -666,10 +666,10 @@ void transform_subcontrols_group(type_uiribbon *root, type_subcontrols *src_bloc
 
     ASSERT(src_block->count_subcontrols == 1);
 
-    for (i = 0; i < src_block->subcontrols[0].blocks.count_blocks; i++)
+    for (i = 0; i < src_block->subcontrols[0].count_children; i++)
     {
-        type_tree_entry_array *src_block_special = &src_block->subcontrols[0].blocks.blocks[i].array;
-        int entry_type = src_block->subcontrols[0].blocks.blocks[i].entry_type;
+        type_tree_entry_array *src_block_special = &src_block->subcontrols[0].children[i].array;
+        int entry_type = src_block->subcontrols[0].children[i].entry_type;
         if (entry_type == ENUM_TREE_ENTRY_TYPE_ARRAY)
         {
             switch (src_block_special->block_type)
@@ -696,11 +696,11 @@ void transform_group(type_uiribbon *root, type_control *src_group, uiribbon_grou
     ret_group->count_controls = 0;
     ret_group->controls = NULL;
     ret_group->sizedefinition_orders = NULL;
-    for (i = 0; i < src_group->blocks.count_blocks; i++)
+    for (i = 0; i < src_group->count_children; i++)
     {
-        type_tree_entry_number *src_block = &src_group->blocks.blocks[i].property;
-        type_tree_entry_array *src_block_special = &src_group->blocks.blocks[i].array;
-        int entry_type = src_group->blocks.blocks[i].entry_type;
+        type_tree_entry_number *src_block = &src_group->children[i].property;
+        type_tree_entry_array *src_block_special = &src_group->children[i].array;
+        int entry_type = src_group->children[i].entry_type;
 
         if (entry_type == ENUM_TREE_ENTRY_TYPE_ARRAY && src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
         {
@@ -730,10 +730,10 @@ void transform_scalepolicies(type_subcontrols *src_ext, uiribbon_tab *ret_tab)
         if (src_group->block_type != ENUM_TYPE_CONTROL_GROUP)
             continue;
 
-        for (j = 0; j < src_group->blocks.count_blocks; j++)
+        for (j = 0; j < src_group->count_children; j++)
         {
-            type_tree_entry_number *src_block = &src_group->blocks.blocks[j].property;
-            int entry_type = src_group->blocks.blocks[j].entry_type;
+            type_tree_entry_number *src_block = &src_group->children[j].property;
+            int entry_type = src_group->children[j].entry_type;
 
             if (entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY)
             {
@@ -764,18 +764,18 @@ void transform_scalepolicies(type_subcontrols *src_ext, uiribbon_tab *ret_tab)
             if (src_group->block_type != ENUM_TYPE_CONTROL_GROUP)
                 continue;
 
-            for (j = 0; j < src_group->blocks.count_blocks; j++)
+            for (j = 0; j < src_group->count_children; j++)
             {
-                type_tree_entry_number *src_block = &src_group->blocks.blocks[j].property;
-                int entry_type = src_group->blocks.blocks[j].entry_type;
+                type_tree_entry_number *src_block = &src_group->children[j].property;
+                int entry_type = src_group->children[j].entry_type;
                 if (entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY && src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
                     group_id = src_block->id;
             }
 
-            for (j = 0; j < src_group->blocks.count_blocks; j++)
+            for (j = 0; j < src_group->count_children; j++)
             {
-                type_tree_entry_number *src_block = &src_group->blocks.blocks[j].property;
-                int entry_type = src_group->blocks.blocks[j].entry_type;
+                type_tree_entry_number *src_block = &src_group->children[j].property;
+                int entry_type = src_group->children[j].entry_type;
 
                 if (entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY)
                 {
@@ -836,11 +836,11 @@ void transform_tabs(type_uiribbon *root, type_subcontrols *src_tabs, int *out_co
         uiribbon_tab *ret_tab = &tabs[i];
         type_control *src_tab = &src_tabs->subcontrols[i];
 
-        for (j = 0; j < src_tab->blocks.count_blocks; j++)
+        for (j = 0; j < src_tab->count_children; j++)
         {
-            type_tree_entry_ext *src_block_ext = src_tab->blocks.blocks[j].ext;
-            type_tree_entry_number *src_block = &src_tab->blocks.blocks[j].property;
-            enum_tree_entry_type entry_type = src_tab->blocks.blocks[j].entry_type;
+            type_tree_entry_ext *src_block_ext = src_tab->children[j].ext;
+            type_tree_entry_number *src_block = &src_tab->children[j].property;
+            enum_tree_entry_type entry_type = src_tab->children[j].entry_type;
 
             if (entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY)
             {
@@ -873,11 +873,11 @@ void transform_contexttabs(type_uiribbon *root, type_subcontrols *src, uiribbon_
         uiribbon_tabgroup *ret_tabgroup = &ret->contexttabgroups[i];
         type_control *src_tabgroup = &src->subcontrols[i];
 
-        for (j = 0; j < src_tabgroup->blocks.count_blocks; j++)
+        for (j = 0; j < src_tabgroup->count_children; j++)
         {
-            type_tree_entry_array *src_block_special = &src_tabgroup->blocks.blocks[j].array;
-            type_tree_entry_number *src_block = &src_tabgroup->blocks.blocks[j].property;
-            enum_tree_entry_type entry_type = src_tabgroup->blocks.blocks[j].entry_type;
+            type_tree_entry_array *src_block_special = &src_tabgroup->children[j].array;
+            type_tree_entry_number *src_block = &src_tabgroup->children[j].property;
+            enum_tree_entry_type entry_type = src_tabgroup->children[j].entry_type;
 
             if (entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY)
             {
@@ -1012,11 +1012,11 @@ void transform_menugroups(type_uiribbon *root, type_subcontrols *src, uiribbon_m
 
         ret_menugroup->item_class = UIRIBBON_MENU_ITEM_CLASS_STANDARD_ITEMS;
 
-        for (j = 0; j < src_control->blocks.count_blocks; j++)
+        for (j = 0; j < src_control->count_children; j++)
         {
-            type_tree_entry_array *src_block_special = &src_control->blocks.blocks[j].array;
-            type_tree_entry_number *src_block = &src_control->blocks.blocks[j].property;
-            enum_tree_entry_type entry_type = src_control->blocks.blocks[j].entry_type;
+            type_tree_entry_array *src_block_special = &src_control->children[j].array;
+            type_tree_entry_number *src_block = &src_control->children[j].property;
+            enum_tree_entry_type entry_type = src_control->children[j].entry_type;
 
             if (entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY)
             {
@@ -1058,10 +1058,10 @@ void transform_minitoolbar(type_uiribbon *root, type_subcontrols *src, int id, u
         {
             bool do_transform = FALSE;
 
-            for (j = 0; j < src_control->blocks.count_blocks; j++)
+            for (j = 0; j < src_control->count_children; j++)
             {
-                type_tree_entry_number *src_block = &src_control->blocks.blocks[j].property;
-                enum_tree_entry_type entry_type = src_control->blocks.blocks[j].entry_type;
+                type_tree_entry_number *src_block = &src_control->children[j].property;
+                enum_tree_entry_type entry_type = src_control->children[j].entry_type;
 
                 if (entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY)
                 {
@@ -1075,10 +1075,10 @@ void transform_minitoolbar(type_uiribbon *root, type_subcontrols *src, int id, u
 
             if (do_transform)
             {
-                for (j = 0; j < src_control->blocks.count_blocks; j++)
+                for (j = 0; j < src_control->count_children; j++)
                 {
-                    type_tree_entry_array *src_block_special = &src_control->blocks.blocks[j].array;
-                    enum_tree_entry_type entry_type = src_control->blocks.blocks[j].entry_type;
+                    type_tree_entry_array *src_block_special = &src_control->children[j].array;
+                    enum_tree_entry_type entry_type = src_control->children[j].entry_type;
 
                     if (entry_type == ENUM_TREE_ENTRY_TYPE_ARRAY)
                     {
@@ -1124,11 +1124,11 @@ void transform_contextpopups(type_uiribbon *root, type_subcontrols *src, uiribbo
             ret_contextmap->minitoolbar.count_menugroups = 0;
             ret_contextmap->minitoolbar.menugroups = NULL;
 
-            for (j = 0; j < src_control->blocks.count_blocks; j++)
+            for (j = 0; j < src_control->count_children; j++)
             {
-                type_tree_entry_array *src_block_special = &src_control->blocks.blocks[j].array;
-                type_tree_entry_number *src_block = &src_control->blocks.blocks[j].property;
-                enum_tree_entry_type entry_type = src_control->blocks.blocks[j].entry_type;
+                type_tree_entry_array *src_block_special = &src_control->children[j].array;
+                type_tree_entry_number *src_block = &src_control->children[j].property;
+                enum_tree_entry_type entry_type = src_control->children[j].entry_type;
 
                 if (entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY)
                 {
@@ -1185,11 +1185,11 @@ static void transform_applicationmenu_ext(type_uiribbon *root, type_tree_entry_e
 
             src_control = &ext->block.array.content_subcontrols.subcontrols[0];
 
-            for (j = 0; j < src_control->blocks.count_blocks; j++)
+            for (j = 0; j < src_control->count_children; j++)
             {
-                type_tree_entry_array *src_block_special = &src_control->blocks.blocks[j].array;
-                type_tree_entry_number *src_block = &src_control->blocks.blocks[j].property;
-                enum_tree_entry_type entry_type = src_control->blocks.blocks[j].entry_type;
+                type_tree_entry_array *src_block_special = &src_control->children[j].array;
+                type_tree_entry_number *src_block = &src_control->children[j].property;
+                enum_tree_entry_type entry_type = src_control->children[j].entry_type;
 
                 if (entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY)
                 {
@@ -1205,9 +1205,9 @@ static void transform_applicationmenu_ext(type_uiribbon *root, type_tree_entry_e
                          if (ret->recent.count > 0)
                          {
                              type_control *sub_control = &src_block_special->content_subcontrols.subcontrols[0];
-                             for (k = 0; k < sub_control->blocks.count_blocks; k++)
+                             for (k = 0; k < sub_control->count_children; k++)
                              {
-                                 type_tree_entry *sub_block = &sub_control->blocks.blocks[k];
+                                 type_tree_entry *sub_block = &sub_control->children[k];
                                  if (sub_block->entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY)
                                  {
                                      if (sub_block->property.block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING)
@@ -1232,11 +1232,11 @@ static void transform_applicationmenu(type_uiribbon *root, type_subcontrols *src
     ASSERT(src->count_subcontrols == 1);
     src_control = &src->subcontrols[0];
 
-    for (j = 0; j < src_control->blocks.count_blocks; j++)
+    for (j = 0; j < src_control->count_children; j++)
     {
-        type_tree_entry_ext *src_block_ext = src_control->blocks.blocks[j].ext;
-        type_tree_entry_number *src_block = &src_control->blocks.blocks[j].property;
-        enum_tree_entry_type entry_type = src_control->blocks.blocks[j].entry_type;
+        type_tree_entry_ext *src_block_ext = src_control->children[j].ext;
+        type_tree_entry_number *src_block = &src_control->children[j].property;
+        enum_tree_entry_type entry_type = src_control->children[j].entry_type;
 
         if (entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY)
         {
@@ -1260,9 +1260,9 @@ void uiribbon_transform(type_uiribbon *src, uiribbon_main *ret)
 
     transform_commands(src, ret);
 
-    for (i = 0; i < src->root_node.node.children.count_blocks; i++)
+    for (i = 0; i < src->root_node.node.count_children; i++)
     {
-        type_tree_entry *src_block = &src->root_node.node.children.blocks[i];
+        type_tree_entry *src_block = &src->root_node.node.children[i];
         if (src_block->entry_type == ENUM_TREE_ENTRY_TYPE_ARRAY)
         {
             if (src_block->array.block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL)
