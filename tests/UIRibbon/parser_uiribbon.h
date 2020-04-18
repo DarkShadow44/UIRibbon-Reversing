@@ -4,12 +4,6 @@
 
 typedef enum
 {
-	ENUM_BLOCK_TYPE_RIBBON_TABS = 24,
-	ENUM_BLOCK_TYPE_RIBBON_QUICKACCESSTOOLBAR = 22,
-} enum_block_type;
-
-typedef enum
-{
 	ENUM_RESOURCE_TYPE_LABELTITLE = 1,
 	ENUM_RESOURCE_TYPE_LABELDESCRIPTION = 2,
 	ENUM_RESOURCE_TYPE_SMALLHIGHCONTRASTIMAGE = 3,
@@ -358,18 +352,20 @@ typedef struct type_tree_entries_
 typedef struct type_block_node_
 {
 	int _dryrun_pos;
-	uint32_t unk2;
+	uint8_t unk56;
+	enum_type_control type;
+	uint8_t unk3;
 	uint16_t len4;
-	type_tree_entries quick_ribbon_info;
+	type_tree_entries children;
 } type_block_node;
 
 typedef struct type_tree_entry_
 {
 	int _dryrun_pos;
 	enum_tree_entry_type entry_type;
-	type_tree_entry_number content_number;
-	type_tree_entry_array content_special;
-	type_block_node block_inline;
+	type_tree_entry_number property;
+	type_tree_entry_array array;
+	type_block_node node;
 	uint32_t ext_pos;
 	int _dryrun_pos_instance_ext;
 	struct type_tree_entry_ext_ *ext;
@@ -451,7 +447,7 @@ typedef struct type_uiribbon_
 	type_command_container command_container;
 	uint16_t len_unk6;
 	uint32_t command_ext_pos;
-	type_tree_entry root_block;
+	type_tree_entry root_node;
 	type_command_ext2 command_ext;
 } type_uiribbon;
 

@@ -925,18 +925,23 @@ void stream_free_type_tree_entries(type_tree_entries *data)
 
 int stream_read_type_block_node(stream *s_root, stream *s, type_block_node *data, type_uiribbon *_root)
 {
-	stream substream_quick_ribbon_info;
+	uint16_t type;
+	stream substream_children;
 
-	CHECK(stream_read_uint32_t(s_root, s, &data->unk2, _root));
+	CHECK(stream_read_uint8_t(s_root, s, &data->unk56, _root));
+	CHECK(stream_read_uint16_t(s_root, s, &type, _root));
+	data->type = type;
+	CHECK(stream_read_uint8_t(s_root, s, &data->unk3, _root));
 	CHECK(stream_read_uint16_t(s_root, s, &data->len4, _root));
-	CHECK(stream_read_make_substream(s, &substream_quick_ribbon_info, data->len4 - 7));
-	CHECK(stream_read_type_tree_entries(s_root, &substream_quick_ribbon_info, &data->quick_ribbon_info, _root));
+	CHECK(stream_read_make_substream(s, &substream_children, data->len4 - 7));
+	CHECK(stream_read_type_tree_entries(s_root, &substream_children, &data->children, _root));
 	return 0;
 }
 
 int stream_write_type_block_node(stream *s_root, stream *s, type_block_node *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
-	stream substream_quick_ribbon_info;
+	uint16_t type;
+	stream substream_children;
 
 	/* No separate sequence run during write */
 	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
@@ -947,20 +952,23 @@ int stream_write_type_block_node(stream *s_root, stream *s, type_block_node *dat
 		data->_dryrun_pos = stream_write_get_position_absolute(s);
 	}
 
-	CHECK(stream_write_uint32_t(s_root, s, &data->unk2, stage, do_sequence, _root));
+	CHECK(stream_write_uint8_t(s_root, s, &data->unk56, stage, do_sequence, _root));
+	type = data->type;
+	CHECK(stream_write_uint16_t(s_root, s, &type, stage, do_sequence, _root));
+	CHECK(stream_write_uint8_t(s_root, s, &data->unk3, stage, do_sequence, _root));
 	CHECK(stream_write_uint16_t(s_root, s, &data->len4, stage, do_sequence, _root));
-	CHECK(stream_write_make_substream(s, &substream_quick_ribbon_info));
-	CHECK(stream_write_type_tree_entries(s_root, &substream_quick_ribbon_info, &data->quick_ribbon_info, stage, do_sequence, _root));
+	CHECK(stream_write_make_substream(s, &substream_children));
+	CHECK(stream_write_type_tree_entries(s_root, &substream_children, &data->children, stage, do_sequence, _root));
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
-		data->len4 = stream_write_get_length(&substream_quick_ribbon_info) - (- 7);
+		data->len4 = stream_write_get_length(&substream_children) - (- 7);
 	}
 	return 0;
 }
 
 void stream_free_type_block_node(type_block_node *data)
 {
-	stream_free_type_tree_entries(&data->quick_ribbon_info);
+	stream_free_type_tree_entries(&data->children);
 }
 
 int stream_read_type_tree_entry(stream *s_root, stream *s, type_tree_entry *data, type_uiribbon *_root)
@@ -972,15 +980,15 @@ int stream_read_type_tree_entry(stream *s_root, stream *s, type_tree_entry *data
 	data->entry_type = entry_type;
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY)
 	{
-		CHECK(stream_read_type_tree_entry_number(s_root, s, &data->content_number, _root));
+		CHECK(stream_read_type_tree_entry_number(s_root, s, &data->property, _root));
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_ARRAY)
 	{
-		CHECK(stream_read_type_tree_entry_array(s_root, s, &data->content_special, _root));
+		CHECK(stream_read_type_tree_entry_array(s_root, s, &data->array, _root));
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_NODE)
 	{
-		CHECK(stream_read_type_block_node(s_root, s, &data->block_inline, _root));
+		CHECK(stream_read_type_block_node(s_root, s, &data->node, _root));
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_EXT)
 	{
@@ -1013,15 +1021,15 @@ int stream_write_type_tree_entry(stream *s_root, stream *s, type_tree_entry *dat
 	CHECK(stream_write_uint8_t(s_root, s, &entry_type, stage, do_sequence, _root));
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY)
 	{
-		CHECK(stream_write_type_tree_entry_number(s_root, s, &data->content_number, stage, do_sequence, _root));
+		CHECK(stream_write_type_tree_entry_number(s_root, s, &data->property, stage, do_sequence, _root));
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_ARRAY)
 	{
-		CHECK(stream_write_type_tree_entry_array(s_root, s, &data->content_special, stage, do_sequence, _root));
+		CHECK(stream_write_type_tree_entry_array(s_root, s, &data->array, stage, do_sequence, _root));
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_NODE)
 	{
-		CHECK(stream_write_type_block_node(s_root, s, &data->block_inline, stage, do_sequence, _root));
+		CHECK(stream_write_type_block_node(s_root, s, &data->node, stage, do_sequence, _root));
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_EXT)
 	{
@@ -1061,15 +1069,15 @@ void stream_free_type_tree_entry(type_tree_entry *data)
 {
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY)
 	{
-		stream_free_type_tree_entry_number(&data->content_number);
+		stream_free_type_tree_entry_number(&data->property);
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_ARRAY)
 	{
-		stream_free_type_tree_entry_array(&data->content_special);
+		stream_free_type_tree_entry_array(&data->array);
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_NODE)
 	{
-		stream_free_type_block_node(&data->block_inline);
+		stream_free_type_block_node(&data->node);
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_EXT)
 	{
@@ -1460,7 +1468,7 @@ int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, ty
 	CHECK(stream_read_type_command_container(s_root, &substream_command_container, &data->command_container, _root));
 	CHECK(stream_read_uint16_t(s_root, s, &data->len_unk6, _root));
 	CHECK(stream_read_uint32_t(s_root, s, &data->command_ext_pos, _root));
-	CHECK(stream_read_type_tree_entry(s_root, s, &data->root_block, _root));
+	CHECK(stream_read_type_tree_entry(s_root, s, &data->root_node, _root));
 	CHECK(stream_read_type_command_ext2(s_root, s, &data->command_ext, _root));
 	return 0;
 }
@@ -1514,7 +1522,7 @@ int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, s
 	}
 	CHECK(stream_write_uint16_t(s_root, s, &data->len_unk6, stage, do_sequence, _root));
 	CHECK(stream_write_uint32_t(s_root, s, &data->command_ext_pos, stage, do_sequence, _root));
-	CHECK(stream_write_type_tree_entry(s_root, s, &data->root_block, stage, do_sequence, _root));
+	CHECK(stream_write_type_tree_entry(s_root, s, &data->root_node, stage, do_sequence, _root));
 	CHECK(stream_write_type_command_ext2(s_root, s, &data->command_ext, stage, do_sequence, _root));
 	return 0;
 }
@@ -1530,7 +1538,7 @@ void stream_free_type_uiribbon(type_uiribbon *data)
 	}
 	free(data->command_resources);
 	stream_free_type_command_container(&data->command_container);
-	stream_free_type_tree_entry(&data->root_block);
+	stream_free_type_tree_entry(&data->root_node);
 	stream_free_type_command_ext2(&data->command_ext);
 }
 

@@ -1365,7 +1365,7 @@ static stream* copy_from_testdata(char *name)
     s_write = create_write_stream();
 
     /* ### manipulate structure ### */
-     uiribbon.root_block.block_inline.quick_ribbon_info.count_blocks = 3; /* Drop Quick access bar */
+     uiribbon.root_node.node.children.count_blocks = 3; /* Drop Quick access bar */
      patch_ribbon(&uiribbon);
 
     /* ###### */

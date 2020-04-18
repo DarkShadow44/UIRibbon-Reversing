@@ -55,16 +55,12 @@ seq:
     type: u2
   - id: command_ext_pos
     type: u4
-  - id: root_block
+  - id: root_node
     type: type_tree_entry
   - id: command_ext
     type: type_command_ext2
 
 enums:
-
-  enum_block_type:
-    0x18: ribbon_tabs
-    0x16: ribbon_quickaccesstoolbar
 
   enum_resource_type:
     1: labeltitle
@@ -297,11 +293,16 @@ types:
 
   type_block_node:
     seq:
-    - id: unk2
-      type: u4
+    - id: unk56
+      type: u1
+    - id: type
+      type: u2
+      enum: enum_type_control
+    - id: unk3
+      type: u1
     - id: len4
       type: u2
-    - id: quick_ribbon_info
+    - id: children
       type: type_tree_entries
       size: len4 - 7
 
@@ -548,13 +549,13 @@ types:
     - id: entry_type
       type: u1
       enum: enum_tree_entry_type
-    - id: content_number
+    - id: property
       type: type_tree_entry_number
       if: entry_type == enum_tree_entry_type::property
-    - id: content_special
+    - id: array
       type: type_tree_entry_array
       if: entry_type == enum_tree_entry_type::array
-    - id: block_inline
+    - id: node
       type: type_block_node
       if: entry_type == enum_tree_entry_type::node
     - id: ext_pos
