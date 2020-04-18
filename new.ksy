@@ -17,6 +17,8 @@ doc-ref: https://docs.microsoft.com/en-us/windows/desktop/windowsribbon/windowsr
 
 #make group as children in splitbutton?! (test if can have sizedefinitions)
 
+#cleanup names
+
 
 meta:
   id: uiribbon
@@ -192,7 +194,6 @@ enums:
     66: quickaccess
     5: tabs_help
     10: contextpopups
-    73: unk73
 
   enum_boolean:
     0: bool_false
