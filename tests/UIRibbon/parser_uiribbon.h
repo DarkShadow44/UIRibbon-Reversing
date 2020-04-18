@@ -244,7 +244,7 @@ typedef struct type_resource_
 	struct type_resource_generic_ * resources;
 } type_resource;
 
-typedef struct type_block_node_
+typedef struct type_tree_entry_node_
 {
 	int _dryrun_pos;
 	uint8_t unk56;
@@ -253,7 +253,7 @@ typedef struct type_block_node_
 	uint16_t size_node;
 	uint8_t count_children;
 	struct type_tree_entry_ * children;
-} type_block_node;
+} type_tree_entry_node;
 
 typedef struct type_sizedefinitions_order_command_
 {
@@ -359,7 +359,7 @@ typedef struct type_tree_entry_
 	enum_tree_entry_type entry_type;
 	type_tree_entry_number property;
 	type_tree_entry_array array;
-	type_block_node node;
+	type_tree_entry_node node;
 	uint32_t ext_pos;
 	int _dryrun_pos_instance_ext;
 	struct type_tree_entry_ext_ *ext;

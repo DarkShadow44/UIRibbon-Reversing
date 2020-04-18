@@ -17,9 +17,9 @@ void stream_free_type_resource_generic(type_resource_generic *data);
 int stream_read_type_resource(stream *s_root, stream *s, type_resource *data, type_uiribbon *_root);
 int stream_write_type_resource(stream *s_root, stream *s, type_resource *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_resource(type_resource *data);
-int stream_read_type_block_node(stream *s_root, stream *s, type_block_node *data, type_uiribbon *_root);
-int stream_write_type_block_node(stream *s_root, stream *s, type_block_node *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
-void stream_free_type_block_node(type_block_node *data);
+int stream_read_type_tree_entry_node(stream *s_root, stream *s, type_tree_entry_node *data, type_uiribbon *_root);
+int stream_write_type_tree_entry_node(stream *s_root, stream *s, type_tree_entry_node *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
+void stream_free_type_tree_entry_node(type_tree_entry_node *data);
 int stream_read_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, type_uiribbon *_root);
 int stream_write_type_sizedefinitions_order_command(stream *s_root, stream *s, type_sizedefinitions_order_command *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_sizedefinitions_order_command(type_sizedefinitions_order_command *data);
@@ -375,7 +375,7 @@ void stream_free_type_resource(type_resource *data)
 	free(data->resources);
 }
 
-int stream_read_type_block_node(stream *s_root, stream *s, type_block_node *data, type_uiribbon *_root)
+int stream_read_type_tree_entry_node(stream *s_root, stream *s, type_tree_entry_node *data, type_uiribbon *_root)
 {
 	uint16_t type;
 	int i;
@@ -394,7 +394,7 @@ int stream_read_type_block_node(stream *s_root, stream *s, type_block_node *data
 	return 0;
 }
 
-int stream_write_type_block_node(stream *s_root, stream *s, type_block_node *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
+int stream_write_type_tree_entry_node(stream *s_root, stream *s, type_tree_entry_node *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	uint16_t type;
 	int i;
@@ -421,7 +421,7 @@ int stream_write_type_block_node(stream *s_root, stream *s, type_block_node *dat
 	return 0;
 }
 
-void stream_free_type_block_node(type_block_node *data)
+void stream_free_type_tree_entry_node(type_tree_entry_node *data)
 {
 	int i;
 
@@ -949,7 +949,7 @@ int stream_read_type_tree_entry(stream *s_root, stream *s, type_tree_entry *data
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_NODE)
 	{
-		CHECK(stream_read_type_block_node(s_root, s, &data->node, _root));
+		CHECK(stream_read_type_tree_entry_node(s_root, s, &data->node, _root));
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_EXT)
 	{
@@ -990,7 +990,7 @@ int stream_write_type_tree_entry(stream *s_root, stream *s, type_tree_entry *dat
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_NODE)
 	{
-		CHECK(stream_write_type_block_node(s_root, s, &data->node, stage, do_sequence, _root));
+		CHECK(stream_write_type_tree_entry_node(s_root, s, &data->node, stage, do_sequence, _root));
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_EXT)
 	{
@@ -1038,7 +1038,7 @@ void stream_free_type_tree_entry(type_tree_entry *data)
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_NODE)
 	{
-		stream_free_type_block_node(&data->node);
+		stream_free_type_tree_entry_node(&data->node);
 	}
 	if (data->entry_type == ENUM_TREE_ENTRY_TYPE_EXT)
 	{

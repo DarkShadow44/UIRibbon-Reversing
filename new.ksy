@@ -291,7 +291,7 @@ types:
       repeat: expr
       repeat-expr: count_resources
 
-  type_block_node:
+  type_tree_entry_node:
     seq:
     - id: unk56
       type: u1
@@ -560,7 +560,7 @@ types:
       type: type_tree_entry_array
       if: entry_type == enum_tree_entry_type::array
     - id: node
-      type: type_block_node
+      type: type_tree_entry_node
       if: entry_type == enum_tree_entry_type::node
     - id: ext_pos
       type: u4
