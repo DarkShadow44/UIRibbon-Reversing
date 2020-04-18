@@ -453,7 +453,7 @@ typedef struct type_uiribbon_
 	uint32_t length_this_file;
 	uint32_t size_strings;
 	type_strings strings;
-	uint16_t count_command_resources;
+	uint32_t count_command_resources;
 	struct type_resource_ * command_resources;
 	uint32_t size_command_container;
 	type_command_container command_container;

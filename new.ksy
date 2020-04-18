@@ -39,9 +39,7 @@ seq:
     type: type_strings
     size: size_strings - 4
   - id: count_command_resources
-    type: u2
-  - id: unknown3
-    contents: [0, 0]
+    type: u4
   - id: command_resources
     type: type_resource
     repeat: expr

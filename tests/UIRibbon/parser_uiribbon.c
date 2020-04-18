@@ -1484,7 +1484,6 @@ int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, ty
 	const char magic[] = {83, 67, 66, 105, 110};
 	const char unknown2[] = {2};
 	stream substream_strings;
-	const char unknown3[] = {0, 0};
 	const char unk44[] = {16};
 	stream substream_command_container;
 	int i;
@@ -1496,8 +1495,7 @@ int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, ty
 	CHECK(stream_read_uint32_t(s_root, s, &data->size_strings, _root));
 	CHECK(stream_read_make_substream(s, &substream_strings, data->size_strings - 4));
 	CHECK(stream_read_type_strings(s_root, &substream_strings, &data->strings, _root));
-	CHECK(stream_read_uint16_t(s_root, s, &data->count_command_resources, _root));
-	CHECK(stream_read_expect_bytes(s, unknown3));
+	CHECK(stream_read_uint32_t(s_root, s, &data->count_command_resources, _root));
 	data->command_resources = malloc(sizeof(type_resource) * data->count_command_resources);
 	for (i = 0; i < data->count_command_resources; i++)
 	{
@@ -1520,7 +1518,6 @@ int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, s
 	const char magic[] = {83, 67, 66, 105, 110};
 	const char unknown2[] = {2};
 	stream substream_strings;
-	const char unknown3[] = {0, 0};
 	const char unk44[] = {16};
 	stream substream_command_container;
 	int i;
@@ -1549,8 +1546,7 @@ int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, s
 	{
 		data->size_strings = stream_write_get_length(&substream_strings) - (- 4);
 	}
-	CHECK(stream_write_uint16_t(s_root, s, &data->count_command_resources, stage, do_sequence, _root));
-	CHECK(stream_write_bytes(s, unknown3, sizeof(unknown3), stage, do_sequence, _root));
+	CHECK(stream_write_uint32_t(s_root, s, &data->count_command_resources, stage, do_sequence, _root));
 	for (i = 0; i < data->count_command_resources; i++)
 	{
 		CHECK(stream_write_type_resource(s_root, s, &data->command_resources[i], stage, do_sequence, _root));
