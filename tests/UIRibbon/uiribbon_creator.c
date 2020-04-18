@@ -14,13 +14,13 @@ static void make_block_id(int id, type_tree_entry *ret)
     ret->property.content_number.id.id = id;
 }
 
-static void transform_control(uiribbon_control *control, type_control *ret)
+static void transform_control(uiribbon_control *control, type_tree_entry_node *ret)
 {
-    ret->unk2 = 16;
+    ret->unk3 = 16;
     switch(control->type)
     {
     case UIRIBBON_CONTROL_TYPE_BUTTON:
-        ret->block_type = ENUM_TYPE_CONTROL_BUTTON;
+        ret->type = ENUM_TYPE_CONTROL_BUTTON;
         ret->count_children = 1;
         ret->children = alloc_zero(sizeof(type_tree_entry) * ret->count_children);
         make_block_id(control->id, &ret->children[0]);
@@ -35,30 +35,30 @@ static void make_block_subcontrols(uiribbon_control *controls, int controls_coun
     ret->entry_type = ENUM_TREE_ENTRY_TYPE_ARRAY;
     ret->array.block_len = 1;
     ret->array.block_type = ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS;
-    ret->array.content_subcontrols.count_subcontrols = controls_count;
-    ret->array.content_subcontrols.subcontrols = alloc_zero(sizeof(type_control) * controls_count);
+    ret->array.count_children = controls_count;
+    ret->array.children = alloc_zero(sizeof(type_tree_entry_node) * controls_count);
     for (i = 0; i < controls_count; i++)
     {
-        transform_control(&controls[i], &ret->array.content_subcontrols.subcontrols[i]);
+        transform_control(&controls[i], &ret->array.children[i]);
     }
 }
 
-static void transform_group(uiribbon_group *group, type_control *ret)
+static void transform_group(uiribbon_group *group, type_tree_entry_node *ret)
 {
-    ret->block_type = ENUM_TYPE_CONTROL_GROUP;
+    ret->type = ENUM_TYPE_CONTROL_GROUP;
     ret->count_children = 2;
     ret->children = alloc_zero(sizeof(type_tree_entry) * ret->count_children);
     make_block_id(group->id, &ret->children[0]);
     ret->children[1].entry_type = ENUM_TREE_ENTRY_TYPE_ARRAY;
     ret->children[1].array.block_len = 1;
     ret->children[1].array.block_type = ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS;
-    ret->children[1].array.content_subcontrols.count_subcontrols = 1;
-    ret->children[1].array.content_subcontrols.subcontrols = alloc_zero(sizeof(type_control));
+    ret->children[1].array.count_children = 1;
+    ret->children[1].array.children  = alloc_zero(sizeof(type_tree_entry_node));
 
-    ret = &ret->children[1].array.content_subcontrols.subcontrols[0]; /* Inner group */
+    ret = &ret->children[1].array.children [0]; /* Inner group */
 
-    ret->unk2 = 16;
-    ret->block_type = ENUM_TYPE_CONTROL_SUBGROUP;
+    ret->unk3 = 16;
+    ret->type = ENUM_TYPE_CONTROL_SUBGROUP;
     ret->count_children = 2;
     ret->children = alloc_zero(sizeof(type_tree_entry) * 2);
     make_block_subcontrols(group->controls, group->count_controls, &ret->children[0]);
@@ -84,11 +84,11 @@ void patch_ribbon(type_uiribbon *uiribbon)
     new_group.count_controls = 2;
 
     /* tabs */
-    uiribbon->root_node.node.children[1].array.content_subcontrols.count_subcontrols = 1;
+    uiribbon->root_node.node.children[1].array.count_children  = 1;
     /* groups */
-    uiribbon->root_node.node.children[1].array.content_subcontrols.subcontrols[0].children[1].ext->block.array.content_subcontrols.count_subcontrols = 1;
+    uiribbon->root_node.node.children[1].array.children[0].node.children[1].ext->block.array.count_children  = 1;
 
-    transform_group(&new_group, &uiribbon->root_node.node.children[1].array.content_subcontrols.subcontrols[0].children[1].ext->block.array.content_subcontrols.subcontrols[0]);
+    transform_group(&new_group, &uiribbon->root_node.node.children[1].array.children[0].node.children[1].ext->block.array.children [0]);
 
 
     uiribbon->command_ext.ext->unk3.blocks_count = 1;

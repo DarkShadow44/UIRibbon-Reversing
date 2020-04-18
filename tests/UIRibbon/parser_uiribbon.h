@@ -99,6 +99,7 @@ typedef enum
 	ENUM_TREE_ENTRY_TYPE_ARRAY = 24,
 	ENUM_TREE_ENTRY_TYPE_NODE = 22,
 	ENUM_TREE_ENTRY_TYPE_EXT = 62,
+	ENUM_TREE_ENTRY_TYPE_SIZEINFO = 59,
 } enum_tree_entry_type;
 
 typedef enum
@@ -258,19 +259,11 @@ typedef struct type_tree_entry_node_
 typedef struct type_sizedefinitions_order_command_
 {
 	int _dryrun_pos;
-	uint8_t unk1;
 	enum_sizedefinitions_command flags_command;
 	uint8_t string_id;
 	uint16_t command_id;
 	uint32_t unk2;
 } type_sizedefinitions_order_command;
-
-typedef struct type_sizedefinition_order_
-{
-	int _dryrun_pos;
-	uint16_t count_commands;
-	struct type_sizedefinitions_order_command_ * commands;
-} type_sizedefinition_order;
 
 typedef struct type_tree_entry_number_variable_
 {
@@ -284,13 +277,6 @@ typedef struct type_tree_entry_number_long_
 	uint32_t unk1;
 	uint8_t value1;
 } type_tree_entry_number_long;
-
-typedef struct type_subcontrols_
-{
-	int _dryrun_pos;
-	uint16_t count_subcontrols;
-	struct type_control_ * subcontrols;
-} type_subcontrols;
 
 typedef struct type_tree_entry_number_
 {
@@ -349,8 +335,8 @@ typedef struct type_tree_entry_array_
 	int _dryrun_pos;
 	uint8_t block_len;
 	enum_control_block_type_special block_type;
-	type_subcontrols content_subcontrols;
-	type_sizedefinition_order sizedefinition_order;
+	uint16_t count_children;
+	struct type_tree_entry_ * children;
 } type_tree_entry_array;
 
 typedef struct type_tree_entry_
@@ -361,6 +347,7 @@ typedef struct type_tree_entry_
 	type_tree_entry_array array;
 	type_tree_entry_node node;
 	uint32_t ext_pos;
+	type_sizedefinitions_order_command sizeinfo;
 	int _dryrun_pos_instance_ext;
 	struct type_tree_entry_ext_ *ext;
 } type_tree_entry;
@@ -371,16 +358,6 @@ typedef struct type_tree_entry_ext_
 	uint16_t len_ext;
 	type_tree_entry block;
 } type_tree_entry_ext;
-
-typedef struct type_control_
-{
-	int _dryrun_pos;
-	enum_type_control block_type;
-	uint8_t unk2;
-	uint16_t size_node;
-	uint8_t count_children;
-	struct type_tree_entry_ * children;
-} type_control;
 
 typedef struct type_command_
 {

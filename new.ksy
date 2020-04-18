@@ -136,6 +136,7 @@ enums:
     24: array
     22: node
     62: ext
+    0x3b: sizeinfo
 
   enum_control_block_type_number:
     0: id
@@ -312,8 +313,6 @@ types:
 
   type_sizedefinitions_order_command:
     seq:
-    - id: unk1
-      type: u1
     - id: flags_command
       type: u1
       enum: enum_sizedefinitions_command
@@ -328,15 +327,6 @@ types:
       type: u4
       if: flags_command == enum_sizedefinitions_command::command_internal
 
-  type_sizedefinition_order:
-    seq:
-    - id: count_commands
-      type: u2
-    - id: commands
-      type: type_sizedefinitions_order_command
-      repeat: expr
-      repeat-expr: count_commands
-
   type_tree_entry_number_variable:
     seq:
     - id: id
@@ -348,15 +338,6 @@ types:
       type: u4
     - id: value1
       type: u1
-
-  type_subcontrols:
-    seq:
-    - id: count_subcontrols
-      type: u2
-    - id: subcontrols
-      type: type_control
-      repeat: expr
-      repeat-expr: count_subcontrols
 
   type_tree_entry_number:
     seq:
@@ -530,23 +511,12 @@ types:
     - id: block_type
       enum: enum_control_block_type_special
       type: u1
-    - id: content_subcontrols
-      type: type_subcontrols
-      if: block_type == enum_control_block_type_special::subcomponents
-        or block_type == enum_control_block_type_special::gallery_subcontrols
-        or block_type == enum_control_block_type_special::buttonitem
-        or block_type == enum_control_block_type_special::application_menu
-        or block_type == enum_control_block_type_special::tabs_normal
-        or block_type == enum_control_block_type_special::tabs_context
-        or block_type == enum_control_block_type_special::quickaccess
-        or block_type == enum_control_block_type_special::tabs_help
-        or block_type == enum_control_block_type_special::contextpopups
-         or block_type == enum_control_block_type_special::unk73
-    - id: sizedefinition_order
-      type: type_sizedefinition_order
-      if: block_type == enum_control_block_type_special::sizedefinition_order_large
-        or block_type == enum_control_block_type_special::sizedefinition_order_medium
-        or block_type == enum_control_block_type_special::sizedefinition_order_small
+    - id: count_children
+      type: u2
+    - id: children
+      type: type_tree_entry
+      repeat: expr
+      repeat-expr: count_children
 
   type_tree_entry:
     seq:
@@ -565,6 +535,9 @@ types:
     - id: ext_pos
       type: u4
       if: entry_type == enum_tree_entry_type::ext
+    - id: sizeinfo
+      type: type_sizedefinitions_order_command
+      if: entry_type == enum_tree_entry_type::sizeinfo
     instances:
      ext:
        io: _root._io
@@ -578,24 +551,6 @@ types:
       type: u2
     - id: block
       type: type_tree_entry
-
-  type_control:
-    seq:
-    - id: unk1
-      contents: [22, 0]
-    - id: block_type
-      type: u2
-      enum: enum_type_control
-    - id: unk2
-      type: u1
-    - id: size_node
-      type: u2
-    - id: count_children
-      type: u1
-    - id: children
-      type: type_tree_entry
-      repeat: expr
-      repeat-expr: count_children
 
   type_command:
     seq:

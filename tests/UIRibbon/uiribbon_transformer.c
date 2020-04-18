@@ -13,13 +13,13 @@
         return; \
     }
 
-uiribbon_control_type transform_control_type(type_control *src_control)
+uiribbon_control_type transform_control_type(type_tree_entry_node *src_control)
 {
     int i, j;
     bool is_colorpicker = FALSE;
     bool is_checkbox = FALSE;
 
-    switch (src_control->block_type)
+    switch (src_control->type)
     {
     case ENUM_TYPE_CONTROL_BUTTON:
         return UIRIBBON_CONTROL_TYPE_BUTTON;
@@ -77,7 +77,7 @@ uiribbon_control_type transform_control_type(type_control *src_control)
     return -1;
 }
 
-void transform_control_combobox(type_uiribbon *root, type_control *src_control, uiribbon_control_combobox *ret_control)
+void transform_control_combobox(type_uiribbon *root, type_tree_entry_node *src_control, uiribbon_control_combobox *ret_control)
 {
     int i;
 
@@ -159,7 +159,7 @@ uiribbon_colortemplate transform_colortemplate(type_tree_entry_number *src_block
     return -1;
 }
 
-void transform_control_dropdowncolorpicker(type_control *src_control, uiribbon_control_dropdowncolorpicker *ret_control)
+void transform_control_dropdowncolorpicker(type_tree_entry_node *src_control, uiribbon_control_dropdowncolorpicker *ret_control)
 {
     int i;
 
@@ -269,7 +269,7 @@ enum_gallery_text_position transform_gallery_textposition(type_tree_entry_number
     return -1;
 }
 
-void transform_control_gallery_generic(type_control *src_control, uiribbon_control_gallery_generic *ret_control)
+void transform_control_gallery_generic(type_tree_entry_node *src_control, uiribbon_control_gallery_generic *ret_control)
 {
     int i;
 
@@ -318,7 +318,7 @@ void transform_control_gallery_generic(type_control *src_control, uiribbon_contr
     }
 }
 
-void transform_control_inribbongallery(type_control *src_control, uiribbon_control_inribbongallery *ret_control)
+void transform_control_inribbongallery(type_tree_entry_node *src_control, uiribbon_control_inribbongallery *ret_control)
 {
     int i;
 
@@ -354,7 +354,7 @@ void transform_control_inribbongallery(type_control *src_control, uiribbon_contr
     }
 }
 
-void transform_control(type_uiribbon *root, type_control *src_control, uiribbon_control *ret_control);
+void transform_control(type_uiribbon *root, type_tree_entry_node *src_control, uiribbon_control *ret_control);
 
 uiribbon_control *find_button_item(uiribbon_control *control)
 {
@@ -379,7 +379,7 @@ uiribbon_control *find_button_item(uiribbon_control *control)
     return NULL;
 }
 
-void transform_control_splitbutton(type_uiribbon *root, type_control *src_control, uiribbon_control *ret_control)
+void transform_control_splitbutton(type_uiribbon *root, type_tree_entry_node *src_control, uiribbon_control *ret_control)
 {
     int i;
     uiribbon_control *buttonitem;
@@ -395,8 +395,9 @@ void transform_control_splitbutton(type_uiribbon *root, type_control *src_contro
 
         if (src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM)
         {
-            ASSERT(src_block->content_subcontrols.count_subcontrols == 1);
-            transform_control(root, &src_block->content_subcontrols.subcontrols[0], ret_control->control_info.splitbutton.buttonitem);
+            ASSERT(src_block->count_children  == 1);
+            ASSERT(src_block->children[0].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+            transform_control(root, &src_block->children[0].node, ret_control->control_info.splitbutton.buttonitem);
             return;
         }
     }
@@ -405,25 +406,26 @@ void transform_control_splitbutton(type_uiribbon *root, type_control *src_contro
     *ret_control->control_info.splitbutton.buttonitem = *buttonitem;
 }
 
-void transform_subcontrols(type_uiribbon *root, type_subcontrols *src_block, int *out_count_subcontrols, uiribbon_control **out_subcontrols)
+void transform_subcontrols(type_uiribbon *root, type_tree_entry_array *src_block, int *out_count_subcontrols, uiribbon_control **out_subcontrols)
 {
     int i;
-    int count_subcontrols;
+    int count_children;
     uiribbon_control *subcontrols;
 
-    count_subcontrols = src_block->count_subcontrols;
-    *out_count_subcontrols = count_subcontrols;
+    count_children = src_block->count_children ;
+    *out_count_subcontrols = count_children;
     *out_subcontrols  = NULL;
 
-    if (count_subcontrols == 0)
+    if (count_children == 0)
         return;
 
-    subcontrols = malloc(sizeof(uiribbon_control) * count_subcontrols);
+    subcontrols = malloc(sizeof(uiribbon_control) * count_children);
     *out_subcontrols = subcontrols;
 
-    for (i = 0; i < count_subcontrols; i++)
+    for (i = 0; i < count_children; i++)
     {
-        transform_control(root, &src_block->subcontrols[i], &subcontrols[i]);
+        ASSERT(src_block->children[i].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+        transform_control(root, &src_block->children[i].node, &subcontrols[i]);
     }
 }
 
@@ -468,7 +470,7 @@ static uiribbon_subcontrol_type make_control_subtype(int id)
     return UIRIBBON_SUBCONTROL_TYPE_NONE;
 }
 
-void transform_control(type_uiribbon *root, type_control *src_control, uiribbon_control *ret_control)
+void transform_control(type_uiribbon *root, type_tree_entry_node *src_control, uiribbon_control *ret_control)
 {
     int i;
     ret_control->parent_id = -1;
@@ -486,7 +488,7 @@ void transform_control(type_uiribbon *root, type_control *src_control, uiribbon_
             if (src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS
                 || src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS)
             {
-                transform_subcontrols(root, &src_block_special->content_subcontrols, &ret_control->count_subcontrols, &ret_control->subcontrols);
+                transform_subcontrols(root, src_block_special, &ret_control->count_subcontrols, &ret_control->subcontrols);
             }
             continue;
         }
@@ -591,21 +593,23 @@ void transform_control(type_uiribbon *root, type_control *src_control, uiribbon_
     }
 }
 
-void transform_sizedefinition_order(type_uiribbon *root, type_sizedefinition_order *src, uiribbon_sizedefinition_group *ret)
+void transform_sizedefinition_order(type_uiribbon *root, type_tree_entry_array *src, uiribbon_sizedefinition_group *ret)
 {
     int i;
 
-    ret->count_orders = src->count_commands;
+    ret->count_orders = src->count_children;
     ret->orders = malloc(sizeof(uiribbon_sizedefinition_group_order) * ret->count_orders);
     for (i = 0; i < ret->count_orders; i++)
     {
         uiribbon_sizedefinition_group_order *ret_order = &ret->orders[i];
-        type_sizedefinitions_order_command *src_order = &src->commands[i];
+        type_tree_entry *src_entry = &src->children[i];
+        ASSERT(src_entry->entry_type == ENUM_TREE_ENTRY_TYPE_SIZEINFO);
+        type_sizedefinitions_order_command *src_order = &src_entry->sizeinfo;
 
         if (src_order->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_COMMAND)
         {
             ret_order->is_special = 0;
-            ret_order->command_id = src->commands[i].command_id;
+            ret_order->command_id = src_order->command_id;
         }
         else if (src_order->flags_command == ENUM_SIZEDEFINITIONS_COMMAND_SPECIAL)
         {
@@ -635,7 +639,7 @@ void transform_sizedefinition_order(type_uiribbon *root, type_sizedefinition_ord
 }
 
 
-void transform_sizedefinition_orders(type_uiribbon *root, enum_control_block_type_special type, type_sizedefinition_order *src, uiribbon_group *ret_group)
+void transform_sizedefinition_orders(type_uiribbon *root, type_tree_entry_array *src, uiribbon_group *ret_group)
 {
     if (!ret_group->sizedefinition_orders)
     {
@@ -643,7 +647,7 @@ void transform_sizedefinition_orders(type_uiribbon *root, enum_control_block_typ
         memset(ret_group->sizedefinition_orders, 0, sizeof(uiribbon_sizedefinitions_orders));
     }
 
-    switch (type)
+    switch (src->block_type)
     {
     case ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE:
         transform_sizedefinition_order(root, src, &ret_group->sizedefinition_orders->large);
@@ -660,27 +664,27 @@ void transform_sizedefinition_orders(type_uiribbon *root, enum_control_block_typ
 }
 
 /* Skip over useless group inside tab group */
-void transform_subcontrols_group(type_uiribbon *root, type_subcontrols *src_block, uiribbon_group *ret_group)
+void transform_subcontrols_group(type_uiribbon *root, type_tree_entry_array *src_block, uiribbon_group *ret_group)
 {
     int i;
 
-    ASSERT(src_block->count_subcontrols == 1);
+    ASSERT(src_block->count_children == 1);
 
-    for (i = 0; i < src_block->subcontrols[0].count_children; i++)
+    for (i = 0; i < src_block->children[0].node.count_children; i++)
     {
-        type_tree_entry_array *src_block_special = &src_block->subcontrols[0].children[i].array;
-        int entry_type = src_block->subcontrols[0].children[i].entry_type;
+        type_tree_entry_array *src_block_special = &src_block->children[0].node.children[i].array;
+        int entry_type = src_block->children[0].node.children[i].entry_type;
         if (entry_type == ENUM_TREE_ENTRY_TYPE_ARRAY)
         {
             switch (src_block_special->block_type)
             {
             case ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS:
-                transform_subcontrols(root, &src_block_special->content_subcontrols, &ret_group->count_controls, &ret_group->controls);
+                transform_subcontrols(root, src_block_special, &ret_group->count_controls, &ret_group->controls);
                 break;
             case ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_LARGE:
             case ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_MEDIUM:
             case ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SIZEDEFINITION_ORDER_SMALL:
-                transform_sizedefinition_orders(root, src_block_special->block_type, &src_block_special->sizedefinition_order, ret_group);
+                transform_sizedefinition_orders(root, src_block_special, ret_group);
                 break;
             default:
                 break;
@@ -689,7 +693,7 @@ void transform_subcontrols_group(type_uiribbon *root, type_subcontrols *src_bloc
     }
 }
 
-void transform_group(type_uiribbon *root, type_control *src_group, uiribbon_group *ret_group)
+void transform_group(type_uiribbon *root, type_tree_entry_node *src_group, uiribbon_group *ret_group)
 {
     int i;
 
@@ -704,7 +708,7 @@ void transform_group(type_uiribbon *root, type_control *src_group, uiribbon_grou
 
         if (entry_type == ENUM_TREE_ENTRY_TYPE_ARRAY && src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
         {
-            transform_subcontrols_group(root, &src_block_special->content_subcontrols, ret_group);
+            transform_subcontrols_group(root, src_block_special, ret_group);
             continue;
         }
 
@@ -719,15 +723,16 @@ void transform_group(type_uiribbon *root, type_control *src_group, uiribbon_grou
     }
 }
 
-void transform_scalepolicies(type_subcontrols *src_ext, uiribbon_tab *ret_tab)
+void transform_scalepolicies(type_tree_entry_array *src_ext, uiribbon_tab *ret_tab)
 {
     int i, j, k, pos;
     int count_scalepolicies = 0;
     for (i = 0; i < ret_tab->count_groups; i++)
     {
-        type_control *src_group = &src_ext->subcontrols[i];
+        ASSERT(src_ext->children[i].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+        type_tree_entry_node *src_group = &src_ext->children[i].node;
 
-        if (src_group->block_type != ENUM_TYPE_CONTROL_GROUP)
+        if (src_group->type != ENUM_TYPE_CONTROL_GROUP)
             continue;
 
         for (j = 0; j < src_group->count_children; j++)
@@ -758,10 +763,11 @@ void transform_scalepolicies(type_subcontrols *src_ext, uiribbon_tab *ret_tab)
         uiribbon_scalingpolicy *ret_scalingpolicy = &ret_tab->scalepolicies[pos];
         for (i = 0; i < ret_tab->count_groups; i++)
         {
-            type_control *src_group = &src_ext->subcontrols[i];
+            ASSERT(src_ext->children[i].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+            type_tree_entry_node *src_group = &src_ext->children[i].node;
             int group_id = -1;
 
-            if (src_group->block_type != ENUM_TYPE_CONTROL_GROUP)
+            if (src_group->type != ENUM_TYPE_CONTROL_GROUP)
                 continue;
 
             for (j = 0; j < src_group->count_children; j++)
@@ -806,26 +812,27 @@ void transform_scalepolicies(type_subcontrols *src_ext, uiribbon_tab *ret_tab)
     }
 }
 
-void transform_tabs_ext(type_uiribbon *root, type_subcontrols *src_ext, uiribbon_tab *ret_tab)
+void transform_tabs_ext(type_uiribbon *root, type_tree_entry_array *src_ext, uiribbon_tab *ret_tab)
 {
     int i;
 
-    ret_tab->count_groups = src_ext->count_subcontrols;
+    ret_tab->count_groups = src_ext->count_children;
     ret_tab->groups = malloc(sizeof(uiribbon_group) * ret_tab->count_groups);
 
     for (i = 0; i < ret_tab->count_groups; i++)
     {
-        transform_group(root, &src_ext->subcontrols[i], &ret_tab->groups[i]);
+        ASSERT(src_ext->children[i].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+        transform_group(root, &src_ext->children[i].node, &ret_tab->groups[i]);
     }
 
     transform_scalepolicies(src_ext, ret_tab);
 }
 
-void transform_tabs(type_uiribbon *root, type_subcontrols *src_tabs, int *out_count_tabs, uiribbon_tab **out_tabs)
+void transform_tabs(type_uiribbon *root, type_tree_entry_array *src_tabs, int *out_count_tabs, uiribbon_tab **out_tabs)
 {
     int i, j;
 
-    int count = src_tabs->count_subcontrols;
+    int count = src_tabs->count_children;
     uiribbon_tab *tabs = malloc(sizeof(uiribbon_tab) * count);
 
     *out_count_tabs = count;
@@ -834,7 +841,8 @@ void transform_tabs(type_uiribbon *root, type_subcontrols *src_tabs, int *out_co
     for (i = 0; i < count; i++)
     {
         uiribbon_tab *ret_tab = &tabs[i];
-        type_control *src_tab = &src_tabs->subcontrols[i];
+        ASSERT(src_tabs->children[i].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+        type_tree_entry_node *src_tab = &src_tabs->children[i].node;
 
         for (j = 0; j < src_tab->count_children; j++)
         {
@@ -855,23 +863,24 @@ void transform_tabs(type_uiribbon *root, type_subcontrols *src_tabs, int *out_co
                 /* FIXME: Not hard assert, just warn? */
                 ASSERT(src_block_ext->block.entry_type == ENUM_TREE_ENTRY_TYPE_ARRAY);
                 ASSERT(src_block_ext->block.array.block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
-                transform_tabs_ext(root, &src_block_ext->block.array.content_subcontrols, ret_tab);
+                transform_tabs_ext(root, &src_block_ext->block.array, ret_tab);
             }
         }
     }
 
 }
 
-void transform_contexttabs(type_uiribbon *root, type_subcontrols *src, uiribbon_main *ret)
+void transform_contexttabs(type_uiribbon *root, type_tree_entry_array *src, uiribbon_main *ret)
 {
     int i, j;
 
-    ret->count_contexttabgroups = src->count_subcontrols;
+    ret->count_contexttabgroups = src->count_children;
     ret->contexttabgroups = malloc(sizeof(uiribbon_tabgroup) * ret->count_contexttabgroups);
     for (i = 0; i < ret->count_contexttabgroups; i++)
     {
         uiribbon_tabgroup *ret_tabgroup = &ret->contexttabgroups[i];
-        type_control *src_tabgroup = &src->subcontrols[i];
+        ASSERT(src->children[i].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+        type_tree_entry_node *src_tabgroup = &src->children[i].node;
 
         for (j = 0; j < src_tabgroup->count_children; j++)
         {
@@ -891,7 +900,7 @@ void transform_contexttabs(type_uiribbon *root, type_subcontrols *src, uiribbon_
             {
                 if (src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
                 {
-                    transform_tabs(root, &src_block_special->content_subcontrols, &ret->contexttabgroups[i].count_tabs, &ret->contexttabgroups[i].tabs);
+                    transform_tabs(root, src_block_special, &ret->contexttabgroups[i].count_tabs, &ret->contexttabgroups[i].tabs);
                 }
             }
 
@@ -998,16 +1007,17 @@ void transform_commands(type_uiribbon *src, uiribbon_main *ret)
     }
 }
 
-void transform_menugroups(type_uiribbon *root, type_subcontrols *src, uiribbon_menugroup_container *ret)
+void transform_menugroups(type_uiribbon *root, type_tree_entry_array *src, uiribbon_menugroup_container *ret)
 {
     int i, j;
 
-    ret->count_menugroups = src->count_subcontrols;
+    ret->count_menugroups = src->count_children;
     ret->menugroups = malloc(sizeof(uiribbon_menugroup) * ret->count_menugroups);
 
     for (i = 0; i < ret->count_menugroups; i++)
     {
-        type_control *src_control = &src->subcontrols[i];
+        ASSERT(src->children[i].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+        type_tree_entry_node *src_control = &src->children[i].node;
         uiribbon_menugroup *ret_menugroup = &ret->menugroups[i];
 
         ret_menugroup->item_class = UIRIBBON_MENU_ITEM_CLASS_STANDARD_ITEMS;
@@ -1039,22 +1049,23 @@ void transform_menugroups(type_uiribbon *root, type_subcontrols *src, uiribbon_m
             {
                 if (src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
                 {
-                    transform_subcontrols(root, &src_block_special->content_subcontrols, &ret_menugroup->count_controls, &ret_menugroup->controls);
+                    transform_subcontrols(root, src_block_special, &ret_menugroup->count_controls, &ret_menugroup->controls);
                 }
             }
         }
     }
 }
 
-void transform_minitoolbar(type_uiribbon *root, type_subcontrols *src, int id, uiribbon_menugroup_container *ret)
+void transform_minitoolbar(type_uiribbon *root, type_tree_entry_array *src, int id, uiribbon_menugroup_container *ret)
 {
     int i, j;
 
-    for (i = 0; i < src->count_subcontrols; i++)
+    for (i = 0; i < src->count_children; i++)
     {
-        type_control *src_control = &src->subcontrols[i];
+        ASSERT(src->children[i].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+        type_tree_entry_node *src_control = &src->children[i].node;
 
-        if (src->subcontrols[i].block_type == ENUM_TYPE_CONTROL_MINITOOLBAR)
+        if (src_control->type == ENUM_TYPE_CONTROL_MINITOOLBAR)
         {
             bool do_transform = FALSE;
 
@@ -1084,7 +1095,7 @@ void transform_minitoolbar(type_uiribbon *root, type_subcontrols *src, int id, u
                     {
                         if (src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
                         {
-                            transform_menugroups(root, &src_block_special->content_subcontrols, ret);
+                            transform_menugroups(root, src_block_special, ret);
                         }
                     }
                 }
@@ -1094,15 +1105,16 @@ void transform_minitoolbar(type_uiribbon *root, type_subcontrols *src, int id, u
     }
 }
 
-void transform_contextpopups(type_uiribbon *root, type_subcontrols *src, uiribbon_main *ret)
+void transform_contextpopups(type_uiribbon *root, type_tree_entry_array *src, uiribbon_main *ret)
 {
     int i, j;
 
     int count_contextmaps = 0;
 
-    for (i = 0; i < src->count_subcontrols; i++)
+    for (i = 0; i < src->count_children; i++)
     {
-        if (src->subcontrols[i].block_type == ENUM_TYPE_CONTROL_CONTEXTPOPUP)
+        ASSERT(src->children[i].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+        if (src->children[i].node.type == ENUM_TYPE_CONTROL_CONTEXTPOPUP)
             count_contextmaps++;
     }
 
@@ -1110,10 +1122,11 @@ void transform_contextpopups(type_uiribbon *root, type_subcontrols *src, uiribbo
     ret->contextmaps = malloc(sizeof(uiribbon_contextmap) * ret->count_contextmaps);
 
     count_contextmaps = 0;
-    for (i = 0; i < src->count_subcontrols; i++)
+    for (i = 0; i < src->count_children; i++)
     {
-        type_control *src_control = &src->subcontrols[i];
-        if (src_control->block_type == ENUM_TYPE_CONTROL_CONTEXTPOPUP)
+        ASSERT(src->children[i].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+        type_tree_entry_node *src_control = &src->children[i].node;
+        if (src_control->type == ENUM_TYPE_CONTROL_CONTEXTPOPUP)
         {
             int id_toolbar = -1;
             uiribbon_contextmap *ret_contextmap = &ret->contextmaps[count_contextmaps];
@@ -1142,7 +1155,7 @@ void transform_contextpopups(type_uiribbon *root, type_subcontrols *src, uiribbo
                 {
                     if (src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
                     {
-                        transform_menugroups(root, &src_block_special->content_subcontrols, &ret_contextmap->contextpopup);
+                        transform_menugroups(root, src_block_special, &ret_contextmap->contextpopup);
                     }
                 }
             }
@@ -1163,7 +1176,7 @@ static void transform_applicationmenu_ext(type_uiribbon *root, type_tree_entry_e
     {
         if (ext->block.array.block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
         {
-            transform_menugroups(root, &ext->block.array.content_subcontrols, &ret->menugroups);
+            transform_menugroups(root, &ext->block.array, &ret->menugroups);
 
             /* Enforce major items for applicationmenu */
             for (j = 0; j < ret->menugroups.count_menugroups; j++)
@@ -1175,15 +1188,15 @@ static void transform_applicationmenu_ext(type_uiribbon *root, type_tree_entry_e
 
         if (ext->block.array.block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM)
         {
-            type_control *src_control;
+            type_tree_entry_node *src_control;
 
             ret->recent.enable_pinning = TRUE;
             ret->recent.count = 10;
 
-            if (ext->block.array.content_subcontrols.count_subcontrols != 1)
+            if (ext->block.array.count_children != 1)
                    return;
-
-            src_control = &ext->block.array.content_subcontrols.subcontrols[0];
+            ASSERT(ext->block.array.children[0].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+            src_control = &ext->block.array.children[0].node;
 
             for (j = 0; j < src_control->count_children; j++)
             {
@@ -1201,10 +1214,11 @@ static void transform_applicationmenu_ext(type_uiribbon *root, type_tree_entry_e
                 {
                      if (src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
                      {
-                         ret->recent.count = src_block_special->content_subcontrols.count_subcontrols;
+                         ret->recent.count = src_block_special->count_children;
                          if (ret->recent.count > 0)
                          {
-                             type_control *sub_control = &src_block_special->content_subcontrols.subcontrols[0];
+                             ASSERT(src_block_special->children[0].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+                             type_tree_entry_node *sub_control = &src_block_special->children[0].node;
                              for (k = 0; k < sub_control->count_children; k++)
                              {
                                  type_tree_entry *sub_block = &sub_control->children[k];
@@ -1224,13 +1238,14 @@ static void transform_applicationmenu_ext(type_uiribbon *root, type_tree_entry_e
     }
 }
 
-static void transform_applicationmenu(type_uiribbon *root, type_subcontrols *src, uiribbon_applicationmenu *ret)
+static void transform_applicationmenu(type_uiribbon *root, type_tree_entry_array *src, uiribbon_applicationmenu *ret)
 {
     int j;
-    type_control *src_control;
+    type_tree_entry_node *src_control;
 
-    ASSERT(src->count_subcontrols == 1);
-    src_control = &src->subcontrols[0];
+    ASSERT(src->count_children == 1);
+    ASSERT(src->children[0].entry_type == ENUM_TREE_ENTRY_TYPE_NODE);
+    src_control = &src->children[0].node;
 
     for (j = 0; j < src_control->count_children; j++)
     {
@@ -1267,22 +1282,22 @@ void uiribbon_transform(type_uiribbon *src, uiribbon_main *ret)
         {
             if (src_block->array.block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL)
             {
-                transform_tabs(src, &src_block->array.content_subcontrols, &ret->count_tabs, &ret->tabs);
+                transform_tabs(src, &src_block->array, &ret->count_tabs, &ret->tabs);
             }
 
             if (src_block->array.block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT)
             {
-                transform_contexttabs(src, &src_block->array.content_subcontrols, ret);
+                transform_contexttabs(src, &src_block->array, ret);
             }
 
             if (src_block->array.block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS)
             {
-                transform_contextpopups(src, &src_block->array.content_subcontrols, ret);
+                transform_contextpopups(src, &src_block->array, ret);
             }
 
             if (src_block->array.block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU)
             {
-                transform_applicationmenu(src, &src_block->array.content_subcontrols, &ret->applicationmenu);
+                transform_applicationmenu(src, &src_block->array, &ret->applicationmenu);
             }
         }
     }
