@@ -458,7 +458,7 @@ typedef struct type_uiribbon_
 	uint32_t size_command_container;
 	type_command_container command_container;
 	uint16_t len_unk6;
-	uint16_t command_ext_pos;
+	uint32_t command_ext_pos;
 	application_views unk6;
 	type_command_ext2 command_ext;
 } type_uiribbon;

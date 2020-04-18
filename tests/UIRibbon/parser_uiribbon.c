@@ -1164,7 +1164,7 @@ void stream_free_type_control(type_control *data)
 
 int stream_read_application_views(stream *s_root, stream *s, application_views *data, type_uiribbon *_root)
 {
-	const char unk20[] = {0, 0, 22, 0, 36, 0, 16};
+	const char unk20[] = {22, 0, 36, 0, 16};
 	stream substream_ribbon;
 
 	CHECK(stream_read_expect_bytes(s, unk20));
@@ -1177,7 +1177,7 @@ int stream_read_application_views(stream *s_root, stream *s, application_views *
 
 int stream_write_application_views(stream *s_root, stream *s, application_views *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
-	const char unk20[] = {0, 0, 22, 0, 36, 0, 16};
+	const char unk20[] = {22, 0, 36, 0, 16};
 	stream substream_ribbon;
 
 	/* No separate sequence run during write */
@@ -1506,7 +1506,7 @@ int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, ty
 	CHECK(stream_read_make_substream(s, &substream_command_container, data->size_command_container - 4));
 	CHECK(stream_read_type_command_container(s_root, &substream_command_container, &data->command_container, _root));
 	CHECK(stream_read_uint16_t(s_root, s, &data->len_unk6, _root));
-	CHECK(stream_read_uint16_t(s_root, s, &data->command_ext_pos, _root));
+	CHECK(stream_read_uint32_t(s_root, s, &data->command_ext_pos, _root));
 	CHECK(stream_read_application_views(s_root, s, &data->unk6, _root));
 	CHECK(stream_read_type_command_ext2(s_root, s, &data->command_ext, _root));
 	return 0;
@@ -1560,7 +1560,7 @@ int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, s
 		data->size_command_container = stream_write_get_length(&substream_command_container) - (- 4);
 	}
 	CHECK(stream_write_uint16_t(s_root, s, &data->len_unk6, stage, do_sequence, _root));
-	CHECK(stream_write_uint16_t(s_root, s, &data->command_ext_pos, stage, do_sequence, _root));
+	CHECK(stream_write_uint32_t(s_root, s, &data->command_ext_pos, stage, do_sequence, _root));
 	CHECK(stream_write_application_views(s_root, s, &data->unk6, stage, do_sequence, _root));
 	CHECK(stream_write_type_command_ext2(s_root, s, &data->command_ext, stage, do_sequence, _root));
 	return 0;

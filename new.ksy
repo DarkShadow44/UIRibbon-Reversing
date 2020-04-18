@@ -54,7 +54,7 @@ seq:
   - id: len_unk6
     type: u2
   - id: command_ext_pos
-    type: u2
+    type: u4
   - id: unk6
     type: application_views
   - id: command_ext
@@ -601,7 +601,7 @@ types:
   application_views:
     seq:
     - id: unk20
-      contents: [0x00, 0x00, 0x16, 0x00, 0x24, 0x00, 0x10]
+      contents: [0x16, 0x00, 0x24, 0x00, 0x10]
     - id: ribbon_len
       type: u2
     - id: ribbon
