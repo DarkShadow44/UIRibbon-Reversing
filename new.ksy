@@ -34,10 +34,10 @@ seq:
   - id: unknown2
     contents: [2]
   - id: size_strings
-    type: u2
+    type: u4
   - id: strings
     type: type_strings
-    size: size_strings - 2
+    size: size_strings - 4
   - id: count_command_resources
     type: u2
   - id: unknown3
@@ -262,7 +262,7 @@ types:
   type_strings:
     seq:
       - id: unk1
-        contents: [0, 0, 1]
+        contents: [1]
       - id: count_strings
         type: u1
       - id: strings

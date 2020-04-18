@@ -241,7 +241,7 @@ void stream_free_type_string(type_string *data)
 
 int stream_read_type_strings(stream *s_root, stream *s, type_strings *data, type_uiribbon *_root)
 {
-	const char unk1[] = {0, 0, 1};
+	const char unk1[] = {1};
 	int i;
 
 	CHECK(stream_read_expect_bytes(s, unk1));
@@ -257,7 +257,7 @@ int stream_read_type_strings(stream *s_root, stream *s, type_strings *data, type
 
 int stream_write_type_strings(stream *s_root, stream *s, type_strings *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
-	const char unk1[] = {0, 0, 1};
+	const char unk1[] = {1};
 	int i;
 
 	/* No separate sequence run during write */
@@ -1493,8 +1493,8 @@ int stream_read_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, ty
 	CHECK(stream_read_expect_bytes(s, magic));
 	CHECK(stream_read_uint32_t(s_root, s, &data->length_this_file, _root));
 	CHECK(stream_read_expect_bytes(s, unknown2));
-	CHECK(stream_read_uint16_t(s_root, s, &data->size_strings, _root));
-	CHECK(stream_read_make_substream(s, &substream_strings, data->size_strings - 2));
+	CHECK(stream_read_uint32_t(s_root, s, &data->size_strings, _root));
+	CHECK(stream_read_make_substream(s, &substream_strings, data->size_strings - 4));
 	CHECK(stream_read_type_strings(s_root, &substream_strings, &data->strings, _root));
 	CHECK(stream_read_uint16_t(s_root, s, &data->count_command_resources, _root));
 	CHECK(stream_read_expect_bytes(s, unknown3));
@@ -1542,12 +1542,12 @@ int stream_write_type_uiribbon(stream *s_root, stream *s, type_uiribbon *data, s
 	CHECK(stream_write_bytes(s, magic, sizeof(magic), stage, do_sequence, _root));
 	CHECK(stream_write_uint32_t(s_root, s, &data->length_this_file, stage, do_sequence, _root));
 	CHECK(stream_write_bytes(s, unknown2, sizeof(unknown2), stage, do_sequence, _root));
-	CHECK(stream_write_uint16_t(s_root, s, &data->size_strings, stage, do_sequence, _root));
+	CHECK(stream_write_uint32_t(s_root, s, &data->size_strings, stage, do_sequence, _root));
 	CHECK(stream_write_make_substream(s, &substream_strings));
 	CHECK(stream_write_type_strings(s_root, &substream_strings, &data->strings, stage, do_sequence, _root));
 	if (stage == STREAM_WRITE_STAGE_DRYRUN && do_sequence)
 	{
-		data->size_strings = stream_write_get_length(&substream_strings) - (- 2);
+		data->size_strings = stream_write_get_length(&substream_strings) - (- 4);
 	}
 	CHECK(stream_write_uint16_t(s_root, s, &data->count_command_resources, stage, do_sequence, _root));
 	CHECK(stream_write_bytes(s, unknown3, sizeof(unknown3), stage, do_sequence, _root));

@@ -451,7 +451,7 @@ typedef struct type_uiribbon_
 {
 	int _dryrun_pos;
 	uint32_t length_this_file;
-	uint16_t size_strings;
+	uint32_t size_strings;
 	type_strings strings;
 	uint16_t count_command_resources;
 	struct type_resource_ * command_resources;
