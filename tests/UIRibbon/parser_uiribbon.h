@@ -101,9 +101,9 @@ typedef enum
 
 typedef enum
 {
-	ENUM_CONTROL_BLOCK_META_NUMBER = 1,
-	ENUM_CONTROL_BLOCK_META_SPECIAL = 24,
-	ENUM_CONTROL_BLOCK_META_INLINE = 22,
+	ENUM_CONTROL_BLOCK_META_PROPERTY = 1,
+	ENUM_CONTROL_BLOCK_META_ARRAY = 24,
+	ENUM_CONTROL_BLOCK_META_NODE = 22,
 	ENUM_CONTROL_BLOCK_META_EXT = 62,
 } enum_control_block_meta;
 
@@ -339,14 +339,14 @@ typedef struct type_control_block_number_
 	int32_t fontcontrol_verticalfonts;
 } type_control_block_number;
 
-typedef struct type_control_block_special_
+typedef struct type_control_block_array_
 {
 	int _dryrun_pos;
 	uint8_t block_len;
 	enum_control_block_type_special block_type;
 	type_subcontrols content_subcontrols;
 	type_sizedefinition_order sizedefinition_order;
-} type_control_block_special;
+} type_control_block_array;
 
 typedef struct type_control_blocks_
 {
@@ -355,21 +355,21 @@ typedef struct type_control_blocks_
 	struct type_control_block_ * blocks;
 } type_control_blocks;
 
-typedef struct type_block_inline_
+typedef struct type_block_node_
 {
 	int _dryrun_pos;
 	uint32_t unk2;
 	uint16_t len4;
 	type_control_blocks quick_ribbon_info;
-} type_block_inline;
+} type_block_node;
 
 typedef struct type_control_block_
 {
 	int _dryrun_pos;
 	enum_control_block_meta meta_type;
 	type_control_block_number content_number;
-	type_control_block_special content_special;
-	type_block_inline block_inline;
+	type_control_block_array content_special;
+	type_block_node block_inline;
 	uint32_t ext_pos;
 	int _dryrun_pos_instance_ext;
 	struct type_control_block_ext_ *ext;

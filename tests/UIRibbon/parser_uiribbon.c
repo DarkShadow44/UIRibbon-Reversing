@@ -35,15 +35,15 @@ void stream_free_type_subcontrols(type_subcontrols *data);
 int stream_read_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data, type_uiribbon *_root);
 int stream_write_type_control_block_number(stream *s_root, stream *s, type_control_block_number *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_control_block_number(type_control_block_number *data);
-int stream_read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, type_uiribbon *_root);
-int stream_write_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
-void stream_free_type_control_block_special(type_control_block_special *data);
+int stream_read_type_control_block_array(stream *s_root, stream *s, type_control_block_array *data, type_uiribbon *_root);
+int stream_write_type_control_block_array(stream *s_root, stream *s, type_control_block_array *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
+void stream_free_type_control_block_array(type_control_block_array *data);
 int stream_read_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data, type_uiribbon *_root);
 int stream_write_type_control_blocks(stream *s_root, stream *s, type_control_blocks *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_control_blocks(type_control_blocks *data);
-int stream_read_type_block_inline(stream *s_root, stream *s, type_block_inline *data, type_uiribbon *_root);
-int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
-void stream_free_type_block_inline(type_block_inline *data);
+int stream_read_type_block_node(stream *s_root, stream *s, type_block_node *data, type_uiribbon *_root);
+int stream_write_type_block_node(stream *s_root, stream *s, type_block_node *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
+void stream_free_type_block_node(type_block_node *data);
 int stream_read_type_control_block(stream *s_root, stream *s, type_control_block *data, type_uiribbon *_root);
 int stream_write_type_control_block(stream *s_root, stream *s, type_control_block *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root);
 void stream_free_type_control_block(type_control_block *data);
@@ -821,7 +821,7 @@ void stream_free_type_control_block_number(type_control_block_number *data)
 	}
 }
 
-int stream_read_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, type_uiribbon *_root)
+int stream_read_type_control_block_array(stream *s_root, stream *s, type_control_block_array *data, type_uiribbon *_root)
 {
 	uint8_t block_type;
 
@@ -839,7 +839,7 @@ int stream_read_type_control_block_special(stream *s_root, stream *s, type_contr
 	return 0;
 }
 
-int stream_write_type_control_block_special(stream *s_root, stream *s, type_control_block_special *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
+int stream_write_type_control_block_array(stream *s_root, stream *s, type_control_block_array *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	uint8_t block_type;
 
@@ -866,7 +866,7 @@ int stream_write_type_control_block_special(stream *s_root, stream *s, type_cont
 	return 0;
 }
 
-void stream_free_type_control_block_special(type_control_block_special *data)
+void stream_free_type_control_block_array(type_control_block_array *data)
 {
 	if (data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_APPLICATION_MENU || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_CONTEXT || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_QUICKACCESS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_HELP || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_CONTEXTPOPUPS || data->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_UNK73)
 	{
@@ -923,7 +923,7 @@ void stream_free_type_control_blocks(type_control_blocks *data)
 	free(data->blocks);
 }
 
-int stream_read_type_block_inline(stream *s_root, stream *s, type_block_inline *data, type_uiribbon *_root)
+int stream_read_type_block_node(stream *s_root, stream *s, type_block_node *data, type_uiribbon *_root)
 {
 	stream substream_quick_ribbon_info;
 
@@ -934,7 +934,7 @@ int stream_read_type_block_inline(stream *s_root, stream *s, type_block_inline *
 	return 0;
 }
 
-int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
+int stream_write_type_block_node(stream *s_root, stream *s, type_block_node *data, stream_write_stage stage, BOOL do_sequence, type_uiribbon *_root)
 {
 	stream substream_quick_ribbon_info;
 
@@ -958,7 +958,7 @@ int stream_write_type_block_inline(stream *s_root, stream *s, type_block_inline 
 	return 0;
 }
 
-void stream_free_type_block_inline(type_block_inline *data)
+void stream_free_type_block_node(type_block_node *data)
 {
 	stream_free_type_control_blocks(&data->quick_ribbon_info);
 }
@@ -970,17 +970,17 @@ int stream_read_type_control_block(stream *s_root, stream *s, type_control_block
 
 	CHECK(stream_read_uint8_t(s_root, s, &meta_type, _root));
 	data->meta_type = meta_type;
-	if (data->meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY)
 	{
 		CHECK(stream_read_type_control_block_number(s_root, s, &data->content_number, _root));
 	}
-	if (data->meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_ARRAY)
 	{
-		CHECK(stream_read_type_control_block_special(s_root, s, &data->content_special, _root));
+		CHECK(stream_read_type_control_block_array(s_root, s, &data->content_special, _root));
 	}
-	if (data->meta_type == ENUM_CONTROL_BLOCK_META_INLINE)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_NODE)
 	{
-		CHECK(stream_read_type_block_inline(s_root, s, &data->block_inline, _root));
+		CHECK(stream_read_type_block_node(s_root, s, &data->block_inline, _root));
 	}
 	if (data->meta_type == ENUM_CONTROL_BLOCK_META_EXT)
 	{
@@ -1011,17 +1011,17 @@ int stream_write_type_control_block(stream *s_root, stream *s, type_control_bloc
 
 	meta_type = data->meta_type;
 	CHECK(stream_write_uint8_t(s_root, s, &meta_type, stage, do_sequence, _root));
-	if (data->meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY)
 	{
 		CHECK(stream_write_type_control_block_number(s_root, s, &data->content_number, stage, do_sequence, _root));
 	}
-	if (data->meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_ARRAY)
 	{
-		CHECK(stream_write_type_control_block_special(s_root, s, &data->content_special, stage, do_sequence, _root));
+		CHECK(stream_write_type_control_block_array(s_root, s, &data->content_special, stage, do_sequence, _root));
 	}
-	if (data->meta_type == ENUM_CONTROL_BLOCK_META_INLINE)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_NODE)
 	{
-		CHECK(stream_write_type_block_inline(s_root, s, &data->block_inline, stage, do_sequence, _root));
+		CHECK(stream_write_type_block_node(s_root, s, &data->block_inline, stage, do_sequence, _root));
 	}
 	if (data->meta_type == ENUM_CONTROL_BLOCK_META_EXT)
 	{
@@ -1059,17 +1059,17 @@ int stream_write_type_control_block(stream *s_root, stream *s, type_control_bloc
 
 void stream_free_type_control_block(type_control_block *data)
 {
-	if (data->meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY)
 	{
 		stream_free_type_control_block_number(&data->content_number);
 	}
-	if (data->meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_ARRAY)
 	{
-		stream_free_type_control_block_special(&data->content_special);
+		stream_free_type_control_block_array(&data->content_special);
 	}
-	if (data->meta_type == ENUM_CONTROL_BLOCK_META_INLINE)
+	if (data->meta_type == ENUM_CONTROL_BLOCK_META_NODE)
 	{
-		stream_free_type_block_inline(&data->block_inline);
+		stream_free_type_block_node(&data->block_inline);
 	}
 	if (data->meta_type == ENUM_CONTROL_BLOCK_META_EXT)
 	{

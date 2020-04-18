@@ -27,7 +27,7 @@ uiribbon_control_type transform_control_type(type_control *src_control)
         for (i = 0; i < src_control->blocks.count_blocks; i++)
         {
             type_control_block *src_block = &src_control->blocks.blocks[i];
-            if (src_block->meta_type == ENUM_CONTROL_BLOCK_META_NUMBER && src_block->content_number.block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
+            if (src_block->meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY && src_block->content_number.block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_IS_CHECKBOX)
             {
                 is_checkbox = src_block->content_number.is_checkbox;
             }
@@ -41,7 +41,7 @@ uiribbon_control_type transform_control_type(type_control *src_control)
         for (i = 0; i < src_control->blocks.count_blocks; i++)
         {
             type_control_block *src_block = &src_control->blocks.blocks[i];
-            if (src_block->meta_type == ENUM_CONTROL_BLOCK_META_NUMBER && src_block->content_number.block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
+            if (src_block->meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY && src_block->content_number.block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_TYPE)
             {
                 switch(src_block->content_number.gallery_type)
                 {
@@ -51,7 +51,7 @@ uiribbon_control_type transform_control_type(type_control *src_control)
                 case ENUM_GALLERY_TYPE_DROPDOWNSPLIT:
                     for (j = 0; j < src_control->blocks.count_blocks; j++)
                     {
-                        if (src_control->blocks.blocks[j].meta_type == ENUM_CONTROL_BLOCK_META_NUMBER && src_control->blocks.blocks[j].content_number.block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
+                        if (src_control->blocks.blocks[j].meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY && src_control->blocks.blocks[j].content_number.block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
                             is_colorpicker = TRUE;
                     }
                     if (is_colorpicker)
@@ -90,7 +90,7 @@ void transform_control_combobox(type_uiribbon *root, type_control *src_control, 
     {
         type_control_block_number *src_block = &src_control->blocks.blocks[i].content_number;
 
-        if (src_control->blocks.blocks[i].meta_type != ENUM_CONTROL_BLOCK_META_NUMBER)
+        if (src_control->blocks.blocks[i].meta_type != ENUM_CONTROL_BLOCK_META_PROPERTY)
             continue;
 
         switch(src_block->block_type)
@@ -174,7 +174,7 @@ void transform_control_dropdowncolorpicker(type_control *src_control, uiribbon_c
     {
         type_control_block_number *src_block = &src_control->blocks.blocks[i].content_number;
 
-        if (src_control->blocks.blocks[i].meta_type != ENUM_CONTROL_BLOCK_META_NUMBER)
+        if (src_control->blocks.blocks[i].meta_type != ENUM_CONTROL_BLOCK_META_PROPERTY)
             continue;
 
         switch(src_block->block_type)
@@ -280,7 +280,7 @@ void transform_control_gallery_generic(type_control *src_control, uiribbon_contr
     {
         type_control_block_number *src_block = &src_control->blocks.blocks[i].content_number;
 
-        if (src_control->blocks.blocks[i].meta_type != ENUM_CONTROL_BLOCK_META_NUMBER)
+        if (src_control->blocks.blocks[i].meta_type != ENUM_CONTROL_BLOCK_META_PROPERTY)
             continue;
 
         switch(src_block->block_type)
@@ -328,7 +328,7 @@ void transform_control_inribbongallery(type_control *src_control, uiribbon_contr
     {
         type_control_block_number *src_block = &src_control->blocks.blocks[i].content_number;
 
-        if (src_control->blocks.blocks[i].meta_type != ENUM_CONTROL_BLOCK_META_NUMBER)
+        if (src_control->blocks.blocks[i].meta_type != ENUM_CONTROL_BLOCK_META_PROPERTY)
             continue;
 
         switch(src_block->block_type)
@@ -388,9 +388,9 @@ void transform_control_splitbutton(type_uiribbon *root, type_control *src_contro
 
     for (i = 0; i < src_control->blocks.count_blocks; i++)
     {
-        type_control_block_special *src_block = &src_control->blocks.blocks[i].content_special;
+        type_control_block_array *src_block = &src_control->blocks.blocks[i].content_special;
 
-        if (src_control->blocks.blocks[i].meta_type != ENUM_CONTROL_BLOCK_META_SPECIAL)
+        if (src_control->blocks.blocks[i].meta_type != ENUM_CONTROL_BLOCK_META_ARRAY)
             continue;
 
         if (src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_BUTTONITEM)
@@ -479,9 +479,9 @@ void transform_control(type_uiribbon *root, type_control *src_control, uiribbon_
     for (i = 0; i < src_control->blocks.count_blocks; i++)
     {
         type_control_block_number *src_block = &src_control->blocks.blocks[i].content_number;
-        type_control_block_special *src_block_special = &src_control->blocks.blocks[i].content_special;
+        type_control_block_array *src_block_special = &src_control->blocks.blocks[i].content_special;
         int meta_type = src_control->blocks.blocks[i].meta_type;
-        if (meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
+        if (meta_type == ENUM_CONTROL_BLOCK_META_ARRAY)
         {
             if (src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS
                 || src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_GALLERY_SUBCONTROLS)
@@ -668,9 +668,9 @@ void transform_subcontrols_group(type_uiribbon *root, type_subcontrols *src_bloc
 
     for (i = 0; i < src_block->subcontrols[0].blocks.count_blocks; i++)
     {
-        type_control_block_special *src_block_special = &src_block->subcontrols[0].blocks.blocks[i].content_special;
+        type_control_block_array *src_block_special = &src_block->subcontrols[0].blocks.blocks[i].content_special;
         int meta_type = src_block->subcontrols[0].blocks.blocks[i].meta_type;
-        if (meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
+        if (meta_type == ENUM_CONTROL_BLOCK_META_ARRAY)
         {
             switch (src_block_special->block_type)
             {
@@ -699,10 +699,10 @@ void transform_group(type_uiribbon *root, type_control *src_group, uiribbon_grou
     for (i = 0; i < src_group->blocks.count_blocks; i++)
     {
         type_control_block_number *src_block = &src_group->blocks.blocks[i].content_number;
-        type_control_block_special *src_block_special = &src_group->blocks.blocks[i].content_special;
+        type_control_block_array *src_block_special = &src_group->blocks.blocks[i].content_special;
         int meta_type = src_group->blocks.blocks[i].meta_type;
 
-        if (meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL && src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
+        if (meta_type == ENUM_CONTROL_BLOCK_META_ARRAY && src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
         {
             transform_subcontrols_group(root, &src_block_special->content_subcontrols, ret_group);
             continue;
@@ -735,7 +735,7 @@ void transform_scalepolicies(type_subcontrols *src_ext, uiribbon_tab *ret_tab)
             type_control_block_number *src_block = &src_group->blocks.blocks[j].content_number;
             int meta_type = src_group->blocks.blocks[j].meta_type;
 
-            if (meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+            if (meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY)
             {
                 if (src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
                 {
@@ -768,7 +768,7 @@ void transform_scalepolicies(type_subcontrols *src_ext, uiribbon_tab *ret_tab)
             {
                 type_control_block_number *src_block = &src_group->blocks.blocks[j].content_number;
                 int meta_type = src_group->blocks.blocks[j].meta_type;
-                if (meta_type == ENUM_CONTROL_BLOCK_META_NUMBER && src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
+                if (meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY && src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
                     group_id = src_block->id;
             }
 
@@ -777,7 +777,7 @@ void transform_scalepolicies(type_subcontrols *src_ext, uiribbon_tab *ret_tab)
                 type_control_block_number *src_block = &src_group->blocks.blocks[j].content_number;
                 int meta_type = src_group->blocks.blocks[j].meta_type;
 
-                if (meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+                if (meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY)
                 {
                     if (src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_META_INFO)
                     {
@@ -842,7 +842,7 @@ void transform_tabs(type_uiribbon *root, type_subcontrols *src_tabs, int *out_co
             type_control_block_number *src_block = &src_tab->blocks.blocks[j].content_number;
             enum_control_block_meta meta_type = src_tab->blocks.blocks[j].meta_type;
 
-            if (meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+            if (meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY)
             {
                 if (src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
                 {
@@ -853,7 +853,7 @@ void transform_tabs(type_uiribbon *root, type_subcontrols *src_tabs, int *out_co
             if (meta_type == ENUM_CONTROL_BLOCK_META_EXT)
             {
                 /* FIXME: Not hard assert, just warn? */
-                ASSERT(src_block_ext->block.meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL);
+                ASSERT(src_block_ext->block.meta_type == ENUM_CONTROL_BLOCK_META_ARRAY);
                 ASSERT(src_block_ext->block.content_special.block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
                 transform_tabs_ext(root, &src_block_ext->block.content_special.content_subcontrols, ret_tab);
             }
@@ -875,11 +875,11 @@ void transform_contexttabs(type_uiribbon *root, type_subcontrols *src, uiribbon_
 
         for (j = 0; j < src_tabgroup->blocks.count_blocks; j++)
         {
-            type_control_block_special *src_block_special = &src_tabgroup->blocks.blocks[j].content_special;
+            type_control_block_array *src_block_special = &src_tabgroup->blocks.blocks[j].content_special;
             type_control_block_number *src_block = &src_tabgroup->blocks.blocks[j].content_number;
             enum_control_block_meta meta_type = src_tabgroup->blocks.blocks[j].meta_type;
 
-            if (meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+            if (meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY)
             {
                 if (src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
                 {
@@ -887,7 +887,7 @@ void transform_contexttabs(type_uiribbon *root, type_subcontrols *src, uiribbon_
                 }
             }
 
-            if (meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
+            if (meta_type == ENUM_CONTROL_BLOCK_META_ARRAY)
             {
                 if (src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
                 {
@@ -1014,11 +1014,11 @@ void transform_menugroups(type_uiribbon *root, type_subcontrols *src, uiribbon_m
 
         for (j = 0; j < src_control->blocks.count_blocks; j++)
         {
-            type_control_block_special *src_block_special = &src_control->blocks.blocks[j].content_special;
+            type_control_block_array *src_block_special = &src_control->blocks.blocks[j].content_special;
             type_control_block_number *src_block = &src_control->blocks.blocks[j].content_number;
             enum_control_block_meta meta_type = src_control->blocks.blocks[j].meta_type;
 
-            if (meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+            if (meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY)
             {
                 if (src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
                 {
@@ -1035,7 +1035,7 @@ void transform_menugroups(type_uiribbon *root, type_subcontrols *src, uiribbon_m
                 }
             }
 
-            if (meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
+            if (meta_type == ENUM_CONTROL_BLOCK_META_ARRAY)
             {
                 if (src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
                 {
@@ -1063,7 +1063,7 @@ void transform_minitoolbar(type_uiribbon *root, type_subcontrols *src, int id, u
                 type_control_block_number *src_block = &src_control->blocks.blocks[j].content_number;
                 enum_control_block_meta meta_type = src_control->blocks.blocks[j].meta_type;
 
-                if (meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+                if (meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY)
                 {
                     if (src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
                     {
@@ -1077,10 +1077,10 @@ void transform_minitoolbar(type_uiribbon *root, type_subcontrols *src, int id, u
             {
                 for (j = 0; j < src_control->blocks.count_blocks; j++)
                 {
-                    type_control_block_special *src_block_special = &src_control->blocks.blocks[j].content_special;
+                    type_control_block_array *src_block_special = &src_control->blocks.blocks[j].content_special;
                     enum_control_block_meta meta_type = src_control->blocks.blocks[j].meta_type;
 
-                    if (meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
+                    if (meta_type == ENUM_CONTROL_BLOCK_META_ARRAY)
                     {
                         if (src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
                         {
@@ -1126,11 +1126,11 @@ void transform_contextpopups(type_uiribbon *root, type_subcontrols *src, uiribbo
 
             for (j = 0; j < src_control->blocks.count_blocks; j++)
             {
-                type_control_block_special *src_block_special = &src_control->blocks.blocks[j].content_special;
+                type_control_block_array *src_block_special = &src_control->blocks.blocks[j].content_special;
                 type_control_block_number *src_block = &src_control->blocks.blocks[j].content_number;
                 enum_control_block_meta meta_type = src_control->blocks.blocks[j].meta_type;
 
-                if (meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+                if (meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY)
                 {
                     if (src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE)
                         id_toolbar = src_block->id_reference;
@@ -1138,7 +1138,7 @@ void transform_contextpopups(type_uiribbon *root, type_subcontrols *src, uiribbo
                         ret_contextmap->id = src_block->id;
                 }
 
-                if (meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
+                if (meta_type == ENUM_CONTROL_BLOCK_META_ARRAY)
                 {
                     if (src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
                     {
@@ -1159,7 +1159,7 @@ static void transform_applicationmenu_ext(type_uiribbon *root, type_control_bloc
 {
     int j, k;
 
-    if (ext->block.meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
+    if (ext->block.meta_type == ENUM_CONTROL_BLOCK_META_ARRAY)
     {
         if (ext->block.content_special.block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
         {
@@ -1187,17 +1187,17 @@ static void transform_applicationmenu_ext(type_uiribbon *root, type_control_bloc
 
             for (j = 0; j < src_control->blocks.count_blocks; j++)
             {
-                type_control_block_special *src_block_special = &src_control->blocks.blocks[j].content_special;
+                type_control_block_array *src_block_special = &src_control->blocks.blocks[j].content_special;
                 type_control_block_number *src_block = &src_control->blocks.blocks[j].content_number;
                 enum_control_block_meta meta_type = src_control->blocks.blocks[j].meta_type;
 
-                if (meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+                if (meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY)
                 {
                     if (src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
                         ret->recent.id = src_block->id;
                 }
 
-                if (meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
+                if (meta_type == ENUM_CONTROL_BLOCK_META_ARRAY)
                 {
                      if (src_block_special->block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS)
                      {
@@ -1208,7 +1208,7 @@ static void transform_applicationmenu_ext(type_uiribbon *root, type_control_bloc
                              for (k = 0; k < sub_control->blocks.count_blocks; k++)
                              {
                                  type_control_block *sub_block = &sub_control->blocks.blocks[k];
-                                 if (sub_block->meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+                                 if (sub_block->meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY)
                                  {
                                      if (sub_block->content_number.block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ENABLE_PINNING)
                                      {
@@ -1238,7 +1238,7 @@ static void transform_applicationmenu(type_uiribbon *root, type_subcontrols *src
         type_control_block_number *src_block = &src_control->blocks.blocks[j].content_number;
         enum_control_block_meta meta_type = src_control->blocks.blocks[j].meta_type;
 
-        if (meta_type == ENUM_CONTROL_BLOCK_META_NUMBER)
+        if (meta_type == ENUM_CONTROL_BLOCK_META_PROPERTY)
         {
             if (src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
                 ret->id = src_block->id;
@@ -1263,7 +1263,7 @@ void uiribbon_transform(type_uiribbon *src, uiribbon_main *ret)
     for (i = 0; i < src->root_block.block_inline.quick_ribbon_info.count_blocks; i++)
     {
         type_control_block *src_block = &src->root_block.block_inline.quick_ribbon_info.blocks[i];
-        if (src_block->meta_type == ENUM_CONTROL_BLOCK_META_SPECIAL)
+        if (src_block->meta_type == ENUM_CONTROL_BLOCK_META_ARRAY)
         {
             if (src_block->content_special.block_type == ENUM_CONTROL_BLOCK_TYPE_SPECIAL_TABS_NORMAL)
             {

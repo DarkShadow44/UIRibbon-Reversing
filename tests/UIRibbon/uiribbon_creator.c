@@ -7,7 +7,7 @@ static void *alloc_zero(int size)
 
 static void make_block_id(int id, type_control_block *ret)
 {
-    ret->meta_type = ENUM_CONTROL_BLOCK_META_NUMBER;
+    ret->meta_type = ENUM_CONTROL_BLOCK_META_PROPERTY;
     ret->content_number.block_len = 1;
     ret->content_number.block_type = ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID;
     ret->content_number.content_number.id.flag = 3;
@@ -32,7 +32,7 @@ static void make_block_subcontrols(uiribbon_control *controls, int controls_coun
 {
     int i;
 
-    ret->meta_type = ENUM_CONTROL_BLOCK_META_SPECIAL;
+    ret->meta_type = ENUM_CONTROL_BLOCK_META_ARRAY;
     ret->content_special.block_len = 1;
     ret->content_special.block_type = ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS;
     ret->content_special.content_subcontrols.count_subcontrols = controls_count;
@@ -49,7 +49,7 @@ static void transform_group(uiribbon_group *group, type_control *ret)
     ret->blocks.count_blocks = 2;
     ret->blocks.blocks = alloc_zero(sizeof(type_control_block) * ret->blocks.count_blocks);
     make_block_id(group->id, &ret->blocks.blocks[0]);
-    ret->blocks.blocks[1].meta_type = ENUM_CONTROL_BLOCK_META_SPECIAL;
+    ret->blocks.blocks[1].meta_type = ENUM_CONTROL_BLOCK_META_ARRAY;
     ret->blocks.blocks[1].content_special.block_len = 1;
     ret->blocks.blocks[1].content_special.block_type = ENUM_CONTROL_BLOCK_TYPE_SPECIAL_SUBCOMPONENTS;
     ret->blocks.blocks[1].content_special.content_subcontrols.count_subcontrols = 1;
@@ -63,7 +63,7 @@ static void transform_group(uiribbon_group *group, type_control *ret)
     ret->blocks.blocks = alloc_zero(sizeof(type_control_block) * 2);
     make_block_subcontrols(group->controls, group->count_controls, &ret->blocks.blocks[0]);
 
-    ret->blocks.blocks[1].meta_type = ENUM_CONTROL_BLOCK_META_NUMBER;
+    ret->blocks.blocks[1].meta_type = ENUM_CONTROL_BLOCK_META_PROPERTY;
     ret->blocks.blocks[1].content_number.block_len = 1;
     ret->blocks.blocks[1].content_number.block_type = ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID_REFERENCE;
     ret->blocks.blocks[1].content_number.content_number.id.flag = 4;

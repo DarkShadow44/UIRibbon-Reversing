@@ -136,9 +136,9 @@ enums:
     3: large
 
   enum_control_block_meta:
-    1: number
-    24: special
-    22: inline
+    1:  property
+    24: array
+    22: node
     62: ext
 
   enum_control_block_type_number:
@@ -295,7 +295,7 @@ types:
       repeat: expr
       repeat-expr: count_resources
 
-  type_block_inline:
+  type_block_node:
     seq:
     - id: unk2
       type: u4
@@ -518,7 +518,7 @@ types:
         value: content_long.value1
         if: block_type == enum_control_block_type_number::fontcontrol_verticalfonts
 
-  type_control_block_special:
+  type_control_block_array:
     seq:
     - id: block_len
       type: u1
@@ -550,13 +550,13 @@ types:
       enum: enum_control_block_meta
     - id: content_number
       type: type_control_block_number
-      if: meta_type == enum_control_block_meta::number
+      if: meta_type == enum_control_block_meta::property
     - id: content_special
-      type: type_control_block_special
-      if: meta_type == enum_control_block_meta::special
+      type: type_control_block_array
+      if: meta_type == enum_control_block_meta::array
     - id: block_inline
-      type: type_block_inline
-      if: meta_type == enum_control_block_meta::inline
+      type: type_block_node
+      if: meta_type == enum_control_block_meta::node
     - id: ext_pos
       type: u4
       if: meta_type == enum_control_block_meta::ext
