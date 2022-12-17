@@ -101,6 +101,7 @@ enums:
     5: minitoolbar
     4: contextpopup
     19: applicationmenu
+    37: quickaccess
     38: subgroup
 
   enum_sizedefinition_imagesize:
@@ -416,7 +417,7 @@ types:
       gallery_elements_type:
         value: content_number.id.id
         enum: enum_gallery_elements_type
-        if: block_type == enum_control_block_type_number::meta_info
+        if: block_type == enum_control_block_type_number::meta_info and block_len == 1
       gallery_has_large_items:
         value: content_long.value1
         enum: enum_boolean
@@ -465,7 +466,7 @@ types:
         if: block_type == enum_control_block_type_number::is_checkbox
       scalepolicy:
         value: content_number.id.id
-        if: block_type == enum_control_block_type_number::meta_info
+        if: block_type == enum_control_block_type_number::meta_info and block_len == 1
         doc: |
           This is calculated the following way:
           sum(basevalue1 * position1 + basevalue2 * position2 + ...)
@@ -473,13 +474,13 @@ types:
           e.g. large-medium-small = 0*1 + 256*2 + 16*3 = 560
       scalepolicy_medium:
         value: scalepolicy / 256
-        if: block_type == enum_control_block_type_number::meta_info
+        if: block_type == enum_control_block_type_number::meta_info and block_len == 1
       scalepolicy_small:
         value: (scalepolicy % 256) / 16
-        if: block_type == enum_control_block_type_number::meta_info
+        if: block_type == enum_control_block_type_number::meta_info and block_len == 1
       scalepolicy_popup:
         value: (scalepolicy % 16) / 1
-        if: block_type == enum_control_block_type_number::meta_info
+        if: block_type == enum_control_block_type_number::meta_info and block_len == 1
       id_reference:
         value: content_number.id.id
         if: block_type == enum_control_block_type_number::id_reference
