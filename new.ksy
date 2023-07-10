@@ -46,21 +46,10 @@ seq:
     type: type_resource
     repeat: expr
     repeat-expr: count_command_resources
-  - id: unk44
-    contents: [0x10]
-  - id: size_command_container
-    type: u4
-  - id: command_container
-    type: type_command_container
-    size: size_command_container - 4
-  - id: len_unk6
-    type: u2
-  - id: command_ext_pos
-    type: u4
-  - id: root_node
+  - id: nodes
     type: type_tree_entry
-  - id: command_ext
-    type: type_command_ext2
+    repeat: until
+    repeat-until: _.entry_type == enum_tree_entry_type::node
 
 enums:
 
@@ -136,6 +125,8 @@ enums:
 
   enum_tree_entry_type:
     1:  property
+    13: command_ext
+    16: command_container
     24: array
     22: node
     62: ext
@@ -540,6 +531,12 @@ types:
     - id: sizeinfo
       type: type_sizedefinitions_order_command
       if: entry_type == enum_tree_entry_type::sizeinfo
+    - id: command_container
+      type: type_command_container
+      if: entry_type == enum_tree_entry_type::command_container
+    - id: command_ext
+      if: entry_type == enum_tree_entry_type::command_ext
+      type: type_command_ext2
     instances:
      ext:
        io: _root._io
@@ -573,14 +570,14 @@ types:
 
   type_command_container:
     seq:
+    - id: container_len
+      type: u4
     - id: commands_len
       type: u4
     - id: commands
       type: type_command
       repeat: expr
       repeat-expr: commands_len
-    - id: unk1
-      type: u1
 
   type_command_ext5:
     seq:
@@ -614,8 +611,13 @@ types:
       type: type_command_ext4
 
   type_command_ext2:
+    seq:
+      - id: unknown3
+        contents: [03, 0]
+      - id: command_ext_pos
+        type: u4
     instances:
       ext:
         io: _root._io
-        pos: _root.command_ext_pos
+        pos: command_ext_pos
         type: type_command_ext3
