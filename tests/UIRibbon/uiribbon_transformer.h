@@ -1,8 +1,10 @@
 #include "parser_uiribbon.h"
 
+#if !(defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L)
 typedef int bool;
-#define FALSE 0
-#define TRUE 1
+#define false 0
+#define true 1
+#endif
 
 /* FIXME: Subcontrol not part of ALL controls, only that that can have them */
 

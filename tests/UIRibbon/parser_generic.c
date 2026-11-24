@@ -124,7 +124,7 @@ static void stream_update_pos(stream *s, int offset_pos)
     }
 }
 
-int stream_write_bytes(stream *s, const void *data, int length, stream_write_stage stage, BOOL do_sequence, void *_root)
+int stream_write_bytes(stream *s, const void *data, int length, stream_write_stage stage, bool do_sequence, void *_root)
 {
     if (stage == STREAM_WRITE_STAGE_WRITE)
     {
@@ -147,32 +147,32 @@ int stream_write_bytes(stream *s, const void *data, int length, stream_write_sta
     return 0;
 }
 
-int stream_write_uint32_t(stream *s_root, stream *s, uint32_t *data, stream_write_stage stage, BOOL do_sequence, void *_root)
+int stream_write_uint32_t(stream *s_root, stream *s, uint32_t *data, stream_write_stage stage, bool do_sequence, void *_root)
 {
     return stream_write_bytes(s, data, 4, stage, do_sequence, _root);
 }
 
-int stream_write_uint16_t(stream *s_root, stream *s, uint16_t *data, stream_write_stage stage, BOOL do_sequence, void *_root)
+int stream_write_uint16_t(stream *s_root, stream *s, uint16_t *data, stream_write_stage stage, bool do_sequence, void *_root)
 {
      return stream_write_bytes(s, data, 2, stage, do_sequence, _root);
 }
 
-int stream_write_uint8_t(stream *s_root, stream *s, uint8_t *data, stream_write_stage stage, BOOL do_sequence, void *_root)
+int stream_write_uint8_t(stream *s_root, stream *s, uint8_t *data, stream_write_stage stage, bool do_sequence, void *_root)
 {
      return stream_write_bytes(s, data, 1, stage, do_sequence, _root);
 }
 
-int stream_write_int32_t(stream *s_root, stream *s, int32_t *data, stream_write_stage stage, BOOL do_sequence, void *_root)
+int stream_write_int32_t(stream *s_root, stream *s, int32_t *data, stream_write_stage stage, bool do_sequence, void *_root)
 {
      return stream_write_bytes(s, data, 4, stage, do_sequence, _root);
 }
 
-int stream_write_int16_t(stream *s_root, stream *s, int16_t *data, stream_write_stage stage, BOOL do_sequence, void *_root)
+int stream_write_int16_t(stream *s_root, stream *s, int16_t *data, stream_write_stage stage, bool do_sequence, void *_root)
 {
      return stream_write_bytes(s, data, 2, stage, do_sequence, _root);
 }
 
-int stream_write_int8_t(stream *s_root, stream *s, int8_t *data, stream_write_stage stage, BOOL do_sequence, void *_root)
+int stream_write_int8_t(stream *s_root, stream *s, int8_t *data, stream_write_stage stage, bool do_sequence, void *_root)
 {
      return stream_write_bytes(s, data, 1, stage, do_sequence, _root);
 }
