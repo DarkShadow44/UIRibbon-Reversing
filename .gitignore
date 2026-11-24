@@ -11,6 +11,7 @@ bin/
 obj/
 *.o
 testing/out.txt
+tests/UIRibbon/tests
 
 *.layout
 *.depend
