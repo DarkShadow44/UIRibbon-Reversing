@@ -11,11 +11,7 @@
 #define CHECK(expr) \
    CHECK2(expr, "")
 
-#if !(defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L)
-typedef int bool;
-#define true 1
-#define false 0
-#endif
+#include <stdbool.h>
 
 typedef enum
 {
