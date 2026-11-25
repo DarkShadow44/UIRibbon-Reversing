@@ -46,6 +46,7 @@ typedef enum
 	ENUM_TYPE_CONTROL_MINITOOLBAR = 5,
 	ENUM_TYPE_CONTROL_CONTEXTPOPUP = 4,
 	ENUM_TYPE_CONTROL_APPLICATIONMENU = 19,
+	ENUM_TYPE_CONTROL_QUICKACCESS = 37,
 	ENUM_TYPE_CONTROL_SUBGROUP = 38,
 } enum_type_control;
 
@@ -96,6 +97,8 @@ typedef enum
 typedef enum
 {
 	ENUM_TREE_ENTRY_TYPE_PROPERTY = 1,
+	ENUM_TREE_ENTRY_TYPE_COMMAND_EXT = 13,
+	ENUM_TREE_ENTRY_TYPE_COMMAND_CONTAINER = 16,
 	ENUM_TREE_ENTRY_TYPE_ARRAY = 24,
 	ENUM_TREE_ENTRY_TYPE_NODE = 22,
 	ENUM_TREE_ENTRY_TYPE_EXT = 62,
@@ -338,26 +341,6 @@ typedef struct type_tree_entry_array_
 	struct type_tree_entry_ * children;
 } type_tree_entry_array;
 
-typedef struct type_tree_entry_
-{
-	int _dryrun_pos;
-	enum_tree_entry_type entry_type;
-	type_tree_entry_number property;
-	type_tree_entry_array array;
-	type_tree_entry_node node;
-	uint32_t ext_pos;
-	type_sizedefinitions_order_command sizeinfo;
-	int _dryrun_pos_instance_ext;
-	struct type_tree_entry_ext_ *ext;
-} type_tree_entry;
-
-typedef struct type_tree_entry_ext_
-{
-	int _dryrun_pos;
-	uint16_t len_ext;
-	type_tree_entry block;
-} type_tree_entry_ext;
-
 typedef struct type_command_
 {
 	int _dryrun_pos;
@@ -372,9 +355,9 @@ typedef struct type_command_
 typedef struct type_command_container_
 {
 	int _dryrun_pos;
+	uint32_t container_len;
 	uint32_t commands_len;
 	struct type_command_ * commands;
-	uint8_t unk1;
 } type_command_container;
 
 typedef struct type_command_ext5_
@@ -402,9 +385,33 @@ typedef struct type_command_ext3_
 
 typedef struct type_command_ext2_
 {
+	int _dryrun_pos;
+	uint32_t command_ext_pos;
 	int _dryrun_pos_instance_ext;
 	struct type_command_ext3_ *ext;
 } type_command_ext2;
+
+typedef struct type_tree_entry_
+{
+	int _dryrun_pos;
+	enum_tree_entry_type entry_type;
+	type_tree_entry_number property;
+	type_tree_entry_array array;
+	type_tree_entry_node node;
+	uint32_t ext_pos;
+	type_sizedefinitions_order_command sizeinfo;
+	type_command_container command_container;
+	type_command_ext2 command_ext;
+	int _dryrun_pos_instance_ext;
+	struct type_tree_entry_ext_ *ext;
+} type_tree_entry;
+
+typedef struct type_tree_entry_ext_
+{
+	int _dryrun_pos;
+	uint16_t len_ext;
+	type_tree_entry block;
+} type_tree_entry_ext;
 
 typedef struct type_uiribbon_
 {
@@ -414,12 +421,8 @@ typedef struct type_uiribbon_
 	type_strings strings;
 	uint32_t count_command_resources;
 	struct type_resource_ * command_resources;
-	uint32_t size_command_container;
-	type_command_container command_container;
-	uint16_t len_unk6;
-	uint32_t command_ext_pos;
-	type_tree_entry root_node;
-	type_command_ext2 command_ext;
+	int nodes_count;
+	struct type_tree_entry_ * nodes;
 } type_uiribbon;
 
 int stream_read_uiribbon(stream *s, type_uiribbon *data);
