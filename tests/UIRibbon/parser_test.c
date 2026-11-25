@@ -3,25 +3,25 @@
 #include "parser_test.h"
 
 int stream_read_type_t1(stream *s_root, stream *s, type_t1 *data, type_test *_root);
-int stream_write_type_t1(stream *s_root, stream *s, type_t1 *data, stream_write_stage stage, BOOL do_sequence, type_test *_root);
+int stream_write_type_t1(stream *s_root, stream *s, type_t1 *data, stream_write_stage stage, bool do_sequence, type_test *_root);
 void stream_free_type_t1(type_t1 *data);
 int stream_read_type_t3(stream *s_root, stream *s, type_t3 *data, type_test *_root);
-int stream_write_type_t3(stream *s_root, stream *s, type_t3 *data, stream_write_stage stage, BOOL do_sequence, type_test *_root);
+int stream_write_type_t3(stream *s_root, stream *s, type_t3 *data, stream_write_stage stage, bool do_sequence, type_test *_root);
 void stream_free_type_t3(type_t3 *data);
 int stream_read_type_t2(stream *s_root, stream *s, type_t2 *data, type_test *_root);
-int stream_write_type_t2(stream *s_root, stream *s, type_t2 *data, stream_write_stage stage, BOOL do_sequence, type_test *_root);
+int stream_write_type_t2(stream *s_root, stream *s, type_t2 *data, stream_write_stage stage, bool do_sequence, type_test *_root);
 void stream_free_type_t2(type_t2 *data);
 int stream_read_type_t5(stream *s_root, stream *s, type_t5 *data, type_test *_root);
-int stream_write_type_t5(stream *s_root, stream *s, type_t5 *data, stream_write_stage stage, BOOL do_sequence, type_test *_root);
+int stream_write_type_t5(stream *s_root, stream *s, type_t5 *data, stream_write_stage stage, bool do_sequence, type_test *_root);
 void stream_free_type_t5(type_t5 *data);
 int stream_read_type_t4(stream *s_root, stream *s, type_t4 *data, type_test *_root);
-int stream_write_type_t4(stream *s_root, stream *s, type_t4 *data, stream_write_stage stage, BOOL do_sequence, type_test *_root);
+int stream_write_type_t4(stream *s_root, stream *s, type_t4 *data, stream_write_stage stage, bool do_sequence, type_test *_root);
 void stream_free_type_t4(type_t4 *data);
 int stream_read_type_t6(stream *s_root, stream *s, type_t6 *data, type_test *_root);
-int stream_write_type_t6(stream *s_root, stream *s, type_t6 *data, stream_write_stage stage, BOOL do_sequence, type_test *_root);
+int stream_write_type_t6(stream *s_root, stream *s, type_t6 *data, stream_write_stage stage, bool do_sequence, type_test *_root);
 void stream_free_type_t6(type_t6 *data);
 int stream_read_type_test(stream *s_root, stream *s, type_test *data, type_test *_root);
-int stream_write_type_test(stream *s_root, stream *s, type_test *data, stream_write_stage stage, BOOL do_sequence, type_test *_root);
+int stream_write_type_test(stream *s_root, stream *s, type_test *data, stream_write_stage stage, bool do_sequence, type_test *_root);
 void stream_free_type_test(type_test *data);
 
 int stream_read_type_t1(stream *s_root, stream *s, type_t1 *data, type_test *_root)
@@ -36,7 +36,7 @@ int stream_read_type_t1(stream *s_root, stream *s, type_t1 *data, type_test *_ro
 	return 0;
 }
 
-int stream_write_type_t1(stream *s_root, stream *s, type_t1 *data, stream_write_stage stage, BOOL do_sequence, type_test *_root)
+int stream_write_type_t1(stream *s_root, stream *s, type_t1 *data, stream_write_stage stage, bool do_sequence, type_test *_root)
 {
 	stream substream_instance_i1;
 
@@ -73,8 +73,8 @@ int stream_write_type_t1(stream *s_root, stream *s, type_t1 *data, stream_write_
 		}
 
 		/* Write instance */
-		CHECK(stream_write_type_t2(s_root, &substream_instance_i1, data->i1, stage, TRUE, _root));
-		CHECK(stream_write_type_t2(s_root, &substream_instance_i1, data->i1, stage, FALSE, _root));
+		CHECK(stream_write_type_t2(s_root, &substream_instance_i1, data->i1, stage, true, _root));
+		CHECK(stream_write_type_t2(s_root, &substream_instance_i1, data->i1, stage, false, _root));
 	}
 	return 0;
 }
@@ -97,7 +97,7 @@ int stream_read_type_t3(stream *s_root, stream *s, type_t3 *data, type_test *_ro
 	return 0;
 }
 
-int stream_write_type_t3(stream *s_root, stream *s, type_t3 *data, stream_write_stage stage, BOOL do_sequence, type_test *_root)
+int stream_write_type_t3(stream *s_root, stream *s, type_t3 *data, stream_write_stage stage, bool do_sequence, type_test *_root)
 {
 	stream substream_instance_i2;
 
@@ -134,8 +134,8 @@ int stream_write_type_t3(stream *s_root, stream *s, type_t3 *data, stream_write_
 		}
 
 		/* Write instance */
-		CHECK(stream_write_type_t4(s_root, &substream_instance_i2, data->i2, stage, TRUE, _root));
-		CHECK(stream_write_type_t4(s_root, &substream_instance_i2, data->i2, stage, FALSE, _root));
+		CHECK(stream_write_type_t4(s_root, &substream_instance_i2, data->i2, stage, true, _root));
+		CHECK(stream_write_type_t4(s_root, &substream_instance_i2, data->i2, stage, false, _root));
 	}
 	return 0;
 }
@@ -154,7 +154,7 @@ int stream_read_type_t2(stream *s_root, stream *s, type_t2 *data, type_test *_ro
 	return 0;
 }
 
-int stream_write_type_t2(stream *s_root, stream *s, type_t2 *data, stream_write_stage stage, BOOL do_sequence, type_test *_root)
+int stream_write_type_t2(stream *s_root, stream *s, type_t2 *data, stream_write_stage stage, bool do_sequence, type_test *_root)
 {
 	/* No separate sequence run during write */
 	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
@@ -193,7 +193,7 @@ int stream_read_type_t5(stream *s_root, stream *s, type_t5 *data, type_test *_ro
 	return 0;
 }
 
-int stream_write_type_t5(stream *s_root, stream *s, type_t5 *data, stream_write_stage stage, BOOL do_sequence, type_test *_root)
+int stream_write_type_t5(stream *s_root, stream *s, type_t5 *data, stream_write_stage stage, bool do_sequence, type_test *_root)
 {
 	stream substream_instance_i3;
 	stream substream_instance_i4;
@@ -232,8 +232,8 @@ int stream_write_type_t5(stream *s_root, stream *s, type_t5 *data, stream_write_
 		}
 
 		/* Write instance */
-		CHECK(stream_write_type_t6(s_root, &substream_instance_i3, data->i3, stage, TRUE, _root));
-		CHECK(stream_write_type_t6(s_root, &substream_instance_i3, data->i3, stage, FALSE, _root));
+		CHECK(stream_write_type_t6(s_root, &substream_instance_i3, data->i3, stage, true, _root));
+		CHECK(stream_write_type_t6(s_root, &substream_instance_i3, data->i3, stage, false, _root));
 
 		/* Store position for instance */
 		if (stage == STREAM_WRITE_STAGE_DRYRUN)
@@ -253,8 +253,8 @@ int stream_write_type_t5(stream *s_root, stream *s, type_t5 *data, stream_write_
 		}
 
 		/* Write instance */
-		CHECK(stream_write_type_t6(s_root, &substream_instance_i4, data->i4, stage, TRUE, _root));
-		CHECK(stream_write_type_t6(s_root, &substream_instance_i4, data->i4, stage, FALSE, _root));
+		CHECK(stream_write_type_t6(s_root, &substream_instance_i4, data->i4, stage, true, _root));
+		CHECK(stream_write_type_t6(s_root, &substream_instance_i4, data->i4, stage, false, _root));
 	}
 	return 0;
 }
@@ -275,7 +275,7 @@ int stream_read_type_t4(stream *s_root, stream *s, type_t4 *data, type_test *_ro
 	return 0;
 }
 
-int stream_write_type_t4(stream *s_root, stream *s, type_t4 *data, stream_write_stage stage, BOOL do_sequence, type_test *_root)
+int stream_write_type_t4(stream *s_root, stream *s, type_t4 *data, stream_write_stage stage, bool do_sequence, type_test *_root)
 {
 	/* No separate sequence run during write */
 	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
@@ -304,7 +304,7 @@ int stream_read_type_t6(stream *s_root, stream *s, type_t6 *data, type_test *_ro
 	return 0;
 }
 
-int stream_write_type_t6(stream *s_root, stream *s, type_t6 *data, stream_write_stage stage, BOOL do_sequence, type_test *_root)
+int stream_write_type_t6(stream *s_root, stream *s, type_t6 *data, stream_write_stage stage, bool do_sequence, type_test *_root)
 {
 	/* No separate sequence run during write */
 	if (stage == STREAM_WRITE_STAGE_WRITE && do_sequence) return 0;
@@ -332,7 +332,7 @@ int stream_read_type_test(stream *s_root, stream *s, type_test *data, type_test 
 	return 0;
 }
 
-int stream_write_type_test(stream *s_root, stream *s, type_test *data, stream_write_stage stage, BOOL do_sequence, type_test *_root)
+int stream_write_type_test(stream *s_root, stream *s, type_test *data, stream_write_stage stage, bool do_sequence, type_test *_root)
 {
 	if (stage == STREAM_WRITE_STAGE_WRITE)
 	{
@@ -365,8 +365,8 @@ int stream_read_test(stream *s, type_test *data)
 
 int stream_write_test(stream *s, type_test *data, stream_write_stage stage)
 {
-	CHECK(stream_write_type_test(s, s, data, stage, TRUE, data));
-	CHECK(stream_write_type_test(s, s, data, stage, FALSE, data));
+	CHECK(stream_write_type_test(s, s, data, stage, true, data));
+	CHECK(stream_write_type_test(s, s, data, stage, false, data));
 	return 0;
 }
 

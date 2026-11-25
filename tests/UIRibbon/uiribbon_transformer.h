@@ -1,8 +1,6 @@
 #include "parser_uiribbon.h"
 
-typedef int bool;
-#define FALSE 0
-#define TRUE 1
+#include <stdbool.h>
 
 /* FIXME: Subcontrol not part of ALL controls, only that that can have them */
 

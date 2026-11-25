@@ -16,8 +16,8 @@
 uiribbon_control_type transform_control_type(type_tree_entry_node *src_control)
 {
     int i, j;
-    bool is_colorpicker = FALSE;
-    bool is_checkbox = FALSE;
+    bool is_colorpicker = false;
+    bool is_checkbox = false;
 
     switch (src_control->type)
     {
@@ -52,7 +52,7 @@ uiribbon_control_type transform_control_type(type_tree_entry_node *src_control)
                     for (j = 0; j < src_control->count_children; j++)
                     {
                         if (src_control->children[j].entry_type == ENUM_TREE_ENTRY_TYPE_PROPERTY && src_control->children[j].property.block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_DROPDOWNCOLORPICKER_COLORTEMPLATE)
-                            is_colorpicker = TRUE;
+                            is_colorpicker = true;
                     }
                     if (is_colorpicker)
                         return UIRIBBON_CONTROL_TYPE_DROPDOWNCOLORPICKER;
@@ -85,7 +85,7 @@ void transform_control_combobox(type_uiribbon *root, type_tree_entry_node *src_c
     ret_control->fontcontrol_show_truetype_only = 0;
     ret_control->fontcontrol_show_vertical = 0;
 
-    ret_control->is_editable = FALSE;
+    ret_control->is_editable = false;
     for (i = 0; i < src_control->count_children; i++)
     {
         type_tree_entry_number *src_block = &src_control->children[i].property;
@@ -96,7 +96,7 @@ void transform_control_combobox(type_uiribbon *root, type_tree_entry_node *src_c
         switch(src_block->block_type)
         {
         case ENUM_CONTROL_BLOCK_TYPE_NUMBER_GALLERY_MENULAYOUT:
-            ret_control->is_editable = TRUE;
+            ret_control->is_editable = true;
             break;
         case ENUM_CONTROL_BLOCK_TYPE_NUMBER_AUTOCOMPLETE_ENABLED:
             ret_control->has_autocomplete = src_block->autocomplete_enabled;
@@ -165,8 +165,8 @@ void transform_control_dropdowncolorpicker(type_tree_entry_node *src_control, ui
 
     ret_control->chipsize = UIRIBBON_CHIPSIZE_SMALL;
     ret_control->columns = 10;
-    ret_control->has_autocolor_button = TRUE;
-    ret_control->has_nocolor_button = TRUE;
+    ret_control->has_autocolor_button = true;
+    ret_control->has_nocolor_button = true;
     ret_control->recent_color_rows = 1;
     ret_control->standard_color_rows = 1;
     ret_control->theme_color_rows = 6;
@@ -1067,7 +1067,7 @@ void transform_minitoolbar(type_uiribbon *root, type_tree_entry_array *src, int 
 
         if (src_control->type == ENUM_TYPE_CONTROL_MINITOOLBAR)
         {
-            bool do_transform = FALSE;
+            bool do_transform = false;
 
             for (j = 0; j < src_control->count_children; j++)
             {
@@ -1079,7 +1079,7 @@ void transform_minitoolbar(type_uiribbon *root, type_tree_entry_array *src, int 
                     if (src_block->block_type == ENUM_CONTROL_BLOCK_TYPE_NUMBER_ID)
                     {
                         if (src_block->id == id)
-                            do_transform = TRUE;
+                            do_transform = true;
                     }
                 }
             }
@@ -1190,7 +1190,7 @@ static void transform_applicationmenu_ext(type_uiribbon *root, type_tree_entry_e
         {
             type_tree_entry_node *src_control;
 
-            ret->recent.enable_pinning = TRUE;
+            ret->recent.enable_pinning = true;
             ret->recent.count = 10;
 
             if (ext->block.array.count_children != 1)

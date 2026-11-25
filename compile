@@ -140,7 +140,7 @@ def write_method(sb, name, code, type, type_root):
 	if type == method_type.READ:
 		sb.append(f'int stream_read_{name}(stream *s_root, stream *s, {name} *data, {type_root} *_root)\n')
 	elif type == method_type.WRITE:
-		sb.append(f'int stream_write_{name}(stream *s_root, stream *s, {name} *data, stream_write_stage stage, BOOL do_sequence, {type_root} *_root)\n')
+		sb.append(f'int stream_write_{name}(stream *s_root, stream *s, {name} *data, stream_write_stage stage, bool do_sequence, {type_root} *_root)\n')
 	elif type == method_type.FREE:
 		sb.append(f'void stream_free_{name}({name} *data)\n')
 	sb.append('{\n')
@@ -371,8 +371,8 @@ class seq_info:
 		if not node_type.startswith('uint') and not node_type.startswith('int'):
 			self.read.add_code(f'data->{instance_name} = malloc(sizeof({node_type}));')
 		self.read.add_code(f'CHECK(stream_read_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}, _root));')
-		self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}, stage, TRUE, _root));')
-		self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}, stage, FALSE, _root));')
+		self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}, stage, true, _root));')
+		self.write.add_code(f'CHECK(stream_write_{node_type}(s_root, &substream_instance_{instance_name}, data->{instance_name}, stage, false, _root));')
 		self.free.add_code(f'stream_free_{node_type}(data->{instance_name});')
 		self.free.add_code(f'free(data->{instance_name});')
 
@@ -627,7 +627,7 @@ def main():
 	enums = None
 	mainSeq = seq_info()
 	types = None
-	
+
 
 
 	type_main = type_info(main_type)
@@ -672,7 +672,7 @@ def main():
 	source.append(f'#include "parser_{meta_id}.h"\n\n')
 	for type in types:
 		source.append(f'int stream_read_{type.name}(stream *s_root, stream *s, { type.name} *data, {main_type} *_root);\n')
-		source.append(f'int stream_write_{type.name}(stream *s_root, stream *s, { type.name} *data, stream_write_stage stage, BOOL do_sequence, {main_type} *_root);\n')
+		source.append(f'int stream_write_{type.name}(stream *s_root, stream *s, { type.name} *data, stream_write_stage stage, bool do_sequence, {main_type} *_root);\n')
 		source.append(f'void stream_free_{type.name}({ type.name} *data);\n')
 	source.append('\n')
 	for type in types:
@@ -685,8 +685,8 @@ def main():
 	source.append('}\n\n')
 	source.append(f'int stream_write_{meta_id}(stream *s, { type.name} *data, stream_write_stage stage)\n')
 	source.append('{\n')
-	source.append(f'\tCHECK(stream_write_{main_type}(s, s, data, stage, TRUE, data));\n')
-	source.append(f'\tCHECK(stream_write_{main_type}(s, s, data, stage, FALSE, data));\n')
+	source.append(f'\tCHECK(stream_write_{main_type}(s, s, data, stage, true, data));\n')
+	source.append(f'\tCHECK(stream_write_{main_type}(s, s, data, stage, false, data));\n')
 	source.append('\treturn 0;\n')
 	source.append('}\n\n')
 	source.append(f'void stream_free_{meta_id}({ type.name} *data)\n')
