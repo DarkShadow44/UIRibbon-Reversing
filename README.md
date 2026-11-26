@@ -12,6 +12,10 @@ Since this is an hobby project and I'm not too familiar with reverse engineering
 
 Up to now nearly nothing is really decoded properly, 99% of the data is just read as-is. If you're looking to understand the format, maybe check back in 1-2 years or so.
 
+## Usage
+
+To use the grammar found in this repository, it is recommended to use the [Kaitai web IDE](https://ide.kaitai.io/). Load the `new.ksy` file along with your bml into the IDE, which allows you to explore the parse tree visually.
+
 ## Development
 
 The project uses Kaitai Struct to describe the structure of the binaries. The primary goal is to use Kaitai Struct to write a complete specification - which then later can be used to write or generate a parser.
