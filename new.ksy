@@ -90,6 +90,7 @@ enums:
     5: minitoolbar
     4: contextpopup
     19: applicationmenu
+    36: ribbon
     37: quickaccess
     38: subgroup
 
